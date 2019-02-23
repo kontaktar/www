@@ -1,0 +1,30 @@
+{
+  "config": {
+    "title": "Starter Pack",
+    "description": "My awesome app using docz",
+    "themeConfig": {},
+    "ordering": "descending",
+    "version": "1.0.0",
+    "repository": null,
+    "native": false
+  },
+  "entries": {
+    "src/Documentation/Login/Login.mdx": {
+      "name": "Hello world",
+      "id": "c704a7d9f24c7d1157ab64fc943a9473",
+      "filepath": "src/Documentation/Login/Login.mdx",
+      "link": null,
+      "slug": "src-documentation-login-login",
+      "route": "/src-documentation-login-login",
+      "order": 0,
+      "menu": null,
+      "headings": [
+        {
+          "depth": 1,
+          "slug": "hello-world",
+          "value": "Hello world"
+        }
+      ]
+    }
+  }
+}
