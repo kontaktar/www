@@ -8,26 +8,23 @@ Dæmi: yarn hygen generator cmpc:docz
 
 https://itnext.io/how-to-write-your-own-reusable-react-component-library-a57dc7c9a210
 
-How to use Hygen, template generator: cmpc: Component class cmpf: Component
-function
+Guidelines:
 
-yarn hygen generator cmpc --name Button
+components start with Uppercase
 
-Guidelines: Components start with Uppercase
+es6 ✅Storybook ✅Eslint, Prettier & VSCode ✅Webpack ✅Hygen templates ✅Scss
+and css-modules
 
-✅Storybook ✅Eslint, Prettier & VSCode ✅Webpack
+ROADMAP Gera build og að NPM PAKKA Sjá kannski?
+https://github.com/transitive-bullshit/react-modern-library-boilerplate/blob/master/package.json
+https://github.com/fforres/react-component-library-boilerplate/blob/master/package.json
 
-ROADMAP
+Út með Docz Almennilegan example - Button component proptypes í Jest template
+constr+state og hooks í template + lag cmpf template
 
-Út með Docz
-
-Sass, css-modules
-
-Button component
-
-Typescript support, jest TS, TS LInt
-
-Documentation
+Proptype table and more:
+https://github.com/storybooks/storybook/tree/master/addons/info Typescript
+support, jest TS, TS LInt (vscode settings: "prettier.tslintIntegration": true )
 
 Tree-shaking
 
@@ -35,3 +32,17 @@ Next? hvað með <Link> ? get ég notað bara fridays next/link?
 
 Webpack env
 https://github.com/HashemKhalifa/webpack-react-boilerplate/tree/master/webpack
+
+Proptable fyrir Storybook? eða setja í comp.docs.md
+
+### Properties
+
+- `onClick` - click callback
+- `label` - button text
+
+| propName | propType | defaultValue | isRequired |
+| -------- | -------- | ------------ | ---------- |
+| onClick  | func     | -            |            |
+| label    | string   | -            | +          |
+| alert    | boolean  | false        | -          |
+| success  | boolean  | false        | -          |

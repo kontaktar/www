@@ -1,5 +1,5 @@
 import { configure } from "@storybook/react";
-// import { setOptions } from "@storybook/addon-options";
+import { setOptions } from "@storybook/addon-options";
 
 const req = require.context("../src/components", true, /story\.js$/);
 
@@ -8,10 +8,10 @@ function loadStories() {
   // require("../stories/index.js");
 }
 
-// setOptions({
-//   name: "Component Library",
-//   addonPanelInRight: true,
-//   sidebarAnimations: true,
-// });
+setOptions({
+  name: "Component Library",
+  addonPanelInRight: true,
+  sidebarAnimations: true,
+});
 
 configure(loadStories, module);

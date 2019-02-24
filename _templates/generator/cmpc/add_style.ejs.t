@@ -1,9 +1,9 @@
 ---
 message: |
   -  {red STYLESHEET}
-to: src/components/<%= name %>/index.scss
+to: src/components/<%= name %>/<%= name.toLowerCase() %>.scss
 ---
 
-.<%= name %> {
+.<%= name.toLowerCase() %> {
   background-color: red;
 }
