@@ -6,7 +6,7 @@
       {
         "root": ["./"],
         "alias": {
-          "components": "./src/Components",
+          "components": "./src/components",
           "styles": "./src/Styles"
         }
       }

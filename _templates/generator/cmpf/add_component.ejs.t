@@ -1,7 +1,7 @@
 ---
 message: |
   - {red COMPONENT FUNCTION}
-to: src/Components/<%= dir || name %>/<%= name %>.js
+to: src/components/<%= dir || name %>/<%= name %>.js
 ---
 
 import React from 'react'

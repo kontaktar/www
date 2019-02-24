@@ -1,7 +1,7 @@
 ---
 message: |
   -  {red STYLESHEET}
-to: src/Components/<%= name %>/index.scss
+to: src/components/<%= name %>/index.scss
 ---
 
 .<%= name %> {

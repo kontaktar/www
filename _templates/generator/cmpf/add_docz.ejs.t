@@ -1,7 +1,7 @@
 ---
 message: |
   -  {red DOCZ}
-to: src/Documentation/<%= name %>/<%= name %>.mdx
+to: src/documentation/<%= name %>/<%= name %>.mdx
 ---
 ---
 name: <%= name %>
@@ -9,4 +9,4 @@ name: <%= name %>
 
 <%= name %>
 
-Documentation for <%= name %>
+documentation for <%= name %>

@@ -1,6 +1,6 @@
 ---
 inject: true
-to: src/Components/index.js
+to: src/components/index.js
 append: true
 ---
 export { default as <%= name %> } from "./<%= name %>";

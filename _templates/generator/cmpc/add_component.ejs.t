@@ -1,7 +1,7 @@
 ---
 message: |
   - { red COMPONENT CLASS }
-to: src/Components/<%= name %>/index.js
+to: src/components/<%= name %>/index.js
 ---
 
 import React from 'react'

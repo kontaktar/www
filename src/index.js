@@ -1,3 +1,5 @@
+// later on this will be replaced with an import, export of src/components/index.js
+
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
 

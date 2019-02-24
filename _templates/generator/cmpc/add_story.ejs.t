@@ -1,7 +1,7 @@
 ---
 message: |
   - { red COMPONENT STORY }
-to: src/Components/<%= name %>/index.story.js
+to: src/components/<%= name %>/index.story.js
 ---
 
 import React from "react";

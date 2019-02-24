@@ -9,7 +9,9 @@
     "docz:build": "docz build",
     "start:dev": "webpack-dev-server",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "tmpl": "yarn hygen generator",
     "tmpl:cmpc": "yarn hygen generator cmpc",
+    "tmpl:cmpf": "yarn hygen generator cmpf",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "author": "",
