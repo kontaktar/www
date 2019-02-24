@@ -8,18 +8,18 @@ Dæmi: yarn hygen generator cmpc:docz
 
 https://itnext.io/how-to-write-your-own-reusable-react-component-library-a57dc7c9a210
 
+How to use Hygen, template generator: cmpc: Component class cmpf: Component
+function
+
+yarn hygen generator cmpc --name Button
+
+Guidelines: Components start with Uppercase
+
+✅Storybook ✅Eslint, Prettier & VSCode ✅Webpack
+
 ROADMAP
 
 Út með Docz
-
-Inn með Storybook + 
-
-Prettier, Eslint og vscode
-    Þarf ég react-config?, þarf ég eslint-config-prettier í devDep?
-
-Babel og module resolver
-
-webpack? parsel? rollup?
 
 Sass, css-modules
 
@@ -32,3 +32,6 @@ Documentation
 Tree-shaking
 
 Next? hvað með <Link> ? get ég notað bara fridays next/link?
+
+Webpack env
+https://github.com/HashemKhalifa/webpack-react-boilerplate/tree/master/webpack

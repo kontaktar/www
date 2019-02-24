@@ -1,6 +1,6 @@
 ---
 message: |
-  - { red COMPONENT CLASS}
+  - { red COMPONENT CLASS }
 to: src/Components/<%= name %>/index.js
 ---
 
@@ -11,7 +11,7 @@ class <%= name %> extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.<%= name %>}>
         <h2><%= name %> component</h2>
       </div>
     )
