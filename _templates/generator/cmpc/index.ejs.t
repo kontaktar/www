@@ -5,9 +5,9 @@ to: src/Components/<%= name %>/index.js
 ---
 
 import React from 'react'
-import styles from '../Styles/' + <%= name %> + '/index.scss'
+import styles from './index.scss'
 
-export default class extends React.Component {
+class <%= name %> extends React.Component {
 
   render() {
     return (

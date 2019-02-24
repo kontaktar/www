@@ -12,16 +12,23 @@ ROADMAP
 
 Út með Docz
 
-Inn með Storybook
+Inn með Storybook + 
 
 Prettier, Eslint og vscode
+    Þarf ég react-config?, þarf ég eslint-config-prettier í devDep?
 
 Babel og module resolver
+
+webpack? parsel? rollup?
 
 Sass, css-modules
 
 Button component
 
 Typescript support, jest TS, TS LInt
+
+Documentation
+
+Tree-shaking
 
 Next? hvað með <Link> ? get ég notað bara fridays next/link?

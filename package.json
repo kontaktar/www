@@ -8,7 +8,8 @@
     "docz:dev": "docz dev",
     "docz:build": "docz build",
     "start:dev": "webpack-dev-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tmpl:cmpc": "yarn hygen generator cmpc"
   },
   "author": "",
   "license": "ISC",
@@ -28,7 +29,9 @@
     "eslint": "^5.13.0",
     "eslint-import-resolver-babel-module": "^5.0.1",
     "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
     "hygen": "^1.6.2",
     "jest": "^24.1.0",
     "prettier": "^1.16.4",

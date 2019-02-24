@@ -12,6 +12,7 @@
     }
   },
   "rules": {
+    "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-unused-vars": ["error", { "args": "none" }],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
