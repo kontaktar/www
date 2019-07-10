@@ -1,9 +1,0 @@
----
-name: Button
----
-
-Button
-
-documentation for Button
-
-# hohoho
