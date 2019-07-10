@@ -62,7 +62,7 @@
     "node-sass": "^4.11.0",
     "prettier": "^1.16.4",
     "sass-loader": "^7.1.0",
-    "storybook-readme": "^4.0.5",
+    "storybook-readme": "^5.0.5",
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.8"
   },
