@@ -15,7 +15,7 @@
     "plugin:jest/recommended",
     "plugin:cypress/recommended"
   ],
-  "plugins": ["prettier", "jest", "cypress"],
+  "plugins": ["prettier", "unicorn", "jest", "cypress"],
   "settings": {
     "import/resolver": {
       "babel-module": {}

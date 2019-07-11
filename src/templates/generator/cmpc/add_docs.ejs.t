@@ -4,6 +4,8 @@ message: |
 to: src/components/<%= name %>/<%= name.toLowerCase() %>.docs.md
 ---
 ---
+this?
+<%= h.src() %>
 ### <%= name %>
 ---
 
