@@ -1,4 +1,9 @@
-.docz/cache
 node_modules
+
+.docz/cache
+.next
+.todo
+storybook-static/
+yarn-error.log
 
 .env
