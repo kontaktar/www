@@ -1,18 +1,14 @@
 {
-  "name": "starter-pack",
-  "version": "1.0.0",
+  "name": "speztorg",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "NODE_ENV=development node server.js",
-    "dev:next": "next",
-    "deploy": "yarn now alias",
+    "dev": "NODE_ENV=development next",
     "build": "next build",
     "start": "next start -p 8000",
-    "build:old": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "docz:dev": "docz dev",
     "docz:build": "docz build",
-    "start:dev": "webpack-dev-server",
     "test": "jest",
     "tmpl": "yarn hygen generator",
     "tmpl:cmpc": "yarn hygen generator cmpc",
@@ -54,11 +50,17 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "eslint": "^5.13.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.0.0",
     "eslint-import-resolver-babel-module": "^5.0.1",
+    "eslint-loader": "^2.2.1",
+    "eslint-plugin-cypress": "^2.2.1",
     "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.7.2",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-unicorn": "^9.1.1",
     "hygen": "^1.6.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
@@ -73,9 +75,5 @@
   },
   "docz": {
     "title": "Lol"
-  },
-  "peerDependencies": {
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^4.0.0"
   }
 }

@@ -10,7 +10,14 @@ module.exports = withPlugins([[withCSS], [withSass]], {
     importLoaders: 1,
     localIdentName: "[local]___[hash:base64:5]",
   },
-  // webpack: function(config) {
-  //   return config;
-  // },
+  webpack(config, { dev, isServer }) {
+    if (dev) {
+      config.module.rules.push({
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: "eslint-loader",
+      });
+    }
+    return config;
+  },
 });
