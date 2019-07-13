@@ -13,9 +13,9 @@ import { Button } from "components";
 />
 ```
 
-| Setting  | Default     | Options              | Role                                                                                                                         |
-| -------- | ----------- | -------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| alt      | `undefined` | `string`             | The alt-text of the avatar                                                                                                   |
-| name     | `undefined` | `string` `undefined` | The user name. If `undefined` only the avatar image will be displayed                                                        |
-| ellipsis | `false`     | `boolean`            | Sets the max-width of the user name to `130px` and shows an ellipsis                                                         |
-| image    | `undefined` | `string`             | Url to an avatar image The size of the image is `25px` _ `25px`. Provide at least `50px` _ `50px` to support HiDPI displays. |
+| propName | propType | defaultValue | isRequired |
+| -------- | -------- | ------------ | ---------- |
+| onClick  | func     | -            |            |
+| label    | string   | -            | +          |
+| alert    | boolean  | false        | -          |
+| success  | boolean  | false        | -          |

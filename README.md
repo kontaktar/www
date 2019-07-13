@@ -4,6 +4,9 @@ https://github.com/KrDimitrov/front-end/blob/master/package.json
 Storybook docs. For the Jest intergration to work, a jest test has to be run to
 generate .jest-test-results.json
 
+IBM Guidelines
+https://www.carbondesignsystem.com/guidelines/accessibility/overview
+
 https://github.com/motdotla/dotenv#readme
 
 https://github.com/pedronauck/docz

@@ -1,7 +1,8 @@
-import { configure, addDecorator } from "@storybook/react";
+import { configure, addDecorator, addParameters } from "@storybook/react";
 import { withTests } from "@storybook/addon-jest";
 import { withA11y } from "@storybook/addon-a11y";
 import results from "../.jest-test-results.json";
+import viewports from "./viewports.js";
 
 addDecorator(withA11y);
 addDecorator(
@@ -9,6 +10,7 @@ addDecorator(
     results,
   }),
 );
+addParameters({ viewport: { viewports: viewports } });
 
 const req = require.context("../src/components", true, /story\.js$/);
 
