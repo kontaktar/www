@@ -1,7 +1,7 @@
 module.exports = [
   {
     name: "name",
-    message: "Name of Class Component?",
+    message: "Name of Component?",
     type: "input",
   },
 ];
