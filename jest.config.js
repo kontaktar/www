@@ -151,7 +151,6 @@ module.exports = {
     "<rootDir>/.next/",
     "<rootDir>/node_modules/",
     "<rootDir>/.storybook/",
-    "<rootDir>/.docz/",
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files

@@ -7,8 +7,6 @@
     "dev": "NODE_ENV=development next src",
     "build": "next build",
     "start": "next start -p 8000",
-    "docz:dev": "docz dev",
-    "docz:build": "docz build",
     "test": "jest --json --outputFile=.jest-test-results.json",
     "tmpl": "yarn hygen generator",
     "tmpl:cmpc": "yarn hygen generator cmpc",
@@ -47,7 +45,6 @@
     "connect-api-mocker": "^1.4.0",
     "cross-env": "^5.2.0",
     "css-loader": "1.0.0",
-    "docz": "^0.11.2",
     "dotenv-webpack": "^1.7.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
@@ -74,8 +71,5 @@
     "storybook-readme": "^5.0.5",
     "webpack-cli": "^3.1.1",
     "webpack-dev-server": "^3.1.8"
-  },
-  "docz": {
-    "title": "Lol"
   }
 }

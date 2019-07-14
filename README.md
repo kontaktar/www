@@ -28,8 +28,8 @@ ROADMAP Gera build og að NPM PAKKA Sjá kannski?
 https://github.com/transitive-bullshit/react-modern-library-boilerplate/blob/master/package.json
 https://github.com/fforres/react-component-library-boilerplate/blob/master/package.json
 
-Út með Docz Almennilegan example - Button component proptypes í Jest template
-constr+state og hooks í template + lag cmpf template
+Almennilegan example - Button component proptypes í Jest template constr+state
+og hooks í template + lag cmpf template
 
 Proptype table and more:
 https://github.com/storybooks/storybook/tree/master/addons/info Typescript
