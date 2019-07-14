@@ -13,9 +13,4 @@ import { Button } from "components";
 />
 ```
 
-| propName | propType | defaultValue | isRequired |
-| -------- | -------- | ------------ | ---------- |
-| onClick  | func     | -            |            |
-| label    | string   | -            | +          |
-| alert    | boolean  | false        | -          |
-| success  | boolean  | false        | -          |
+<!-- PROPS -->
