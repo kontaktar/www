@@ -176,7 +176,8 @@
           "mapStateToProps": true,
           "propValue": true,
           "propFullName": true,
-          "ctx": true
+          "ctx": true,
+          "includePropTables": true
         }
       }
     ],

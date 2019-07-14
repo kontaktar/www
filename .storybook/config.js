@@ -13,13 +13,13 @@ addDecorator(
   }),
 );
 addParameters({
-  viewport: { viewports: viewports },
   options: {
     brandTitle: " ♊️ SpezTorg",
-    showPanel: true,
-    panelPosition: "bottom",
-    isToolshown: true,
   },
+  readme: {
+    codeTheme: "github",
+  },
+  viewport: { viewports: viewports },
 });
 
 const req = require.context("../src/components", true, /story\.js$/);
