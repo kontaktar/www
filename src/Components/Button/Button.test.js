@@ -6,8 +6,8 @@ import Button from "./Button";
 
 describe("With Enzyme", () => {
   it('component shows "Hello world!"', () => {
-    const app = shallow(<Button />);
-    expect(app.find("p").text()).toStrictEqual("Hello World!");
+    const app = shallow(<Button>Hello World!</Button>);
+    expect(app.find("button").text()).toStrictEqual("Hello World!");
   });
 });
 

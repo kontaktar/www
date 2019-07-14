@@ -1,21 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`With Snapshot Testing App shows "Hello world!" 1`] = `
-<div
-  className="button"
->
-  <p>
-    Hello World!
-  </p>
-</div>
-`;
-
 exports[`With Snapshot Testing app shows "Hello world!" 1`] = `
-<div
+<button
   className="button"
->
-  <p>
-    Hello World!
-  </p>
-</div>
+  disabled={false}
+  onClick={[Function]}
+  type="button"
+/>
 `;
