@@ -1,57 +1,42 @@
-storybook og next
-https://github.com/KrDimitrov/front-end/blob/master/package.json
+Install packages
 
-Storybook docs. For the Jest intergration to work, a jest test has to be run to
-generate .jest-test-results.json
+`yarn install`
 
-IBM Guidelines
-https://www.carbondesignsystem.com/guidelines/accessibility/overview
+Start development mode
 
-https://github.com/motdotla/dotenv#readme
+`yarn dev`
 
-https://github.com/pedronauck/docz
+Start storybook for component development
 
-Með hygen getur maður búið til template
+`yarn storybook`
 
-Dæmi: yarn hygen generator cmpc:docz
+Create a new component from a template\*
 
-https://itnext.io/how-to-write-your-own-reusable-react-component-library-a57dc7c9a210
+`yarn template:component`
 
-Guidelines:
+\*You'll be promted to enter a name for the component, it'll then be intialized
+in src/compontents/{componentName} with addional templates for tests and
+storybook.
 
-components start with Uppercase
+## Setup
 
-es6 ✅Storybook ✅Eslint, Prettier & VSCode ✅Webpack ✅Hygen templates ✅Scss
-and css-modules
+- React
+- Next.js
+- Storybook
+- Scss modules
+- Jest & Enzyme
+- Eslint & Prettier
 
-ROADMAP Gera build og að NPM PAKKA Sjá kannski?
-https://github.com/transitive-bullshit/react-modern-library-boilerplate/blob/master/package.json
-https://github.com/fforres/react-component-library-boilerplate/blob/master/package.json
+### Storybook.
 
-Almennilegan example - Button component proptypes í Jest template constr+state
-og hooks í template + lag cmpf template
+For the Jest intergration to work, a jest test has to be run to generate
+`.jest-test-results.json`.
 
-Proptype table and more:
-https://github.com/storybooks/storybook/tree/master/addons/info Typescript
-support, jest TS, TS LInt (vscode settings: "prettier.tslintIntegration": true )
+For propTables to be rendered in the README.md (only visible in Storybook), it
+has to include `<!-- PROPS -->`
 
-Tree-shaking
+### Using the Next.js API Routes
 
-Next? hvað með <Link> ? get ég notað bara fridays next/link?
-
-Webpack env
-https://github.com/HashemKhalifa/webpack-react-boilerplate/tree/master/webpack
-
-Proptable fyrir Storybook? eða setja í comp.docs.md
-
-### Properties
-
-- `onClick` - click callback
-- `label` - button text
-
-| propName | propType | defaultValue | isRequired |
-| -------- | -------- | ------------ | ---------- |
-| onClick  | func     | -            |            |
-| label    | string   | -            | +          |
-| alert    | boolean  | false        | -          |
-| success  | boolean  | false        | -          |
+See `src/pages/api/`, Next.js now offers folder based API routes. Use [ ] for
+dynamic variables like `../api/user/[id].js` Visit
+`http:localhost:3000/api/user/1` to see get the response.

@@ -177,7 +177,9 @@
           "propValue": true,
           "propFullName": true,
           "ctx": true,
-          "includePropTables": true
+          "env": true,
+          "includePropTables": true,
+          "pageProps": true
         }
       }
     ],

@@ -5,7 +5,7 @@ message: |
 ---
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./<%= name.toLowerCase() %>.module.scss";
+import styles from "./<%= name %>.module.scss";
 
 const <%= name %> = () => {
   return (
@@ -17,5 +17,9 @@ const <%= name %> = () => {
 
 export default <%= name %>;
 
-<%= name %>.propTypes = {}
-<%= name %>.defaultProps = {}
+<%= name %>.propTypes = {
+  className: PropTypes.string
+}
+<%= name %>.defaultProps = {
+  className: ''
+}
