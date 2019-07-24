@@ -1,6 +1,7 @@
 import React from "react";
 import App, { Container } from "next/app";
 import Head from "next/head";
+// import { AuthContext } from "../utils/auth";
 // import styles from 'styles/_config.scss'
 // import styles from './assets.scss'
 export default class Spez extends App {
@@ -21,7 +22,9 @@ export default class Spez extends App {
         <Head>
           <title>Spez</title>
         </Head>
+        {/* <AuthContext> */}
         <Component pageContext={this.pageContext} {...pageProps} />
+        {/* </AuthContext> */}
       </Container>
     );
   }

@@ -1,4 +1,5 @@
 import React from "react";
+
 import PropTypes from "prop-types";
 import fetch from "isomorphic-unfetch";
 import { Button } from "components";
@@ -21,18 +22,18 @@ LandingPage.getInitialProps = async ({ query, req }) => {
 
   const response = await fetch(`${baseUrl}/api/users/${query.id}`);
 
-  const user = await response.json();
+  const user = await response.json().name;
   return { user, status: response.status };
 };
 
 LandingPage.propTypes = {
   user: PropTypes.string,
-  status: PropTypes.string,
+  status: PropTypes.number,
 };
 
 LandingPage.defaultProps = {
   user: "",
-  status: "",
+  status: 0,
 };
 
 export default LandingPage;

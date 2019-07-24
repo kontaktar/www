@@ -1,0 +1,31 @@
+$color-blue: #003a7d;
+$background: #221b1b;
+$paper-white: #f3f3f3;
+$color_primary-20: #003a7d;
+
+* {
+  margin: 0;
+  padding: 0;
+  color: $paper-white;
+  background: $background;
+  font-family: "Inter var", sans-serif;
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 400px) {
+  // background-color: #f09a9d;
+  // h1 {
+  //   color: olive;
+  // }
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 401px) and (max-width: 960px) {
+  // * {
+  //   background-color: #f5cf8e; /* Yellow */
+  // }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 961px) {
+}
