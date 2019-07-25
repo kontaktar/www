@@ -1,29 +1,84 @@
-/* eslint-disable react/prop-types */
-import React, { useEffect, useState } from "react";
+/* eslint-disable consistent-return */
+import React, { Component } from "react";
+import Router from "next/router";
+import nextCookie from "next-cookies";
+import cookie from "js-cookie";
 
-export const AuthContext = React.createContext();
+export const login = async ({ token }) => {
+  cookie.set("token", token, { expires: 1 });
+  Router.push("/profile");
+};
 
-export default ({ children }) => {
-  const previousAuth = window.localStorage.getItem("authenticated") || false;
-  const previousAuthBody = window.localStorage.getItem("authBody") || false;
-  const [authenticated, setAuthenticated] = useState(previousAuth);
-  const [authBody, setAuthBody] = useState(previousAuthBody);
+export const logout = () => {
+  cookie.remove("token");
+  // to support logging out from all windows
+  window.localStorage.setItem("logout", Date.now());
+  Router.push("/login");
+};
 
-  useEffect(() => {
-    window.localStorage.setItem("authenticated", authenticated);
-    window.localStorage.setItem("authBody", authBody);
-  }, [authenticated, authBody]);
+// Gets the display name of a JSX component for dev tools
+// const getDisplayName = (Component) =>
+//   Component.displayName || Component.name || "Component";
 
-  const defaultContext = {
-    authenticated,
-    setAuthenticated,
-    authBody,
-    setAuthBody,
+export const withAuthSync = (WrappedComponent) =>
+  class extends Component {
+    // static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`;
+
+    static async getInitialProps(ctx) {
+      const token = auth(ctx);
+
+      const componentProperties =
+        WrappedComponent.getInitialProps &&
+        (await WrappedComponent.getInitialProps(ctx));
+
+      return { ...componentProperties, token };
+    }
+
+    constructor(props) {
+      super(props);
+
+      this.syncLogout = this.syncLogout.bind(this);
+    }
+
+    componentDidMount() {
+      window.addEventListener("storage", this.syncLogout);
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener("storage", this.syncLogout);
+      window.localStorage.removeItem("logout");
+    }
+
+    syncLogout(event) {
+      if (event.key === "logout") {
+        console.log("logged out from storage!");
+        Router.push("/login");
+      }
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
   };
 
-  return (
-    <AuthContext.Provider value={defaultContext}>
-      {children}
-    </AuthContext.Provider>
-  );
+export const auth = (ctx) => {
+  const { token } = nextCookie(ctx);
+
+  /*
+   * This happens on server only, ctx.req is available means it's being
+   * rendered on server. If we are on server and token is not available,
+   * means user is not logged in.
+   */
+  if (ctx.req && !token) {
+    ctx.res.writeHead(302, { Location: "/login" });
+    ctx.res.end();
+    return;
+  }
+
+  // We already checked for server. This should only happen on client.
+  if (!token) {
+    Router.push("/login");
+  }
+
+  return token;
 };
