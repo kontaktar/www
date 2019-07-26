@@ -2,12 +2,14 @@ $color-blue: #003a7d;
 $background: #221b1b;
 $paper-white: #f3f3f3;
 $color_primary-20: #003a7d;
+$color-secondary: #cfb59b;
+$paragraph: black;
 
 * {
   margin: 0;
   padding: 0;
-  color: $paper-white;
-  background: $background;
+  color: $paragraph;
+  // background: $background;
   font-family: "Inter var", sans-serif;
 }
 

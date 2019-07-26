@@ -1,0 +1,21 @@
+@import "../../styles/config";
+
+.card {
+  display: flex;
+  background-color: $paper-white;
+  border: solid 1px $color_secondary;
+  height: 250px;
+  width: 500px;
+  box-shadow: 0 2px 4px rgba(#000, 0.2);
+  justify-content: center;
+
+  // tablet
+  @media only screen and (max-width: 1024px) {
+    margin: auto;
+  }
+
+  // mobile
+  @media only screen and (max-width: 600px) {
+    width: 90%;
+  }
+}
