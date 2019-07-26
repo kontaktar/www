@@ -5,19 +5,18 @@ import Router from "next/router";
 import PropTypes from "prop-types";
 import fetch from "isomorphic-unfetch";
 import nextCookie from "next-cookies";
-import { withAuthSync } from "../utils/auth";
+import { logout, withAuth } from "../utils/auth";
 
 const Profile = (props) => {
-  console.log(props);
-  const { name, login, bio, avatarUrl } = props;
+  const { name, bio } = props;
 
   return (
     <>
-      <img src={avatarUrl} alt="Avatar" />
       <h1>{name}</h1>
-      <p className="lead">{login}</p>
       <p>{bio}</p>
-
+      <button type="submit" onClick={logout}>
+        Logout
+      </button>
       <style jsx>{`
         img {
           max-width: 200px;
@@ -53,24 +52,19 @@ Profile.getInitialProps = async (ctx) => {
       : ctx.res.writeHead(302, { Location: "/login" }).end();
 
   try {
-    console.log("Ive got the token: ", token);
     const response = await fetch(url, {
       credentials: "include",
       headers: {
-        // "Content-Type": "application/json",
         Authorization: JSON.stringify({ token }),
       },
     });
     if (response.ok) {
       return await response.json();
     }
-
-    // https://github.com/developit/unfetch#caveats
     return redirectOnError();
   } catch (error) {
-    // Implementation or Network error
     return redirectOnError();
   }
 };
 
-export default withAuthSync(Profile);
+export default withAuth(Profile);

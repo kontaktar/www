@@ -1,3 +1,4 @@
 export default (request, response) => {
-  response.status(200).json({ token: "123" });
+  console.log(request.body.username);
+  response.status(200).json({ token: "my-token" });
 };

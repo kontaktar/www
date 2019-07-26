@@ -3,27 +3,46 @@ import React, { Component } from "react";
 import Router from "next/router";
 import nextCookie from "next-cookies";
 import cookie from "js-cookie";
+import fetch from "isomorphic-unfetch";
 
-export const login = async ({ token }) => {
-  cookie.set("token", token, { expires: 1 });
-  Router.push("/profile");
-};
+// SEE: https://github.com/whoisryosuke/nextjs-oauth2-cookie-auth/blob/master/utils/AuthService.js
 
-export const logout = () => {
+async function login({ username }) {
+  const url = `${process.env.API_URL}/api/login`;
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    });
+    if (response.ok) {
+      const { token } = await response.json();
+      cookie.set("token", token, { expires: 1 });
+      Router.push("/profile");
+    } else {
+      // https://github.com/developit/unfetch#caveats
+      const error = new Error(response.statusText);
+      error.response = response;
+      throw error;
+    }
+  } catch (error) {
+    console.error("Login failed ", error);
+  }
+}
+
+function logout() {
   cookie.remove("token");
   // to support logging out from all windows
   window.localStorage.setItem("logout", Date.now());
   Router.push("/login");
-};
+}
 
-// Gets the display name of a JSX component for dev tools
-// const getDisplayName = (Component) =>
-//   Component.displayName || Component.name || "Component";
+// // Gets the display name of a JSX component for dev tools
+const getDisplayName = (component) =>
+  component.displayName || component.name || "Component";
 
-export const withAuthSync = (WrappedComponent) =>
-  class extends Component {
-    // static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`;
-
+function withAuth(WrappedComponent) {
+  class WithAuth extends Component {
     static async getInitialProps(ctx) {
       const token = auth(ctx);
 
@@ -59,9 +78,12 @@ export const withAuthSync = (WrappedComponent) =>
     render() {
       return <WrappedComponent {...this.props} />;
     }
-  };
+  }
+  WithAuth.displayName = `withAuth(${getDisplayName(WrappedComponent)})`;
+  return WithAuth;
+}
 
-export const auth = (ctx) => {
+function auth(ctx) {
   const { token } = nextCookie(ctx);
 
   /*
@@ -81,4 +103,5 @@ export const auth = (ctx) => {
   }
 
   return token;
-};
+}
+export { auth, login, logout, withAuth };
