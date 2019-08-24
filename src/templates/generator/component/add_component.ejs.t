@@ -19,7 +19,7 @@ export default <%= name %>;
 
 <%= name %>.propTypes = {
   className: PropTypes.string
-}
+};
 <%= name %>.defaultProps = {
-  className: ''
-}
+  className: ""
+};

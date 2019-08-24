@@ -36,8 +36,8 @@
     ],
     "import/no-unresolved": "off",
     "class-methods-use-this": "off",
+    "comma-dangle": ["error", "never"],
     "_comment": "/* THE FOLLOWING RULES ARE A DUMP FROM ELSEWHERE, DISABLE WHEN NEEDED */",
-    "comma-dangle": ["error", "only-multiline"],
     "import/extensions": [
       "error",
       "never",

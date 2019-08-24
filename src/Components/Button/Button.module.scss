@@ -1,3 +1,30 @@
+@import "../../styles/config";
+
 .button {
-  background-color: red;
+  height: 40px;
+  border: 1px solid $primary-color;
+  color: $paragraph-color;
+  font-display: swap;
+  font-size: 12px;
+  font-weight: 600;
+  background-color: $color-white;
+  padding: 0 20px;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  &:hover {
+    background-color: $primary-color;
+    color: $paragraph-inverted-color;
+    transition: all 0.5s ease;
+  }
+}
+.pill {
+  border-radius: 24px;
+}
+.inverted {
+  background-color: $primary-color;
+  color: $paragraph-inverted-color;
+  &:hover {
+    background-color: $color-white;
+    color: $paragraph-color;
+  }
 }

@@ -5,13 +5,14 @@ import Router from "next/router";
 import PropTypes from "prop-types";
 import fetch from "isomorphic-unfetch";
 import nextCookie from "next-cookies";
+import { Main as Layout } from "layouts";
 import { logout, withAuth } from "../utils/auth";
 
 const Profile = (props) => {
   const { name, bio } = props;
 
   return (
-    <>
+    <Layout>
       <h1>{name}</h1>
       <p>{bio}</p>
       <button type="submit" onClick={logout}>
@@ -35,12 +36,12 @@ const Profile = (props) => {
           color: #6a737d;
         }
       `}</style>
-    </>
+    </Layout>
   );
 };
 
 Profile.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 };
 Profile.getInitialProps = async (ctx) => {
   const { token } = nextCookie(ctx);
@@ -55,8 +56,8 @@ Profile.getInitialProps = async (ctx) => {
     const response = await fetch(url, {
       credentials: "include",
       headers: {
-        Authorization: JSON.stringify({ token }),
-      },
+        Authorization: JSON.stringify({ token })
+      }
     });
     if (response.ok) {
       return await response.json();

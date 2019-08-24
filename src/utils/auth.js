@@ -6,18 +6,18 @@ import cookie from "js-cookie";
 import fetch from "isomorphic-unfetch";
 
 // SEE: https://github.com/whoisryosuke/nextjs-oauth2-cookie-auth/blob/master/utils/AuthService.js
-
+const TOKEN_NAME = "spez_user_token";
 async function login({ username }) {
   const url = `${process.env.API_URL}/api/login`;
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username }),
+      body: JSON.stringify({ username })
     });
     if (response.ok) {
       const { token } = await response.json();
-      cookie.set("token", token, { expires: 1 });
+      cookie.set(TOKEN_NAME, token, { expires: 1 });
       Router.push("/profile");
     } else {
       // https://github.com/developit/unfetch#caveats
@@ -31,12 +31,16 @@ async function login({ username }) {
 }
 
 function logout() {
-  cookie.remove("token");
+  cookie.remove(TOKEN_NAME);
   // to support logging out from all windows
   window.localStorage.setItem("logout", Date.now());
   Router.push("/login");
 }
 
+function isLoggedIn() {
+  // TODO: this is only temporary, actually validate the content of the token.
+  return cookie.get(TOKEN_NAME) !== undefined;
+}
 // // Gets the display name of a JSX component for dev tools
 const getDisplayName = (component) =>
   component.displayName || component.name || "Component";
@@ -104,4 +108,4 @@ function auth(ctx) {
 
   return token;
 }
-export { auth, login, logout, withAuth };
+export { auth, isLoggedIn, login, logout, withAuth };

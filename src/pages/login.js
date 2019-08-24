@@ -1,8 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
-
-import { login } from "../utils/auth";
+import { Main } from "layouts";
+import { login, isLoggedIn } from "../utils/auth";
 
 function Login() {
   const [userData, setUserData] = useState({ username: "", error: "" });
@@ -18,11 +18,11 @@ function Login() {
   }
 
   return (
-    <>
+    <Main>
       <div className="login">
         <form onSubmit={handleSubmit}>
           <label htmlFor="username">GitHub username</label>
-
+          {isLoggedIn()}
           <input
             type="text"
             id="username"
@@ -68,7 +68,7 @@ function Login() {
           display: block;
         }
       `}</style>
-    </>
+    </Main>
   );
 }
 

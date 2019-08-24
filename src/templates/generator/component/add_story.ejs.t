@@ -3,7 +3,6 @@ to: src/components/<%= name %>/<%= name %>.story.js
 message: |
  - {green CREATED}: STORY
 ---
-
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { boolean, text, withKnobs } from "@storybook/addon-knobs";
