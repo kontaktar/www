@@ -24,6 +24,7 @@
   background-color: $primary-color;
   color: $paragraph-inverted-color;
   &:hover {
+    // TODO: add finger pointer
     background-color: $color-white;
     color: $paragraph-color;
   }

@@ -2,20 +2,59 @@
 
 .card {
   display: flex;
-  background-color: $color-paper-white;
-  border: solid 1px $color-red;
-  height: 250px;
-  width: 500px;
-  box-shadow: 0 2px 4px rgba(#000, 0.2);
   justify-content: center;
+  margin: auto;
+
+  height: 250px;
+  width: 300px;
+
+  border: solid 1px $color-red;
+  background-color: $color-paper-white;
+  box-shadow: 0 2px 4px rgba(#000, 0.2);
 
   // tablet
   @media only screen and (max-width: 1024px) {
-    margin: auto;
   }
 
   // mobile
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 500px) {
     width: 90%;
+  }
+}
+
+// CardContent
+.card_content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .paragraph {
+    order: 1;
+    font-size: $font-size-paragraph;
+    max-height: 189px;
+    overflow: hidden;
+    @include font-paragraph;
+  }
+  .signature {
+    order: 2; // Keyboard navigation should get signature information first.
+    letter-spacing: -1px;
+    margin-top: 12px;
+    display: flex;
+    align-self: flex-end;
+    font-style: italic;
+    max-height: 40px;
+    overflow: hidden;
+    font-family: neue-haas-grotesk-display, sans-serif;
+    font-style: normal;
+    font-weight: 100;
+    @include font-paragraph;
+    font-weight: 600;
+
+    .icon {
+      min-width: 40px;
+      max-width: 40px;
+      min-height: 40px;
+      margin-right: 12px;
+    }
   }
 }

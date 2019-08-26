@@ -1,0 +1,8 @@
+@import "../../styles/config";
+
+.header {
+  // display: flex;
+  background-color: $color-white;
+  height: 100px;
+  border-bottom: 2px solid $color-red;
+}
