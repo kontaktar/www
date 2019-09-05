@@ -7,8 +7,7 @@
     "build": "next build",
     "dev": "NODE_ENV=development next src",
     "start": "next start -p 8000",
-    "template": "yarn hygen generator",
-    "template:component": "yarn hygen generator component",
+    "create": "yarn hygen generator",
     "test": "jest --json --outputFile=.jest-test-results.json",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "storybook:build": "build-storybook"
@@ -16,6 +15,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^4.4.0",
+    "@material-ui/icons": "^4.2.1",
+    "@material-ui/styles": "^4.3.3",
     "@zeit/next-css": "^1.0.0",
     "@zeit/next-sass": "^1.0.0",
     "babel-plugin-module-resolver": "^3.2.0",

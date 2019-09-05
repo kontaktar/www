@@ -12,7 +12,7 @@ Start storybook for component development
 
 Create a new component from a template\*
 
-`yarn template:component`
+`yarn create`
 
 \*You'll be promted to enter a name for the component, it'll then be intialized
 in src/compontents/{componentName} with addional templates for tests and
