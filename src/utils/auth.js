@@ -88,8 +88,8 @@ function withAuth(WrappedComponent) {
 }
 
 function auth(ctx) {
-  const { token } = nextCookie(ctx);
-
+  // eslint-disable-next-line camelcase
+  const { spez_user_token: token } = nextCookie(ctx);
   /*
    * This happens on server only, ctx.req is available means it's being
    * rendered on server. If we are on server and token is not available,

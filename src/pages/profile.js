@@ -44,9 +44,8 @@ Profile.propTypes = {
   data: PropTypes.object.isRequired
 };
 Profile.getInitialProps = async (ctx) => {
-  const { token } = nextCookie(ctx);
+  const { spez_user_token: token } = nextCookie(ctx);
   const url = `${process.env.API_URL}/api/profile`;
-
   const redirectOnError = () =>
     typeof window !== "undefined"
       ? Router.push("/login")
