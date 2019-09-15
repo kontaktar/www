@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Main } from "layouts";
 import { login, isLoggedIn } from "../utils/auth";
 
-function Login() {
+const Login = () => {
   const [userData, setUserData] = useState({ username: "", error: "" });
 
   async function handleChange(event) {
@@ -70,6 +70,6 @@ function Login() {
       `}</style>
     </Main>
   );
-}
+};
 
 export default Login;

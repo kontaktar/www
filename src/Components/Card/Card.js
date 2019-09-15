@@ -1,14 +1,14 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
+import MuiCard from "@material-ui/core/Card";
+// import CardActions from "@material-ui/core/CardActions";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
-import { minHeight } from "@material-ui/system";
+// import { minHeight } from "@material-ui/system";
 
 // import styles from "./Card.module.scss";
 
@@ -19,15 +19,15 @@ const useStyles = makeStyles({
   }
 });
 
-export const CardWrapper = (props) => {
-  const { children } = props;
+export const Card = (props) => {
+  // const { children } = props;
   const classes = useStyles();
   // const bull = <span className={classes.bullet}>•</span>;
   return (
     // <div className={styles.card} {...props}>
     //   {children}
     // </div>
-    <Card className={classes.card}>
+    <MuiCard className={classes.card}>
       <CardActionArea>
         <CardContent>
           <Typography variant="h5" component="h2">
@@ -44,11 +44,11 @@ export const CardWrapper = (props) => {
           <EmailIcon />
         </CardContent>
       </CardActionArea>
-    </Card>
+    </MuiCard>
   );
 };
 
-CardWrapper.propTypes = {
+Card.propTypes = {
   children: PropTypes.node.isRequired
 };
 // const CardContentWrapper = (props) => {
@@ -76,7 +76,7 @@ CardWrapper.propTypes = {
 //   signature: PropTypes.string.isRequired
 // };
 
-export { CardWrapper as Card };
+export default Card;
 // export { Card, CardContent };
 // Card.propTypes = {}
 // Card.defaultProps = {}
