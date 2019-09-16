@@ -1,19 +1,30 @@
 @import "../../styles/config";
 
 .button {
-  height: 40px;
-  border: 1px solid $primary-color;
-  color: $paragraph-color;
+  height: 48px;
+  width: 202px;
+
+  background-color: $primary-color;
+  color: $color-white;
   font-display: swap;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
-  background-color: $color-white;
   padding: 0 20px;
-  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
+  // box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.15);
+  // border-radius: 5px;
   &:hover {
-    background-color: $primary-color;
-    color: $paragraph-inverted-color;
+    background-color: $color-white;
+    border: 1px solid $primary-color;
+    color: $primary-color;
+
+    transition: all 0.5s ease;
+  }
+
+  &:disabled {
+    background-color: $color-white;
+    border: 1px solid $color-brown;
+    color: $color-brown;
+
     transition: all 0.5s ease;
   }
 }
