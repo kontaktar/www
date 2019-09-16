@@ -6,9 +6,9 @@ import Head from "next/head";
 // import styles from './assets.scss'
 
 // MUI
-import { ThemeProvider } from "@material-ui/styles";
+// import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import theme from "../src/theme";
+// import theme from "../src/theme";
 
 export default class Spez extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -37,11 +37,11 @@ export default class Spez extends App {
           <title>Spez</title>
         </Head>
         {/* <AuthContext> */}
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <Component pageContext={this.pageContext} {...pageProps} />
-        </ThemeProvider>
+        {/* <ThemeProvider theme={theme}> */}
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <Component pageContext={this.pageContext} {...pageProps} />
+        {/* </ThemeProvider> */}
         {/* </AuthContext> */}
       </Container>
     );
