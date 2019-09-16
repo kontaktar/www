@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "Berlingske Sans";
+  // IE9
+  src: url("../../styles/fonts/BerlingskeSans.eot");
+  // IE6-IE8
+  src: url("../../styles/fonts/BerlingskeSans.eot?#iefix")
+      format("embedded-opentype"),
+    // chrome firefox
+      url("../../styles/fonts/BerlingskeSans.woff2") format("woff2"),
+    // chrome firefox
+      url("../../styles/fonts/BerlingskeSans.woff") format("woff"),
+    //chrome firefox opera Safari, Android, iOS 4.2
+      url("../../styles/fonts/BerlingskeSans.ttf") format("truetype"),
+    // iOS 4.1-
+      url("../../styles/fonts/BerlingskeSans.svg#BerlingskeSansRegular")
+      format("svg");
+}
+// @import url(//db.onlinewebfonts.com/c/6cd0079deb96856f116444a35ce6001f?family=Berlingske+Sans);
+// @font-face {
+//   font-family: "Berlingske Sans";
+//   src: url("http://db.onlinewebfonts.com/t/6cd0079deb96856f116444a35ce6001f.eot");  IE9
+//   src: url("http://db.onlinewebfonts.com/t/6cd0079deb96856f116444a35ce6001f.eot?#iefix")
+//       format("embedded-opentype"),
+//      IE6-IE8
+//       url("http://db.onlinewebfonts.com/t/6cd0079deb96856f116444a35ce6001f.woff2")
+//       format("woff2"),
+//      chrome firefox
+//       url("http://db.onlinewebfonts.com/t/6cd0079deb96856f116444a35ce6001f.woff")
+//       format("woff"),
+//      chrome firefox
+//       url("http://db.onlinewebfonts.com/t/6cd0079deb96856f116444a35ce6001f.ttf")
+//       format("truetype"),
+//      chrome firefox opera Safari, Android, iOS 4.2+
+//       url("http://db.onlinewebfonts.com/t/6cd0079deb96856f116444a35ce6001f.svg#Berlingske Sans")
+//       format("svg");  iOS 4.1-
+// }
