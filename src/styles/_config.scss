@@ -15,12 +15,6 @@ $background-color: $color-white;
 
 $font-size-paragraph: 16px;
 
-// @mixin font-paragraph {
-//   font-family: neue-haas-grotesk-display, sans-serif;
-//   font-style: normal;
-//   font-weight: 100;
-// }
-
 * {
   margin: 0;
   padding: 0;
@@ -33,6 +27,12 @@ $font-size-paragraph: 16px;
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
+
+// @mixin font-paragraph {
+//   font-family: neue-haas-grotesk-display, sans-serif;
+//   font-style: normal;
+//   font-weight: 100;
+// }
 
 /* Mobile Styles */
 @media only screen and (max-width: 400px) {
