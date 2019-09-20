@@ -1,5 +1,5 @@
 ---
-to: src/components/<%= name %>/<%= name %>.story.js
+to: src/layouts/<%= name %>/<%= name %>.story.js
 message: |
  - {green CREATED}: STORY
 ---
@@ -10,7 +10,7 @@ import { action } from "@storybook/addon-actions";
 import <%= name %> from "./<%= name %>";
 import <%= name %>Readme from "./README.md";
 
-storiesOf("Components", module)
+storiesOf("Layouts", module)
   .addDecorator(withKnobs)
   .addParameters({
     jest: ["<%= name %>.test"],

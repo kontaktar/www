@@ -1,0 +1,8 @@
+.root {
+  display: flex;
+  flex-direction: column;
+
+  .search_results {
+    flex-grow: 1;
+  }
+}

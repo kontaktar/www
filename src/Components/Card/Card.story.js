@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 import { Card } from "./Card";
 import CardReadme from "./README.md";
 
-storiesOf("Card", module)
+storiesOf("Components", module)
   .addDecorator(withKnobs)
   .addParameters({
     jest: ["Card.test"],
@@ -14,7 +14,7 @@ storiesOf("Card", module)
       includePropTables: [Card]
     }
   })
-  .add("Default", () => (
+  .add("Card", () => (
     <Card
       disabled={boolean("Disabled", false)}
       onClick={action("Card-clicked")}

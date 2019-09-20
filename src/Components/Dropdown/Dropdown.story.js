@@ -2,23 +2,23 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { boolean, text, withKnobs } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
-import Footer from "./Footer";
-import FooterReadme from "./README.md";
+import Dropdown from "./Dropdown";
+import DropdownReadme from "./README.md";
 
 storiesOf("Components", module)
   .addDecorator(withKnobs)
   .addParameters({
-    jest: ["Footer.test"],
+    jest: ["Dropdown.test"],
     readme: {
-      sidebar: FooterReadme,
-      includePropTables: [Footer]
+      sidebar: DropdownReadme,
+      includePropTables: [Dropdown]
     }
   })
-  .add("Footer", () => (
-    <Footer
+  .add("Dropdown", () => (
+    <Dropdown
       disabled={boolean("Disabled", false)}
-      onClick={action("Footer-clicked")}
+      onClick={action("Dropdown-clicked")}
     >
-      {text("Label", "This is a Footer")}
-    </Footer>
+      {text("Label", "This is a Dropdown")}
+    </Dropdown>
   ));

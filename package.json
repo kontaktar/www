@@ -7,7 +7,7 @@
     "build": "next build",
     "dev": "NODE_ENV=development next src",
     "start": "next start -p 8000",
-    "create": "yarn hygen generator",
+    "generate": "yarn hygen generator component",
     "test": "jest --json --outputFile=.jest-test-results.json",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "storybook:build": "build-storybook"
@@ -46,6 +46,7 @@
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.5",
     "babel-preset-react": "^6.24.1",
+    "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "css-loader": "1.0.0",
     "dotenv-webpack": "^1.7.0",

@@ -1,0 +1,22 @@
+@import "../../styles/config";
+
+.wrapper {
+  display: flex;
+  justify-content: flex-start;
+  &.right {
+    justify-content: flex-end;
+  }
+}
+
+.drawer {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+
+  width: 180px;
+
+  height: 100vh;
+
+  background-color: red;
+}

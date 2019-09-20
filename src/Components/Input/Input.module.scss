@@ -1,0 +1,30 @@
+@import "../../styles/config";
+
+.input_wrapper {
+  .label {
+    display: block;
+    margin-bottom: 25px;
+  }
+  input {
+    height: 50px;
+    border: 1px solid $color-black-60;
+    box-sizing: border-box;
+
+    font-size: 16px;
+    line-height: 144%;
+
+    padding-left: 50px;
+    &::placeholder {
+      color: $color-black-60;
+    }
+  }
+}
+
+.error {
+  input {
+    border-color: $color-red;
+  }
+  span {
+    color: $color-red;
+  }
+}

@@ -6,7 +6,7 @@ import { action } from "@storybook/addon-actions";
 import Button from "./Button";
 import ButtonReadme from "./README.md";
 
-storiesOf("Button", module)
+storiesOf("Components", module)
   .addDecorator(withKnobs)
   .addParameters({
     jest: ["Button.test"],
@@ -15,7 +15,7 @@ storiesOf("Button", module)
       includePropTables: [Button]
     }
   })
-  .add("Default", () => (
+  .add("Button", () => (
     <div style={{ padding: "20px" }}>
       <p>No modifier</p>
       <Button

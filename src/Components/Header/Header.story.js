@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 import Header from "./Header";
 import headerReadme from "./README.md";
 
-storiesOf("Header", module)
+storiesOf("Components", module)
   .addDecorator(withKnobs)
   .addParameters({
     jest: ["Header.test"],
@@ -14,7 +14,7 @@ storiesOf("Header", module)
       includePropTables: [Header]
     }
   })
-  .add("Default", () => (
+  .add("Header", () => (
     <Header
       disabled={boolean("Disabled", false)}
       onClick={action("header-clicked")}

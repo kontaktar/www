@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  // .navigation_drawer {
+  // }
+  .main_content {
+    flex-grow: 1;
+  }
+  // .profile_drawer {
+  // }
+}

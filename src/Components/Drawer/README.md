@@ -1,5 +1,5 @@
 ```js
-import { Carousel } from "components";
+import { Drawer } from "components";
 ```
 
 Here will be the documentation for this component
