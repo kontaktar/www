@@ -19,7 +19,7 @@ storiesOf("Layouts", module)
       includePropTables: [<%= name %>],
     },
   })
-  .add("Default", () => (
+  .add("<%= name %>", () => (
     <<%= name %>
       disabled={boolean("Disabled", false)}
       onClick={action("<%= name %>-clicked")}

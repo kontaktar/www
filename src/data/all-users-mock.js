@@ -168,7 +168,7 @@ export default [
   },
   {
     id: "7",
-    name: "Jón Sigurðsson",
+    name: "Bragi Guðmundur Bragason",
     experience: [
       {
         id: "14",
@@ -194,7 +194,7 @@ export default [
   },
   {
     id: "8",
-    name: "Jón Sigurðsson",
+    name: "Eymundur Sveinn Einarsson",
     experience: [
       {
         id: "16",
