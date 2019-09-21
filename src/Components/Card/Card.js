@@ -21,24 +21,25 @@ const useStyles = makeStyles({
 
 export const Card = (props) => {
   // const { children } = props;
+  const { description, name, style } = props;
   const classes = useStyles();
   // const bull = <span className={classes.bullet}>•</span>;
   return (
     // <div className={styles.card} {...props}>
     //   {children}
     // </div>
-    <MuiCard className={classes.card}>
+    <MuiCard className={classes.card} style={style}>
       <CardActionArea>
         <CardContent>
           <Typography variant="h5" component="h2">
-            Ég geri vefi í React með Next.js og hef áhuga á bjálkakeðjum.
+            {name}
           </Typography>
           <Typography
             className={classes.title}
             color="textSecondary"
             gutterBottom
           >
-            Einar Alexander Eymundsson
+            {description}
           </Typography>
           <PhoneIcon />
           <EmailIcon />
@@ -49,34 +50,8 @@ export const Card = (props) => {
 };
 
 Card.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  description: PropTypes.string
 };
-// const CardContentWrapper = (props) => {
-//   let { paragraph, signature } = props;
-//   if (paragraph.length > 300) {
-//     paragraph = `${paragraph.slice(0, 300)} ...`;
-//   }
-//   if (signature.length > 100) {
-//     signature = `${signature.slice(0, 100)}`;
-//   }
-
-//   return (
-//     <CardWrapper className={styles.card_content}>
-//       <span className={styles.signature}>
-//         <span className={styles.icon} />
-//         {signature}
-//       </span>
-//       <span className={styles.paragraph}>{paragraph}</span>
-//     </CardWrapper>
-//   );
-// };
-
-// CardContent.propTypes = {
-//   paragraph: PropTypes.string.isRequired,
-//   signature: PropTypes.string.isRequired
-// };
 
 export default Card;
-// export { Card, CardContent };
-// Card.propTypes = {}
-// Card.defaultProps = {}
