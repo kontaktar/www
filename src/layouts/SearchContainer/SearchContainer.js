@@ -44,6 +44,7 @@ const SearchContainer = () => {
         );
       }
     );
+    // eslint-disable-next-line no-unused-expressions
     allMatchingCards.length === 0 && setNoResults(true);
 
     return allMatchingCards;

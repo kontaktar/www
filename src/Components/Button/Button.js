@@ -1,12 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { style } from "@material-ui/system";
+import { Icon } from "components";
 import styles from "./Button.module.scss";
 
 const Button = (props) => {
-  const { children, disabled, onClick, modifier } = props;
+  const { children, className, disabled, onClick, modifier } = props;
+
   return (
     <button
-      className={`${styles.button} ${modifier.map((m) => ` ${styles[m]} `)}`}
+      className={`${className} ${styles.button} ${modifier.map(
+        (m) => ` ${styles[m]} `
+      )}`}
       disabled={disabled}
       onClick={onClick}
       type="button"
@@ -16,6 +21,17 @@ const Button = (props) => {
   );
 };
 
+Button.Navigation = ({ compact = false }) => {
+  return (
+    <Button className={`${styles.navigation} ${compact && styles.compact}`}>
+      <Icon className={styles.icon} name="user-profile" />
+      <p>
+        {/* <div className={styles.icon}>.</div> */}
+        title
+      </p>
+    </Button>
+  );
+};
 export default Button;
 
 Button.propTypes = {

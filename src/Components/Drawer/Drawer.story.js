@@ -16,14 +16,10 @@ storiesOf("Components/Drawer", module)
   })
   .add("Left side", () => (
     <div style={{ height: "200vh" }}>
-      <p>lol1</p>
       <Drawer
         disabled={boolean("Disabled", false)}
         onClick={action("Drawer-clicked")}
-      >
-        {text("Label", "This is a Drawer")}
-      </Drawer>
-      <p>lol2</p>
+      ></Drawer>
     </div>
   ))
   .add("Right side", () => (

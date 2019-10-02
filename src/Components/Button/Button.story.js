@@ -37,5 +37,7 @@ storiesOf("Components", module)
       <Button id="button2" disabled onClick={action("button-clicked")}>
         {text("Label", "This is a button")}
       </Button>
+      <Button.Navigation />
+      <Button.Navigation compact />
     </div>
   ));
