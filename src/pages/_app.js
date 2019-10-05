@@ -11,16 +11,6 @@ import Head from "next/head";
 // import theme from "../src/theme";
 
 export default class Spez extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProperties = {};
-
-    if (Component.getInitialProps) {
-      pageProperties = await Component.getInitialProps(ctx);
-    }
-
-    return { pageProps: pageProperties };
-  }
-
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side");

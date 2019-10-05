@@ -1,17 +1,17 @@
 /* eslint-disable no-param-reassign */
-require("dotenv").config();
+// require("dotenv").config();
 
 const path = require("path");
-const Dotenv = require("dotenv-webpack");
+// const Dotenv = require("dotenv-webpack");
 const withPlugins = require("next-compose-plugins");
 const withCSS = require("@zeit/next-css");
 const withSass = require("@zeit/next-sass");
 const withFonts = require("next-fonts");
 
 module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
-  target: "serverless",
+  // target: "serverless",
   publicRuntimeConfig: false,
-  // ssr: true,
+  ssr: true,
   // env: {
   //   API_URL: process.env.API_URL || "http://localhost:3000"
   // },
@@ -26,13 +26,13 @@ module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
     config.resolve.alias.assets = path.join(__dirname, "src/assets");
     config.resolve.alias.layouts = path.join(__dirname, "src/layouts");
     config.resolve.alias.styles = path.join(__dirname, "src/styles");
-    config.plugins.push(
-      // Read the .env file
-      new Dotenv({
-        path: path.join(__dirname, ".env"),
-        systemvars: true
-      })
-    );
+    // config.plugins.push(
+    //   // Read the .env file
+    //   new Dotenv({
+    //     path: path.join(__dirname, ".env"),
+    //     systemvars: true
+    //   })
+    // );
     if (dev) {
       config.module.rules.push({
         test: /\.js$/,
