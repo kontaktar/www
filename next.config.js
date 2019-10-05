@@ -8,7 +8,8 @@ const withSass = require("@zeit/next-sass");
 const withFonts = require("next-fonts");
 
 module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
-  // target: 'serverless',
+  target: "serverless",
+  publicRuntimeConfig: false,
   // ssr: true,
   // env: {
   //   API_URL: process.env.API_URL || "http://localhost:3000"
