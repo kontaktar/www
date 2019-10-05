@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
-import { MainLayout } from "layouts";
+import { MainLayout } from "../layouts";
 import { login, isLoggedIn } from "../utils/auth";
 
 const Login = () => {
