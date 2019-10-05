@@ -4,12 +4,12 @@
     [
       "module-resolver",
       {
-        "root": ["./"],
+        "root": ["./src"],
         "alias": {
-          "assets": "./src/assets",
-          "components": "./src/components",
-          "layouts": "./src/layouts",
-          "styles": "./src/styles"
+          "assets": "./assets",
+          "components": "./components",
+          "layouts": "./layouts",
+          "styles": "./styles"
         }
       }
     ]
