@@ -1,7 +1,3 @@
-require("dotenv").config();
-
-const path = require("path");
-const Dotenv = require("dotenv-webpack");
 const withPlugins = require("next-compose-plugins");
 const withCSS = require("@zeit/next-css");
 const withSass = require("@zeit/next-sass");
@@ -20,13 +16,6 @@ module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
     localIdentName: "[local]___[hash:base64:5]"
   },
   webpack(config, { dev, isServer }) {
-    config.plugins.push(
-      // Read the .env file
-      new Dotenv({
-        path: path.join(__dirname, ".env"),
-        systemvars: true
-      })
-    );
     if (dev) {
       config.module.rules.push({
         test: /\.js$/,
