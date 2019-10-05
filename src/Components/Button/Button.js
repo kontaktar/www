@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
-import { style } from "@material-ui/system";
+// import { style } from "@material-ui/system";
 import { Icon } from "components";
 import styles from "./Button.module.scss";
 

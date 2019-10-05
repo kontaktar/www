@@ -7,7 +7,7 @@ import Head from "next/head";
 
 // MUI
 // import { ThemeProvider } from "@material-ui/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+// import CssBaseline from "@material-ui/core/CssBaseline";
 // import theme from "../src/theme";
 
 export default class Spez extends App {
@@ -39,7 +39,7 @@ export default class Spez extends App {
         {/* <AuthContext> */}
         {/* <ThemeProvider theme={theme}> */}
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <Component pageContext={this.pageContext} {...pageProps} />
         {/* </ThemeProvider> */}
         {/* </AuthContext> */}

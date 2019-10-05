@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Downshift from "downshift";
 import { Card } from "components";
-import users from "../../data/all-users-mock.js";
+import users from "../../data/all-users-mock";
 import styles from "./SearchContainer.module.scss";
 
 const SearchContainer = () => {

@@ -5,12 +5,12 @@ import styles from "./Drawer.module.scss";
 
 const Drawer = ({ open, rightSide }) => {
   const [isOpen, toggleOpen] = useState(open);
-  const onHover = (e) => {
+  const onHover = () => {
     toggleOpen(true);
   };
-  const offHover = (e) => {
+  const offHover = (event) => {
     const stillInDrawer =
-      e.relatedTarget && e.relatedTarget.parentNode.id === "navi";
+      event.relatedTarget && event.relatedTarget.parentNode.id === "navi";
 
     // eslint-disable-next-line no-unused-expressions
     !stillInDrawer && toggleOpen(false);
