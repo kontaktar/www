@@ -16,6 +16,24 @@
       format("svg");
 }
 
+@font-face {
+  font-family: "Berlingske Serif";
+  // IE9
+  src: url("../../styles/fonts/BerlingskeSerif.eot");
+  // IE6-IE8
+  src: url("../../styles/fonts/BerlingskeSerif.eot?#iefix")
+      format("embedded-opentype"),
+    // chrome firefox
+      url("../../styles/fonts/BerlingskeSerif.woff2") format("woff2"),
+    // chrome firefox
+      url("../../styles/fonts/BerlingskeSerif.woff") format("woff"),
+    //chrome firefox opera Safari, Android, iOS 4.2
+      url("../../styles/fonts/BerlingskeSerif.ttf") format("truetype"),
+    // iOS 4.1-
+      url("../../styles/fonts/BerlingskeSerif.svg#BerlingskeSerif")
+      format("svg");
+}
+
 // @import url(//db.onlinewebfonts.com/c/6cd0079deb96856f116444a35ce6001f?family=Berlingske+Sans);
 // @font-face {
 //   font-family: "Berlingske Sans";
