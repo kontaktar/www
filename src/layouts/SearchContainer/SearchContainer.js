@@ -7,7 +7,6 @@ import styles from "./SearchContainer.module.scss";
 
 const SearchContainer = () => {
   const [experienceId, setExperienceId] = useState(0);
-  const [noResults, setNoResults] = useState(false);
 
   const matchingCardContent = (inputValue, allUsers) => {
     return allUsers.filter((user) => {
@@ -23,6 +22,7 @@ const SearchContainer = () => {
         }
         return matchingDescription || null;
       });
+      // TODO: add user.ability.find
       return !inputValue || isMatchingUsername || isMatchingExperience;
     });
   };
@@ -44,9 +44,6 @@ const SearchContainer = () => {
         );
       }
     );
-    // eslint-disable-next-line no-unused-expressions
-    allMatchingCards.length === 0 && setNoResults(true);
-
     return allMatchingCards;
   };
 
@@ -60,22 +57,25 @@ const SearchContainer = () => {
         isOpen,
         inputValue,
         selectedItem
-      }) => (
-        <div className={styles.root}>
-          <div className={styles.search_bar}>
-            <label {...getLabelProps()}>Leitarvél</label>{" "}
-            {/* TODO: hide label but make visable for screen readers */}
-            <input {...getInputProps()} />
+      }) => {
+        const allMatchingCards = matchingCards(inputValue, users, getItemProps);
+        return (
+          <div className={styles.root}>
+            <div className={styles.search_bar}>
+              <label {...getLabelProps()}>Leitarvél</label>{" "}
+              {/* TODO: hide label but make visable for screen readers */}
+              <input {...getInputProps()} />
+            </div>
+            <div className={styles.search_results} {...getMenuProps()}>
+              {allMatchingCards.length > 0 ? (
+                allMatchingCards
+              ) : (
+                <p>Því miður fundust engar niðurstöður</p>
+              )}
+            </div>
           </div>
-          <div className={styles.search_results} {...getMenuProps()}>
-            {noResults ? (
-              <p>Því miður fundust engar niðurstöður</p>
-            ) : (
-              matchingCards(inputValue, users, getItemProps)
-            )}
-          </div>
-        </div>
-      )}
+        );
+      }}
     </Downshift>
   );
 };
