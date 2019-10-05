@@ -5,8 +5,8 @@ import Router from "next/router";
 import PropTypes from "prop-types";
 import fetch from "isomorphic-unfetch";
 import nextCookie from "next-cookies";
-import { MainLayout } from "../src/layouts";
-import { logout, withAuth } from "../src/utils/auth";
+import { MainLayout } from "../layouts";
+import { logout, withAuth } from "../utils/auth";
 
 const Profile = (props) => {
   const { name, bio } = props;
