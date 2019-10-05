@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "next build ./src",
+    "build": "next build src",
     "dev": "NODE_ENV=development next src",
     "start": "next start -p 8000",
     "generate": "yarn hygen generator",
