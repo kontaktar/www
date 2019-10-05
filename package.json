@@ -4,8 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "next build",
-    "dev": "NODE_ENV=development next",
+    "build": "next build ./src",
+    "dev": "NODE_ENV=development next src",
     "start": "next start -p 8000",
     "generate": "yarn hygen generator",
     "test": "jest --json --outputFile=.jest-test-results.json",
