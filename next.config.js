@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 require("dotenv").config();
 
 const path = require("path");
@@ -21,6 +22,10 @@ module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
     localIdentName: "[local]___[hash:base64:5]"
   },
   webpack(config, { dev, isServer }) {
+    config.resolve.alias.components = path.join(__dirname, "src/components");
+    config.resolve.alias.assets = path.join(__dirname, "src/assets");
+    config.resolve.alias.layouts = path.join(__dirname, "src/layouts");
+    config.resolve.alias.styles = path.join(__dirname, "src/styles");
     config.plugins.push(
       // Read the .env file
       new Dotenv({
