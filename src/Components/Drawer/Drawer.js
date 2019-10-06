@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Button from "../Button";
+import { Button, NavigationBar } from "components";
 import styles from "./Drawer.module.scss";
 
 const Drawer = ({ open, rightSide }) => {
   const [isOpen, toggleOpen] = useState(open);
+
+  useEffect(() => {
+    toggleOpen(open);
+  }, [open]);
+
   const onHover = () => {
-    toggleOpen(true);
+    // eslint-disable-next-line no-unused-expressions
+    !rightSide && toggleOpen(true);
   };
   const offHover = (event) => {
     const stillInDrawer =
@@ -16,7 +22,8 @@ const Drawer = ({ open, rightSide }) => {
     !stillInDrawer && toggleOpen(false);
   };
   const onMouseLeave = () => {
-    toggleOpen(false);
+    // eslint-disable-next-line no-unused-expressions
+    !rightSide && toggleOpen(false);
   };
   return (
     <div className={`${styles.wrapper} ${rightSide ? styles.right : ""}`}>
@@ -30,28 +37,29 @@ const Drawer = ({ open, rightSide }) => {
         onMouseLeave={onMouseLeave}
       >
         {!rightSide ? (
-          <>
-            <div className={styles.top_section}>
-              <div className={styles.logo}>
-                <h1>K</h1>
-              </div>
-              <div className={styles.title}>
-                <h2>Kontaktar</h2>
-              </div>
-            </div>
-            <div className={styles.navi} id="navi">
-              <Button.Navigation compact={!isOpen} />
-              <Button.Navigation compact={!isOpen} />
-              <Button.Navigation compact={!isOpen} />
-              <Button.Navigation compact={!isOpen} />
-            </div>
-          </>
+          <Drawer.Navigation isOpen={isOpen} />
         ) : (
           <p>rright-side</p>
         )}
       </div>
       {/* children */}
     </div>
+  );
+};
+
+Drawer.Navigation = ({ isOpen }) => {
+  return (
+    <>
+      <div className={styles.top_section}>
+        <div className={styles.logo}>
+          <h1>K</h1>
+        </div>
+        <div className={styles.title}>
+          <h2>Kontaktar</h2>
+        </div>
+      </div>
+      <NavigationBar isOpen={isOpen} />
+    </>
   );
 };
 

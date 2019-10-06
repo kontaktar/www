@@ -26,6 +26,7 @@ storiesOf("Components/Drawer", module)
     <div style={{ height: "200vh" }}>
       <Drawer
         disabled={boolean("Disabled", false)}
+        open={boolean("Open", true)}
         onClick={action("Drawer-clicked")}
         rightSide
       >

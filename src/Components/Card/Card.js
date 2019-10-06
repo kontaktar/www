@@ -1,7 +1,6 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import MuiCard from "@material-ui/core/Card";
 // import CardActions from "@material-ui/core/CardActions";
@@ -12,32 +11,19 @@ import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
 // import { minHeight } from "@material-ui/system";
 
-// import styles from "./Card.module.scss";
-
-const useStyles = makeStyles({
-  card: {
-    maxWidth: 250,
-    minHeight: 300
-  }
-});
+import styles from "./Card.module.scss";
 
 export const Card = (props) => {
-  // const { children } = props;
   const { description, name, style } = props;
-  const classes = useStyles();
-  // const bull = <span className={classes.bullet}>•</span>;
   return (
-    // <div className={styles.card} {...props}>
-    //   {children}
-    // </div>
-    <MuiCard className={classes.card} style={style}>
+    <MuiCard className={styles.card} style={style}>
       <CardActionArea>
         <CardContent>
           <Typography variant="h5" component="h2">
             {name}
           </Typography>
           <Typography
-            className={classes.title}
+            className={styles.title}
             color="textSecondary"
             gutterBottom
           >

@@ -1,5 +1,5 @@
 ```js
-import { Drawer } from "components";
+import { DragableCardContainer } from "layouts";
 ```
 
 Here will be the documentation for this component

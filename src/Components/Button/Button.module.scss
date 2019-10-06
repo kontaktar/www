@@ -87,6 +87,7 @@
     opacity: 0;
     transition: visibility 0.3s linear, opacity 0.3s linear;
     margin-left: 10px;
+    transition: margin 0.3s linear;
   }
   .icon {
     margin: 0 15px;

@@ -1,0 +1,16 @@
+@import "../../styles/config";
+
+.card_container {
+  flex-grow: 1;
+  padding: 20px;
+
+  display: flex;
+
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+
+  div {
+    margin: 20px;
+  }
+}

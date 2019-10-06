@@ -5,6 +5,13 @@
   justify-content: flex-start;
   &.right {
     justify-content: flex-end;
+    .drawer {
+      width: 0px;
+    }
+    .open {
+      width: 200px;
+      transition: width 0.3s;
+    }
   }
 }
 

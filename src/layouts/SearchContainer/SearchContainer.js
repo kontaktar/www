@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Downshift from "downshift";
 import { Card } from "components";
+import { CardContainer } from "layouts";
 import users from "../../data/all-users-mock";
 import styles from "./SearchContainer.module.scss";
 
@@ -66,13 +67,13 @@ const SearchContainer = () => {
               {/* TODO: hide label but make visable for screen readers */}
               <input {...getInputProps()} />
             </div>
-            <div className={styles.search_results} {...getMenuProps()}>
+            <CardContainer {...getMenuProps()}>
               {allMatchingCards.length > 0 ? (
                 allMatchingCards
               ) : (
                 <p>Því miður fundust engar niðurstöður</p>
               )}
-            </div>
+            </CardContainer>
           </div>
         );
       }}
