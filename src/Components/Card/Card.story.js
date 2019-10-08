@@ -2,7 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
-import { Card } from "./Card";
+import { Card } from "components";
 import CardReadme from "./README.md";
 
 storiesOf("Components", module)

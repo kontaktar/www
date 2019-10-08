@@ -4,7 +4,8 @@
     { "src": "package.json", "use": "@now/next" },
     {
       "src": ".storybook/config.js",
-      "use": "now-static-build-storybook"
+      "use": "now-static-build-storybook",
+      "config": { "distDir": "dist" }
     }
   ],
   "alias": ["kontaktar"]

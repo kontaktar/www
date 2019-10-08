@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { Card } from "components";
@@ -35,8 +35,9 @@ const SortableContainer = sortableContainer(({ children }) => {
 const DragableCardContainer = ({ items }) => {
   // eslint-disable-next-line no-param-reassign
   items = mockItems;
-  const [arrangement, setArrangement] = useState(items);
+  // const [arrangement, setArrangement] = useState(items);
   const onChange = ({ oldIndex, newIndex }) => {
+    // eslint-disable-next-line no-console
     console.log(oldIndex, newIndex);
     // TODO: setum arrayMove og vista state á dragable
     // this.setState(({items}) => ({
@@ -50,6 +51,7 @@ const DragableCardContainer = ({ items }) => {
         {items.map((value, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <SortableItem
+            // eslint-disable-next-line react/no-array-index-key
             key={`item-${index}`}
             index={index}
             cardContent={value}
@@ -63,7 +65,8 @@ const DragableCardContainer = ({ items }) => {
 export default DragableCardContainer;
 
 DragableCardContainer.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  items: PropTypes.array.isRequired
 };
 DragableCardContainer.defaultProps = {
   className: ""

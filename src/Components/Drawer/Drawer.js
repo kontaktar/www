@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Navigation } from "components";
+import { Navigation } from "components";
 import styles from "./Drawer.module.scss";
 
 const Drawer = ({ open, rightSide }) => {
@@ -67,11 +67,18 @@ export default Drawer;
 
 Drawer.propTypes = {
   className: PropTypes.string,
+
   open: PropTypes.bool,
   rightSide: PropTypes.bool
 };
+
 Drawer.defaultProps = {
   className: "",
+
   open: false,
   rightSide: false
+};
+
+Drawer.Navigation.propTypes = {
+  isOpen: PropTypes.bool.isRequired
 };

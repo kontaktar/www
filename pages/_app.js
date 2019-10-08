@@ -1,5 +1,5 @@
 import React from "react";
-import App, { Container } from "next/app";
+import App from "next/app";
 import Head from "next/head";
 // import { AuthContext } from "../utils/auth";
 // import styles from 'styles/_config.scss'
@@ -22,7 +22,7 @@ export default class Spez extends App {
   render() {
     const { Component, pageProps } = this.props;
     return (
-      <Container>
+      <>
         <Head>
           <title>Spez</title>
         </Head>
@@ -33,7 +33,7 @@ export default class Spez extends App {
         <Component pageContext={this.pageContext} {...pageProps} />
         {/* </ThemeProvider> */}
         {/* </AuthContext> */}
-      </Container>
+      </>
     );
   }
 }
