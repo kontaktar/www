@@ -13,7 +13,7 @@ import EmailIcon from "@material-ui/icons/Email";
 
 import styles from "./Card.module.scss";
 
-export const Card = (props) => {
+const Card = (props) => {
   const { description, name, style } = props;
   return (
     <MuiCard className={styles.card} style={style}>

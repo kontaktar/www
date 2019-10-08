@@ -1,4 +1,4 @@
-import users from "../../../src/data/users-mock";
+import users from "data/users-mock";
 
 export default ({ query: { id } }, response) => {
   const filtered = users.filter((p) => p.id.toString() === id.toString());

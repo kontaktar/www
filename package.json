@@ -23,6 +23,7 @@
     "@material-ui/system": "^4.5.0",
     "@zeit/next-css": "^1.0.0",
     "@zeit/next-sass": "^1.0.0",
+    "array-move": "^2.1.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "dotenv": "^8.0.0",
     "downshift": "^3.3.1",
