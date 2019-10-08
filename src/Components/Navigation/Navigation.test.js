@@ -3,18 +3,18 @@ import { shallow } from "enzyme";
 import React from "react";
 import renderer from "react-test-renderer";
 
-import NavigationBar from "./NavigationBar";
+import Navigation from "./Navigation";
 
 describe("With Enzyme", () => {
   it('component shows "Hello world!"', () => {
-    const app = shallow(<NavigationBar>Hello World!</NavigationBar>);
+    const app = shallow(<Navigation>Hello World!</Navigation>);
     expect(app.find("p").text()).toStrictEqual("Hello World!");
   });
 });
 
 describe("With Snapshot Testing", () => {
   it('app shows "Hello world!"', () => {
-    const component = renderer.create(<NavigationBar />);
+    const component = renderer.create(<Navigation />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });

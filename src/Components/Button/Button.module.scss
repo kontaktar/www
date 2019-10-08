@@ -70,7 +70,7 @@
     box-shadow: inset 4px 0 0 0 $primary-color;
     transition: box-shadow ease-in-out 0.3s;
   }
-  .icon {
+  .navigation_icon {
     margin: 0 30px;
     transition: margin 0.4s;
   }
@@ -89,7 +89,7 @@
     margin-left: 10px;
     transition: margin 0.3s linear;
   }
-  .icon {
+  .navigation_icon {
     margin: 0 15px;
   }
 }
@@ -105,4 +105,14 @@
     background-color: $color-white;
     color: $paragraph-color;
   }
+}
+
+.search {
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: content-box;
+  background-color: white;
+
+  width: 40px;
 }

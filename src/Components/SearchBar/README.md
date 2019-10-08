@@ -1,5 +1,5 @@
 ```js
-import { NavigationBar } from "components";
+import { SearchBar } from "components";
 ```
 
 Here will be the documentation for this component

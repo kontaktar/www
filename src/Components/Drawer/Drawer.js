@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, NavigationBar } from "components";
+import { Button, Navigation } from "components";
 import styles from "./Drawer.module.scss";
 
 const Drawer = ({ open, rightSide }) => {
@@ -58,7 +58,7 @@ Drawer.Navigation = ({ isOpen }) => {
           <h2>Kontaktar</h2>
         </div>
       </div>
-      <NavigationBar isOpen={isOpen} />
+      <Navigation isOpen={isOpen} />
     </>
   );
 };

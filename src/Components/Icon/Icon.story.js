@@ -1,12 +1,12 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { boolean, text, withKnobs } from "@storybook/addon-knobs";
+import { boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
 import Icon from "./Icon";
 import IconReadme from "./README.md";
+import icons from "./icons.json";
 
 storiesOf("Components", module)
-  .addDecorator(withKnobs)
   .addParameters({
     jest: ["Icon.test"],
     readme: {
@@ -14,12 +14,14 @@ storiesOf("Components", module)
       includePropTables: [Icon]
     }
   })
-  .add("Icon", () => (
-    <Icon
-      disabled={boolean("Disabled", false)}
-      onClick={action("Icon-clicked")}
-      name="user-profile"
-    >
-      {text("Label", "This is a Icon")}
-    </Icon>
-  ));
+  .add("Icon", () => {
+    return icons.map((name) => (
+      <Icon
+        disabled={boolean("Disabled", false)}
+        onClick={action("Icon-clicked")}
+        name={name.toString()}
+      >
+        {text("Label", "This is a Icon")}
+      </Icon>
+    ));
+  });

@@ -25,7 +25,7 @@ const Button = (props) => {
 Button.Navigation = ({ compact = false }) => {
   return (
     <Button className={`${styles.navigation} ${compact && styles.compact}`}>
-      <Icon className={styles.icon} name="user-profile" />
+      <Icon className={styles.navigation_icon} name="user-profile" />
       <p>
         {/* <div className={styles.icon}>.</div> */}
         title
@@ -34,6 +34,14 @@ Button.Navigation = ({ compact = false }) => {
   );
 };
 export default Button;
+
+Button.Search = () => {
+  return (
+    <Button>
+      <Icon className={styles.icon} name="search" />
+    </Button>
+  );
+};
 
 Button.propTypes = {
   /**

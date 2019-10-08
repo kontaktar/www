@@ -5,4 +5,5 @@ export { default as Footer } from "./Footer";
 export { default as Drawer } from "./Drawer";
 export { default as Input } from "./Input";
 export { default as Icon } from "./Icon";
-export { default as NavigationBar } from "./NavigationBar";
+export { default as Navigation } from "./Navigation";
+export { default as SearchBar } from "./SearchBar";

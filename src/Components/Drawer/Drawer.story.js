@@ -6,7 +6,6 @@ import Drawer from "./Drawer";
 import DrawerReadme from "./README.md";
 
 storiesOf("Components/Drawer", module)
-  .addDecorator(withKnobs)
   .addParameters({
     jest: ["Drawer.test"],
     readme: {

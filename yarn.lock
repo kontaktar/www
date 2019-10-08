@@ -9116,10 +9116,10 @@ next-fonts@^0.19.0:
     file-loader "^2.0.0"
     url-loader "^1.1.1"
 
-next@^9.0.7:
-  version "9.0.7"
-  resolved "https://registry.yarnpkg.com/next/-/next-9.0.7.tgz#0baf77507dd303bb281c3a354c30767a93cf09c7"
-  integrity sha512-gqxdnGHJuuaKJAPi5cLytR/S88yAaoN0ra7Y3vVLLN+MTkNHQR97tSXlpU2ZE3o3tuHSUZqg7krbYtIS4WMOpw==
+next@^9.1.1:
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/next/-/next-9.1.1.tgz#bede2e834548020bc4d3be0c46e3ed7edaac6d14"
+  integrity sha512-++jiUA1GN/dOqe6+oLT78rdrRnPmf5yHUbug1tdZBYeQ6HE+ypDIeVelmCmyGx+JDNB3TcxNx5R2+D/Cbrwnng==
   dependencies:
     "@ampproject/toolbox-optimizer" "1.0.1"
     "@babel/core" "7.4.5"
@@ -9419,6 +9419,11 @@ normalize-url@1.9.1:
     prepend-http "^1.0.0"
     query-string "^4.1.0"
     sort-keys "^1.0.0"
+
+now-static-build-storybook@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/now-static-build-storybook/-/now-static-build-storybook-0.1.0.tgz#894ba61ffe83e863a844eaf837aa9cef8ec3a00a"
+  integrity sha512-3w0HIdkJtkUi0RkGUlg0+E8irrNaCPBLrFoIo6KbCe5v61e2BVyN68Z8vgQWVE/81M46JjtGBThUq/pdkgW6uQ==
 
 npm-bundled@^1.0.1:
   version "1.0.6"

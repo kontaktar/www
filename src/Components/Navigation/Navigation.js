@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "../Button";
-import styles from "./NavigationBar.module.scss";
+import styles from "./Navigation.module.scss";
 
-const NavigationBar = ({ isOpen = false }) => {
+const Navigation = ({ isOpen = false }) => {
   return (
     <div className={styles.navigation_bar} id="navi">
       <Button.Navigation compact={!isOpen} />
@@ -14,11 +14,11 @@ const NavigationBar = ({ isOpen = false }) => {
   );
 };
 
-export default NavigationBar;
+export default Navigation;
 
-NavigationBar.propTypes = {
+Navigation.propTypes = {
   className: PropTypes.string
 };
-NavigationBar.defaultProps = {
+Navigation.defaultProps = {
   className: ""
 };
