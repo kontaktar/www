@@ -8,6 +8,7 @@
     "dev": "NODE_ENV=development next src",
     "start": "next start -p 8000",
     "generate": "yarn hygen generator",
+    "now-build": "next build src",
     "test": "jest --json --outputFile=.jest-test-results.json",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "storybook:build": "build-storybook -o dist/storybook"
