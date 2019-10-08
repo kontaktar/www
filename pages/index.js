@@ -3,8 +3,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import fetch from "isomorphic-unfetch";
 import Link from "next/link";
-import { Button } from "../components";
-import { MainLayout, SearchContainer } from "../layouts";
+import { Button } from "../src/components";
+import { MainLayout, SearchContainer } from "../src/layouts";
 
 const handleClick = () => {
   return <Link href="/login" prefetch />;

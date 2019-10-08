@@ -1,5 +1,11 @@
 {
   "version": 2,
-  "builds": [{ "src": "package.json", "use": "@now/next" }],
+  "builds": [
+    { "src": "package.json", "use": "@now/next" },
+    {
+      "src": ".storybook/config.js",
+      "use": "now-static-build-storybook"
+    }
+  ],
   "alias": ["kontaktar"]
 }

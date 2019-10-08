@@ -4,14 +4,15 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "next build src",
-    "dev": "NODE_ENV=development next src",
+    "build": "next build",
+    "dev": "NODE_ENV=development next",
     "start": "next start -p 8000",
     "generate": "yarn hygen generator",
-    "now-build": "next build src",
+    "now-build": "next build",
+    "now-build-storybook": "build-storybook -o dist/storybook",
     "test": "jest --json --outputFile=.jest-test-results.json",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "storybook:build": "build-storybook -o dist/storybook"
+    "storybook:build": "build-storybook"
   },
   "author": "",
   "license": "ISC",
