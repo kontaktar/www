@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
 import Downshift from "downshift";
-import { Card } from "components";
+import { Card, SearchBar } from "components";
 import { CardContainer } from "layouts";
 import users from "../../data/all-users-mock";
 import styles from "./SearchContainer.module.scss";
@@ -63,9 +63,13 @@ const SearchContainer = () => {
         return (
           <div className={styles.root}>
             <div className={styles.search_bar}>
-              <label {...getLabelProps()}>Leitarvél</label>{" "}
+              <SearchBar
+                downshiftLabelProps={getLabelProps()}
+                downshiftInputProps={getInputProps()}
+              />
+              {/* <label downshiftLabelProps={getLabelProps}>Leitarvél</label>{" "}
               {/* TODO: hide label but make visable for screen readers */}
-              <input {...getInputProps()} />
+              {/* <input downshiftInputProps={getInputProps} /> */}
             </div>
             <CardContainer {...getMenuProps()}>
               {allMatchingCards.length > 0 ? (

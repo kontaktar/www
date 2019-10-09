@@ -9,7 +9,6 @@ const withFonts = require("next-fonts");
 
 module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
   target: "serverless",
-  // distDir: "src/.next",
   // publicRuntimeConfig: false,
   ssr: true,
   env: {

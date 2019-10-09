@@ -2,13 +2,11 @@
   "name": "speztorg",
   "version": "0.0.1",
   "description": "",
-  "main": "dist/index.js",
   "scripts": {
-    "build": "next build",
+    "build": "next build && build-storybook -c .storybook -o public/storybook",
     "dev": "NODE_ENV=development next",
     "start": "next start -p 8000",
     "generate": "yarn hygen generator",
-    "now-build": "next build && build-storybook -o public/storybook",
     "test": "jest --json --outputFile=.jest-test-results.json",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "storybook:build": "build-storybook"

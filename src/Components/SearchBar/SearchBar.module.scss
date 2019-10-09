@@ -2,8 +2,34 @@
 
 .searchbar {
   position: relative;
+  height: 46px;
 
-  // .input {
-  //   width: 100px;
-  // }
+  input {
+    border: none;
+    border-bottom: 1px solid black;
+  }
+
+  .search_icon {
+    position: absolute;
+    border: none;
+    margin: 16px;
+    top: 0;
+    box-sizing: content-box;
+    background-color: white;
+    path {
+      fill: $primary-color;
+      fill-opacity: 1;
+    }
+
+    .clear_icon {
+      display: flex;
+      align-content: center;
+      justify-content: center;
+      height: 100%;
+    }
+  }
+}
+
+.results {
+  padding: 20px 0;
 }

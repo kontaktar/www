@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
+import Link from "next/link";
 // import { style } from "@material-ui/system";
 import { Icon } from "components";
 import styles from "./Button.module.scss";
@@ -22,15 +23,17 @@ const Button = (props) => {
   );
 };
 
-Button.Navigation = ({ compact = false }) => {
+Button.Navigation = ({ compact = false, title, url }) => {
   return (
-    <Button className={`${styles.navigation} ${compact && styles.compact}`}>
-      <Icon className={styles.navigation_icon} name="user-profile" />
-      <p>
-        {/* <div className={styles.icon}>.</div> */}
-        title
-      </p>
-    </Button>
+    <Link href={url}>
+      <Button className={`${styles.navigation} ${compact && styles.compact}`}>
+        <Icon className={styles.navigation_icon} name="user-profile" />
+        <p>
+          {/* <div className={styles.icon}>.</div> */}
+          {title}
+        </p>
+      </Button>
+    </Link>
   );
 };
 export default Button;

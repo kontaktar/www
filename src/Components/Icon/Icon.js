@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import SvgUser from "assets/icons/SvgUser";
 import SvgSearch from "assets/icons/SvgSearch";
+import SvgClose from "assets/icons/SvgClose";
 import styles from "./Icon.module.scss";
 
 const Icon = ({ className, name }) => {
@@ -10,6 +11,7 @@ const Icon = ({ className, name }) => {
     <div className={`${className} ${styles.icon}`}>
       {name === "user-profile" && <SvgUser />}
       {name === "search" && <SvgSearch />}
+      {name === "close" && <SvgClose />}
     </div>
   );
 };

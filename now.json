@@ -4,12 +4,7 @@
     {
       "src": "package.json",
       "use": "@now/next"
-    },
-    {
-      "src": ".storybook/config.js",
-      "use": "@now/static"
     }
   ],
-  "routes": [{ "src": "/storybook", "dest": "public/storybook/index.html" }],
   "alias": ["kontaktar"]
 }

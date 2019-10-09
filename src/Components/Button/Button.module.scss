@@ -109,10 +109,23 @@
 
 .search {
   position: absolute;
-  top: 0;
-  right: 0;
+  border: none;
+  top: 2px;
+  right: 1px;
   box-sizing: content-box;
   background-color: white;
+  width: 40px;
+  height: 99%;
 
   width: 40px;
+  &:hover {
+    border: none;
+    path {
+      fill: black;
+      fill-opacity: 1;
+    }
+  }
+  // &:active {
+  //   border: none;
+  // }
 }

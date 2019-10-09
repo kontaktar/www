@@ -3,13 +3,39 @@ import PropTypes from "prop-types";
 import Button from "../Button";
 import styles from "./Navigation.module.scss";
 
+const routes = [
+  {
+    url: "/search",
+    title: "Leit"
+  },
+  {
+    url: "/profile",
+    title: "Profile"
+  },
+  {
+    url: "/",
+    title: "Title"
+  },
+  {
+    url: "/",
+    title: "Title"
+  },
+  {
+    url: "/",
+    title: "Title"
+  }
+];
+
 const Navigation = ({ isOpen }) => {
   return (
     <div className={styles.navigation_bar} id="navi">
-      <Button.Navigation compact={!isOpen} />
-      <Button.Navigation compact={!isOpen} />
-      <Button.Navigation compact={!isOpen} />
-      <Button.Navigation compact={!isOpen} />
+      {routes.map((route) => (
+        <Button.Navigation
+          compact={!isOpen}
+          title={route.title}
+          url={route.url}
+        />
+      ))}
     </div>
   );
 };
