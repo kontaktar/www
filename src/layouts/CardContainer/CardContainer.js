@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./CardContainer.module.scss";
 
-const CardContainer = ({ children, ...props }) => {
+const CardContainer = ({ children, downshiftMenuProps, ...props }) => {
   return (
-    <div className={styles.card_container} {...props}>
+    <div className={styles.card_container} {...downshiftMenuProps}>
       {children}
     </div>
   );

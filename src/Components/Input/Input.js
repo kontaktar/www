@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
 import cx from "classnames";
 import PropTypes from "prop-types";
@@ -37,6 +38,8 @@ export default Input;
 
 Input.propTypes = {
   className: PropTypes.string,
+  downshiftLabelProps: PropTypes.object,
+  downshiftInputProps: PropTypes.object,
   error: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -45,6 +48,8 @@ Input.propTypes = {
 };
 Input.defaultProps = {
   className: "",
+  downshiftLabelProps: {},
+  downshiftInputProps: {},
   error: undefined,
   label: undefined,
   placeholder: undefined,

@@ -67,11 +67,9 @@ const SearchContainer = () => {
                 downshiftLabelProps={getLabelProps()}
                 downshiftInputProps={getInputProps()}
               />
-              {/* <label downshiftLabelProps={getLabelProps}>Leitarvél</label>{" "}
               {/* TODO: hide label but make visable for screen readers */}
-              {/* <input downshiftInputProps={getInputProps} /> */}
             </div>
-            <CardContainer {...getMenuProps()}>
+            <CardContainer downshiftMenuProps={getMenuProps()}>
               {allMatchingCards.length > 0 ? (
                 allMatchingCards
               ) : (
