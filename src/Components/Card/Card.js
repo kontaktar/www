@@ -14,9 +14,12 @@ import EmailIcon from "@material-ui/icons/Email";
 import styles from "./Card.module.scss";
 
 const Card = (props) => {
-  const { description, name, style } = props;
+  const { description, editMode, name, style } = props;
   return (
-    <MuiCard className={styles.card} style={style}>
+    <MuiCard
+      className={`${styles.card} ${editMode && styles.edit_mode}`}
+      style={style}
+    >
       <CardActionArea className={styles.card_area}>
         <CardContent className={styles.card_content}>
           <Typography variant="h5" component="h2">
@@ -29,6 +32,7 @@ const Card = (props) => {
           >
             {description}
           </Typography>
+          {editMode ? <input></input> : "text"}
           <PhoneIcon />
           <EmailIcon />
         </CardContent>

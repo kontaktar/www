@@ -18,12 +18,15 @@ const SearchContainer = () => {
         const matchingDescription = experience.description
           .toLowerCase()
           .includes(inputValue.toLowerCase());
-        if (matchingDescription) {
+        const matchingQualification = experience.qualification
+          .toLowerCase()
+          .includes(inputValue.toLowerCase());
+        if (matchingDescription || matchingQualification) {
           setExperienceId(i);
         }
-        return matchingDescription || null;
+        return matchingDescription || matchingQualification || null;
       });
-      // TODO: add user.ability.find
+
       return !inputValue || isMatchingUsername || isMatchingExperience;
     });
   };

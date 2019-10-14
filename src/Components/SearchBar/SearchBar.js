@@ -7,7 +7,7 @@ const SearchBar = ({ ...props }) => {
   return (
     <div className={styles.searchbar}>
       <Icon className={styles.search_icon} name="search" />
-      <Input {...props} className={styles.input} />
+      <Input id="searchbar" {...props} className={styles.input} />
       <Button modifier={["search"]}>
         <Icon className={styles.clear_icon} name="close" />
       </Button>

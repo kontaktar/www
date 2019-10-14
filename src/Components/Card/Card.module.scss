@@ -32,3 +32,9 @@
   display: flex;
   flex-direction: column;
 }
+
+.edit_mode {
+  .card_content {
+    cursor: grab;
+  }
+}

@@ -7,6 +7,7 @@ export default [
         id: "0",
         order: "0",
         description: "Jón pípari",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -16,6 +17,7 @@ export default [
         id: "1",
         order: "1",
         description: "Jón saumari",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -31,6 +33,7 @@ export default [
         id: "2",
         order: "0",
         description: "Ég er rosalega góð mamma",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -46,6 +49,7 @@ export default [
         id: "4",
         order: "0",
         description: "Ég geri vefi í React með Next.js",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -55,6 +59,7 @@ export default [
         id: "5",
         order: "1",
         description: "Ég geri stundum tónlist",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -71,6 +76,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -81,6 +87,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -97,6 +104,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -107,6 +115,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -123,6 +132,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -133,6 +143,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -149,6 +160,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -159,6 +171,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -175,6 +188,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -185,6 +199,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -201,6 +216,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -211,6 +227,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -227,6 +244,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -237,6 +255,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -253,6 +272,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -263,6 +283,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"
@@ -279,6 +300,7 @@ export default [
         order: "0",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "2",
           months: "2"
@@ -289,6 +311,7 @@ export default [
         order: "1",
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
+        qualification: "qualification",
         length: {
           years: "1",
           months: "12"

@@ -18,6 +18,7 @@ const mockItems = [
 const SortableItem = sortableElement(({ cardContent }) => {
   return (
     <Card
+      editMode
       index
       item="users"
       description="description"
@@ -38,7 +39,9 @@ const DragableCardContainer = ({ items }) => {
   items = mockItems;
   const [arrangement, setArrangement] = useState(items);
   const onChange = ({ oldIndex, newIndex }) => {
-    setArrangement(arrayMove(items, oldIndex, newIndex));
+    // eslint-disable-next-line no-unused-expressions
+    oldIndex !== newIndex &&
+      setArrangement(arrayMove(items, oldIndex, newIndex));
   };
 
   return (
