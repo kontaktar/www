@@ -1,6 +1,6 @@
 @import "../../styles/config";
 
-.card_container {
+.cards_container {
   flex-grow: 1;
   padding: 20px;
 
@@ -10,7 +10,7 @@
   flex-wrap: wrap;
   align-content: space-around;
 
-  div {
+  > div {
     margin: 20px;
   }
 }

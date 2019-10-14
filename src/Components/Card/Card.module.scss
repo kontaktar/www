@@ -23,39 +23,12 @@
   }
 }
 
-// CardContent
+.card_area {
+  height: 100%;
+}
+
 .card_content {
-  padding: 20px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-
-  .paragraph {
-    order: 1;
-    font-size: $font-size-paragraph;
-    max-height: 189px;
-    overflow: hidden;
-    // @include font-paragraph;
-  }
-  .signature {
-    order: 2; // Keyboard navigation should get signature information first.
-    letter-spacing: -1px;
-    margin-top: 12px;
-    display: flex;
-    align-self: flex-end;
-    font-style: italic;
-    max-height: 40px;
-    overflow: hidden;
-    font-family: neue-haas-grotesk-display, sans-serif;
-    font-style: normal;
-    font-weight: 100;
-    // @include font-paragraph;
-    font-weight: 600;
-
-    .icon {
-      min-width: 40px;
-      max-width: 40px;
-      min-height: 40px;
-      margin-right: 12px;
-    }
-  }
 }

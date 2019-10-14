@@ -1,9 +1,8 @@
-
 import { shallow } from "enzyme";
 import React from "react";
 import renderer from "react-test-renderer";
 
-import CardContainer from "./CardContainer";
+import CardContainer from "./CardsContainer";
 
 describe("With Enzyme", () => {
   it('component shows "Hello world!"', () => {

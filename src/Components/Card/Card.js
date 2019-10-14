@@ -17,8 +17,8 @@ const Card = (props) => {
   const { description, name, style } = props;
   return (
     <MuiCard className={styles.card} style={style}>
-      <CardActionArea>
-        <CardContent>
+      <CardActionArea className={styles.card_area}>
+        <CardContent className={styles.card_content}>
           <Typography variant="h5" component="h2">
             {name}
           </Typography>

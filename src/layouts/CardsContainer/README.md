@@ -1,5 +1,5 @@
 ```js
-import { CardContainer } from "layouts";
+import { CardsContainer } from "layouts";
 ```
 
 Here will be the documentation for this component

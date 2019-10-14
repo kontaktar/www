@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import arrayMove from "array-move";
 import PropTypes from "prop-types";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { Card } from "components";
-import { CardContainer } from "layouts";
+import { CardsContainer } from "layouts";
 import styles from "./DragableCardContainer.module.scss";
 
 const mockItems = [
@@ -28,28 +29,22 @@ const SortableItem = sortableElement(({ cardContent }) => {
 const SortableContainer = sortableContainer(({ children }) => {
   return (
     <>
-      <CardContainer>{children}</CardContainer>
+      <CardsContainer>{children}</CardsContainer>
     </>
   );
 });
 const DragableCardContainer = ({ items }) => {
   // eslint-disable-next-line no-param-reassign
   items = mockItems;
-  // const [arrangement, setArrangement] = useState(items);
+  const [arrangement, setArrangement] = useState(items);
   const onChange = ({ oldIndex, newIndex }) => {
-    // eslint-disable-next-line no-console
-    console.log(oldIndex, newIndex);
-    // TODO: setum arrayMove og vista state á dragable
-    // this.setState(({items}) => ({
-    //   items: arrayMove(items, oldIndex, newIndex),
-    // }));
+    setArrangement(arrayMove(items, oldIndex, newIndex));
   };
 
   return (
     <div className={styles.dragablecardcontainer}>
       <SortableContainer axis="xy" onSortEnd={onChange}>
-        {items.map((value, index) => (
-          // eslint-disable-next-line react/no-array-index-key
+        {arrangement.map((value, index) => (
           <SortableItem
             // eslint-disable-next-line react/no-array-index-key
             key={`item-${index}`}
