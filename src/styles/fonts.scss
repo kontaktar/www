@@ -17,6 +17,24 @@
 }
 
 @font-face {
+  font-family: "Berlingske Sans Bold";
+  // IE9
+  src: url("../../styles/fonts/BerlingskeSansBold.eot");
+  // IE6-IE8
+  src: url("../../styles/fonts/BerlingskeSansBold.eot?#iefix")
+      format("embedded-opentype"),
+    // chrome firefox
+      url("../../styles/fonts/BerlingskeSansBold.woff2") format("woff2"),
+    // chrome firefox
+      url("../../styles/fonts/BerlingskeSansBold.woff") format("woff"),
+    //chrome firefox opera Safari, Android, iOS 4.2
+      url("../../styles/fonts/BerlingskeSansBold.ttf") format("truetype"),
+    // iOS 4.1-
+      url("../../styles/fonts/BerlingskeSansBold.svg#BerlingskeSansBold")
+      format("svg");
+}
+
+@font-face {
   font-family: "Berlingske Serif";
   // IE9
   src: url("../../styles/fonts/BerlingskeSerif.eot");

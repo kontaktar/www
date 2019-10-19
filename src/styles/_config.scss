@@ -8,7 +8,8 @@ $color-black-60: rgba(0, 0, 0, 0.3);
 
 $color-paper-white: #f3f3f3;
 
-$paragraph-color: $color-black;
+$secondary-black-color: rgba(0, 0, 0, 0.8);
+$paragraph-color: rgba(0, 0, 0, 0.9);
 $paragraph-inverted-color: $color-white;
 $primary-color: $color-red;
 $secondary-color: $color-brown;
@@ -21,9 +22,10 @@ $font-size-paragraph: 16px;
   padding: 0;
   color: $paragraph-color;
   // background: $background;
-  font-family: "Berlingske Sans" !important;
+  font-family: "Berlingske Sans";
   font-size: 16px;
   font-style: normal;
+  letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;

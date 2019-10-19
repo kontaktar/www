@@ -1,0 +1,20 @@
+@import "../../styles/config";
+
+.root {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  // .navigation_drawer {
+  // }
+  .main_content {
+    flex-grow: 1;
+  }
+  // .navigation_drawer {
+  //   height: 100vh;
+  // }
+  .main_content {
+    padding-left: 275px;
+  }
+  // .profile_drawer {
+  // }
+}

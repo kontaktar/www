@@ -2,22 +2,21 @@ import React from "react";
 
 import PropTypes from "prop-types";
 import fetch from "isomorphic-unfetch";
-import Link from "next/link";
-import { Button } from "components";
-import { MainLayout } from "layouts";
+// import Link from "next/link";
+import { FrontPageContainer, MainLayout } from "layouts";
 
-const handleClick = () => {
-  return <Link href="/login" prefetch />;
-};
+// const handleClick = () => {
+//   return <Link href="/login" prefetch />;
+// };
 const LandingPage = ({ user, status }) => (
   <MainLayout>
-    <Link href="/login">
-      {/* <a>Innskráning</a> */}
+    <FrontPageContainer />
+    {/* <Link href="/login">
       <Button onClick={handleClick}>Innskráning</Button>
-    </Link>
+    </Link> */}
     {/* http://localhost:3000/?id=1 */}
 
-    {status === 200 ? <p>{user.name}</p> : null}
+    {/* {status === 200 ? <p>{user.name}</p> : null} */}
   </MainLayout>
 );
 

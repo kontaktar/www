@@ -1,11 +1,11 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 // import { action } from "@storybook/addon-actions";
-import { SearchContainer } from "layouts";
+import { FrontPageContainer } from "layouts";
 import MainLayout from "./MainLayout";
 import MainLayoutReadme from "./README.md";
 
-storiesOf("Layouts/MainLayout", module)
+storiesOf("Layouts", module)
   .addParameters({
     jest: ["MainLayout.test"],
     readme: {
@@ -13,8 +13,8 @@ storiesOf("Layouts/MainLayout", module)
       includePropTables: [MainLayout]
     }
   })
-  .add("SearchLayout", () => (
+  .add("MainLayout", () => (
     <MainLayout>
-      <SearchContainer />
+      <FrontPageContainer />
     </MainLayout>
   ));

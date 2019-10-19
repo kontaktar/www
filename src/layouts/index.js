@@ -4,3 +4,5 @@ export { default as SearchContainer } from "./SearchContainer";
 export { default as ProfileContainer } from "./ProfileContainer";
 export { default as DragableCardContainer } from "./DragableCardContainer";
 export { default as CardsContainer } from "./CardsContainer";
+export { default as UserLayout } from "./UserLayout";
+export { default as FrontPageContainer } from "./FrontPageContainer";

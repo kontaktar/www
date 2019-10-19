@@ -15,7 +15,7 @@ storiesOf("Components", module)
   })
   .add("Navigation", () => (
     <Navigation
-      disabled={boolean("Disabled", false)}
+      isOpen={boolean("open", true)}
       onClick={action("Navigation-clicked")}
     >
       {text("Label", "This is a Navigation")}

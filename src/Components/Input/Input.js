@@ -21,7 +21,9 @@ const Input = ({
         {...downshiftLabelProps}
         className={cx({ [styles.error]: error })}
       >
-        <span className={styles.label}>{error || label}</span>
+        {label && (
+          <span className={label && styles.label}>{error || label}</span>
+        )}
         <input
           {...downshiftInputProps}
           type="text"

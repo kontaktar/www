@@ -1,6 +1,7 @@
 @import "../../styles/config";
 
 .input_wrapper {
+  margin-bottom: 0px;
   .label {
     display: block;
     margin-bottom: 25px;
@@ -17,6 +18,7 @@
     padding-left: 50px;
     &::placeholder {
       color: $color-black-60;
+      font-size: 32px;
     }
   }
 }

@@ -11,6 +11,7 @@ const SearchContainer = () => {
 
   const matchingCardContent = (inputValue, allUsers) => {
     return allUsers.filter((user) => {
+      console.log(user);
       const isMatchingUsername = user.name
         .toLowerCase()
         .includes(inputValue.toLowerCase());

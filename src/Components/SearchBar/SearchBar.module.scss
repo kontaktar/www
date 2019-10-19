@@ -3,6 +3,8 @@
 .searchbar {
   position: relative;
   height: 46px;
+  line-height: 0px;
+  // box-sizing: border-box;
 
   input {
     border: none;
@@ -12,7 +14,8 @@
   .search_icon {
     position: absolute;
     border: none;
-    margin: 16px;
+    margin-top: 2px;
+    margin-left: 4px;
     top: 0;
     box-sizing: content-box;
     background-color: white;

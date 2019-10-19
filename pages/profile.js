@@ -6,13 +6,13 @@ import PropTypes from "prop-types";
 import fetch from "isomorphic-unfetch";
 import nextCookie from "next-cookies";
 import { logout, withAuth } from "utils/auth";
-import { MainLayout } from "layouts";
+import { UserLayout } from "layouts";
 
 const Profile = (props) => {
   const { name, bio } = props;
 
   return (
-    <MainLayout>
+    <UserLayout>
       <h1>{name}</h1>
       <p>{bio}</p>
       <button type="submit" onClick={logout}>
@@ -36,7 +36,7 @@ const Profile = (props) => {
           color: #6a737d;
         }
       `}</style>
-    </MainLayout>
+    </UserLayout>
   );
 };
 

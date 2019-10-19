@@ -32,6 +32,15 @@ storiesOf("Components", module)
       >
         {text("Label", "This is a button")}
       </Button>
+      <p>Inverted modifier</p>
+      <Button
+        id="button2"
+        disabled={boolean("Disabled", false)}
+        onClick={action("button-clicked")}
+        modifier={["inverted"]}
+      >
+        {text("Label", "This is a button")}
+      </Button>
       <p>Disabled</p>
       <Button id="button2" disabled onClick={action("button-clicked")}>
         {text("Label", "This is a button")}

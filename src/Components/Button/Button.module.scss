@@ -1,19 +1,20 @@
 @import "../../styles/config";
 
 .button {
-  height: 48px;
+  height: 50px;
   width: 202px;
 
   background-color: $primary-color;
+  border-color: $primary-color;
   color: $color-white;
 
-  font-display: swap;
-  font-size: 16px;
-  // font-family: Berlingske Sans;
-  // font-weight: 600;
+  font-size: 18px;
+  font-family: "Berlingske Sans Bold";
+  font-weight: 600;
   line-height: 144%;
   text-align: center;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  font-style: bold;
 
   &:hover {
     background-color: $color-white;
@@ -38,6 +39,7 @@
   clear: both;
 }
 .navigation {
+  font-size: 16px;
   height: 24px;
   background-color: white;
   display: flex;
@@ -51,7 +53,7 @@
     color: gray;
     padding-top: 4px;
     line-height: normal;
-    font-weight: 600;
+    font-family: "Berlingske Sans Bold";
     margin-left: 0px;
     transition: margin 0.3s ease;
   }
@@ -98,15 +100,28 @@
   border-radius: 24px;
 }
 .inverted {
-  background-color: $primary-color;
-  color: $paragraph-inverted-color;
+  background-color: $color-white;
+  color: $primary-color;
+  border-color: $primary-color;
+  border-image: none;
+  // border-bottom-color: $color-white;
   &:hover {
-    // TODO: add finger pointer
-    background-color: $color-white;
-    color: $paragraph-color;
+    cursor: pointer;
+    background-color: $primary-color;
+    color: $color-white;
   }
 }
-
+.borderless {
+  border: none;
+  color: $paragraph-color;
+  background-color: $color-white;
+  width: 100px;
+  margin: 0 10px;
+  &:hover {
+    cursor: pointer;
+    border: none;
+  }
+}
 .search {
   position: absolute;
   border: none;
@@ -115,7 +130,7 @@
   box-sizing: content-box;
   background-color: white;
   width: 40px;
-  height: 99%;
+  height: 46px;
 
   width: 40px;
   &:hover {

@@ -59,7 +59,9 @@ Button.propTypes = {
   /**
    * Modifiers available: '', 'pill', 'inverted'.
    */
-  modifier: PropTypes.arrayOf(PropTypes.oneOf(["", "pill", "inverted"]))
+  modifier: PropTypes.arrayOf(
+    PropTypes.oneOf(["", "pill", "inverted", "borderless"])
+  )
 };
 
 Button.defaultProps = {

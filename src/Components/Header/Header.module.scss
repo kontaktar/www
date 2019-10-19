@@ -1,8 +1,22 @@
 @import "../../styles/config";
 
 .header {
-  // display: flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   background-color: $color-white;
-  height: 100px;
-  border-bottom: 2px solid $color-red;
+  padding: 50px 90px;
+
+  * {
+    font-family: "Berlingske Sans Bold";
+  }
+}
+
+.logo_area {
+  flex-grow: 1;
+}
+
+.login {
+  margin-left: 40px;
 }

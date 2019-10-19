@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Navigation } from "components";
+import { Logo, Navigation } from "components";
 import styles from "./Drawer.module.scss";
 
 const Drawer = ({ open, rightSide }) => {
@@ -51,12 +51,7 @@ Drawer.Navigation = ({ isOpen }) => {
   return (
     <>
       <div className={styles.top_section}>
-        <div className={styles.logo}>
-          <h1>K</h1>
-        </div>
-        <div className={styles.title}>
-          <h2>Kontaktar</h2>
-        </div>
+        {isOpen ? <Logo withTitle /> : <Logo />}
       </div>
       <Navigation isOpen={isOpen} />
     </>

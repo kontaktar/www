@@ -32,18 +32,8 @@
 .top_section {
   display: flex;
   flex-direction: row;
-}
-.logo {
-  h1 {
-    font-family: "Berlingske Serif" !important;
-    height: 50px;
-    min-width: 50px;
-    text-align: center;
-    padding-top: 10px;
-    color: white;
-    font-size: 40px;
-    background-color: $primary-color;
-    margin: 0;
+  h2 {
+    font-size: 16px;
   }
 }
 
