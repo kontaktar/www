@@ -12,7 +12,7 @@ module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
   // publicRuntimeConfig: false,
   ssr: true,
   env: {
-    API_URL: process.env.API_URL || "http://localhost:3000"
+    // BASE_URL: process.env.API_URL || "http://localhost:3000"
   },
   enableSvg: true,
   cssModules: true,
