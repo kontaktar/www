@@ -6,5 +6,6 @@
       "use": "@now/next@canary"
     }
   ],
+  "routes": [{ "src": "/storybook", "dest": "public/storybook/index.html" }],
   "alias": ["kontaktar2"]
 }
