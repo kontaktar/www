@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "www",
   "builds": [
     {
       "src": "package.json",
@@ -12,5 +13,5 @@
       "dest": "public/storybook/"
     }
   ],
-  "alias": ["kontaktar2"]
+  "alias": ["dev.kontaktar.now.sh"]
 }

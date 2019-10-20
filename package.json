@@ -74,6 +74,7 @@
     "jest": "^24.8.0",
     "node-sass": "^4.11.0",
     "prettier": "^1.16.4",
+    "pure-react-carousel": "^1.23.0",
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "^16.8.6",
     "sass-loader": "^7.1.0",
