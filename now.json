@@ -3,8 +3,14 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@now/next"
+      "use": "@now/next@canary"
     }
   ],
-  "alias": ["kontaktar"]
+  "routes": [
+    {
+      "src": "/storybook",
+      "dest": "public/storybook/"
+    }
+  ],
+  "alias": ["kontaktar2"]
 }

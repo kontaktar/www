@@ -8,7 +8,7 @@ import fetch from "isomorphic-unfetch";
 // SEE: https://github.com/whoisryosuke/nextjs-oauth2-cookie-auth/blob/master/utils/AuthService.js
 const TOKEN_NAME = "spez_user_token";
 async function login({ username }) {
-  const url = `${process.env.API_URL}/api/login`;
+  const url = `/api/login`;
   try {
     const response = await fetch(url, {
       method: "POST",
