@@ -2,9 +2,9 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
-      "use": "@now/next"
+      "src": "next.config.js",
+      "use": "@now/next@canary"
     }
   ],
-  "alias": ["kontaktar"]
+  "alias": ["kontaktar2"]
 }
