@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, SearchBar } from "components";
+import { Button, Carousel, SearchBar } from "components";
 import styles from "./FrontPageContainer.module.scss";
 
 const FrontPageContainer = () => {
@@ -20,7 +20,9 @@ const FrontPageContainer = () => {
             ></SearchBar>
             <Button className={styles.search_button}>Leita</Button>
           </div>
-          <div className={styles.carousel_section}>Carousel</div>
+        </div>
+        <div className={styles.carousel_section}>
+          <Carousel></Carousel>
         </div>
       </div>
     </div>

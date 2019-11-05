@@ -1,0 +1,30 @@
+@import "../../styles/config";
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  background-color: red;
+
+  .slide {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    height: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+}
+
+// .carousel_header {
+//   display: flex;
+//   flex-direction: row;
+//   h3 {
+//     flex-grow: 1;
+//   }
+// }
+.slider {
+  display: flex;
+  flex-direction: row;
+}
