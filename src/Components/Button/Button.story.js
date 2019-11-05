@@ -47,5 +47,33 @@ storiesOf("Components", module)
       </Button>
       <Button.Navigation />
       <Button.Navigation compact />
+      <p>Rectangle modifier</p>
+      <Button
+        id="button2"
+        disabled={boolean("Disabled", false)}
+        onClick={action("button-clicked")}
+        modifier={["rectangle"]}
+      />
+      <p>Rectangle and inverted modifier</p>
+      <Button
+        id="button2"
+        disabled={boolean("Disabled", false)}
+        onClick={action("button-clicked")}
+        modifier={["rectangle", "inverted"]}
+      />
+      <p>CarouseleNavi next</p>
+      <Button.CarouselNavi
+        id="button2"
+        direction="next"
+        disabled={boolean("Disabled", false)}
+        onClick={action("button-clicked")}
+      />
+      <p>CarouseleNavi back</p>
+      <Button.CarouselNavi
+        id="button2"
+        direction="back"
+        disabled={boolean("Disabled", false)}
+        onClick={action("button-clicked")}
+      />
     </div>
   ));

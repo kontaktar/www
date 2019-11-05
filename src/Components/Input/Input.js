@@ -12,7 +12,8 @@ const Input = ({
   id,
   label,
   placeholder,
-  value
+  value,
+  ...props
 }) => {
   return (
     <div className={styles.input_wrapper}>
@@ -30,6 +31,7 @@ const Input = ({
           id={id}
           placeholder={placeholder}
           value={value}
+          {...props}
         />
       </label>
     </div>

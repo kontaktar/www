@@ -16,7 +16,9 @@
   letter-spacing: 0.01em;
   font-style: bold;
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     background-color: $color-white;
     border: 1px solid $primary-color;
     color: $primary-color;
@@ -105,7 +107,9 @@
   border-color: $primary-color;
   border-image: none;
   // border-bottom-color: $color-white;
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     cursor: pointer;
     background-color: $primary-color;
     color: $color-white;
@@ -117,7 +121,9 @@
   background-color: $color-white;
   width: 100px;
   margin: 0 10px;
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     cursor: pointer;
     border: none;
   }
@@ -133,7 +139,9 @@
   height: 46px;
 
   width: 40px;
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     border: none;
     path {
       fill: black;
@@ -143,4 +151,34 @@
   // &:active {
   //   border: none;
   // }
+}
+
+.rectangle {
+  height: 67px;
+  width: 67px;
+}
+
+.carousel_navi {
+  .back {
+    transform: rotate(90deg);
+    * {
+      fill: $primary-color;
+    }
+  }
+  .next {
+    transform: rotate(270deg);
+    * {
+      fill: white;
+    }
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    .back * {
+      fill: white;
+    }
+    .next * {
+      fill: $primary-color;
+    }
+  }
 }

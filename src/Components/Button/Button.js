@@ -36,7 +36,6 @@ Button.Navigation = ({ compact = false, title, url }) => {
     </Link>
   );
 };
-export default Button;
 
 Button.Search = () => {
   return (
@@ -45,6 +44,25 @@ Button.Search = () => {
     </Button>
   );
 };
+
+Button.CarouselNavi = ({ direction, className, ...props }) => {
+  const modifers =
+    direction === "next" ? ["rectangle"] : ["rectangle", "inverted"];
+  return (
+    <Button
+      className={`${styles.carousel_navi} ${className}`}
+      modifier={modifers}
+      {...props}
+    >
+      <Icon
+        className={`${direction === "next" ? styles.next : styles.back}`}
+        name="arrow"
+      />
+    </Button>
+  );
+};
+
+export default Button;
 
 Button.propTypes = {
   /**
@@ -60,7 +78,7 @@ Button.propTypes = {
    * Modifiers available: '', 'pill', 'inverted'.
    */
   modifier: PropTypes.arrayOf(
-    PropTypes.oneOf(["", "pill", "inverted", "borderless"])
+    PropTypes.oneOf(["", "pill", "inverted", "borderless", "rectangle"])
   )
 };
 
