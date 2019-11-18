@@ -21,9 +21,7 @@ storiesOf("Components", module)
           label={text("Label", "Name")}
           onClick={action("Input-clicked")}
           placeholder={text("Placeholder", "Hvað heitir þú?")}
-        >
-          {text("Label", "This is a Input")}
-        </Input>
+        />
       </div>
       <div style={{ padding: "20px" }}>
         <Input
@@ -32,9 +30,7 @@ storiesOf("Components", module)
           onClick={action("Input-clicked")}
           placeholder="Your name please"
           value="1337Njálgur"
-        >
-          {text("Label", "This is a Input")}
-        </Input>
+        />
       </div>
       <div style={{ padding: "20px" }}>
         <Input
@@ -43,9 +39,7 @@ storiesOf("Components", module)
         // onClick={action("Input-clicked")}
         // placeholder="Your name please"
         // value="1337Njálgur"
-        >
-          {text("Label", "This is a Input")}
-        </Input>
+        />
       </div>
     </>
   ));

@@ -24,11 +24,11 @@ const settings = [
   }
 ];
 
+// TODO: laga að wraparoun er ekki smooth með custom buttons, virkar fínt með lyklaborði!
 const Carousel = () => {
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [windowSize, setWindowSize] = useState(undefined);
-  const [slideIndex, setSlideIndex] = useState(0);
-  // const [nextStep, setNextStep] = useState(undefined);
+  const [slideIndex, setSlideIndex] = useState();
 
   const onResize = () => {
     const size = window.innerWidth;
@@ -41,11 +41,13 @@ const Carousel = () => {
   onResize();
 
   const next = () => {
-    setSlideIndex(slideIndex + 1 <= 6 ? slideIndex + 1 : 1);
+    // TODO: gera þetta að classa, extenda ControlRenderPropsin til að nota nextSlide
+    setSlideIndex(slideIndex + 1 < 6 ? slideIndex + 1 : 0);
+    // setSlideIndex(nextSlide);
   };
 
   const back = () => {
-    setSlideIndex(slideIndex - 1 > 0 ? slideIndex - 1 : 6);
+    setSlideIndex(slideIndex - 1 >= 0 ? slideIndex - 1 : 5);
   };
 
   return (
@@ -70,33 +72,40 @@ const Carousel = () => {
         wrapAround
         onResize={onResize}
         slideIndex={slideIndex}
-        // goToSlide={4}
+        renderTopLeftControls={({ previousSlide }) => (
+          <Button.CarouselNavi
+            id="lolmao"
+            direction="back"
+            className={styles.lolmao}
+            onClick={previousSlide}
+          />
+        )}
+        // beforeSlide={(currentSlide) => {
+        //   // setNextSlide(currentSlide + 1);
+        //   console.log("currentSlide", currentSlide);
+        //   // console.log("nextSlide", nextSlide);
+        // }}
+        // afterSlide={({ ...props }) => console.log(...props)}
+        // goToSlide={}
         // autoplay
         // withoutControls
-        // renderTopRightControls={({ nextSlide }) => setNextStep(nextSlide()} // prob not going to work
-        // renderTopLeftControls={({ previousSlide }) => (
-        //   <Button.CarouselNavi
-        //     id="carousel_back"
-        //     direction="back"
-        //     onClick={previousSlide}
-        //   />
-        // )}
         cellSpacing={20}
         enableKeyboardControls
         pauseOnHover={false}
         dragging={false}
         swiping
+        transitionMode="scroll"
         // framePadding="500px"
         // frameOverflow="visible"
         // slideWidth={25000}
         slidesToShow={slidesToShow}
       >
-        <Card name={1}>1</Card>
-        <Card name={2}>2</Card>
-        <Card name={3}>3</Card>
-        <Card name={4}>4</Card>
-        <Card name={5}>5</Card>
-        <Card name={6}>6</Card>
+        <Card name={0}>1</Card>
+        <Card name={1}>2</Card>
+        <Card name={2}>3</Card>
+        <Card name={3}>4</Card>
+        <Card name={4}>5</Card>
+        <Card name={5}>6</Card>
       </NukaCarousel>
     </>
   );

@@ -37,10 +37,9 @@ function logout() {
   Router.push("/login");
 }
 
-function isLoggedIn() {
-  // TODO: this is only temporary, actually validate the content of the token.
-  return cookie.get(TOKEN_NAME) !== undefined;
-}
+// TODO: this is only temporary, actually validate the content of the token.
+const isLoggedIn = () => cookie.get(TOKEN_NAME) === "my-token";
+
 // // Gets the display name of a JSX component for dev tools
 const getDisplayName = (component) =>
   component.displayName || component.name || "Component";

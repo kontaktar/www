@@ -53,7 +53,11 @@ const SearchContainer = ({ searchInput }) => {
   };
 
   return (
-    <Downshift defaultIsOpen initialIsOpen initialInputValue={searchInput}>
+    <Downshift
+      defaultIsOpen
+      initialIsOpen
+      initialInputValue={searchInput || ""}
+    >
       {({
         getInputProps,
         getItemProps,

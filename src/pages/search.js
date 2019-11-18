@@ -2,9 +2,18 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
 // import PropTypes from "prop-types";
-import { MainLayout, SearchContainer } from "layouts";
+import { isLoggedIn } from "utils/auth";
+
+import { MainLayout, SearchContainer, UserLayout } from "layouts";
 
 const Search = ({ searchInput }) => {
+  if (isLoggedIn()) {
+    return (
+      <UserLayout>
+        <SearchContainer searchInput={searchInput} />
+      </UserLayout>
+    );
+  }
   return (
     <MainLayout>
       <SearchContainer searchInput={searchInput} />

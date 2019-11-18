@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Link from "next/link";
 import { Button, SearchBar } from "components";
 import styles from "./FrontPageContainer.module.scss";
 
 const FrontPageContainer = () => {
   const [searchInput, setSearchInput] = useState(undefined);
+  const [triggerSearch, setTriggerSearch] = useState(false);
   const onSearchBarInput = (event) => {
     setSearchInput(event.target.value);
+  };
+  const onSearchBarSubmit = (event) => {
+    if (event.key === "Enter") {
+      setTriggerSearch(true);
+    }
+    console.log(triggerSearch);
   };
 
   const onSearchSubmit = () => {
@@ -29,10 +37,14 @@ const FrontPageContainer = () => {
               onChange={onSearchBarInput}
               className={styles.search_bar}
               placeholder="Að hverju ertu að leita?"
+              onKeyDown={onSearchBarSubmit}
             ></SearchBar>
-            <Button className={styles.search_button} onClick={onSearchSubmit}>
-              Leita
-            </Button>
+            {/* TODO: trigger link route onKeyDown === Enter */}
+            <Link href={{ pathname: "/search", query: { searchInput } }}>
+              <Button className={styles.search_button} onClick={onSearchSubmit}>
+                Leita
+              </Button>
+            </Link>
           </div>
           <div className={styles.carousel_section}>Carousel</div>
         </div>
