@@ -7,13 +7,26 @@
     min-width: 250px;
   }
 }
+.carousel div:nth-child(3) {
+  left: 75% !important;
+}
+
+.carousel div:nth-child(4) {
+  right: 85px !important;
+}
+
+.carousel div:nth-child(5),
+div:nth-child(6),
+div:nth-child(7) {
+  display: none;
+}
+
+// .carousel div:nth-child(6) {
+//   display: none;
+// }
 
 .carousel {
   padding-top: 80px;
-
-  .slider-control-topleft {
-    right: 75px;
-  }
 }
 
 .carousel_header {
@@ -24,22 +37,5 @@
     flex-grow: 1;
     font-size: 40px;
     font-family: "Berlingske Serif";
-  }
-  .button_back {
-    margin-right: 10px;
-  }
-  .button_next {
-    margin-right: 70px;
-  }
-}
-
-* {
-  > div.slider-control-topleft {
-    background-color: red;
-    right: 75px;
-  }
-  > .slider-control-topleft {
-    background-color: red;
-    right: 75px;
   }
 }

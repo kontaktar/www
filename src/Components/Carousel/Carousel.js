@@ -42,62 +42,54 @@ const Carousel = () => {
 
   const next = () => {
     // TODO: gera þetta að classa, extenda ControlRenderPropsin til að nota nextSlide
-    setSlideIndex(slideIndex + 1 < 6 ? slideIndex + 1 : 0);
+    // setSlideIndex(slideIndex + 1 < 6 ? slideIndex + 1 : 0);
     // setSlideIndex(nextSlide);
+    // setSlideIndex(slideIndex + 1);
   };
 
   const back = () => {
-    setSlideIndex(slideIndex - 1 >= 0 ? slideIndex - 1 : 5);
+    // setSlideIndex(slideIndex - 1 >= 0 ? slideIndex - 1 : 5);
+    setSlideIndex(slideIndex - 1);
   };
 
   return (
     <>
       <div className={styles.carousel_header}>
         <h3>Nýjustu sérfræðingarnir</h3>
-        <Button.CarouselNavi
+        {/* <Button.CarouselNavi
           id="carousel_back"
           direction="back"
           className={styles.button_back}
           onClick={back}
-        />
-        <Button.CarouselNavi
-          id="carousel_next"
-          direction="next"
-          className={styles.button_next}
-          onClick={next}
-        />
+        /> */}
       </div>
       <NukaCarousel
         className={styles.carousel}
         wrapAround
         onResize={onResize}
         slideIndex={slideIndex}
-        renderTopLeftControls={({ previousSlide }) => (
+        renderTopRightControls={({ nextSlide }) => (
           <Button.CarouselNavi
-            id="lolmao"
+            id="carousel_next"
+            direction="next"
+            className={styles.button_next}
+            onClick={nextSlide}
+          />
+        )}
+        renderTopCenterControls={({ previousSlide }) => (
+          <Button.CarouselNavi
+            id="carousel_back"
             direction="back"
-            className={styles.lolmao}
+            className={styles.button_back}
             onClick={previousSlide}
           />
         )}
-        // beforeSlide={(currentSlide) => {
-        //   // setNextSlide(currentSlide + 1);
-        //   console.log("currentSlide", currentSlide);
-        //   // console.log("nextSlide", nextSlide);
-        // }}
-        // afterSlide={({ ...props }) => console.log(...props)}
-        // goToSlide={}
-        // autoplay
-        // withoutControls
         cellSpacing={20}
-        enableKeyboardControls
+        // enableKeyboardControls
         pauseOnHover={false}
         dragging={false}
         swiping
         transitionMode="scroll"
-        // framePadding="500px"
-        // frameOverflow="visible"
-        // slideWidth={25000}
         slidesToShow={slidesToShow}
       >
         <Card name={0}>1</Card>
