@@ -28,7 +28,7 @@ const settings = [
 const Carousel = () => {
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [windowSize, setWindowSize] = useState(undefined);
-  const [slideIndex, setSlideIndex] = useState();
+  // const [slideIndex, setSlideIndex] = useState();
 
   const onResize = () => {
     const size = window.innerWidth;
@@ -40,17 +40,17 @@ const Carousel = () => {
 
   onResize();
 
-  const next = () => {
-    // TODO: gera þetta að classa, extenda ControlRenderPropsin til að nota nextSlide
-    // setSlideIndex(slideIndex + 1 < 6 ? slideIndex + 1 : 0);
-    // setSlideIndex(nextSlide);
-    // setSlideIndex(slideIndex + 1);
-  };
+  // const next = () => {
+  //   // TODO: gera þetta að classa, extenda ControlRenderPropsin til að nota nextSlide
+  //   // setSlideIndex(slideIndex + 1 < 6 ? slideIndex + 1 : 0);
+  //   // setSlideIndex(nextSlide);
+  //   // setSlideIndex(slideIndex + 1);
+  // };
 
-  const back = () => {
-    // setSlideIndex(slideIndex - 1 >= 0 ? slideIndex - 1 : 5);
-    setSlideIndex(slideIndex - 1);
-  };
+  // const back = () => {
+  //   // setSlideIndex(slideIndex - 1 >= 0 ? slideIndex - 1 : 5);
+  //   setSlideIndex(slideIndex - 1);
+  // };
 
   return (
     <>
@@ -67,7 +67,7 @@ const Carousel = () => {
         className={styles.carousel}
         wrapAround
         onResize={onResize}
-        slideIndex={slideIndex}
+        // slideIndex={slideIndex}
         renderTopRightControls={({ nextSlide }) => (
           <Button.CarouselNavi
             id="carousel_next"
