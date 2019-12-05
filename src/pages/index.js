@@ -26,9 +26,12 @@ LandingPage.getInitialProps = async ({ query, req }) => {
     ? `${protocol}://${window.location.host}`
     : `${protocol}://${req.headers.host}`;
 
-  const response = await fetch(`${baseUrl}/api/users/${query.id}`);
-  const user = await response.json();
-  return { user, status: response.status };
+  if (query.id) {
+    const response = await fetch(`${baseUrl}/api/users/${query.id}`);
+    const user = await response.json();
+    return { user, status: response.status };
+  }
+  return {};
 };
 
 LandingPage.propTypes = {
