@@ -1,5 +1,32 @@
 @import "../../styles/config";
 
-.userprofile {
-  background-color: red;
+.header {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  padding-right: 250px;
+}
+.user_name {
+  display: flex;
+
+  h2 {
+    font-size: 30px;
+    width: 100%;
+  }
+}
+
+.user_information {
+  display: flex;
+  padding-top: 40px;
+  min-height: 80px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 80%;
+  span {
+    line-height: 30px;
+    margin-right: 20px;
+  }
+}
+
+.cards {
+  display: flex;
 }
