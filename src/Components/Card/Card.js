@@ -6,15 +6,22 @@ import MuiCard from "@material-ui/core/Card";
 // import CardActions from "@material-ui/core/CardActions";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
 import PhoneIcon from "@material-ui/icons/Phone";
 import EmailIcon from "@material-ui/icons/Email";
+import { Icon } from "components";
 // import { minHeight } from "@material-ui/system";
 
 import styles from "./Card.module.scss";
 
 const Card = (props) => {
-  const { description, editMode, name, style } = props;
+  const {
+    description,
+    editMode,
+    months,
+    shortDescription,
+    style,
+    years
+  } = props;
   return (
     <MuiCard
       className={`${styles.card} ${editMode && styles.edit_mode}`}
@@ -22,19 +29,16 @@ const Card = (props) => {
     >
       <CardActionArea className={styles.card_area}>
         <CardContent className={styles.card_content}>
-          <Typography variant="h5" component="h2">
-            {name}
-          </Typography>
-          <Typography
-            className={styles.title}
-            color="textSecondary"
-            gutterBottom
-          >
-            {description}
-          </Typography>
-          {editMode ? <input></input> : "text"}
-          <PhoneIcon />
-          <EmailIcon />
+          <span className={styles.title_description}>{shortDescription}</span>
+          <span className={styles.description}>{description}</span>
+
+          {(years || months) && (
+            <span className={styles.length}>
+              <Icon className={styles.clock_icon} name="clock" />
+              <span>{years ? `${years} ár` : ""}</span>
+              <span>{months ? `${months} mán` : ""}</span>
+            </span>
+          )}
         </CardContent>
       </CardActionArea>
     </MuiCard>

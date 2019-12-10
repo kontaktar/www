@@ -41,11 +41,13 @@ const Carousel = () => {
   onResize();
 
   const next = () => {
-    setSlideIndex(slideIndex + 1 <= 6 ? slideIndex + 1 : 1);
+    setSlideIndex(slideIndex);
+    // setSlideIndex(slideIndex + 1 <= 6 ? slideIndex + 1 : 1);
   };
 
   const back = () => {
-    setSlideIndex(slideIndex - 1 > 0 ? slideIndex - 1 : 6);
+    setSlideIndex(slideIndex - 1);
+    // setSlideIndex(slideIndex - 1 > 0 ? slideIndex - 1 : 6);
   };
 
   return (
@@ -70,6 +72,7 @@ const Carousel = () => {
         wrapAround
         onResize={onResize}
         slideIndex={slideIndex}
+        afterSlide={setSlideIndex(slideIndex)}
         // goToSlide={4}
         // autoplay
         // withoutControls
