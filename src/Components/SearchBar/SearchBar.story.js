@@ -18,9 +18,7 @@ storiesOf("Components", module)
       <SearchBar
         disabled={boolean("Disabled", false)}
         onClick={action("SearchBar-clicked")}
-      >
-        {text("Label", "This is a SearchBar")}
-      </SearchBar>
+      />
       <SearchBar.Results />
     </>
   ));

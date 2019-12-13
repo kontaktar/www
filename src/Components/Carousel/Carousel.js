@@ -24,11 +24,11 @@ const settings = [
   }
 ];
 
+// TODO: laga að wraparoun er ekki smooth með custom buttons, virkar fínt með lyklaborði!
 const Carousel = () => {
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [windowSize, setWindowSize] = useState(undefined);
-  const [slideIndex, setSlideIndex] = useState(0);
-  // const [nextStep, setNextStep] = useState(undefined);
+  const [slideIndex, setSlideIndex] = useState();
 
   const onResize = () => {
     const size = window.innerWidth;
@@ -40,66 +40,112 @@ const Carousel = () => {
 
   onResize();
 
-  const next = () => {
-    setSlideIndex(slideIndex);
-    // setSlideIndex(slideIndex + 1 <= 6 ? slideIndex + 1 : 1);
-  };
+  // const next = () => {
+  //   // TODO: gera þetta að classa, extenda ControlRenderPropsin til að nota nextSlide
+  //   // setSlideIndex(slideIndex + 1 < 6 ? slideIndex + 1 : 0);
+  //   // setSlideIndex(nextSlide);
+  //   // setSlideIndex(slideIndex + 1);
+  // };
 
-  const back = () => {
-    setSlideIndex(slideIndex - 1);
-    // setSlideIndex(slideIndex - 1 > 0 ? slideIndex - 1 : 6);
-  };
+  // const back = () => {
+  //   // setSlideIndex(slideIndex - 1 >= 0 ? slideIndex - 1 : 5);
+  //   setSlideIndex(slideIndex - 1);
+  // };
 
   return (
     <>
       <div className={styles.carousel_header}>
         <h3>Nýjustu sérfræðingarnir</h3>
-        <Button.CarouselNavi
+        {/* <Button.CarouselNavi
           id="carousel_back"
           direction="back"
           className={styles.button_back}
           onClick={back}
-        />
-        <Button.CarouselNavi
-          id="carousel_next"
-          direction="next"
-          className={styles.button_next}
-          onClick={next}
-        />
+        /> */}
       </div>
       <NukaCarousel
         className={styles.carousel}
         wrapAround
         onResize={onResize}
         slideIndex={slideIndex}
-        afterSlide={setSlideIndex(slideIndex)}
-        // goToSlide={4}
-        // autoplay
-        // withoutControls
-        // renderTopRightControls={({ nextSlide }) => setNextStep(nextSlide()} // prob not going to work
-        // renderTopLeftControls={({ previousSlide }) => (
-        //   <Button.CarouselNavi
-        //     id="carousel_back"
-        //     direction="back"
-        //     onClick={previousSlide}
-        //   />
-        // )}
+        renderTopRightControls={({ nextSlide }) => (
+          <Button.CarouselNavi
+            id="carousel_next"
+            direction="next"
+            className={styles.button_next}
+            onClick={nextSlide}
+          />
+        )}
+        renderTopCenterControls={({ previousSlide }) => (
+          <Button.CarouselNavi
+            id="carousel_back"
+            direction="back"
+            className={styles.button_back}
+            onClick={previousSlide}
+          />
+        )}
         cellSpacing={20}
-        enableKeyboardControls
+        // enableKeyboardControls
         pauseOnHover={false}
         dragging={false}
         swiping
-        // framePadding="500px"
-        // frameOverflow="visible"
-        // slideWidth={25000}
+        transitionMode="scroll"
         slidesToShow={slidesToShow}
       >
-        <Card name={1}>1</Card>
-        <Card name={2}>2</Card>
-        <Card name={3}>3</Card>
-        <Card name={4}>4</Card>
-        <Card name={5}>5</Card>
-        <Card name={6}>6</Card>
+        <Card
+          name={0}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          1
+        </Card>
+        <Card
+          name={1}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          2
+        </Card>
+        <Card
+          name={2}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          3
+        </Card>
+        <Card
+          name={3}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          4
+        </Card>
+        <Card
+          name={4}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          5
+        </Card>
+        <Card
+          name={5}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          6
+        </Card>
       </NukaCarousel>
     </>
   );

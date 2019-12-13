@@ -2,14 +2,28 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
 // import PropTypes from "prop-types";
-import { MainLayout, SearchContainer } from "layouts";
+import { isLoggedIn } from "utils/auth";
 
-const Search = () => {
+import { MainLayout, SearchContainer, UserLayout } from "layouts";
+
+const Search = ({ searchInput }) => {
+  if (isLoggedIn()) {
+    return (
+      <UserLayout>
+        <SearchContainer searchInput={searchInput} />
+      </UserLayout>
+    );
+  }
   return (
     <MainLayout>
-      <SearchContainer />
+      <SearchContainer searchInput={searchInput} />
     </MainLayout>
   );
+};
+
+Search.getInitialProps = (ctx) => {
+  const { searchInput } = ctx.query;
+  return { searchInput };
 };
 
 // Search.propTypes = {

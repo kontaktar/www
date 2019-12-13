@@ -1,17 +1,17 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Downshift from "downshift";
 import { Card, SearchBar } from "components";
 import { CardsContainer } from "layouts";
 import users from "../../data/all-users-mock";
 import styles from "./SearchContainer.module.scss";
 
-const SearchContainer = () => {
+const SearchContainer = ({ searchInput }) => {
   const [experienceId, setExperienceId] = useState(0);
-
   const matchingCardContent = (inputValue, allUsers) => {
     return allUsers.filter((user) => {
-      console.log(user);
+      // console.log(user);
       const isMatchingUsername = user.name
         .toLowerCase()
         .includes(inputValue.toLowerCase());
@@ -53,7 +53,11 @@ const SearchContainer = () => {
   };
 
   return (
-    <Downshift defaultIsOpen initialIsOpen>
+    <Downshift
+      defaultIsOpen
+      initialIsOpen
+      initialInputValue={searchInput || ""}
+    >
       {({
         getInputProps,
         getItemProps,
@@ -70,6 +74,7 @@ const SearchContainer = () => {
               <SearchBar
                 downshiftLabelProps={getLabelProps()}
                 downshiftInputProps={getInputProps()}
+                value={inputValue}
               />
               {/* TODO: hide label but make visable for screen readers */}
             </div>
@@ -89,6 +94,10 @@ const SearchContainer = () => {
 
 export default SearchContainer;
 
-// SearchContainer.propTypes = {
-//   children: PropTypes.node.isRequired
-// };
+SearchContainer.propTypes = {
+  searchInput: PropTypes.string
+};
+
+SearchContainer.defaultProps = {
+  searchInput: null
+};
