@@ -27,8 +27,15 @@ const Card = (props) => {
       className={`${styles.card} ${editMode && styles.edit_mode}`}
       style={style}
     >
+      <div className={styles.buttons}>
+        <div className={styles.edit_button}></div>
+        <div className={styles.save_button}></div>
+        <div className={styles.delete_button}></div>
+      </div>
+
       <CardActionArea className={styles.card_area}>
         <CardContent className={styles.card_content}>
+          {/* <p>Í birtingu</p> */}
           <span className={styles.title_description}>{shortDescription}</span>
           <span className={styles.description}>{description}</span>
 
