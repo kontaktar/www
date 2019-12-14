@@ -28,7 +28,7 @@ const settings = [
 const Carousel = () => {
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [windowSize, setWindowSize] = useState(undefined);
-  const [slideIndex, setSlideIndex] = useState();
+  // const [slideIndex, setSlideIndex] = useState();
 
   const onResize = () => {
     const size = window.innerWidth;
@@ -67,7 +67,7 @@ const Carousel = () => {
         className={styles.carousel}
         wrapAround
         onResize={onResize}
-        slideIndex={slideIndex}
+        // slideIndex={slideIndex}
         renderTopRightControls={({ nextSlide }) => (
           <Button.CarouselNavi
             id="carousel_next"

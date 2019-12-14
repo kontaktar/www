@@ -6,8 +6,6 @@ import MuiCard from "@material-ui/core/Card";
 // import CardActions from "@material-ui/core/CardActions";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import PhoneIcon from "@material-ui/icons/Phone";
-import EmailIcon from "@material-ui/icons/Email";
 import { Icon } from "components";
 // import { minHeight } from "@material-ui/system";
 
