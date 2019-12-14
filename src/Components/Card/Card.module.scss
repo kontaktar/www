@@ -77,35 +77,42 @@
 .buttons {
   display: flex;
   position: relative;
-  .edit_button {
-    top: -9px;
+
+  .button {
+    z-index: 1;
+    top: -16px;
     position: absolute;
     border-radius: 50%;
-    height: 20px;
-    width: 20px;
-
-    background-color: blue;
-    left: 250px;
+    height: 32px;
+    width: 32px;
+    border: none;
+    cursor: pointer;
+    // path {
+    //   fill: white;
+    // }
+    &:hover {
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    }
   }
 
-  .save_button {
-    top: -9px;
-    position: absolute;
-    border-radius: 50%;
-    height: 20px;
-    width: 20px;
-
-    background-color: yellow;
+  .left {
+    background: #b3b3b3;
+    left: 170px;
+  }
+  .center {
+    background: #f2994a;
     left: 210px;
   }
-  .delete_button {
-    top: -9px;
-    position: absolute;
-    border-radius: 50%;
-    height: 20px;
-    width: 20px;
-
-    background-color: red;
-    left: 170px;
+  .center-secondary {
+    background: #6fcf97;
+    left: 210px;
+  }
+  .right {
+    background: #eb5757;
+    left: 250px;
+  }
+  .button_icon {
+    margin-top: 4px;
+    margin-left: 1px;
   }
 }

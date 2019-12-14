@@ -8,6 +8,10 @@ import SvgPhone from "assets/icons/SvgPhone";
 import SvgEmail from "assets/icons/SvgEmail";
 import SvgArrow from "assets/icons/SvgArrow";
 import SvgClock from "assets/icons/SvgClock";
+import SvgSave from "assets/icons/SvgSave";
+import SvgEdit from "assets/icons/SvgEdit";
+import SvgDelete from "assets/icons/SvgDelete";
+import SvgPublish from "assets/icons/SvgPublish";
 import styles from "./Icon.module.scss";
 
 // TODO: This setup is disgusting... + add fill props for icons
@@ -21,6 +25,10 @@ const Icon = ({ className, name }) => {
       {name === "email" && <SvgEmail />}
       {name === "arrow" && <SvgArrow />}
       {name === "clock" && <SvgClock />}
+      {name === "delete" && <SvgDelete />}
+      {name === "edit" && <SvgEdit />}
+      {name === "save" && <SvgSave />}
+      {name === "publish" && <SvgPublish />}
     </div>
   );
 };

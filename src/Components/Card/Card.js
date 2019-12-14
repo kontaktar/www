@@ -28,9 +28,15 @@ const Card = (props) => {
       style={style}
     >
       <div className={styles.buttons}>
-        <div className={styles.edit_button}></div>
-        <div className={styles.save_button}></div>
-        <div className={styles.delete_button}></div>
+        <button type="button" className={`${styles.button} ${styles.left}`}>
+          <Icon className={styles.button_icon} name="edit" />
+        </button>
+        <button type="button" className={`${styles.button} ${styles.center}`}>
+          <Icon className={styles.button_icon} name="save" />
+        </button>
+        <button type="button" className={`${styles.button} ${styles.right}`}>
+          <Icon className={styles.button_icon} name="delete" />
+        </button>
       </div>
 
       <CardActionArea className={styles.card_area}>
