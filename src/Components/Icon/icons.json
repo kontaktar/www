@@ -1,1 +1,13 @@
-["user-profile", "search", "close", "phone", "email", "arrow"]
+[
+  "user-profile",
+  "search",
+  "close",
+  "phone",
+  "email",
+  "arrow",
+  "clock",
+  "edit",
+  "save",
+  "publish",
+  "delete"
+]

@@ -92,12 +92,60 @@ const Carousel = () => {
         transitionMode="scroll"
         slidesToShow={slidesToShow}
       >
-        <Card name={0}>1</Card>
-        <Card name={1}>2</Card>
-        <Card name={2}>3</Card>
-        <Card name={3}>4</Card>
-        <Card name={4}>5</Card>
-        <Card name={5}>6</Card>
+        <Card
+          name={0}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          1
+        </Card>
+        <Card
+          name={1}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          2
+        </Card>
+        <Card
+          name={2}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          3
+        </Card>
+        <Card
+          name={3}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          4
+        </Card>
+        <Card
+          name={4}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          5
+        </Card>
+        <Card
+          name={5}
+          shortDescription="Header"
+          description="Description"
+          years="2"
+          months="12"
+        >
+          6
+        </Card>
       </NukaCarousel>
     </>
   );

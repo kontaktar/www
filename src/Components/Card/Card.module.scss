@@ -8,9 +8,11 @@
   height: 250px;
   width: 300px;
 
+  overflow: visible !important;
+
   // border: solid 1px $color-red;
   background-color: $color-paper-white;
-  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1) !important;
   // box-shadow: 0 2px 4px rgba(#000, 0.2);
 
   // tablet
@@ -23,18 +25,93 @@
   }
 }
 
-.card_area {
-  height: 100%;
-}
-
 .card_content {
-  height: 100%;
+  padding: 0 !important;
+  position: relative;
+  margin: 0 16px;
+  // margin: 16px;
+  height: 250px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .edit_mode {
   .card_content {
     cursor: grab;
+  }
+}
+
+.title_description {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.9);
+  text-shadow: 0px 16px 30px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 140.8%;
+}
+
+.length {
+  margin-top: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  span {
+    font-size: 14px;
+    padding-right: 12px;
+  }
+}
+
+.clock_icon {
+  padding-right: 15px;
+  path {
+    fill: $primary-color;
+  }
+}
+
+.buttons {
+  display: flex;
+  position: relative;
+
+  .button {
+    z-index: 1;
+    top: -16px;
+    position: absolute;
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    border: none;
+    cursor: pointer;
+    // path {
+    //   fill: white;
+    // }
+    &:hover {
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .left {
+    background: #b3b3b3;
+    left: 170px;
+  }
+  .center {
+    background: #f2994a;
+    left: 210px;
+  }
+  .center-secondary {
+    background: #6fcf97;
+    left: 210px;
+  }
+  .right {
+    background: #eb5757;
+    left: 250px;
+  }
+  .button_icon {
+    margin-top: 4px;
   }
 }
