@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 // import { style } from "@material-ui/system";
 import { Icon } from "components";
+import colors from "styles/colors.scss";
 import styles from "./Button.module.scss";
 
 const Button = (props) => {
@@ -27,7 +28,11 @@ Button.Navigation = ({ compact = false, title, url }) => {
   return (
     <Link href={url}>
       <Button className={`${styles.navigation} ${compact && styles.compact}`}>
-        <Icon className={styles.navigation_icon} name="user-profile" />
+        <Icon
+          color={colors.black20}
+          className={styles.navigation_icon}
+          name="user"
+        />
         <p>
           {/* <div className={styles.icon}>.</div> */}
           {title}

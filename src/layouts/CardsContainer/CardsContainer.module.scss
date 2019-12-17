@@ -2,7 +2,7 @@
 
 .cards_container {
   flex-grow: 1;
-  padding: 20px;
+  // padding: 20px;
 
   display: flex;
 
@@ -11,6 +11,8 @@
   align-content: space-around;
 
   > div {
-    margin: 20px;
+    margin-left: 0px;
+    margin-right: 20px;
+    margin-bottom: 20px;
   }
 }

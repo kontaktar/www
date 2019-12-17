@@ -1,5 +1,5 @@
 ```js
-import { UserProfile } from "layouts";
+import { Modal } from "components";
 ```
 
 Here will be the documentation for this component

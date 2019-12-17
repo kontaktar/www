@@ -1,0 +1,11 @@
+$color-red: #b40409;
+$color-brown: #ddc3ac;
+$color-black: #000000;
+$color-white: #ffffff;
+$color-black-60: rgba(0, 0, 0, 0.3);
+$color-black-20: rgba(0, 0, 0, 0.2);
+
+:export {
+  red: $color-red;
+  black20: $color-black-20;
+}

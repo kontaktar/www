@@ -6,4 +6,3 @@ export { default as DragableCardContainer } from "./DragableCardContainer";
 export { default as CardsContainer } from "./CardsContainer";
 export { default as UserLayout } from "./UserLayout";
 export { default as FrontPageContainer } from "./FrontPageContainer";
-export { default as UserProfile } from "./UserProfile";

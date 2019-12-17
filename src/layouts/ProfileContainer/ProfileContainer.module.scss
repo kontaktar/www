@@ -1,5 +1,49 @@
 @import "../../styles/config";
 
-.profilecontainer {
-  background-color: red;
+.root {
+  color: $paragraph-color;
+}
+.header {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.header_icon {
+  margin-right: 20px;
+}
+.user_name {
+  display: flex;
+  width: 80%;
+  h2 {
+    font-size: 30px;
+    width: 100%;
+    font-family: "Berlingske Sans Bold";
+    margin-right: 20px;
+  }
+}
+
+.user_information {
+  display: flex;
+  flex-direction: row;
+  padding-top: 40px;
+  min-height: 80px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 80%;
+  .user_info_icons {
+    padding-right: 10px;
+  }
+  span {
+    display: flex;
+    line-height: 30px;
+    margin-right: 20px;
+  }
+}
+.card_container {
+  h3 {
+    padding-bottom: 40px;
+  }
+}
+.cards {
+  display: flex;
 }

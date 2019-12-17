@@ -1,0 +1,22 @@
+@import "../../styles/config";
+
+.modal {
+  background-color: red;
+}
+
+.modal_wrapper {
+  position: absolute;
+
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  // dont
+  width: 200px;
+  height: 200px;
+
+  background: #ffffff;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1);
+}

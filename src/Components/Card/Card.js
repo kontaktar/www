@@ -12,14 +12,7 @@ import { Icon } from "components";
 import styles from "./Card.module.scss";
 
 const Card = (props) => {
-  const {
-    description,
-    editMode,
-    months,
-    shortDescription,
-    style,
-    years
-  } = props;
+  const { description, editMode, months, title, style, years } = props;
   return (
     <MuiCard
       className={`${styles.card} ${editMode && styles.edit_mode}`}
@@ -40,7 +33,7 @@ const Card = (props) => {
       <CardActionArea className={styles.card_area}>
         <CardContent className={styles.card_content}>
           {/* <p>Í birtingu</p> */}
-          <span className={styles.title_description}>{shortDescription}</span>
+          <span className={styles.title_description}>{title}</span>
           <span className={styles.description}>{description}</span>
 
           {(years || months) && (

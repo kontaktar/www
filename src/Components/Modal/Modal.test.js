@@ -3,18 +3,18 @@ import { shallow } from "enzyme";
 import React from "react";
 import renderer from "react-test-renderer";
 
-import UserProfile from "./UserProfile";
+import Modal from "./Modal";
 
 describe("With Enzyme", () => {
   it('component shows "Hello world!"', () => {
-    const app = shallow(<UserProfile>Hello World!</UserProfile>);
+    const app = shallow(<Modal>Hello World!</Modal>);
     expect(app.find("p").text()).toStrictEqual("Hello World!");
   });
 });
 
 describe("With Snapshot Testing", () => {
   it('app shows "Hello world!"', () => {
-    const component = renderer.create(<UserProfile />);
+    const component = renderer.create(<Modal />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });

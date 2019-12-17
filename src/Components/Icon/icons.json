@@ -1,5 +1,4 @@
 [
-  "user-profile",
   "search",
   "close",
   "phone",
@@ -9,5 +8,10 @@
   "edit",
   "save",
   "publish",
-  "delete"
+  "delete",
+  "location",
+  "website",
+  "user",
+  "phone-profile",
+  "email-profile"
 ]
