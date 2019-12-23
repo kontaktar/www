@@ -10,14 +10,17 @@ storiesOf("Components", module)
     jest: ["Modal.test"],
     readme: {
       sidebar: ModalReadme,
-      includePropTables: [Modal],
-    },
+      includePropTables: [Modal]
+    }
   })
   .add("Modal", () => (
     <Modal
       disabled={boolean("Disabled", false)}
       onClick={action("Modal-clicked")}
+      defaultOpen
+      height={"300px"}
+      width={"300px"}
     >
-      {text("Label", "This is a Modal")}
+      <p>modal content</p>
     </Modal>
   ));

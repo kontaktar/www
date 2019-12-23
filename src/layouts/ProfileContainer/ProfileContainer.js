@@ -1,17 +1,32 @@
-import React, { Fragment } from "react";
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line no-unused-vars
+import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { CardsContainer } from "layouts";
-import { Button, Card, Icon } from "components";
+import { Button, Card, Icon, Modal } from "components";
 import colors from "styles/colors.scss";
 import styles from "./ProfileContainer.module.scss";
 
 const ProfileContainer = () => {
+  const [openModal, showModal] = useState(false);
+
+  // TODO
   const editMode = true;
-  const openModal = () => {
-    console.log("openModal");
+
+  const onClose = () => {
+    showModal(false);
+  };
+
+  const onOpen = () => {
+    showModal(true);
   };
   return (
     <Fragment>
+      <Modal open={openModal} onClose={onClose} height="300px" width="300px">
+        <div>
+          <p>ksda</p>
+        </div>
+      </Modal>
       <div className={styles.header}>
         <div className={styles.user_name}>
           <Icon
@@ -22,7 +37,7 @@ const ProfileContainer = () => {
             name="user"
           />
           <h2>Hugrún Rúnarsdóttir</h2>
-          {editMode && <Button onClick={openModal}>Breyta</Button>}
+          {editMode && <Button onClick={onOpen}>Breyta</Button>}
         </div>
         <div className={styles.user_information}>
           <Fragment>

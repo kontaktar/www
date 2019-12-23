@@ -1,28 +1,23 @@
-import React, { useState } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Modal as MUIModal } from "@material-ui/core";
 import styles from "./Modal.module.scss";
 
 // eslint-disable-next-line react/prop-types
-const Modal = ({ open: openProperties }) => {
-  const [open, setOpen] = useState(openProperties || true);
-
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+const Modal = ({ children, height, open, onClose, width }) => {
   return (
     <MUIModal
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
     >
-      <div className={styles.modal_wrapper}>
-        <p>Modal</p>
+      <div style={{ height, width }} className={styles.modal_content}>
+        {children}
       </div>
     </MUIModal>
   );
@@ -31,8 +26,14 @@ const Modal = ({ open: openProperties }) => {
 export default Modal;
 
 Modal.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  height: PropTypes.string,
+  open: PropTypes.bool,
+  width: PropTypes.string
 };
 Modal.defaultProps = {
-  className: ""
+  className: "",
+  height: "100px",
+  open: false,
+  width: "100px"
 };
