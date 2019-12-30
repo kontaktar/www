@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { CardsContainer } from "layouts";
 import { Button, Card, Icon, Modal } from "components";
 import colors from "styles/colors.scss";
+import mockUserData from "data/all-users-mock";
 import styles from "./ProfileContainer.module.scss";
 
 const ProfileContainer = () => {
@@ -20,13 +21,11 @@ const ProfileContainer = () => {
   const onOpen = () => {
     showModal(true);
   };
+
+  const mockUser = mockUserData[2];
+
   return (
     <Fragment>
-      <Modal open={openModal} onClose={onClose} height="300px" width="300px">
-        <div>
-          <p>ksda</p>
-        </div>
-      </Modal>
       <div className={styles.header}>
         <div className={styles.user_name}>
           <Icon
@@ -36,7 +35,7 @@ const ProfileContainer = () => {
             width="32"
             name="user"
           />
-          <h2>Hugrún Rúnarsdóttir</h2>
+          <h2>{mockUser.name}</h2>
           {editMode && <Button onClick={onOpen}>Breyta</Button>}
         </div>
         <div className={styles.user_information}>
@@ -81,13 +80,17 @@ const ProfileContainer = () => {
       <div className={styles.card_container}>
         <h3>Verkspjöld</h3>
         <CardsContainer className={styles.cards}>
-          <Card
-            editMode={editMode}
-            title="test"
-            description="yo"
-            years="2"
-            months="12"
-          />
+          {mockUser.experience.map((experience) => (
+            <Card
+              description={experience.description}
+              editMode={editMode}
+              onEdit={onOpen}
+              title={experience.title}
+              months={experience.length.month}
+              years={experience.length.years}
+            />
+          ))}
+
           <Card
             editMode={editMode}
             title="test"
@@ -103,6 +106,16 @@ const ProfileContainer = () => {
             months="12"
           />
           <Card static />
+          <Modal
+            open={openModal}
+            onClose={onClose}
+            height="300px"
+            width="300px"
+          >
+            <div>
+              <p>ksda</p>
+            </div>
+          </Modal>
         </CardsContainer>
       </div>
     </Fragment>

@@ -19,13 +19,13 @@ const SearchContainer = ({ searchInput }) => {
         const matchingDescription = experience.description
           .toLowerCase()
           .includes(inputValue.toLowerCase());
-        const matchingQualification = experience.qualification
+        const matchingTitle = experience.title
           .toLowerCase()
           .includes(inputValue.toLowerCase());
-        if (matchingDescription || matchingQualification) {
+        if (matchingDescription || matchingTitle) {
           setExperienceId(i);
         }
-        return matchingDescription || matchingQualification || null;
+        return matchingDescription || matchingTitle || null;
       });
 
       return !inputValue || isMatchingUsername || isMatchingExperience;

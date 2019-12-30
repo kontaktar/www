@@ -12,14 +12,18 @@ import { Icon } from "components";
 import styles from "./Card.module.scss";
 
 const Card = (props) => {
-  const { description, editMode, months, title, style, years } = props;
+  const { description, editMode, months, onEdit, title, style, years } = props;
   return (
     <MuiCard
       className={`${styles.card} ${editMode && styles.edit_mode}`}
       style={style}
     >
       <div className={styles.buttons}>
-        <button type="button" className={`${styles.button} ${styles.left}`}>
+        <button
+          type="button"
+          className={`${styles.button} ${styles.left}`}
+          onClick={onEdit}
+        >
           <Icon className={styles.button_icon} name="edit" />
         </button>
         <button type="button" className={`${styles.button} ${styles.center}`}>
