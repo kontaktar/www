@@ -1,12 +1,40 @@
+/* eslint-disable unicorn/prevent-abbreviations */
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import { Button, SearchBar } from "components";
+import { Button, Carousel, SearchBar } from "components";
 import styles from "./FrontPageContainer.module.scss";
 
 const FrontPageContainer = () => {
+  const heroRef = React.useRef(null);
   const [searchInput, setSearchInput] = useState(undefined);
   const [triggerSearch, setTriggerSearch] = useState(false);
+  const [frameWidth, setFrameWidth] = useState(undefined);
+
+  let observer;
+  if (process.browser) {
+    // client side only
+    observer = React.useRef(
+      new ResizeObserver((entries) => {
+        // Only care about the first element, we expect one element ot be watched
+        const { width } = entries[0].contentRect;
+        console.log(width);
+        setFrameWidth(width);
+      })
+    );
+  }
+
+  React.useEffect(() => {
+    if (heroRef.current) {
+      observer.current.observe(heroRef.current);
+    }
+
+    return () => {
+      observer.current.unobserve(heroRef.current);
+    };
+  }, [heroRef, observer]);
+
   const onSearchBarInput = (event) => {
     setSearchInput(event.target.value);
   };
@@ -14,18 +42,18 @@ const FrontPageContainer = () => {
     if (event.key === "Enter") {
       setTriggerSearch(true);
     }
+    // eslint-disable-next-line react/destructuring-assignment
     console.log(triggerSearch);
   };
 
   const onSearchSubmit = () => {
     console.log(searchInput);
   };
-
   // TODO: User should be able to enter something in the input box, then push enter to submit search.
 
   return (
     <div className={styles.frontpage}>
-      <div className={styles.hero}>
+      <div className={styles.hero} ref={heroRef}>
         <div className={styles.search_section}>
           <h1>
             Ertu að leita að{" "}
@@ -40,14 +68,19 @@ const FrontPageContainer = () => {
               onKeyDown={onSearchBarSubmit}
             ></SearchBar>
             {/* TODO: trigger link route onKeyDown === Enter */}
-            <Link href={{ pathname: "/search", query: { searchInput } }}>
+            <Link
+              href={{
+                pathname: "/search",
+                query: { searchInput }
+              }}
+            >
               <Button className={styles.search_button} onClick={onSearchSubmit}>
                 Leita
               </Button>
             </Link>
           </div>
-          <div className={styles.carousel_section}>Carousel</div>
         </div>
+        <Carousel width={frameWidth} />
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ const Profile = (props) => {
 
   return (
     <UserLayout>
-      <ProfileContainer />
+      <ProfileContainer editMode />
       <h1>{name}</h1>
       <p>{bio}</p>
       <button type="submit" onClick={logout}>

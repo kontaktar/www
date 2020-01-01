@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/prevent-abbreviations */
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -7,66 +9,49 @@ import styles from "./Carousel.module.scss";
 
 const settings = [
   {
-    breakpoint: 500,
-    slides: 1
+    breakpoint: 1328,
+    slides: 4
   },
   {
-    breakpoint: 800,
-    slides: 2
-  },
-  {
-    breakpoint: 1100,
+    breakpoint: 996,
     slides: 3
   },
   {
-    breakpoint: 1400,
-    slides: 4
+    breakpoint: 664, // 2*300px (card width) + 2*32px (spacing)
+    slides: 2
+  },
+  {
+    breakpoint: 332,
+    slides: 1
   }
 ];
 
 // TODO: laga að wraparoun er ekki smooth með custom buttons, virkar fínt með lyklaborði!
-const Carousel = () => {
+const Carousel = ({ width }) => {
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [windowSize, setWindowSize] = useState(undefined);
-  // const [slideIndex, setSlideIndex] = useState();
+  const [carouselSize, setCarouselSize] = useState(undefined);
 
-  const onResize = () => {
-    const size = window.innerWidth;
-    if (size !== windowSize) {
-      setSlidesToShow(settings.find((s) => size < s.breakpoint).slides);
-      setWindowSize(size);
+  React.useEffect(() => {
+    if (windowSize !== width) {
+      setWindowSize(width);
+      setSlidesToShow(settings.find((s) => width > s.breakpoint).slides);
+      setCarouselSize(settings.find((s) => width > s.breakpoint).breakpoint);
+
+      console.log("carouselSiez", carouselSize);
+      console.log("width", width);
     }
-  };
-
-  onResize();
-
-  // const next = () => {
-  //   // TODO: gera þetta að classa, extenda ControlRenderPropsin til að nota nextSlide
-  //   // setSlideIndex(slideIndex + 1 < 6 ? slideIndex + 1 : 0);
-  //   // setSlideIndex(nextSlide);
-  //   // setSlideIndex(slideIndex + 1);
-  // };
-
-  // const back = () => {
-  //   // setSlideIndex(slideIndex - 1 >= 0 ? slideIndex - 1 : 5);
-  //   setSlideIndex(slideIndex - 1);
-  // };
+  }, [width, carouselSize]);
 
   return (
     <>
       <div className={styles.carousel_header}>
         <h3>Nýjustu sérfræðingarnir</h3>
-        {/* <Button.CarouselNavi
-          id="carousel_back"
-          direction="back"
-          className={styles.button_back}
-          onClick={back}
-        /> */}
       </div>
       <NukaCarousel
         className={styles.carousel}
         wrapAround
-        onResize={onResize}
+        // onResize={onResize}
         // slideIndex={slideIndex}
         renderTopRightControls={({ nextSlide }) => (
           <Button.CarouselNavi
@@ -84,26 +69,22 @@ const Carousel = () => {
             onClick={previousSlide}
           />
         )}
-        cellSpacing={20}
-        // enableKeyboardControls
+        // cellSpacing={20}
+        cellAlign="left"
+        width={carouselSize}
+        enableKeyboardControls
         pauseOnHover={false}
         dragging={false}
         swiping
         transitionMode="scroll"
         slidesToShow={slidesToShow}
       >
-        <Card
-          name={0}
-          shortDescription="Header"
-          description="Description"
-          years="2"
-          months="12"
-        >
+        <Card name={0} title="yo" description="Hello" years="1" months="1">
           1
         </Card>
         <Card
           name={1}
-          shortDescription="Header"
+          title="Hey"
           description="Description"
           years="2"
           months="12"
@@ -112,7 +93,7 @@ const Carousel = () => {
         </Card>
         <Card
           name={2}
-          shortDescription="Header"
+          title="Ho"
           description="Description"
           years="2"
           months="12"
@@ -121,7 +102,7 @@ const Carousel = () => {
         </Card>
         <Card
           name={3}
-          shortDescription="Header"
+          title="Mhahah"
           description="Description"
           years="2"
           months="12"
@@ -130,7 +111,7 @@ const Carousel = () => {
         </Card>
         <Card
           name={4}
-          shortDescription="Header"
+          title="Arg"
           description="Description"
           years="2"
           months="12"
@@ -139,7 +120,7 @@ const Carousel = () => {
         </Card>
         <Card
           name={5}
-          shortDescription="Header"
+          title="Gúlp"
           description="Description"
           years="2"
           months="12"

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { Fragment, useState } from "react";
@@ -8,25 +9,31 @@ import colors from "styles/colors.scss";
 import mockUserData from "data/all-users-mock";
 import styles from "./ProfileContainer.module.scss";
 
-const ProfileContainer = () => {
+const ProfileContainer = ({ editMode }) => {
   const [openModal, showModal] = useState(false);
+  const [modalData, setModalData] = useState({});
 
-  // TODO
-  const editMode = true;
-
-  const onClose = () => {
+  const onCloseModal = () => {
+    console.log("on close");
     showModal(false);
   };
 
-  const onOpen = () => {
+  const onOpenModal = (title, description, years, months) => {
+    setModalData({
+      title,
+      description,
+      years,
+      months
+    });
+
     showModal(true);
   };
 
   const mockUser = mockUserData[2];
 
   return (
-    <Fragment>
-      <div className={styles.header}>
+    <div className={!editMode ? styles.wrapper : undefined}>
+      <div className={!editMode ? styles.title : styles.header}>
         <div className={styles.user_name}>
           <Icon
             className={styles.header_icon}
@@ -36,7 +43,7 @@ const ProfileContainer = () => {
             name="user"
           />
           <h2>{mockUser.name}</h2>
-          {editMode && <Button onClick={onOpen}>Breyta</Button>}
+          {editMode && <Button onClick={onOpenModal}>Breyta</Button>}
         </div>
         <div className={styles.user_information}>
           <Fragment>
@@ -84,41 +91,29 @@ const ProfileContainer = () => {
             <Card
               description={experience.description}
               editMode={editMode}
-              onEdit={onOpen}
+              onEdit={onOpenModal}
               title={experience.title}
               months={experience.length.month}
               years={experience.length.years}
             />
           ))}
-
-          <Card
-            editMode={editMode}
-            title="test"
-            description="yo"
-            years="2"
-            months="12"
-          />
-          <Card
-            editMode={editMode}
-            title="test"
-            description="yo"
-            years="2"
-            months="12"
-          />
-          <Card static />
+          {/* <Card static /> */}
           <Modal
             open={openModal}
-            onClose={onClose}
+            onClose={onCloseModal}
             height="300px"
             width="300px"
           >
             <div>
-              <p>ksda</p>
+              <p>{modalData.title}</p>
+              <p>{modalData.description}</p>
+              <p>{modalData.years}</p>
+              <p>{modalData.months}</p>
             </div>
           </Modal>
         </CardsContainer>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

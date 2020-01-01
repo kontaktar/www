@@ -20,7 +20,7 @@ import styles from "./Icon.module.scss";
 
 // TODO: This setup is disgusting... + add fill props for icons
 const Icon = ({ className, name, ...props }) => {
-  console.log(className);
+  // console.log(className);
   return (
     <div className={`${className} ${styles.icon}`}>
       {name === "user" && <SvgUser {...props} />}

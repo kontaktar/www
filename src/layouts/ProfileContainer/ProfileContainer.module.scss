@@ -3,9 +3,19 @@
 .root {
   color: $paragraph-color;
 }
+
+.wrapper {
+  margin-left: 90px;
+}
+
 .header {
   padding-top: 100px;
   padding-bottom: 100px;
+}
+
+.title {
+  padding-top: 20px;
+  padding-bottom: 80px;
 }
 
 .header_icon {
