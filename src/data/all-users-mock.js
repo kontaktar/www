@@ -64,6 +64,26 @@ export default [
           years: "1",
           months: "12"
         }
+      },
+      {
+        id: "106",
+        order: "1",
+        description: "Allskonar dót",
+        title: "title",
+        length: {
+          years: "1",
+          months: "12"
+        }
+      },
+      {
+        id: "103",
+        order: "1",
+        description: "Allskonar öðruvísi dót",
+        title: "title",
+        length: {
+          years: "1",
+          months: "12"
+        }
       }
     ]
   },

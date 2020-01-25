@@ -7,14 +7,15 @@
   // .navigation_drawer {
   // }
   .main_content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     flex-grow: 1;
+    padding-left: 245px;
   }
   // .navigation_drawer {
   //   height: 100vh;
   // }
-  .main_content {
-    padding-left: 245px;
-  }
   // .profile_drawer {
   // }
 }

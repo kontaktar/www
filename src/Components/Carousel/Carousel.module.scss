@@ -10,12 +10,14 @@
 
 // back button
 .carousel div:nth-child(3) {
-  left: 75% !important;
+  right: 150px !important;
+  left: auto !important;
+  transform: none !important;
 }
 
 // next button
 .carousel div:nth-child(4) {
-  right: 85px !important;
+  right: 75px !important;
 }
 
 .carousel div:nth-child(5),

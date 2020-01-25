@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Button, Logo } from "components";
+import { isLoggedIn, logout } from "utils/auth";
 import styles from "./Header.module.scss";
 
 const Header = ({ className }) => {
@@ -20,11 +21,21 @@ const Header = ({ className }) => {
         <Link href="/">
           <Button modifier={["borderless"]}>Áskrift</Button>
         </Link>
-        <Link href="/login">
-          <Button className={styles.login} modifier={["inverted"]}>
-            Innskráning
+        {!isLoggedIn() ? (
+          <Link href="/login">
+            <Button className={styles.login} modifier={["inverted"]}>
+              Innskráning
+            </Button>
+          </Link>
+        ) : (
+          <Button
+            className={styles.login}
+            onClick={logout}
+            // modifier={["inverted"]}
+          >
+            Útskrá
           </Button>
-        </Link>
+        )}
       </div>
     </div>
   );

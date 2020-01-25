@@ -17,6 +17,7 @@ const Card = (props) => {
   const {
     description,
     editMode = false,
+    linkToProfile = false,
     months,
     onEdit,
     title,
@@ -28,9 +29,16 @@ const Card = (props) => {
     onEdit(title, description, years, months);
   };
 
-  // TODO replace hardcoded Link
+  const LinkToProfile = ({ children }) => {
+    // TODO replace hardcoded Link
+    if (linkToProfile) {
+      return <Link href="/user/einar">{children}</Link>;
+    }
+    return children;
+  };
+
   return (
-    <Link href="/user/einar">
+    <LinkToProfile>
       <MuiCard
         className={`${styles.card} ${editMode && styles.edit_mode}`}
         style={style}
@@ -75,13 +83,14 @@ const Card = (props) => {
           </CardContent>
         </CardActionArea>
       </MuiCard>
-    </Link>
+    </LinkToProfile>
   );
 };
 
 Card.propTypes = {
   children: PropTypes.node.isRequired,
-  description: PropTypes.string
+  description: PropTypes.string,
+  linkToProfile: PropTypes.bool
 };
 
 export default Card;

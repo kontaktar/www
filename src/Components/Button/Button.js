@@ -24,10 +24,13 @@ const Button = (props) => {
   );
 };
 
-Button.Navigation = ({ compact = false, title, url }) => {
+Button.Navigation = ({ compact = false, title, url, ...props }) => {
   return (
     <Link href={url}>
-      <Button className={`${styles.navigation} ${compact && styles.compact}`}>
+      <Button
+        className={`${styles.navigation} ${compact && styles.compact}`}
+        {...props}
+      >
         <Icon
           color={colors.black20}
           className={styles.navigation_icon}

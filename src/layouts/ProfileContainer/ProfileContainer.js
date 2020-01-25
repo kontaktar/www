@@ -29,6 +29,10 @@ const ProfileContainer = ({ editMode }) => {
     showModal(true);
   };
 
+  const onSubmitChanges = () => {
+    console.log("breyta takki");
+  };
+
   const mockUser = mockUserData[2];
 
   return (
@@ -43,7 +47,7 @@ const ProfileContainer = ({ editMode }) => {
             name="user"
           />
           <h2>{mockUser.name}</h2>
-          {editMode && <Button onClick={onOpenModal}>Breyta</Button>}
+          {editMode && <Button onClick={onSubmitChanges}>Breyta</Button>}
         </div>
         <div className={styles.user_information}>
           <Fragment>

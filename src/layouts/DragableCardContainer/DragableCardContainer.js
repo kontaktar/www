@@ -13,17 +13,11 @@ const mockItems = [
   { name: "4" },
   { name: "5" }
 ];
-// const DragHandle = sortableHandle(() => <Reorder color="disabled" />);
+// TODO: this is broken, is it because index is not being sent to card?
 
-const SortableItem = sortableElement(({ cardContent }) => {
+const SortableItem = sortableElement(({ cardContent, lel }) => {
   return (
-    <Card
-      editMode
-      index
-      item="users"
-      description="description"
-      name={cardContent.name}
-    />
+    <Card editMode index title="description" description={cardContent.name} />
   );
 });
 
@@ -40,8 +34,10 @@ const DragableCardContainer = ({ items }) => {
   const [arrangement, setArrangement] = useState(items);
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions
-    oldIndex !== newIndex &&
+    // TODO: SOMETHING IS WRONg HERE, newIndex comes as null.
+    if (oldIndex !== newIndex && newIndex !== null) {
       setArrangement(arrayMove(items, oldIndex, newIndex));
+    }
   };
 
   return (
@@ -52,6 +48,7 @@ const DragableCardContainer = ({ items }) => {
             // eslint-disable-next-line react/no-array-index-key
             key={`item-${index}`}
             index={index}
+            lel={index}
             cardContent={value}
           />
         ))}

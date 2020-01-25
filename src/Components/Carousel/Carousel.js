@@ -84,6 +84,7 @@ const Carousel = ({ width }) => {
         </Card>
         <Card
           name={1}
+          linkToProfile
           title="Hey"
           description="Description"
           years="2"
@@ -93,6 +94,7 @@ const Carousel = ({ width }) => {
         </Card>
         <Card
           name={2}
+          linkToProfile
           title="Ho"
           description="Description"
           years="2"
@@ -102,6 +104,7 @@ const Carousel = ({ width }) => {
         </Card>
         <Card
           name={3}
+          linkToProfile
           title="Mhahah"
           description="Description"
           years="2"
@@ -111,6 +114,7 @@ const Carousel = ({ width }) => {
         </Card>
         <Card
           name={4}
+          linkToProfile
           title="Arg"
           description="Description"
           years="2"
@@ -120,6 +124,7 @@ const Carousel = ({ width }) => {
         </Card>
         <Card
           name={5}
+          linkToProfile
           title="Gúlp"
           description="Description"
           years="2"

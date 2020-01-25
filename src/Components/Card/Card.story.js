@@ -18,7 +18,7 @@ storiesOf("Components", module)
       <Card
         disabled={boolean("Disabled", false)}
         onClick={action("Card-clicked")}
-        shortDescription="Tek að mér umbrot bóka og bæklinga"
+        title="Tek að mér umbrot bóka og bæklinga"
         description="Hef innleitt SharePoint hjá ráðuneytum, Advania og Vífilfelli. Haldið fjölda byrjendanámskeiða fyrir fyrirtæki og einstaklinga, aðallega hjá SharePoint-skólanum i Faxafeni."
         years={10}
         months={12}
@@ -26,7 +26,7 @@ storiesOf("Components", module)
       <Card
         disabled={boolean("Disabled", false)}
         onClick={action("Card-clicked")}
-        shortDescription="Tek að mér umbrot bóka og bæklinga"
+        title="Tek að mér umbrot bóka og bæklinga"
         description="Bara stundum."
         years={10}
         months={12}

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { logout } from "utils/auth";
 import Button from "../Button";
 import styles from "./Navigation.module.scss";
 
@@ -22,7 +23,7 @@ const routes = [
   },
   {
     url: "/",
-    title: "Title"
+    title: "Útskrá"
   }
 ];
 
@@ -33,7 +34,8 @@ const Navigation = ({ isOpen }) => {
         <Button.Navigation
           compact={!isOpen}
           title={route.title}
-          url={route.url}
+          url={!route.title && route.url}
+          onClick={route.title === "Útskrá" && logout}
         />
       ))}
     </div>
