@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
@@ -9,12 +10,12 @@ import { logout, withAuth } from "utils/auth";
 import { UserLayout, ProfileContainer } from "layouts";
 
 const Profile = (props) => {
-  const { name, bio } = props;
+  // const { name, bio } = props;
 
   return (
     <UserLayout>
       <ProfileContainer editMode />
-      <h1>{name}</h1>
+      {/* <h1>{name}</h1>
       <p>{bio}</p>
       <button type="submit" onClick={logout}>
         Logout
@@ -36,7 +37,7 @@ const Profile = (props) => {
         p {
           color: #6a737d;
         }
-      `}</style>
+      `}</style> */}
     </UserLayout>
   );
 };
@@ -44,6 +45,7 @@ const Profile = (props) => {
 Profile.propTypes = {
   data: PropTypes.object.isRequired
 };
+
 Profile.getInitialProps = async (ctx) => {
   const { spez_user_token: token } = nextCookie(ctx);
   const url = `/api/profile`;

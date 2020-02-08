@@ -3,7 +3,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
-import { CardsContainer } from "layouts";
+import { CardsContainer, ModalContent } from "layouts";
 import { Button, Card, Icon, Modal } from "components";
 import colors from "styles/colors.scss";
 import mockUserData from "data/all-users-mock";
@@ -30,8 +30,12 @@ const ProfileContainer = ({ editMode }) => {
   };
 
   const onSubmitChanges = () => {
-    console.log("breyta takki");
+    setModalData({ title: "Breyta upplýsingum " });
+    showModal(true);
   };
+
+  // Modal component ætti að taka á móti týpu af input field og label fyrir hann
+  // þ.ea.s. ca. content = [{ input, title}, { hugeinput, title}]
 
   const mockUser = mockUserData[2];
 
@@ -105,15 +109,10 @@ const ProfileContainer = ({ editMode }) => {
           <Modal
             open={openModal}
             onClose={onCloseModal}
-            height="300px"
-            width="300px"
+            // height="300px"
+            // width="300px"
           >
-            <div>
-              <p>{modalData.title}</p>
-              <p>{modalData.description}</p>
-              <p>{modalData.years}</p>
-              <p>{modalData.months}</p>
-            </div>
+            <ModalContent data={modalData} />
           </Modal>
         </CardsContainer>
       </div>

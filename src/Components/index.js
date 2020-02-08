@@ -10,3 +10,5 @@ export { default as SearchBar } from "./SearchBar";
 export { default as Logo } from "./Logo";
 export { default as Carousel } from "./Carousel";
 export { default as Modal } from "./Modal";
+export { default as TextArea } from "./TextArea";
+export { default as Select } from "./Select";
