@@ -1,0 +1,41 @@
+A. Þinn eigin prófill
+☐ Breyta takki við hliðiná nafni opnar modal fyrir helstu upplýsingar um notanda.
+☐ Breyta verkspjaldi opnar form í modal.
+☐ Verkspjald er með takmarkaðan stafafjöld og er með "sjá meira" hnapp.
+
+
+B. Þegar notandi er innskráður að skoða prófil annara
+☐ Valið verkspjald sprengir út svæðið fyrir ofan verkspjöld.
+☐ Geta með query params opna prófíl og tiltekið verkspjald, sjá hér að
+
+C. Spjöld á forsíðu
+
+D. Leitarvél
+
+
+
+Verkspjald þarf að geta innihaldið meiri texta.
+Þegar ýtt er að verkspjald eða "sjá meira", opnast modal með öllum textanum sem mögulega 
+passaði ekki í allt spjaldið. Þessi modal þarf að vera linkable, þeas.
+/profile/username?verkefni=1 myndi þa opna beint það verkspjald.
+Ekki endilega modal, frekar kannski bara profile með section sem sýnir verkspjald.
+
+
+
+
+Klára að stilla upp forsíðu og láta hana skala uppað því marki sem ég þarf ekki að breyta miklu.
+t.d. það að footerinn var eitthvað messed up þegar skalað er niður
+Klára uppstillingu á Carousel
+Gera tengingu á milli leit á forsíðu yfir í leitarvél, nota query, það er easy og notandi getur þá líka linkað í leitarniðurstöður,
+
+
+☐ Setja dragable pointer á card þegar það er dragable. cursor: grab
+
+Setja upp card með editable input og dragable state.
+Setja upp link fyrir navigation
+Gera rótar button componentinn meira flexibile
+focus searchbar when stækkunargler onClick
+
+
+design á moblie
+forsíða
