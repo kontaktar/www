@@ -1,21 +1,33 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
-import { Input } from "components";
+import { Button, Input, Select, TextArea } from "components";
 import styles from "./ModalContent.module.scss";
+
+const Experience = ({ data }) => {
+  return (
+    <>
+      <div className={styles.header}>Verkspjald</div>
+      <div className={styles.input_line}>
+        <Input label="Heiti verks" value={data.title} />
+        <div className={styles.dropdown_line}>
+          <Select label="Lengd hæfni" className={styles.length_dropdown} />
+          <Select label="" className={styles.length_dropdown} />
+        </div>
+      </div>
+      <TextArea label="Lýsing á hæfni" />
+      <div className={styles.button_line}>
+        <Button />
+        <Button />
+      </div>
+    </>
+  );
+};
 
 const ModalContent = ({ data }) => {
   return (
     <div className={styles.modalcontent}>
-      <div className="header">Verkspjald</div>
-      <div>
-        <Input value={data.title} />
-      </div>
-      <div>TextArea</div>
-      {/* <p>{data.title}</p>
-      <p>{data.description}</p>
-      <p>{data.years}</p>
-      <p>{data.months}</p> */}
+      <Experience data={data} />
     </div>
   );
 };

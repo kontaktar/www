@@ -14,11 +14,10 @@ const ProfileContainer = ({ editMode }) => {
   const [modalData, setModalData] = useState({});
 
   const onCloseModal = () => {
-    console.log("on close");
     showModal(false);
   };
 
-  const onOpenModal = (title, description, years, months) => {
+  const onOpenExperienceModal = (title, description, years, months) => {
     setModalData({
       title,
       description,
@@ -29,7 +28,7 @@ const ProfileContainer = ({ editMode }) => {
     showModal(true);
   };
 
-  const onSubmitChanges = () => {
+  const onEditUserInfoModal = () => {
     setModalData({ title: "Breyta upplýsingum " });
     showModal(true);
   };
@@ -51,7 +50,7 @@ const ProfileContainer = ({ editMode }) => {
             name="user"
           />
           <h2>{mockUser.name}</h2>
-          {editMode && <Button onClick={onSubmitChanges}>Breyta</Button>}
+          {editMode && <Button onClick={onEditUserInfoModal}>Breyta</Button>}
         </div>
         <div className={styles.user_information}>
           <Fragment>
@@ -99,18 +98,19 @@ const ProfileContainer = ({ editMode }) => {
             <Card
               description={experience.description}
               editMode={editMode}
-              onEdit={onOpenModal}
+              onEdit={onOpenExperienceModal}
               title={experience.title}
               months={experience.length.month}
               years={experience.length.years}
             />
           ))}
           {/* <Card static /> */}
+          {/* if innerWidth < 800 => width = 100% */}
           <Modal
             open={openModal}
             onClose={onCloseModal}
-            // height="300px"
-            // width="300px"
+            // height="600px"
+            // width="800px"
           >
             <ModalContent data={modalData} />
           </Modal>

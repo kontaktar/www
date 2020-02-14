@@ -10,13 +10,14 @@ storiesOf("Layouts", module)
     jest: ["ModalContent.test"],
     readme: {
       sidebar: ModalContentReadme,
-      includePropTables: [ModalContent],
-    },
+      includePropTables: [ModalContent]
+    }
   })
   .add("ModalContent", () => (
     <ModalContent
       disabled={boolean("Disabled", false)}
       onClick={action("ModalContent-clicked")}
+      data={{ title: "yo" }}
     >
       {text("Label", "This is a ModalContent")}
     </ModalContent>

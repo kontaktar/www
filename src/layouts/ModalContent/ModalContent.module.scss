@@ -1,6 +1,34 @@
 @import "../../styles/config";
 
 .modalcontent {
-  background-color: red;
   height: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input_line {
+  display: flex;
+  flex-direction: row;
+  @media only screen and (max-width: 765px) {
+    flex-direction: column;
+  }
+}
+
+.dropdown_line {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  flex: 0 0 50%;
+}
+
+.length_dropdown {
+  flex: 0 0 50%;
+}
+
+.button_line {
+  display: flex;
+  flex: 0 0 50%;
+  flex-direction: row;
+  justify-content: flex-end;
 }

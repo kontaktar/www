@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Modal as MUIModal } from "@material-ui/core";
+import { Button, Icon } from "components";
 import styles from "./Modal.module.scss";
 
 // eslint-disable-next-line react/prop-types
@@ -16,7 +17,10 @@ const Modal = ({ children, height, open, onClose, width }) => {
       open={open}
       onClose={onClose}
     >
-      <div style={{ height, width }} className={styles.modal_content}>
+      <div className={styles.modal_content}>
+        <Button className={styles.button_clear} onClick={onClose}>
+          <Icon className={styles.close_icon} name="close" onClick={onClose} />
+        </Button>
         {children}
       </div>
     </MUIModal>
@@ -33,7 +37,7 @@ Modal.propTypes = {
 };
 Modal.defaultProps = {
   className: "",
-  height: "100px",
+  height: "600px",
   open: false,
-  width: "100px"
+  width: "800px"
 };

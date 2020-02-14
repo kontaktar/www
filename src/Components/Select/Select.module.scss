@@ -1,5 +1,23 @@
 @import "../../styles/config";
 
 .select {
-  // background-color: red;
+  :global {
+    .MuiFormControl-root {
+      width: 100%;
+    }
+    .MuiInputBase-root {
+      height: 50px;
+    }
+  }
+}
+
+.label {
+  display: block;
+  margin-bottom: 25px;
+  color: black;
+  // font-size: 32px;
+}
+
+.hidden_label {
+  height: 43px;
 }
