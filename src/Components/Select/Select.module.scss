@@ -4,9 +4,16 @@
   :global {
     .MuiFormControl-root {
       width: 100%;
+      border: 1px solid #b3b3b3;
     }
     .MuiInputBase-root {
       height: 50px;
+    }
+    .MuiSelect-select:focus {
+      height: 100%;
+    }
+    .MuiInputBase-input {
+      padding: 0;
     }
   }
 }

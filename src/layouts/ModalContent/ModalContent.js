@@ -9,16 +9,18 @@ const Experience = ({ data }) => {
     <>
       <div className={styles.header}>Verkspjald</div>
       <div className={styles.input_line}>
+        {/* <div className={styles.input_wrapper}> */}
         <Input label="Heiti verks" value={data.title} />
+        {/* </div> */}
         <div className={styles.dropdown_line}>
           <Select label="Lengd hæfni" className={styles.length_dropdown} />
           <Select label="" className={styles.length_dropdown} />
         </div>
       </div>
-      <TextArea label="Lýsing á hæfni" />
+      <TextArea className={styles.textarea} label="Lýsing á hæfni" />
       <div className={styles.button_line}>
-        <Button />
-        <Button />
+        <Button.Edit type="save" />
+        <Button.Edit type="publish" />
       </div>
     </>
   );

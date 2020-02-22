@@ -5,14 +5,14 @@ import { TextField as MUITextField } from "@material-ui/core";
 import styles from "./TextArea.module.scss";
 
 const TextArea = (props) => {
-  const { error, label } = props;
+  const { className, error, label } = props;
   const [value, setValue] = React.useState("Controlled");
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
   return (
-    <div className={styles.textarea}>
+    <div className={`${styles.textarea} ${className}`}>
       {label && <span className={label && styles.label}>{error || label}</span>}
       <MUITextField
         id="standard-multiline-flexible"

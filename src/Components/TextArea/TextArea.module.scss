@@ -4,9 +4,10 @@
   :global {
     .MuiFormControl-root {
       width: 100%;
+      border: 1px solid #b3b3b3;
     }
-    // .MuiInputBase-root {
-    //   height: 50px;
+    // .MuiInput-underline:before {
+    //   border-bottom: 0;
     // }
   }
 }

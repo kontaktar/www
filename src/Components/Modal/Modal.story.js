@@ -2,6 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { boolean } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
+import { ModalContent } from "layouts";
 import Modal from "./Modal";
 import ModalReadme from "./README.md";
 
@@ -18,9 +19,9 @@ storiesOf("Components", module)
       disabled={boolean("Disabled", false)}
       onClick={action("Modal-clicked")}
       open
-      height="300px"
-      width="300px"
+      // height="300px"
+      // width="300px"
     >
-      <h1>modal content</h1>
+      <ModalContent data={{ title: "title" }} />
     </Modal>
   ));

@@ -75,5 +75,7 @@ storiesOf("Components", module)
         disabled={boolean("Disabled", false)}
         onClick={action("button-clicked")}
       />
+      <Button.Edit type="save" />
+      <Button.Edit type="publish" />
     </div>
   ));

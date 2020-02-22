@@ -16,7 +16,7 @@ const Input = ({
   ...props
 }) => {
   return (
-    <div className={styles.input_wrapper}>
+    <div className={`${styles.input_wrapper} input_wrapper`}>
       <label
         htmlFor={id}
         {...downshiftLabelProps}

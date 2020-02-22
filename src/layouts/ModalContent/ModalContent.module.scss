@@ -6,24 +6,40 @@
   display: flex;
   flex-direction: column;
 }
-
+.header {
+  padding-bottom: 35px;
+}
 .input_line {
+  :global(.input_wrapper) {
+    flex: 0 0 48%;
+  }
   display: flex;
+  justify-content: space-between;
   flex-direction: row;
   @media only screen and (max-width: 765px) {
     flex-direction: column;
+    .dropdown_line {
+      padding-top: 25px;
+    }
+  }
+
+  input {
+    color: #b3b3b3;
+    font-size: 16px;
+    padding: 10px;
   }
 }
 
 .dropdown_line {
   display: flex;
   flex-direction: row;
-  justify-content: stretch;
-  flex: 0 0 50%;
+  // justify-content: stretch;
+  justify-content: space-between;
+  flex: 0 0 48%;
 }
 
 .length_dropdown {
-  flex: 0 0 50%;
+  flex: 0 0 48%;
 }
 
 .button_line {
@@ -31,4 +47,7 @@
   flex: 0 0 50%;
   flex-direction: row;
   justify-content: flex-end;
+}
+.textarea {
+  padding-top: 20px;
 }
