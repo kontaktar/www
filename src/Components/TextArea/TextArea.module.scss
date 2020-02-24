@@ -6,9 +6,26 @@
       width: 100%;
       border: 1px solid #b3b3b3;
     }
-    // .MuiInput-underline:before {
-    //   border-bottom: 0;
-    // }
+
+    /* Override MUI focus */
+    .MuiInputBase-input:focus {
+      outline: 4px auto rgba(0, 103, 244, 0.247) !important;
+      outline-offset: -2px !important;
+    }
+    .MuiInput-underline:before {
+      border-bottom: none !important;
+    }
+    .MuiInput-underline:after {
+      border-bottom: none !important;
+    }
+    /**/
+
+    .MuiInputBase-multiline {
+      padding: 0px;
+    }
+    .MuiInputBase-inputMultiline {
+      padding: 10px;
+    }
   }
 }
 
