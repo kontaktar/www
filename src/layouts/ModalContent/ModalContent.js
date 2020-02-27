@@ -11,9 +11,7 @@ const Experience = ({ data }) => {
     <>
       <div className={styles.header}>Verkspjald</div>
       <div className={styles.input_line}>
-        {/* <div className={styles.input_wrapper}> */}
         <Input label="Heiti verks" value={data.title} />
-        {/* </div> */}
         <div className={styles.dropdown_line}>
           <Select label="Lengd hæfni" className={styles.length_dropdown} />
           <Select label="" className={styles.length_dropdown} />
@@ -32,12 +30,18 @@ const UserInformation = ({ data }) => {
   return (
     <>
       <div className={styles.header}>Verkspjald</div>
-      <div className={styles.input_line}>
-        <Input label="Nafn" value={data.title} />
-        <Input label="Heimilisfang" value={data.title} />
-        <Input label="Símanúmer" value={data.title} />
-        <Input label="Netfang" value={data.title} />
-        <Input label="Vefsíða" value={data.title} />
+      <div className={styles.input_rows}>
+        <div className={styles.input_line}>
+          <Input label="Nafn" value={data.title} />
+        </div>
+        <div className={styles.input_line}>
+          <Input label="Heimilisfang" value={data.title} />
+          <Input label="Símanúmer" value={data.title} />
+        </div>
+        <div className={styles.input_line}>
+          <Input label="Netfang" value={data.title} />
+          <Input label="Vefsíða" value={data.title} />
+        </div>
       </div>
       <div className={styles.button_line}>
         <Button.Edit type="save" />
@@ -47,11 +51,11 @@ const UserInformation = ({ data }) => {
   );
 };
 
-const ModalContent = ({ data }) => {
+const ModalContent = ({ data, experience, userInformation }) => {
   return (
     <div className={styles.modalcontent}>
-      {/* <Experience data={data} /> */}
-      <UserInformation data={data} />
+      {experience && <Experience data={data} />}
+      {userInformation && <UserInformation data={data} />}
     </div>
   );
 };

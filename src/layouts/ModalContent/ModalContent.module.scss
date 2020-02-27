@@ -1,7 +1,6 @@
 @import "../../styles/config";
 
 .modalcontent {
-  height: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -9,13 +8,15 @@
 .header {
   padding-bottom: 35px;
 }
-.input_line {
+
+.input_line,
+.input_rows {
   :global(.input_wrapper) {
     flex: 0 0 48%;
+    padding-top: 45px;
   }
   display: flex;
   justify-content: space-between;
-  flex-direction: row;
   @media only screen and (max-width: 765px) {
     flex-direction: column;
     .dropdown_line {
@@ -29,13 +30,23 @@
     padding: 10px;
   }
 }
+.input_line {
+  flex-direction: row;
+  @media only screen and (max-width: 765px) {
+    flex-direction: column;
+  }
+}
+
+.input_rows {
+  flex-direction: column;
+}
 
 .dropdown_line {
   display: flex;
   flex-direction: row;
-  // justify-content: stretch;
   justify-content: space-between;
   flex: 0 0 48%;
+  padding-top: 45px;
 }
 
 .length_dropdown {
@@ -43,6 +54,7 @@
 }
 
 .button_line {
+  padding-top: 45px;
   display: flex;
   flex: 0 0 50%;
   flex-direction: row;

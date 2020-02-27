@@ -12,6 +12,7 @@ import styles from "./ProfileContainer.module.scss";
 const ProfileContainer = ({ editMode }) => {
   const [openModal, showModal] = useState(false);
   const [modalData, setModalData] = useState({});
+  const [modalType, setModalType] = useState();
 
   const onCloseModal = () => {
     showModal(false);
@@ -24,12 +25,13 @@ const ProfileContainer = ({ editMode }) => {
       years,
       months
     });
-
+    setModalType({ experience: true });
     showModal(true);
   };
 
   const onEditUserInfoModal = () => {
     setModalData({ title: "Breyta upplýsingum " });
+    setModalType({ userInformation: true });
     showModal(true);
   };
 
@@ -112,7 +114,7 @@ const ProfileContainer = ({ editMode }) => {
             // height="600px"
             // width="800px"
           >
-            <ModalContent data={modalData} />
+            <ModalContent {...modalType} data={modalData} />
           </Modal>
         </CardsContainer>
       </div>
