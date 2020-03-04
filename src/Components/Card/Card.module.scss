@@ -55,10 +55,12 @@
 .description {
   font-size: 14px;
   line-height: 140.8%;
+  // max-height: 114px;
+  overflow: hidden;
 }
 
 .length {
-  margin-top: 16px;
+  margin-top: 18px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
@@ -115,4 +117,32 @@
   .button_icon {
     margin-top: 4px;
   }
+}
+
+.test {
+  top: 170px;
+  position: absolute;
+  right: 11px;
+  background: white;
+  width: 51px;
+  height: 17px;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+}
+.test2 {
+  background: white;
+}
+.test1 {
+  width: 150px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), white);
+  top: 170px;
+  height: 17px;
+  position: absolute;
+  right: 62px;
+}
+
+.see_more {
+  //TODO:
+  padding-left: 100x;
 }
