@@ -19,6 +19,7 @@ const Card = (props) => {
     editMode = false,
     linkToProfile = false,
     months,
+    onClick,
     onEdit,
     title,
     style,
@@ -79,7 +80,7 @@ const Card = (props) => {
           </div>
         )}
 
-        <CardActionArea className={styles.card_area}>
+        <CardActionArea onClick={onClick} className={styles.card_area}>
           <CardContent className={styles.card_content}>
             {/* <p>Í birtingu</p> */}
             <span className={styles.title_description}>{title}</span>

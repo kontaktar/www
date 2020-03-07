@@ -13,6 +13,15 @@ const ProfileContainer = ({ editMode }) => {
   const [openModal, showModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [modalType, setModalType] = useState();
+  const [showActiveSection, setShowActiveSection] = useState(false);
+  const [activeExperiece, setActiveExperience] = useState(false);
+
+  // Store, GetUserExperience
+  // Store, GetActiveUserExperince
+
+  // TODO: Remove hardcoded
+  // const activeUserExperience = mockUserData[2].experience[0];
+  const user = mockUserData[2];
 
   const onCloseModal = () => {
     showModal(false);
@@ -35,11 +44,10 @@ const ProfileContainer = ({ editMode }) => {
     showModal(true);
   };
 
-  // Modal component ætti að taka á móti týpu af input field og label fyrir hann
-  // þ.ea.s. ca. content = [{ input, title}, { hugeinput, title}]
-
-  const mockUser = mockUserData[2];
-
+  const showOnTop = (experience) => {
+    setShowActiveSection(true);
+    setActiveExperience(experience);
+  };
   return (
     <div className={!editMode ? styles.wrapper : undefined}>
       <div className={!editMode ? styles.title : styles.header}>
@@ -51,7 +59,7 @@ const ProfileContainer = ({ editMode }) => {
             width="32"
             name="user"
           />
-          <h2>{mockUser.name}</h2>
+          <h2>{user.name}</h2>
           {editMode && <Button onClick={onEditUserInfoModal}>Breyta</Button>}
         </div>
         <div className={styles.user_information}>
@@ -93,10 +101,23 @@ const ProfileContainer = ({ editMode }) => {
           </Fragment>
         </div>
       </div>
+      <>
+        {showActiveSection && (
+          <div className={styles.active_experience_wrapper}>
+            <h3>Virkt verkspjald</h3>
+            <div className={styles.active_experience_paper}>
+              <h5>{`${activeExperiece.title}`}</h5>
+              <span
+                className={styles.full_description}
+              >{`${activeExperiece.description}`}</span>
+            </div>
+          </div>
+        )}
+      </>
       <div className={styles.card_container}>
-        <h3>Verkspjöld</h3>
+        <h4>Verkspjöld</h4>
         <CardsContainer className={styles.cards}>
-          {mockUser.experience.map((experience) => (
+          {user.experience.map((experience) => (
             <Card
               description={experience.description}
               editMode={editMode}
@@ -104,6 +125,8 @@ const ProfileContainer = ({ editMode }) => {
               title={experience.title}
               months={experience.length.month}
               years={experience.length.years}
+              onClick={() => showOnTop(experience)}
+              // onClick={() => console.log("yolos")}
             />
           ))}
           {/* <Card static /> */}

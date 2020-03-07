@@ -15,7 +15,8 @@
 
 .title {
   padding-top: 20px;
-  padding-bottom: 80px;
+  // padding-bottom: 80px;
+  padding-bottom: 40px;
 }
 
 .header_icon {
@@ -50,10 +51,75 @@
   }
 }
 .card_container {
-  h3 {
+  h4 {
     padding-bottom: 40px;
   }
 }
 .cards {
   display: flex;
+}
+
+.active_experience_paper {
+  animation-duration: 0.6s;
+  animation-name: ExpandIntoView;
+  span,
+  h5 {
+    opacity: 0;
+    animation-duration: 0.8s;
+    animation-name: appear;
+    animation-delay: 0.6s;
+    animation-fill-mode: forwards;
+  }
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes ExpandIntoView {
+    0% {
+      height: 0%;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      // border-bottom: 1px black solid;
+    }
+    100% {
+      height: auto;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      // border-bottom: none;
+    }
+  }
+}
+.active_experience_paper {
+  height: 100%;
+  h5 {
+    font-size: 22px;
+    line-height: 50px;
+  }
+  span {
+    line-height: 24px;
+  }
+  margin-top: 20px;
+  margin-bottom: 40px;
+  width: 100%;
+  box-shadow: 0px 4px 23px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+
+  @media (min-width: 482px) {
+    width: 300px;
+  }
+  @media (min-width: 802px) {
+    width: 620px;
+  }
+
+  @media (min-width: 1122px) {
+    width: 940px;
+  }
+  @media (min-width: 1482px) {
+    width: 1260px;
+  }
 }

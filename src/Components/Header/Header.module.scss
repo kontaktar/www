@@ -12,11 +12,28 @@
     font-family: "Berlingske Sans Bold";
   }
 }
-
+.navigation {
+  display: block;
+  .tab {
+    display: inline-blocK;
+    // width: 44px;
+  }
+  @media (max-width: 1024px) {
+    .tab {
+      margin: 0 0px;
+    }
+  }
+}
 .logo_area {
   flex-grow: 1;
 }
 
 .login {
   margin-left: 40px;
+  @media (max-width: 782px) {
+    margin-left: 0;
+  }
+  @media (max-width: 735px) {
+    width: 110px;
+  }
 }
