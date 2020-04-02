@@ -43,8 +43,13 @@ const SearchContainer = ({ searchInput }) => {
               index,
               item: user
             })}
+            linkToProfile
             description={user.experience[experienceId].description}
-            name={user.name}
+            title={user.experience[experienceId].title}
+            years={user.experience[experienceId].length.years}
+            months={user.experience[experienceId].length.months}
+
+            // name={user.name}
           />
         );
       }
