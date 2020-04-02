@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
+import screensizes from "data/screensizes";
 import { Button, Logo } from "components";
 import { isLoggedIn, logout } from "utils/auth";
-import screensizes from "data/screensizes";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 

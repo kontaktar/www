@@ -10,7 +10,7 @@
 
 .header {
   padding-top: 100px;
-  padding-bottom: 100px;
+  // padding-bottom: 100px;
 }
 
 .title {
@@ -122,4 +122,9 @@
   @media (min-width: 1482px) {
     width: 1260px;
   }
+}
+
+.active_card_container {
+  // padding-bottom: 100px;
+  padding: 50px 0;
 }

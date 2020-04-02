@@ -101,7 +101,7 @@ const ProfileContainer = ({ editMode }) => {
           </Fragment>
         </div>
       </div>
-      <>
+      <div className={styles.active_card_container}>
         {showActiveSection && (
           <div className={styles.active_experience_wrapper}>
             <h3>Virkt verkspjald</h3>
@@ -113,7 +113,7 @@ const ProfileContainer = ({ editMode }) => {
             </div>
           </div>
         )}
-      </>
+      </div>
       <div className={styles.card_container}>
         <h4>Verkspjöld</h4>
         <CardsContainer className={styles.cards}>

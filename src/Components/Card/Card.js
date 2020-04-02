@@ -86,13 +86,10 @@ const Card = (props) => {
             <span className={styles.title_description}>{title}</span>
             <span ref={descriptionReference} className={styles.description}>
               {description}
-              {description}
+              <span className={styles.whiteout} />
+              <span className={styles.whiteout_fade}></span>
             </span>
             {/* TODO: clean this up and rename */}
-            <span className={styles.test1}></span>
-            <span className={styles.test}>
-              {/* <span className={styles.test2}>test</span> */}
-            </span>
 
             {console.log("test", seeMore)}
             {/* {seeMore && <span>test</span>} */}
