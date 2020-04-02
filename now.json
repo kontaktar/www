@@ -1,4 +1,5 @@
 {
+  "name": "kontaktar",
   "version": 2,
   "builds": [
     {
@@ -12,5 +13,6 @@
       "dest": "public/storybook/"
     }
   ],
-  "alias": ["kontaktar2"]
+  "alias": ["kontaktar"],
+  "scope": "kontaktar"
 }
