@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
-import { login, isLoggedIn } from "utils/auth";
+import { login } from "utils/auth";
 import { MainLayout } from "layouts";
 
 const Login = () => {
@@ -22,7 +22,6 @@ const Login = () => {
       <div className="login">
         <form onSubmit={handleSubmit}>
           <label htmlFor="username">Enter username</label>
-          {isLoggedIn()}
           <input
             type="text"
             id="username"

@@ -5,13 +5,10 @@ import { MainLayout, ProfileContainer } from "layouts";
 const Post = () => {
   const router = useRouter();
   const { id } = router.query;
-
+  console.log("User Id from pages/user: ", id);
   return (
     <MainLayout>
-      {/* <div style={{ marginLeft: "90px" }}> */}
       <ProfileContainer />
-      {/* </div> */}
-      <h1>{id}</h1>
     </MainLayout>
   );
 };

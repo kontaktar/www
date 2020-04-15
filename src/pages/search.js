@@ -2,22 +2,23 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
 // import PropTypes from "prop-types";
-import { isLoggedIn } from "utils/auth";
-
+// eslint-disable-next-line no-unused-vars
+import { withAuth } from "utils/auth";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 
-const Search = ({ searchInput }) => {
-  if (isLoggedIn()) {
-    return (
-      <UserLayout>
-        <SearchContainer searchInput={searchInput} />
-      </UserLayout>
-    );
-  }
+const Search = ({ isLoggedIn, searchInput }) => {
   return (
-    <MainLayout>
-      <SearchContainer searchInput={searchInput} />
-    </MainLayout>
+    <>
+      {isLoggedIn ? (
+        <UserLayout>
+          <SearchContainer searchInput={searchInput} />
+        </UserLayout>
+      ) : (
+        <MainLayout>
+          <SearchContainer searchInput={searchInput} />
+        </MainLayout>
+      )}
+    </>
   );
 };
 
@@ -30,4 +31,4 @@ Search.getInitialProps = (ctx) => {
 //   data: PropTypes.object.isRequired
 // };
 
-export default Search;
+export default withAuth(Search);

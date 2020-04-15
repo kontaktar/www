@@ -1,15 +1,13 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import Link from "next/link";
 
 import PropTypes from "prop-types";
 import MuiCard from "@material-ui/core/Card";
-// import CardActions from "@material-ui/core/CardActions";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { Icon } from "components";
-// import { minHeight } from "@material-ui/system";
 
 import styles from "./Card.module.scss";
 
@@ -26,9 +24,6 @@ const Card = (props) => {
     years
   } = props;
 
-  const descriptionReference = useRef();
-  const [seeMore, setSeeMore] = useState(false);
-
   const onEditCard = () => {
     onEdit(title, description, years, months);
   };
@@ -40,15 +35,6 @@ const Card = (props) => {
     }
     return children;
   };
-
-  useEffect(() => {
-    console.log(descriptionReference.current.clientHeight);
-    if (descriptionReference.current.clientHeight > 95) {
-      // 114 næst lína
-      console.log("yolo");
-      setSeeMore(true);
-    }
-  }, [descriptionReference, seeMore]);
 
   return (
     <LinkToProfile>
@@ -84,23 +70,17 @@ const Card = (props) => {
           <CardContent className={styles.card_content}>
             {/* <p>Í birtingu</p> */}
             <span className={styles.title_description}>{title}</span>
-            <span ref={descriptionReference} className={styles.description}>
+            <span className={styles.description}>
               {description}
               <span className={styles.whiteout} />
               <span className={styles.whiteout_fade}></span>
             </span>
-            {/* TODO: clean this up and rename */}
 
-            {console.log("test", seeMore)}
-            {/* {seeMore && <span>test</span>} */}
-            {/* {console.log(document.querySelector("#teest"))} */}
             {(years || months) && (
               <span className={styles.length}>
                 <Icon className={styles.clock_icon} name="clock" />
                 <span>{years ? `${years} ár` : ""}</span>
                 <span>{months ? `${months} mán` : ""}</span>
-                {/* TODO: style this and create link */}
-                {seeMore && <span className={styles.see_more}>Sjá meira</span>}
               </span>
             )}
           </CardContent>

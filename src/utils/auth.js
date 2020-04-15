@@ -37,23 +37,31 @@ function logout() {
   Router.push("/login");
 }
 
-// TODO: this is only temporary, actually validate the content of the token.
-const isLoggedIn = () => cookie.get(TOKEN_NAME) === "my-token";
-
-// // Gets the display name of a JSX component for dev tools
+// Gets the display name of a JSX component for dev tools
 const getDisplayName = (component) =>
   component.displayName || component.name || "Component";
 
+function useAuth() {
+  // TODO: this is just a temporary auth-like behaviour,
+  // look into this: https://auth0.com/blog/handling-authentication-in-react-with-context-and-hooks/
+
+  return {
+    isLoggedIn: cookie.get(TOKEN_NAME) === "my-token"
+  };
+}
 function withAuth(WrappedComponent) {
   class WithAuth extends Component {
     static async getInitialProps(ctx) {
       const token = auth(ctx);
-
       const componentProperties =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));
 
-      return { ...componentProperties, token };
+      return {
+        ...componentProperties,
+        token,
+        isLoggedIn: token === "my-token" // TODO: temp
+      };
     }
 
     constructor(props) {
@@ -107,4 +115,4 @@ function auth(ctx) {
 
   return token;
 }
-export { auth, isLoggedIn, login, logout, withAuth };
+export { auth, login, logout, withAuth, useAuth };

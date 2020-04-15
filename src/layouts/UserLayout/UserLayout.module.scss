@@ -1,21 +1,14 @@
 @import "../../styles/config";
 
-.root {
+.user_root {
   display: flex;
   flex-direction: row;
   width: 100%;
-  // .navigation_drawer {
-  // }
-  .main_content {
+  .user_main_content {
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-grow: 1;
     padding-left: 245px;
   }
-  // .navigation_drawer {
-  //   height: 100vh;
-  // }
-  // .profile_drawer {
-  // }
 }
