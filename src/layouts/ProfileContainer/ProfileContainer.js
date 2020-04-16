@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { CardsContainer, ModalContent } from "layouts";
 import { Button, Card, Icon, Modal } from "components";
@@ -9,13 +9,59 @@ import colors from "styles/colors.scss";
 import mockUserData from "data/all-users-mock";
 import styles from "./ProfileContainer.module.scss";
 
+function cardcardsToShow(cardAmount) {
+  switch (cardAmount) {
+    case 1:
+      return 300;
+    case 2:
+      return 620;
+    case 3:
+      return 940;
+    case 4:
+      return 1260;
+    default:
+      return 300;
+  }
+}
+
 const ProfileContainer = ({ editMode }) => {
+  const wrapperElement = useRef(null);
   const [openModal, showModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [modalType, setModalType] = useState();
   const [showActiveSection, setShowActiveSection] = useState(false);
   const [activeExperiece, setActiveExperience] = useState(false);
 
+  const [activeExperieceWidth, setActiveExperienceWidth] = useState(undefined);
+
+  useEffect(() => {
+    function handleResize() {
+      const WHITE_SPACE_WIDTH = 20;
+      const CARD_WIDTH = 300;
+      const cardsToShow = Math.floor(
+        wrapperElement.current.clientWidth / CARD_WIDTH + WHITE_SPACE_WIDTH
+      );
+      setActiveExperienceWidth(
+        CARD_WIDTH * cardsToShow + (cardsToShow - 1) * WHITE_SPACE_WIDTH
+      );
+    }
+    if (wrapperElement.current) {
+      handleResize();
+    }
+
+    // eslint-disable-next-line no-unused-expressions
+    typeof window !== "undefined" &&
+      window.addEventListener("resize", handleResize);
+    return () =>
+      typeof window !== "undefined" &&
+      window.removeEventListener("resize", handleResize);
+  }, [activeExperieceWidth]);
+
+  if (wrapperElement.current) {
+    console.log("WRAPPER WIDTH", wrapperElement.current.clientWidth);
+    // TODO: calculcate how many cards will fit and also calculate the active card section
+    // so this ProfileContainer will show the same with drawer and without
+  }
   // Store, GetUserExperience
   // Store, GetActiveUserExperince
 
@@ -49,7 +95,10 @@ const ProfileContainer = ({ editMode }) => {
     setActiveExperience(experience);
   };
   return (
-    <div className={!editMode ? styles.wrapper : undefined}>
+    <div
+      ref={wrapperElement}
+      className={!editMode ? styles.wrapper : undefined}
+    >
       <div className={!editMode ? styles.title : styles.header}>
         <div className={styles.user_name}>
           <Icon
@@ -105,7 +154,12 @@ const ProfileContainer = ({ editMode }) => {
         {showActiveSection && (
           <div className={styles.active_experience_wrapper}>
             <h3>Virkt verkspjald</h3>
-            <div className={styles.active_experience_paper}>
+            <div
+              className={styles.active_experience_paper}
+              style={{
+                width: activeExperieceWidth
+              }}
+            >
               <h5>{`${activeExperiece.title}`}</h5>
               <span
                 className={styles.full_description}
