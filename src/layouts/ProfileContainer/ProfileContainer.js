@@ -39,7 +39,7 @@ const ProfileContainer = ({ editMode }) => {
       const WHITE_SPACE_WIDTH = 20;
       const CARD_WIDTH = 300;
       const cardsToShow = Math.floor(
-        wrapperElement.current.clientWidth / CARD_WIDTH + WHITE_SPACE_WIDTH
+        wrapperElement.current.clientWidth / (CARD_WIDTH + WHITE_SPACE_WIDTH)
       );
       setActiveExperienceWidth(
         CARD_WIDTH * cardsToShow + (cardsToShow - 1) * WHITE_SPACE_WIDTH
