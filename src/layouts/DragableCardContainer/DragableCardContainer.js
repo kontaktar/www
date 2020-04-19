@@ -6,18 +6,19 @@ import { Card } from "components";
 import { CardsContainer } from "layouts";
 import styles from "./DragableCardContainer.module.scss";
 
-const mockItems = [
-  { name: "1" },
-  { name: "2" },
-  { name: "3" },
-  { name: "4" },
-  { name: "5" }
-];
-// TODO: this is broken, is it because index is not being sent to card?
-
-const SortableItem = sortableElement(({ cardContent, lel }) => {
+const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
   return (
-    <Card editMode index title="description" description={cardContent.name} />
+    <div>
+      {/* This extra div is crucial for the dragging to work: https://github.com/clauderic/react-sortable-hoc/issues/367#issuecomment-380523336 */}
+      <Card
+        editMode
+        description={cardContent.description}
+        title={cardContent.title}
+        months={cardContent.length.month}
+        years={cardContent.length.years}
+        onEdit={handleEdit}
+      />
+    </div>
   );
 });
 
@@ -28,32 +29,35 @@ const SortableContainer = sortableContainer(({ children }) => {
     </>
   );
 });
-const DragableCardContainer = ({ items }) => {
+// eslint-disable-next-line react/prop-types
+const DragableCardContainer = ({ items, handleEdit }) => {
   // eslint-disable-next-line no-param-reassign
-  items = mockItems;
   const [arrangement, setArrangement] = useState(items);
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions
-    // TODO: SOMETHING IS WRONg HERE, newIndex comes as null.
     if (oldIndex !== newIndex && newIndex !== null) {
-      setArrangement(arrayMove(items, oldIndex, newIndex));
+      setArrangement(arrayMove(arrangement, oldIndex, newIndex));
     }
   };
 
   return (
-    <div className={styles.dragablecardcontainer}>
-      <SortableContainer axis="xy" onSortEnd={onChange}>
-        {arrangement.map((value, index) => (
-          <SortableItem
-            // eslint-disable-next-line react/no-array-index-key
-            key={`item-${index}`}
-            index={index}
-            lel={index}
-            cardContent={value}
-          />
-        ))}
-      </SortableContainer>
-    </div>
+    <SortableContainer
+      helperClass={styles.sortable_container}
+      distance={10}
+      hideSortableGhost={false}
+      axis="xy"
+      onSortEnd={onChange}
+    >
+      {arrangement.map((value, index) => (
+        <SortableItem
+          // eslint-disable-next-line react/no-array-index-key
+          key={`item-${index}`}
+          index={index}
+          handleEdit={handleEdit}
+          cardContent={value}
+        />
+      ))}
+    </SortableContainer>
   );
 };
 

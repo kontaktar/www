@@ -58,6 +58,10 @@
   height: 118px;
   overflow: hidden;
   position: relative;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
 }
 
 .length {
@@ -119,25 +123,6 @@
     margin-top: 4px;
   }
 }
-
-.whiteout {
-  bottom: 0;
-  position: absolute;
-  right: 11px;
-  background: white;
-  width: 51px;
-  height: 17px;
-}
-
-.whiteout_fade {
-  width: 150px;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0), white);
-  bottom: 0;
-  height: 17px;
-  position: absolute;
-  right: 62px;
-}
-
 .see_more {
   //TODO:
   padding-left: 100x;

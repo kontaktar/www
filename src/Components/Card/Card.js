@@ -70,11 +70,7 @@ const Card = (props) => {
           <CardContent className={styles.card_content}>
             {/* <p>Í birtingu</p> */}
             <span className={styles.title_description}>{title}</span>
-            <span className={styles.description}>
-              {description}
-              <span className={styles.whiteout} />
-              <span className={styles.whiteout_fade}></span>
-            </span>
+            <span className={styles.description}>{description}</span>
 
             {(years || months) && (
               <span className={styles.length}>

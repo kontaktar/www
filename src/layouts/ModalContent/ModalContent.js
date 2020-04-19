@@ -6,7 +6,6 @@ import { Button, Input, Select, TextArea } from "components";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
-  // data: { title, description, year, month}
   return (
     <>
       <div className={styles.header}>Verkspjald</div>
@@ -17,7 +16,11 @@ const Experience = ({ data }) => {
           <Select label="" className={styles.length_dropdown} />
         </div>
       </div>
-      <TextArea className={styles.textarea} label="Lýsing á hæfni" />
+      <TextArea
+        className={styles.textarea}
+        label="Lýsing á hæfni"
+        value={data.description}
+      />
       <div className={styles.button_line}>
         <Button.Edit type="save" />
         <Button.Edit type="publish" />

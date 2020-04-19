@@ -3,26 +3,11 @@
 // eslint-disable-next-line no-unused-vars
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { CardsContainer, ModalContent } from "layouts";
+import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import { Button, Card, Icon, Modal } from "components";
 import colors from "styles/colors.scss";
 import mockUserData from "data/all-users-mock";
 import styles from "./ProfileContainer.module.scss";
-
-function cardcardsToShow(cardAmount) {
-  switch (cardAmount) {
-    case 1:
-      return 300;
-    case 2:
-      return 620;
-    case 3:
-      return 940;
-    case 4:
-      return 1260;
-    default:
-      return 300;
-  }
-}
 
 const ProfileContainer = ({ editMode }) => {
   const wrapperElement = useRef(null);
@@ -57,11 +42,6 @@ const ProfileContainer = ({ editMode }) => {
       window.removeEventListener("resize", handleResize);
   }, [activeExperieceWidth]);
 
-  if (wrapperElement.current) {
-    console.log("WRAPPER WIDTH", wrapperElement.current.clientWidth);
-    // TODO: calculcate how many cards will fit and also calculate the active card section
-    // so this ProfileContainer will show the same with drawer and without
-  }
   // Store, GetUserExperience
   // Store, GetActiveUserExperince
 
@@ -90,10 +70,11 @@ const ProfileContainer = ({ editMode }) => {
     showModal(true);
   };
 
-  const showOnTop = (experience) => {
+  const showActiveExperienceOnTop = (experience) => {
     setShowActiveSection(true);
     setActiveExperience(experience);
   };
+
   return (
     <div
       ref={wrapperElement}
@@ -170,7 +151,12 @@ const ProfileContainer = ({ editMode }) => {
       </div>
       <div className={styles.card_container}>
         <h4>Verkspjöld</h4>
-        <CardsContainer className={styles.cards}>
+        <DragableCardContainer
+          items={user.experience}
+          handleEdit={onOpenExperienceModal}
+        >
+          {/* TODO: set non-editmode cards container option */}
+          {/* <CardsContainer className={styles.cards}>
           {user.experience.map((experience) => (
             <Card
               description={experience.description}
@@ -179,21 +165,20 @@ const ProfileContainer = ({ editMode }) => {
               title={experience.title}
               months={experience.length.month}
               years={experience.length.years}
-              onClick={() => showOnTop(experience)}
-              // onClick={() => console.log("yolos")}
+              onClick={() => showActiveExperienceOnTop(experience)}
             />
-          ))}
+          ))} */}
           {/* <Card static /> */}
-          {/* if innerWidth < 800 => width = 100% */}
-          <Modal
-            open={openModal}
-            onClose={onCloseModal}
-            // height="600px"
-            // width="800px"
-          >
-            <ModalContent {...modalType} data={modalData} />
-          </Modal>
-        </CardsContainer>
+        </DragableCardContainer>
+        {/* if innerWidth < 800 => width = 100% */}
+        <Modal
+          open={openModal}
+          onClose={onCloseModal}
+          // height="600px"
+          // width="800px"
+        >
+          <ModalContent {...modalType} data={modalData} />
+        </Modal>
       </div>
     </div>
   );

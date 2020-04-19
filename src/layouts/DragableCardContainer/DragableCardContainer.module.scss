@@ -1,18 +1,5 @@
 @import "../../styles/config";
 
-.dragablecardcontainer {
-  .search_results {
-    flex-grow: 1;
-    padding: 20px;
-
-    display: flex;
-
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: space-around;
-
-    div {
-      margin: 20px;
-    }
-  }
+.sortable_container {
+  z-index: 100;
 }

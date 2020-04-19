@@ -49,7 +49,7 @@ export default [
         id: "4",
         order: "0",
         description:
-          "Ég geri vefi í React með Next.js Lorem Ipsum ....Ég geri vefi í React með Next.js Lorem Ipsum ....Ég geri vefi í React með Next.js Lorem Ipsum ....Ég geri vefi í React með Next.js Lorem Ipsum ....Ég geri vefi í React með Next.js Lorem Ipsum ....Ég geri vefi í React með Next.js Lorem Ipsum ....Ég geri vefi í React með Next.js Lorem Ipsum ....Ég geri vefi í React með Next.js Lorem Ipsum ....",
+          "Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .",
         title: "Ég geri vefi í React með Next.js",
         length: {
           years: "2",

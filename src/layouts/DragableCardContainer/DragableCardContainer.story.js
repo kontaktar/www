@@ -15,6 +15,11 @@ storiesOf("Layouts", module)
   })
   .add("DragableCardContainer", () => (
     <DragableCardContainer
+      items={[
+        { title: "1", description: "1", length: { years: "1", months: "1" } },
+        { title: "2", description: "2", length: { years: "2", months: "2" } },
+        { title: "3", description: "3", length: { years: "3", months: "3" } }
+      ]}
       disabled={boolean("Disabled", false)}
       onClick={action("DragableCardContainer-clicked")}
     >
