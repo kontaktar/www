@@ -43,7 +43,7 @@ const DragableCardContainer = ({ items, handleEdit }) => {
   return (
     <SortableContainer
       helperClass={styles.sortable_container}
-      distance={10}
+      distance={10} // needs to be dragged 10px for the sorting to stars, allows the buttons on the cards to be clickable
       hideSortableGhost={false}
       axis="xy"
       onSortEnd={onChange}

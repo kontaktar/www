@@ -3,10 +3,12 @@
 import React from "react";
 // import PropTypes from "prop-types";
 // eslint-disable-next-line no-unused-vars
-import { withAuth } from "utils/auth";
+import { useAuth } from "utils/auth";
+// eslint-disable-next-line no-unused-vars
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 
-const Search = ({ isLoggedIn, searchInput }) => {
+const Search = ({ searchInput }) => {
+  const { isLoggedIn } = useAuth();
   return (
     <>
       {isLoggedIn ? (
@@ -31,4 +33,4 @@ Search.getInitialProps = (ctx) => {
 //   data: PropTypes.object.isRequired
 // };
 
-export default withAuth(Search);
+export default Search;
