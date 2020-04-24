@@ -151,25 +151,28 @@ const ProfileContainer = ({ editMode }) => {
       </div>
       <div className={styles.card_container}>
         <h4>Verkspjöld</h4>
-        <DragableCardContainer
-          items={user.experience}
-          handleEdit={onOpenExperienceModal}
-        >
-          {/* TODO: set non-editmode cards container option */}
-          {/* <CardsContainer className={styles.cards}>
-          {user.experience.map((experience) => (
-            <Card
-              description={experience.description}
-              editMode={editMode}
-              onEdit={onOpenExperienceModal}
-              title={experience.title}
-              months={experience.length.month}
-              years={experience.length.years}
-              onClick={() => showActiveExperienceOnTop(experience)}
-            />
-          ))} */}
-          {/* <Card static /> */}
-        </DragableCardContainer>
+        {editMode ? (
+          <DragableCardContainer
+            items={user.experience}
+            handleEdit={onOpenExperienceModal}
+          />
+        ) : (
+          <CardsContainer className={styles.cards}>
+            {user.experience.map((experience) => (
+              <Card
+                description={experience.description}
+                editMode={editMode}
+                onEdit={onOpenExperienceModal}
+                title={experience.title}
+                months={experience.length.month}
+                years={experience.length.years}
+                onClick={() => showActiveExperienceOnTop(experience)}
+              />
+            ))}
+            {/* TODO: "Add new card" Card} */}
+          </CardsContainer>
+        )}
+
         {/* if innerWidth < 800 => width = 100% */}
         <Modal
           open={openModal}

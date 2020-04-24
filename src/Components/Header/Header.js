@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
+import Modal from "@material-ui/core/Modal";
 import screensizes from "data/screensizes";
 import { Button, Logo } from "components";
 import { logout, useAuth } from "utils/auth";
@@ -31,11 +32,18 @@ const Header = ({ className }) => {
               <p> closed menu </p>
             </Button>
           ) : (
-            <div className={styles.fullscreen}>
-              <Button onClick={() => setOpenBurger(false)}>
-                <p> open menu </p>
-              </Button>
-            </div>
+            <Modal
+              open={openBurger}
+              // onClose={() => setOpenBurger(false)}
+              aria-labelledby="mobile-menu"
+              aria-describedby="mobile-dropdown-menu"
+            >
+              <div className={styles.modal_content}>
+                <Button onClick={() => setOpenBurger(false)}>
+                  <p> open menu, todo </p>
+                </Button>
+              </div>
+            </Modal>
           )}
         </>
       ) : (

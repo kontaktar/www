@@ -35,6 +35,12 @@ div:nth-child(7) {
 
 .carousel {
   padding-top: 80px;
+  margin-left: -20px;
+  :global {
+    .slider-frame {
+      padding-left: 20px !important;
+    }
+  }
 }
 
 .carousel_header {
