@@ -1,20 +1,50 @@
 @import "../../styles/config";
 
 .subscription_container {
-  // background-color: blue;
   display: flex;
   flex-direction: row;
+  padding: 100px 180px;
+  flex-grow: 1;
+  justify-content: space-between;
+
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+    padding-top: 20px;
+
+    .description_container {
+      padding-bottom: 40px;
+
+      h1,
+      p {
+        max-width: unset;
+      }
+    }
+  }
 }
 
 .description_container {
   flex-direction: column;
-  width: 50%;
-  background-color: yellow;
+  min-width: 60%;
+  padding-top: 10px;
+  margin-right: 30px;
+
+  h1,
+  p {
+    max-width: 432px;
+  }
+  h1 {
+    font-family: "Berlingske Serif";
+    font-size: 48px;
+    line-height: 58px;
+  }
+  p {
+    font-size: 18px;
+    line-height: 170%;
+  }
 }
 
 .subscription_card {
   width: 394px;
-  height: 573px;
   background: #ffffff;
   border: 1px solid $color-red;
   box-sizing: border-box;
@@ -86,9 +116,11 @@
 }
 
 .list_section {
+  padding: 40px 0 20px;
   h4 {
     line-height: 144%;
     margin-bottom: 20px;
+    font-family: "Berlingske Sans Bold";
   }
   ul {
     //TODO replace list-style image

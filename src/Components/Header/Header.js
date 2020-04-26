@@ -58,7 +58,7 @@ const Header = ({ className }) => {
               Leita
             </Button>
           </Link>
-          <Link href="/">
+          <Link href="/subscription">
             <Button className={styles.tab} modifier={["borderless"]}>
               Áskrift
             </Button>

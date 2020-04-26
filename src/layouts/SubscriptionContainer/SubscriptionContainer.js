@@ -7,7 +7,7 @@ const SubscriptionContainer = () => {
   return (
     <div className={styles.subscription_container}>
       <div className={styles.description_container}>
-        <h1>Description</h1>
+        <h1>Áskriftarleið sniðin fyrir þig</h1>
         <p>
           Donec ullamcorper nulla non metus auctor fringilla. Donec id elit non
           mi porta gravida at eget metus. Aenean eu leo quam. Pellentesque
@@ -35,7 +35,8 @@ const SubscriptionContainer = () => {
                 <li>Aðgangur að þínum prófíl</li>
                 <li>test</li>
                 <li>test</li>
-                <li>test</li>
+                {/* <li>test</li>
+                <li>test</li> */}
               </ul>
             </div>
             <div className={styles.button_section}>

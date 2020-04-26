@@ -1,14 +1,15 @@
 @import "../../styles/config";
 
 .root {
-  height: 100%;
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
   width: 100%;
   justify-content: center;
 
   .main_content {
     display: flex;
+    flex-grow: 1;
     flex-direction: row;
     justify-content: center;
   }
