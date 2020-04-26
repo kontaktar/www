@@ -8,16 +8,17 @@ import colors from "styles/colors.scss";
 import styles from "./Button.module.scss";
 
 const Button = (props) => {
-  const { children, className, disabled, onClick, modifier } = props;
+  const { children, className, disabled, onClick, modifier, type } = props;
 
   return (
+    // eslint-disable-next-line react/button-has-type
     <button
       className={`${className} ${styles.button} ${modifier.map(
         (m) => ` ${styles[m]} `
       )}`}
       disabled={disabled}
       onClick={onClick}
-      type="button"
+      type={type}
     >
       {children}
     </button>
@@ -100,10 +101,12 @@ Button.propTypes = {
    */
   modifier: PropTypes.arrayOf(
     PropTypes.oneOf(["", "pill", "inverted", "borderless", "rectangle"])
-  )
+  ),
+  type: PropTypes.string
 };
 
 Button.defaultProps = {
   disabled: false,
-  modifier: [""]
+  modifier: [""],
+  type: "button"
 };
