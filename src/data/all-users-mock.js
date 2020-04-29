@@ -1,341 +1,134 @@
 export default [
   {
-    id: "0",
-    name: "Jón Sigurðsson",
+    id: "101",
+    ssn: "1110752559",
+    firstName: "Hannes",
+    lastName: "Kristjánsson",
+    userName: "hannes",
+    email: "hannes@kontaktar.is",
+    phoneNumber: "8881010",
+    address: "Suðurlandsbraut 22",
+    city: "Reykjavík",
+    postalCode: "108",
     experience: [
       {
-        id: "0",
+        id: "1011",
         order: "0",
-        description: "Jón pípari",
-        title: "title",
+        description:
+          "Arkitekt frá Mílanó. Hannaði skrifstofubyggingu ALMOS. Starfaði hjá arkitektastofu í Mílanó í 6 ár sem sérhæfði sig í skrifstofuhúsnæði.",
+        title:
+          "Hönnun skrifstofurýmis með verkteikningum, lýsingu og innréttingum",
         length: {
-          years: "2",
-          months: "2"
+          years: "10",
+          months: "10"
         }
       },
       {
-        id: "1",
+        id: "1012",
         order: "1",
-        description: "Jón saumari",
-        title: "title",
+        description:
+          "Arkitekt frá Mílanó. Hannaði allar verslanir BRIMKOPA og verslanir PPK. Starfaði með arkitektastofunni Hlýr í Reykjavík í 4 ár og eftir það sjálfstætt. Hef komið að hönnun 30 verslana.",
+        title:
+          "Hönnun skrifstofurýmis með verkteikningum, lýsingu og innréttingum",
         length: {
-          years: "1",
-          months: "12"
+          years: "10",
+          months: "10"
+        }
+      },
+      {
+        id: "1013",
+        order: "2",
+        description:
+          "Arkitekt frá Mílanó. Hannaði skrifstofubyggingu ALMOS. Starfaði hjá arkitektastofu í Mílanó í 6 ár sem sérhæfði sig í skrifstofuhúsnæði. Hannaði allar verslanir BRIMKOPA og verslanir PPK. Starfaði með arkitektastofunni Hlýr í Reykjavík í 4 ár og eftir það sjálfstætt. Hef komið að hönnun 30 verslana.",
+        title:
+          "Hönnun skrifstofurýmis með verkteikningum, lýsingu og innréttingum",
+        length: {
+          years: "10",
+          months: "10"
+        }
+      },
+      {
+        id: "1014",
+        order: "3",
+        description:
+          "Arkitekt frá Mílanó. Hannaði skrifstofubyggingu ALMOS. Starfaði hjá arkitektastofu í Mílanó í 6 ár sem sérhæfði sig í skrifstofuhúsnæði.",
+        title:
+          "Hönnun skrifstofurýmis með verkteikningum, lýsingu og innréttingum",
+        length: {
+          years: "10",
+          months: "10"
+        }
+      },
+      {
+        id: "1015",
+        order: "4",
+        description:
+          "Arkitekt frá Mílanó. Hannaði allar verslanir BRIMKOPA og verslanir PPK. Starfaði með arkitektastofunni Hlýr í Reykjavík í 4 ár og eftir það sjálfstætt. Hef komið að hönnun 30 verslana.",
+        title: "Hanna verslunarrými frá A til Ö ",
+        length: {
+          years: "10",
+          months: "10"
         }
       }
     ]
   },
   {
-    id: "1",
-    name: "Soffía Haraldsdóttir",
+    id: "102",
+    ssn: "1212762529",
+    firstName: "Kári Karl",
+    lastName: "Friðriksson Reykdal",
+    userName: "karikarl",
+    email: "karikarl@gmail.com",
+    phoneNumber: "8881020",
+    address: "Fagrahlíð",
+    city: "Reykjavík",
+    postalCode: "105",
     experience: [
       {
-        id: "2",
+        id: "1021",
         order: "0",
-        description: "Lorem ipsum",
-        title: "title",
+        description:
+          "Sérþekking á sviðum burðarþolshönnunar með nýjustu þróun í hönnunaraðferðum, hugbúnaðartækni og þríviddarvinnslu til þess að uppfylla þarfir viðskiptavinarins, hvort sem um er að ræða ný eða eldri mannvirki. Af þekktum mannvirkjum í burðarþolshönnun má nefna Grand Hótel og Háskólatorg",
+        title: "Burðarþols- og lagnahönnun í þrívídd",
         length: {
-          years: "2",
-          months: "2"
+          years: "15",
+          months: ""
+        }
+      },
+      {
+        id: "1022",
+        order: "1",
+        description:
+          "Stýring verkefna, gerð og eftirfylgni tíma- og kostnaðaráætlana ásamt framkvæmdaeftirliti.",
+        title: "Gerð útboðsgagna og samninga í mannvirkjagerð",
+        length: {
+          years: "15",
+          months: ""
         }
       }
     ]
   },
   {
-    id: "2",
-    name: "Einar Alexander Eymundsson",
+    id: "110",
+    ssn: "2008881109",
+    firstName: "Högurður Ljósvíkingur",
+    lastName: "Torfason",
+    userName: "hogurdur",
+    email: "ljos@hogurdur.is",
+    phoneNumber: "8881100",
+    address: "",
+    city: "Útlönd",
+    postalCode: "0",
     experience: [
       {
-        id: "4",
+        id: "1101",
         order: "0",
         description:
-          "Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .Ég geri vefi í React með Next.js Lorem Ipsum .",
-        title: "Ég geri vefi í React með Next.js",
+          "Námskeið sem eflir starfsfólk í jákvæðum samskiptum, byggð á gagnkvæmri virðingu og sjálfsstjórn. Hefur verið haldið hjá 12 fyrirtækjum með góðum árangri. Námskeiðið er 1 klst og hentar því vel á morgunfundi eða í hádegishléi.",
+        title: "Námskeið - Jákvæð samskipti á vinnustað",
         length: {
-          years: "2",
+          years: "0",
           months: "2"
-        }
-      },
-      {
-        id: "5",
-        order: "1",
-        description: "Ég geri stundum tónlist",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      },
-      {
-        id: "106",
-        order: "1",
-        description: "Allskonar dót",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      },
-      {
-        id: "103",
-        order: "1",
-        description: "Allskonar öðruvísi dót",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "3",
-    name: "Jón Jónsson",
-    experience: [
-      {
-        id: "6",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "7",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "4",
-    name: "Icelandair",
-    experience: [
-      {
-        id: "8",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "9",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "5",
-    name: "First Class",
-    experience: [
-      {
-        id: "10",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "11",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "6",
-    name: "Martyna Anna Zapart",
-    experience: [
-      {
-        id: "12",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "13",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "7",
-    name: "Bragi Guðmundur Bragason",
-    experience: [
-      {
-        id: "14",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "15",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "8",
-    name: "Eymundur Sveinn Einarsson",
-    experience: [
-      {
-        id: "16",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "17",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "9",
-    name: "Jón Sigurðsson",
-    experience: [
-      {
-        id: "18",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "19",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "10",
-    name: "Jón Sigurðsson",
-    experience: [
-      {
-        id: "20",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "21",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
-        }
-      }
-    ]
-  },
-  {
-    id: "11",
-    name: "Jón Sigurðsson",
-    experience: [
-      {
-        id: "22",
-        order: "0",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "2",
-          months: "2"
-        }
-      },
-      {
-        id: "23",
-        order: "1",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean molestie vestibulum nibh. Sed accumsan metus ut dui rutrum, ac aliquam nisl euismod. Mauris tellus lectus, luctus ut quam eget volutpat.",
-        title: "title",
-        length: {
-          years: "1",
-          months: "12"
         }
       }
     ]

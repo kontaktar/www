@@ -15,7 +15,7 @@ const Card = (props) => {
   const {
     description,
     editMode = false,
-    linkToProfile = false,
+    linkToProfile = "",
     months,
     onClick,
     onEdit,
@@ -28,10 +28,11 @@ const Card = (props) => {
     onEdit(title, description, years, months);
   };
 
+  // eslint-disable-next-line no-shadow
   const LinkToProfile = ({ children }) => {
     // TODO replace hardcoded Link
     if (linkToProfile) {
-      return <Link href="/user/einar">{children}</Link>;
+      return <Link href={`/user/${linkToProfile}`}>{children}</Link>;
     }
     return children;
   };
@@ -75,8 +76,8 @@ const Card = (props) => {
             {(years || months) && (
               <span className={styles.length}>
                 <Icon className={styles.clock_icon} name="clock" />
-                <span>{years ? `${years} ár` : ""}</span>
-                <span>{months ? `${months} mán` : ""}</span>
+                <span>{years && years !== "0" ? `${years} ár` : ""}</span>
+                <span>{months && months !== "0" ? `${months} mán` : ""}</span>
               </span>
             )}
           </CardContent>
@@ -89,7 +90,7 @@ const Card = (props) => {
 Card.propTypes = {
   children: PropTypes.node.isRequired,
   description: PropTypes.string,
-  linkToProfile: PropTypes.bool
+  linkToProfile: PropTypes.string
 };
 
 export default Card;

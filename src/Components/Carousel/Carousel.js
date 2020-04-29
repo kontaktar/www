@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import NukaCarousel from "nuka-carousel";
 import { Button, Card } from "components";
+import mockUserData from "data/all-users-mock";
 import styles from "./Carousel.module.scss";
 
 const settings = [
@@ -43,6 +44,8 @@ const Carousel = ({ width }) => {
     }
   }, [width, carouselSize]);
 
+  const users = mockUserData;
+
   return (
     <>
       <div className={styles.carousel_header}>
@@ -79,56 +82,63 @@ const Carousel = ({ width }) => {
         transitionMode="scroll"
         slidesToShow={slidesToShow}
       >
-        <Card name={0} title="yo" description="Hello" years="1" months="1">
+        <Card
+          name={0}
+          linkToProfile={`${users[0].userName}`}
+          title={`${users[0].experience[0].title}`}
+          description={`${users[0].experience[0].description}`}
+          years={`${users[0].experience[0].length.years}`}
+          months={`${users[0].experience[0].length.months}`}
+        >
           1
         </Card>
         <Card
           name={1}
-          linkToProfile
-          title="Hey"
-          description="Description"
-          years="2"
-          months="12"
+          linkToProfile={`${users[1].userName}`}
+          title={`${users[1].experience[0].title}`}
+          description={`${users[1].experience[0].description}`}
+          years={`${users[1].experience[0].length.years}`}
+          months={`${users[1].experience[0].length.months}`}
         >
           2
         </Card>
         <Card
           name={2}
-          linkToProfile
-          title="Ho"
-          description="Description"
-          years="2"
-          months="12"
+          linkToProfile={`${users[2].userName}`}
+          title={`${users[2].experience[0].title}`}
+          description={`${users[2].experience[0].description}`}
+          years={`${users[2].experience[0].length.years}`}
+          months={`${users[2].experience[0].length.months}`}
         >
           3
         </Card>
         <Card
           name={3}
           linkToProfile
-          title="Mhahah"
+          title="Title"
           description="Description"
-          years="2"
-          months="12"
+          years="1"
+          months="1"
         >
           4
         </Card>
         <Card
           name={4}
           linkToProfile
-          title="Arg"
+          title="Title"
           description="Description"
           years="2"
-          months="12"
+          months="2"
         >
           5
         </Card>
         <Card
           name={5}
           linkToProfile
-          title="Gúlp"
+          title="Title"
           description="Description"
-          years="2"
-          months="12"
+          years="3"
+          months="3"
         >
           6
         </Card>
