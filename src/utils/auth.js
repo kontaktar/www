@@ -44,9 +44,15 @@ const getDisplayName = (component) =>
 function useAuth() {
   // TODO: this is just a temporary auth-like behaviour,
   // look into this: https://auth0.com/blog/handling-authentication-in-react-with-context-and-hooks/
-
+  const checkCookie = (ctx) => {
+    const { spez_user_token: token } = nextCookie(ctx);
+    return token === "my-token";
+  };
   return {
-    isLoggedIn: cookie.get(TOKEN_NAME) === "my-token"
+    isLoggedIn: cookie.get(TOKEN_NAME) === "my-token",
+
+    // call this in getInitialProps for logged in status for pages
+    isLoggedInServerSide: (ctx) => checkCookie(ctx)
   };
 }
 function withAuth(WrappedComponent) {

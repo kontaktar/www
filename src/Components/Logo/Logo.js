@@ -11,7 +11,7 @@ const Logo = ({ className, inverted, withTitle }) => {
       <div className={styles.logo}>
         <h1>K</h1>
       </div>
-      {withTitle && <Logo.Title />}
+      {withTitle ? <Logo.Title /> : null}
     </div>
   );
 };

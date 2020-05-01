@@ -6,13 +6,11 @@ import styles from "./UserLayout.module.scss";
 const UserLayout = ({ children }) => {
   return (
     <div className={styles.user_root}>
-      <div className={styles.navigation_drawer}>
-        <Drawer />
-      </div>
+      <Drawer />
       <div className={styles.user_main_content}>{children}</div>
-      <div className={styles.profile_drawer}>
+      {/* <div className={styles.profile_drawer}>
         <Drawer rightSide />
-      </div>
+      </div> */}
     </div>
   );
 };

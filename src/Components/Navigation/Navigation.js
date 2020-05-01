@@ -19,10 +19,6 @@ const routes = [
   },
   {
     url: "/",
-    title: "Title"
-  },
-  {
-    url: "/",
     title: "Útskrá"
   }
 ];
@@ -32,10 +28,11 @@ const Navigation = ({ isOpen }) => {
     <div className={styles.navigation_bar} id="navi">
       {routes.map((route) => (
         <Button.Navigation
+          key={route.title}
           compact={!isOpen}
           title={route.title}
-          url={!route.title && route.url}
-          onClick={route.title === "Útskrá" && logout}
+          url={!route.title ? route.url : ""}
+          onClick={route.title === "Útskrá" ? logout : () => {}}
         />
       ))}
     </div>
