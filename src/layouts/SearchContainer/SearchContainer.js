@@ -9,9 +9,9 @@ import styles from "./SearchContainer.module.scss";
 
 const SearchContainer = ({ searchInput }) => {
   const [experienceId, setExperienceId] = useState(0);
+  const [isMatchingContent, setMatchingContent] = useState(false);
   const matchingCardContent = (inputValue, allUsers) => {
     return allUsers.filter((user) => {
-      // console.log(user);
       const isMatchingUsername =
         user.firstName.toLowerCase().includes(inputValue.toLowerCase()) ||
         user.lastName.toLowerCase().includes(inputValue.toLowerCase());
@@ -23,7 +23,12 @@ const SearchContainer = ({ searchInput }) => {
           .toLowerCase()
           .includes(inputValue.toLowerCase());
         if (matchingDescription || matchingTitle) {
+          // eslint-disable-next-line no-unused-expressions
+          inputValue && setMatchingContent(true);
           setExperienceId(i);
+        } else {
+          // eslint-disable-next-line no-unused-expressions
+          inputValue && setMatchingContent(false);
         }
         return matchingDescription || matchingTitle || null;
       });
@@ -37,36 +42,65 @@ const SearchContainer = ({ searchInput }) => {
       (user, index) => {
         /* TODO: Inital render should render all experiences on each user at first */
         /* TODO: linkToProfile not correct */
+        /* TODO: this if else here below is not doing much, do this better with actual data */
+        if (isMatchingContent) {
+          return (
+            <Card
+              index
+              {...getItemProperties({
+                key: `${user.firstName + user.id + experienceId}`,
+                index,
+                item: user
+              })}
+              linkToProfile={user.userName}
+              description={
+                (user.experience[experienceId] &&
+                  user.experience[experienceId].description) ||
+                ""
+              }
+              title={
+                (user.experience[experienceId] &&
+                  user.experience[experienceId].title) ||
+                ""
+              }
+              years={
+                (user.experience[experienceId] &&
+                  user.experience[experienceId].length.years) ||
+                ""
+              }
+              months={
+                (user.experience[experienceId] &&
+                  user.experience[experienceId].length.months) ||
+                ""
+              }
+            />
+          );
+        }
+        // return null;
         return (
-          <Card
-            index
-            {...getItemProperties({
-              key: `${user.firstName + user.id + experienceId}`,
-              index,
-              item: user
-            })}
-            linkToProfile={user.userName}
-            description={
-              (user.experience[experienceId] &&
-                user.experience[experienceId].description) ||
-              ""
-            }
-            title={
-              (user.experience[experienceId] &&
-                user.experience[experienceId].title) ||
-              ""
-            }
-            years={
-              (user.experience[experienceId] &&
-                user.experience[experienceId].length.years) ||
-              ""
-            }
-            months={
-              (user.experience[experienceId] &&
-                user.experience[experienceId].length.months) ||
-              ""
-            }
-          />
+          <>
+            {user.experience.map((experience, i) => (
+              <Card
+                index
+                {...getItemProperties({
+                  key: `${user.firstName + user.id + i}`,
+                  index,
+                  item: user
+                })}
+                linkToProfile={user.userName}
+                description={
+                  (user.experience[i] && user.experience[i].description) || ""
+                }
+                title={(user.experience[i] && user.experience[i].title) || ""}
+                years={
+                  (user.experience[i] && user.experience[i].length.years) || ""
+                }
+                months={
+                  (user.experience[i] && user.experience[i].length.months) || ""
+                }
+              />
+            ))}
+          </>
         );
       }
     );
