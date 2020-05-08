@@ -8,13 +8,15 @@
 }
 .hero {
   margin-left: 190px;
-  // position: relative;
+  margin-right: 90px;
   flex-grow: 1;
   height: 100%;
-  // min-height: 600px;
+  @media (max-width: $tablet-portrait) {
+    margin-left: 90px;
+  }
 }
 .search_section {
-  width: 680px;
+  max-width: 680px;
   margin-top: 120px;
   h1,
   span {
@@ -27,8 +29,10 @@
   }
   .search {
     display: flex;
+    width: 100%;
     flex-direction: row;
     margin-top: 100px;
+    margin-right: 90px;
     .search_bar {
       height: 50px;
       flex-grow: 1;
@@ -36,6 +40,17 @@
     .search_button {
       margin-left: 20px;
       width: 140px;
+    }
+  }
+  .search.mobile {
+    flex-direction: column;
+    // width: 100%;
+    .search_button {
+      margin-top: 20px;
+      align-self: center;
+    }
+    .search_bar {
+      width: 100%;
     }
   }
 }

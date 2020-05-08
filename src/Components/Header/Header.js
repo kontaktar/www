@@ -15,7 +15,7 @@ const Header = ({ className }) => {
   const { isLoggedIn } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
 
-  const mobileView = width < 700; // TODO: adjust this number
+  const mobileView = width < screensizes.tabletsPortrait;
   // const openBurger = () => {
 
   //   console.log("test");

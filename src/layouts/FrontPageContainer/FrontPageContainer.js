@@ -4,10 +4,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Button, Carousel, SearchBar } from "components";
+import screensizes from "data/screensizes";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./FrontPageContainer.module.scss";
 
 const FrontPageContainer = () => {
   const heroRef = React.useRef(null);
+  const { width: windowWidth } = useWindowDimensions();
   const [searchInput, setSearchInput] = useState(undefined);
   const [triggerSearch, setTriggerSearch] = useState(false);
   const [frameWidth, setFrameWidth] = useState(undefined);
@@ -17,9 +20,8 @@ const FrontPageContainer = () => {
     // client side only
     observer = React.useRef(
       new ResizeObserver((entries) => {
-        // Only care about the first element, we expect one element ot be watched
+        // Only care about the first element, we expect one element to be watched
         const { width } = entries[0].contentRect;
-        console.log(width);
         setFrameWidth(width);
       })
     );
@@ -60,13 +62,17 @@ const FrontPageContainer = () => {
             <span className={styles.highlight}>sérfræðing</span> fyrir þitt
             fyrirtæki?
           </h1>
-          <div className={styles.search}>
+          <div
+            className={`${styles.search} ${
+              windowWidth < screensizes.tabletsLandscape ? styles.mobile : ""
+            }`}
+          >
             <SearchBar
               onChange={onSearchBarInput}
               className={styles.search_bar}
               placeholder="Að hverju ertu að leita?"
               onKeyDown={onSearchBarSubmit}
-            ></SearchBar>
+            />
             {/* TODO: trigger link route onKeyDown === Enter */}
             <Link
               href={{

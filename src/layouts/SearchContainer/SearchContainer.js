@@ -42,7 +42,7 @@ const SearchContainer = ({ searchInput }) => {
       (user, index) => {
         /* TODO: Inital render should render all experiences on each user at first */
         /* TODO: linkToProfile not correct */
-        /* TODO: this if else here below is not doing much, do this better with actual data */
+        /* TODO: this "if else" here below is not doing much, do this better with actual data */
         if (isMatchingContent) {
           return (
             <Card

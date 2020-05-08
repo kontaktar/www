@@ -46,13 +46,28 @@ const Carousel = ({ width }) => {
 
   const users = mockUserData;
 
+  const bySize = () => {
+    let size;
+    if (slidesToShow === 2) size = "medium";
+    if (slidesToShow === 1) size = "small";
+    return size;
+  };
+
   return (
     <>
-      <div className={styles.carousel_header}>
+      <div
+        className={`
+          ${styles.carousel_header}
+          ${styles[bySize()]}
+        `}
+      >
         <h3>Nýjustu sérfræðingarnir</h3>
       </div>
       <NukaCarousel
-        className={styles.carousel}
+        className={`
+        ${styles.carousel}
+        ${styles[bySize()]}
+      `}
         wrapAround
         // onResize={onResize}
         // slideIndex={slideIndex}
@@ -60,7 +75,7 @@ const Carousel = ({ width }) => {
           <Button.CarouselNavi
             id="carousel_next"
             direction="next"
-            className={styles.button_next}
+            className={`${styles.button_next} ${styles[bySize()]}`}
             onClick={nextSlide}
           />
         )}
@@ -68,7 +83,7 @@ const Carousel = ({ width }) => {
           <Button.CarouselNavi
             id="carousel_back"
             direction="back"
-            className={styles.button_back}
+            className={`${styles.button_back} ${styles[bySize()]}`}
             onClick={previousSlide}
           />
         )}
