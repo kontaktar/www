@@ -5,16 +5,12 @@
   width: 960px;
 
   @media (max-width: 960px) {
-    width: 620px;
+    width: 640px;
   }
 
-  @media (max-width: 620px) {
-    width: 100%;
+  @media (max-width: 710px) {
+    width: 90%;
   }
-  // width: 620px;
-  // margin: auto;
-
-  // background-color: red;
 
   .search_bar {
     height: 200px;

@@ -1,12 +1,14 @@
-import users from "data/users-mock";
+const database = require("../../../utils/database").instance;
 
-export default ({ query: { id } }, response) => {
-  const filtered = users.filter((p) => p.id.toString() === id.toString());
-
-  // User with id exists
-  if (filtered.length > 0) {
-    response.status(200).json(filtered[0]);
-  } else {
-    response.status(404).json({ message: `User with id: ${id} not found.` });
+export default async (request, response) => {
+  try {
+    const {
+      query: { id }
+    } = request;
+    const post = await database.one("SELECT * FROM users WHERE id=$1", id);
+    response.status(200).json(post);
+  } catch (error) {
+    console.error(error);
+    response.status(500).end();
   }
 };
