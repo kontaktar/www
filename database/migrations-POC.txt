@@ -101,16 +101,22 @@ VALUES (1, 'Hönnun skrifstofurýmis með verkteikningum, lýsingu og innréttin
 (10, 'Námskeið - Jákvæð samskipti á vinnustað', 'Námskeið sem eflir starfsfólk í jákvæðum samskiptum, byggð á gagnkvæmri virðingu og sjálfsstjórn. Hefur verið haldið hjá 12 fyrirtækjum með góðum árangri. Námskeiðið er 1 klst og hentar því vel á morgunfundi eða í hádegishléi.', 0, 2),
 (11, 'Námskeið - Árangursrík og öflug liðsheild á vinnustað', 'Kennari í meistaranámi HR og margreyndur stjórnandi. Markmið námskeiðsins er að stjórnandinn fái í hendur verkfæri og kynnist aðferðum til þess að ná enn meiri árangri sem stjórnandi öflugrar liðsheildar. Sérstök áhersla er lögð á að stjórandinn öðlist færni til að styðja við jákvæða framþróun teymisins síns. Námskeiðið er 7 klst.', 3, 0);
 
-101	1110752559	Hannes 	Kristjánsson	hannes@kontaktar.is	8881010	Suðurlandsbraut 22	Reykjavík	108	
-102	1212762529	Kári Karl	Friðriksson Reykdal	karikarl@gmail.com	8881020	Fagrahlíð	Reykjavík	105	
-103	1301772249	Arnmundur Auðunn	Arnmundsson	arnmundur@arnmundur.is	8881030	Hamraborg 22	Kópavogur	200	arnmundur.is
-104	1402803229	Guðrún Hrefna	Hallgrímsdóttir	gudrun.hrefna@ghhall.com	8881040	Berlinstrasse 142	Berlin	0	ghhall.com
-105	1503814239	Hafdís Þórgunnur	Þórarinsdóttir Beck	hth@thbeck.com	8881050		London	0	thbeck.com
-106	1604854449	Sigríður	Svansdóttir	sirry@svanirnir.is	8881060		Vestmannaeyjar	900	svanirnir.is
-107	1705665659	Þormóður Orri	Albertsson	thorri@kontaktar.is	8881070	Suðurlandsbraut 22	Reykjavík	108	
-108	1806546649	Ýr 	Önnudóttir	yronnu@gmail.com	8881080		Akureyri	600	
-109	1907900269	Árni Tryggvi	Tryggvason	arni@trytry.is	8881090	Bárugötu 1	Reykjavík	101	trytry.is
-110	2008881109	Högurður Ljósvíkingur	Torfason	ljos@hogurdur.is	8881100		Útlönd	0	hogurdur.is
-111	2109003230	Ragnar Ketill	Frímannsson	ragnarketill@gmail.com	8881110		Hafnarfjörður	220	
+ALTER TABLE users
+	ADD COLUMN document_with_idx tsvector;
+	
+update users
+set document_with_idx = to_tsvector(user_name || ' ' || first_name || ' ' || last_name );
 
+CREATE INDEX users_document_idx
+	ON users
+	USING GIN (document_with_idx);
+	
+ALTER TABLE experiences
+	ADD COLUMN document_with_idx tsvector;
+	
+update experiences
+set document_with_idx = to_tsvector(coalesce(title, '') || ' ' || coalesce(description, ''));
 
+CREATE INDEX experiences_document_idx
+	ON experiences
+	USING GIN (document_with_idx);
