@@ -1,0 +1,116 @@
+CREATE OR REPLACE FUNCTION trigger_set_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TABLE users(
+	id serial PRIMARY KEY,
+	user_name VARCHAR (30) UNIQUE NOT NULL,
+  first_name VARCHAR (30) NOT NULL,
+  last_name VARCHAR (30) NOT NULL,
+	email VARCHAR (355) UNIQUE NOT NULL,
+	website VARCHAR (355),
+	phone_number VARCHAR (10),
+	created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+	last_login TIMESTAMPTZ,
+  ssn VARCHAR (10) UNIQUE NOT NULL
+);
+
+INSERT INTO users(user_name, first_name, last_name, email, website, phone_number, ssn)
+VALUES ('hannes', 'Hannes', 'Kristjánsson', 'hannes@kontaktar.is', '', '8881010', '1110752559'),
+('kari', 'Kári Karl', 'Friðriksson Reykdal', 'karikarl@gmail.com', '', '8881020', '1212762529'),
+('arnmundur', 'Arnmundur Auðunn', 'Arnmundsson', 'arnmundur@arnmundur.is', 'arnmundur.is', '8881030', '1301772249'),
+('gugga', 'Guðrún Hrefna', 'Hallgrímsdóttir', 'gudrun.hrefna@ghhall.com', 'ghhall.com', '8881040', '1402803229'),
+('thbeck', 'Hafdís Þórgunnur', 'Þórarinsdóttir Beck', 'hth@thbeck.com', 'thbeck.com', '8881050', '1503814239'),
+('svanirnir', 'Sigríður', 'Svansdóttir', 'ksirry@svanirnir.is', 'svanirnir.is', '8881060', '1604854449'),
+('thorri', 'Þormóður Orri', 'Albertsson', 'thorri@kontaktar.is', '', '8881070', '1705665659'),
+('yr', 'Ýr', 'Önnudóttir', 'yronnu@gmail.com', '', '8881080', '1806546649'),
+('trytry', 'Árni Tryggvi', 'Tryggvason', 'arni@trytry.is', 'trytry.is', '8881090', '1907900269'),
+('hogurdur', 'Högurður Ljósvíkingur', 'Torfason', 'ljos@hogurdur.is', 'hogurdur.is', '8881100', '2008881109'),
+('raggi', 'Ragnar Ketill', 'Frímannsson', 'ragnarketill@gmail.com', '', '8881110', '2109003230');
+
+CREATE TABLE addresses(
+	id serial PRIMARY KEY,
+	user_id INTEGER REFERENCES users(id), 
+  postal_code TEXT,
+  street_name TEXT,
+	city TEXT,
+	country TEXT
+);
+
+INSERT INTO addresses(user_id, street_name, city, postal_code, country)
+VALUES (1, 'Suðurlandsbraut 22', 'Reykjavík', 108, 'Iceland'),
+(2, 'Fagrahlíð', 'Reykjavík', 105, 'Iceland'),
+(3, 'Hamraborg 22', 'Kópavogur', 200, 'Iceland'),
+(4, 'Berlinstrasse 142', 'Berlin', 0, 'Germany'),
+(5, '', 'London', 0, 'United Kingdom'),
+(6, '', 'Vestmannaeyjar', 900, 'Iceland'),
+(7, 'Suðurlandsbraut 22', 'Reykjavík', 108, 'Iceland'),
+(8, '', 'Akureyri', 600, 'Iceland'),
+(9, 'Bárugötu 1', 'Reykjavík', 101, 'Iceland'),
+(10, '', '', 0, 'Útlönd'),
+(11, '', 'Hafnarfjörður', 220, 'Iceland');
+
+CREATE TABLE experiences(
+	id serial PRIMARY KEY,
+	user_id INTEGER REFERENCES users(id), 
+  title TEXT,
+  description TEXT,
+	years INTEGER,
+	months INTEGER
+);
+
+INSERT INTO experiences(user_id, title, description, years, months)
+VALUES (1, 'Hönnun skrifstofurýmis með verkteikningum, lýsingu og innréttingum', 'Arkitekt frá Mílanó. Hannaði skrifstofubyggingu ALMOS. Starfaði hjá arkitektastofu í Mílanó í 6 ár sem sérhæfði sig í skrifstofuhúsnæði.', 10, 10),
+(1, 'Hönnun verslunarrýmis með verkteikningum, lýsingu og innréttingum', 'Arkitekt frá Mílanó. Hannaði allar verslanir BRIMKOPA og verslanir PPK. Starfaði með arkitektastofunni Hlýr í Reykjavík í 4 ár og eftir það sjálfstætt. Hef komið að hönnun 30 verslana.', 10, 10),
+(1, 'Hönnun á innréttingum og lýsingu, efnisval, tillögur að útfærslu eða fullunnar teikningar', 'Arkitekt frá Mílanó. Hannaði skrifstofubyggingu ALMOS. Starfaði hjá arkitektastofu í Mílanó í 6 ár sem sérhæfði sig í skrifstofuhúsnæði. Hannaði allar verslanir BRIMKOPA og verslanir PPK. Starfaði með arkitektastofunni Hlýr í Reykjavík í 4 ár og eftir það sjálfstætt. Hef komið að hönnun 30 verslana.', 10, 10),
+(1, 'Teikningar fyrir stórar og smáar breytingar á skrifstofuhúsnæði', 'Arkitekt frá Mílanó. Hannaði skrifstofubyggingu ALMOS. Starfaði hjá arkitektastofu í Mílanó í 6 ár sem sérhæfði sig í skrifstofuhúsnæði.', 10, 10),
+(1, 'Hanna verslunarrými frá A til Ö ', 'Arkitekt frá Mílanó. Hannaði allar verslanir BRIMKOPA og verslanir PPK. Starfaði með arkitektastofunni Hlýr í Reykjavík í 4 ár og eftir það sjálfstætt. Hef komið að hönnun 30 verslana.', 10, 10),
+(2, 'Burðarþols- og lagnahönnun í þrívídd', 'Sérþekking á sviðum burðarþolshönnunar með nýjustu þróun í hönnunaraðferðum, hugbúnaðartækni og þríviddarvinnslu til þess að uppfylla þarfir viðskiptavinarins, hvort sem um er að ræða ný eða eldri mannvirki. Af þekktum mannvirkjum í burðarþolshönnun má nefna Grand Hótel og Háskólatorg', 15, 0),
+(2, 'Gerð útboðsgagna og samninga í mannvirkjagerð', 'Stýring verkefna, gerð og eftirfylgni tíma- og kostnaðaráætlana ásamt framkvæmdaeftirliti.', 15, 0),
+(2, 'Umsjón og eftirlit framkvæmda í mannvirkjagerð', 'Stýring verkefna, gerð og eftirfylgni tíma- og kostnaðaráætlana ásamt framkvæmdaeftirliti.', 15, 0),
+(2, 'Kostnaðaráætlanir, hönnun og ráðgjöf við mannvirkjagerð', 'Stýring verkefna, gerð og eftirfylgni tíma- og kostnaðaráætlana ásamt framkvæmdaeftirliti.', 15, 0),
+(2, 'Greining aksturferla og umferðarflæðis um lóðir fyrirtækja', 'Dæmi um verkefni á þessu sviði má nefna greiningu akstursferla og umferðarflæðis á nýrri lóð Kommunen í Haag og hönnunarstýringu þjónustumiðstöðvar við Gullsmára í Kópavogi.', 15, 0),
+(3, 'Vefhönnun og lógó', 'Menntaður vefhönnuður frá Tækniskólanum. Vinn með Indesign, Illustrator og Photoshop. Hanna vefi  að hluta og í heild sinni, lógó og merkingar. Hef mikið starfað við vefumsjón, mest með vefumsjónarkerfin WordPress og WooCommerce.   Dæmi um hönnun og vefsíðugerð er að finna á vefnum minum arnmundur.is', 3, 6),
+(3, 'Vefumsjón', 'Menntaður vefhönnuður frá Tækniskólanum. Vinn með Indesign, Illustrator og Photoshop. Hanna vefi  að hluta og í heild sinni, lógó og merkingar. Hef mikið starfað við vefumsjón, mest með vefumsjónarkerfin WordPress og WooCommerce.   Dæmi um hönnun og vefsíðugerð er að finna á vefnum minum arnmundur.is', 3, 6),
+(3, 'Umbrot og textavinna', 'Starfaði í umbroti og textavinnu hjá Héraðsblaðinu.  Menntaður vefhönnuður frá Tækniskólanum. Vinn með Indesign, Illustrator og Photoshop.', 15, 0),
+(4, 'Tek að mér prófarkalestur á skýrslum og markaðsefni', 'Hef lengst af unnið við textagerð og fréttaskrif. Tekið og skrifað fjölda viðtala. Er menntaður íslenskufræðingur og hef prófarkalesið skýrslur, bæklinga, vefsíður, bækur, blogg og fjölmiðla. ', 9, 3),
+(4, 'Tek að mér að skrifa fréttir og blogg á vefsíður fyrirtækja', 'Hef lengst af unnið við textagerð og fréttaskrif. Tekið og skrifað fjölda viðtala. Er menntaður íslenskufræðingur og hef prófarkalesið skýrslur, bæklinga, vefsíður, bækur, blogg og fjölmiðla. ', 1, 2),
+(4, 'Tek að mér textaskrif fyrir fyrirtæki, ársskýrslur og bæklinga', 'Hef lengst af unnið við textagerð og fréttaskrif. Tekið og skrifað fjölda viðtala. Er menntaður íslenskufræðingur og hef prófarkalesið skýrslur, bæklinga, vefsíður, bækur, blogg og fjölmiðla. ', 1, 0),
+(4, 'Skrifa vörulýsingar fyrir vefverslanir og bæklinga', 'Hef lengst af unnið við textagerð og fréttaskrif. Tekið og skrifað fjölda viðtala. Er menntaður íslenskufræðingur og hef prófarkalesið skýrslur, bæklinga, vefsíður, bækur, blogg og fjölmiðla. ', 4, 4),
+(5, 'Ráðgjöf til fyrirtækja um fjárhagslega endurskipulagningu', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Ráðgjöf til fyrirtækja um lausafjárstýringu', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Aðstoð við kaup og sölu fyrirtækja', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Námskeið um fjármál fyrirtækja og áhættustýringu', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Námskeið um fjármögnun og arðsemisútreikninga verkefna', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Aðstoð við arðsemisútreikninga verkefna og fyrirtækja', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Aðstoð við fjármögnun verkefna', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Ráðgjöf við högun fjárfestinga og áhættustýringu, mat á fjárfestingakostum', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Ráðgjöf um samruna og yfirtökur', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Mótun fjárfestingastefnu ', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(5, 'Verðmat á núverandi eignum', 'Hef veitt fyrirtækjum fjármálaráðgjöf, bæði sem starfsmaður Arion banka og Íslandsbanka í 4 ár og síðar sem óháður ráðgjafi. Menntun í fjármálum frá UPenn með áherslu á áhættustýringu og fjármögnun. Kenni áhættustýringu í Háskóla Íslands og hef haldið fjölda námskeiða um fjármál.', 8, 0),
+(6, 'Lögfræðileg ráðgjöf við samruna og yfirtökur', 'Lögfræðiráðgjöf, samningaviðræður og samningsgerð við yfirtökur og samruna fyrirtækja á Íslandi eða erlendis. Meðal viðskiptavina eru Apple, Walmart og Bykopp.', 25, 0),
+(6, 'Skattalegar og lögfræðilegar áreiðanleikakannanir', 'Áreiðanleikakannanir sem lúta m.a. að staðfestingu á lagalegri stöðu, í aðdraganda eða vegna samningsgerðar, sem oft á tíðum tengjast fjármögnun verkefna og/eða viðskiptum við erlenda aðila.', 25, 0),
+(6, 'Verjendur í skattamálum', 'Sérfræðingar með áratugareynslu af skattkerfinu, m.a. við skatteftirlit og skattrannsóknir. Sérþekking á verjendastörfum skattsvikamála sem og aðstoð við aðra lögmenn eða sérfræðinga við þeirra störf. ', 25, 0),
+(7, 'Smíði á vefsíðum frá grunni eða ofan á WP', 'Reyndur hugbúnaðarsérfræðingur, þekki best HTML, CSS, SQL, .NET, MVC, PHP, Javascript, Python, C++, Photoshop, Illustrator, Windows, Linux & Wordpress. Meðal viðskiptavina eru Auglýsingastofan, Ferðastkrifstofan og Búðin.', 5, 11),
+(8, 'Hanna og forrita vefsíður, öpp og ýmis forrit', 'Úskrifaður tölvunarfræðingur frá HR 2020. Hef nokkuð góða kunnáttu í forritunarmálum eins og Java, C++, HTML/CSS, JSP og JavaScript.', 0, 3),
+(9, 'Vinnustofur fyrir starfsmenn fyrirtækja í notkun verkfæra Lean & Six Sigma', 'Starfaði á sviði Lean, stöðugra umbóa og gæðamála, á Norðurlöndum,  verkferlagreining í þjónustu, framleiðslu, aðfangakeðjum og skrifstofuumhverfi, Hef haldið vinnustofur hjá fyrirtækjum á Íslandi og í Noregi í eitt ár.  ', 1, 2),
+(10, 'Námskeið - Jákvæð samskipti á vinnustað', 'Námskeið sem eflir starfsfólk í jákvæðum samskiptum, byggð á gagnkvæmri virðingu og sjálfsstjórn. Hefur verið haldið hjá 12 fyrirtækjum með góðum árangri. Námskeiðið er 1 klst og hentar því vel á morgunfundi eða í hádegishléi.', 0, 2),
+(11, 'Námskeið - Árangursrík og öflug liðsheild á vinnustað', 'Kennari í meistaranámi HR og margreyndur stjórnandi. Markmið námskeiðsins er að stjórnandinn fái í hendur verkfæri og kynnist aðferðum til þess að ná enn meiri árangri sem stjórnandi öflugrar liðsheildar. Sérstök áhersla er lögð á að stjórandinn öðlist færni til að styðja við jákvæða framþróun teymisins síns. Námskeiðið er 7 klst.', 3, 0);
+
+101	1110752559	Hannes 	Kristjánsson	hannes@kontaktar.is	8881010	Suðurlandsbraut 22	Reykjavík	108	
+102	1212762529	Kári Karl	Friðriksson Reykdal	karikarl@gmail.com	8881020	Fagrahlíð	Reykjavík	105	
+103	1301772249	Arnmundur Auðunn	Arnmundsson	arnmundur@arnmundur.is	8881030	Hamraborg 22	Kópavogur	200	arnmundur.is
+104	1402803229	Guðrún Hrefna	Hallgrímsdóttir	gudrun.hrefna@ghhall.com	8881040	Berlinstrasse 142	Berlin	0	ghhall.com
+105	1503814239	Hafdís Þórgunnur	Þórarinsdóttir Beck	hth@thbeck.com	8881050		London	0	thbeck.com
+106	1604854449	Sigríður	Svansdóttir	sirry@svanirnir.is	8881060		Vestmannaeyjar	900	svanirnir.is
+107	1705665659	Þormóður Orri	Albertsson	thorri@kontaktar.is	8881070	Suðurlandsbraut 22	Reykjavík	108	
+108	1806546649	Ýr 	Önnudóttir	yronnu@gmail.com	8881080		Akureyri	600	
+109	1907900269	Árni Tryggvi	Tryggvason	arni@trytry.is	8881090	Bárugötu 1	Reykjavík	101	trytry.is
+110	2008881109	Högurður Ljósvíkingur	Torfason	ljos@hogurdur.is	8881100		Útlönd	0	hogurdur.is
+111	2109003230	Ragnar Ketill	Frímannsson	ragnarketill@gmail.com	8881110		Hafnarfjörður	220	
+
+
