@@ -101,6 +101,11 @@ VALUES (1, 'Hönnun skrifstofurýmis með verkteikningum, lýsingu og innréttin
 (10, 'Námskeið - Jákvæð samskipti á vinnustað', 'Námskeið sem eflir starfsfólk í jákvæðum samskiptum, byggð á gagnkvæmri virðingu og sjálfsstjórn. Hefur verið haldið hjá 12 fyrirtækjum með góðum árangri. Námskeiðið er 1 klst og hentar því vel á morgunfundi eða í hádegishléi.', 0, 2),
 (11, 'Námskeið - Árangursrík og öflug liðsheild á vinnustað', 'Kennari í meistaranámi HR og margreyndur stjórnandi. Markmið námskeiðsins er að stjórnandinn fái í hendur verkfæri og kynnist aðferðum til þess að ná enn meiri árangri sem stjórnandi öflugrar liðsheildar. Sérstök áhersla er lögð á að stjórandinn öðlist færni til að styðja við jákvæða framþróun teymisins síns. Námskeiðið er 7 klst.', 3, 0);
 
+
+
+
+// TSVECTOR STUFF, does support prefix search but not partial.
+
 ALTER TABLE users
 	ADD COLUMN document_with_idx tsvector;
 	
