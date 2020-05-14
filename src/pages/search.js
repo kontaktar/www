@@ -12,6 +12,9 @@ import { MainLayout, SearchContainer, UserLayout } from "layouts";
 const Search = ({ searchInput, isLoggedIn }) => {
   // const { isLoggedIn } = useAuth();
   // console.log(cookie.get("spez_user_token"), isLoggedIn);
+
+  /* TODO: fetch data client side */
+
   return (
     <div>
       {!isLoggedIn ? (
@@ -31,9 +34,22 @@ const Search = ({ searchInput, isLoggedIn }) => {
   );
 };
 
-Search.getInitialProps = (ctx) => {
+Search.getInitialProps = async (ctx) => {
   const { searchInput } = ctx.query;
   const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
+
+  // TODO: Move this elsewhere:
+  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+  const baseUrl = process.browser
+    ? `${protocol}://${window.location.host}`
+    : `${protocol}://${ctx.req.headers.host}`;
+
+  // TODO: This works, do something with the data:
+  if (searchInput) {
+    const response = await fetch(`${baseUrl}/api/search/${searchInput}`);
+    const allCards = await response.json();
+    return { allCards, status: response.status };
+  }
 
   return { searchInput, isLoggedIn };
 };
