@@ -4,6 +4,7 @@ node_modules
 .todo
 storybook-static/
 yarn-error.log
+public
 
 *.DS_Store
 

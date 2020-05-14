@@ -39,7 +39,7 @@ has to include `<!-- PROPS -->`
 
 See `src/pages/api/`, Next.js now offers folder based API routes. Use [ ] for
 dynamic variables like `../api/user/[id].js` Visit
-`http:localhost:3000/api/user/1` to see get the response.
+`http:localhost:3000/api/user/1` get the response.
 
 ### Database
 
