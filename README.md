@@ -40,3 +40,8 @@ has to include `<!-- PROPS -->`
 See `src/pages/api/`, Next.js now offers folder based API routes. Use [ ] for
 dynamic variables like `../api/user/[id].js` Visit
 `http:localhost:3000/api/user/1` to see get the response.
+
+### Database
+
+Test instance running on AWS RDS:
+`psql --host=kontaktardb.crpycooyf4pt.eu-west-2.rds.amazonaws.com --port=5432 --username=postgres --password --dbname=kontaktar -U admin`
