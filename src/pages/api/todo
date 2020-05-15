@@ -1,0 +1,21 @@
+
+/users:
+  ☐ GET: GetAllUsers
+  ☐ POST: CreateUser
+/users/[id]:
+  ☐ GET: GetUser
+  ☐ PUT: EditUser
+  ☐ DELETE: DeleteUser *
+
+/users/[id]/experiences:
+  ☐ GET: GetExperiencesByUser
+  ☐ POST: CreateExperience
+/users/[id]/experiences/[id]:
+  ☐ GET: GetExperience
+  ☐ PUT: EditExperience
+  ☐ DELETE: DeleteExperience
+
+/experiences
+  GET: GetPayedExperiences *
+
+* later
