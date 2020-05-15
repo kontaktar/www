@@ -7,7 +7,8 @@ import { CardsContainer } from "layouts";
 import users from "../../data/all-users-mock";
 import styles from "./SearchContainer.module.scss";
 
-const SearchContainer = ({ searchInput }) => {
+// eslint-disable-next-line react/prop-types
+const SearchContainer = ({ searchInput, onSearch }) => {
   const [experienceId, setExperienceId] = useState(0);
   const [isMatchingContent, setMatchingContent] = useState(false);
   const matchingCardContent = (inputValue, allUsers) => {
@@ -38,6 +39,7 @@ const SearchContainer = ({ searchInput }) => {
   };
 
   const matchingCards = (inputValue, allUsers, getItemProperties) => {
+    onSearch(inputValue);
     const allMatchingCards = matchingCardContent(inputValue, allUsers).map(
       (user, index) => {
         /* TODO: Inital render should render all experiences on each user at first */

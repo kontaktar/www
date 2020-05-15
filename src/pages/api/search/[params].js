@@ -6,7 +6,7 @@ export default async ({ query: { params } }, response) => {
     const wordsRegex = `(${words.join("|")})`;
     const wordsLike = `%${words.join("% <-> %")}%`;
     console.log("params", params);
-    const post = await database.many(
+    const post = await database.any(
       `
         SELECT
           e.id as experience_id

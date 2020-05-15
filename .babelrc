@@ -10,6 +10,7 @@
           "data": "./src/data",
           "components": "./src/components",
           "layouts": "./src/layouts",
+          "helpers": "./src/helpers",
           "styles": "./src/styles",
           "utils": "./src/utils"
         }
