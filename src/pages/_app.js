@@ -1,14 +1,6 @@
 import React from "react";
 import App from "next/app";
 import Head from "next/head";
-// import { AuthContext } from "../utils/auth";
-// import styles from 'styles/_config.scss'
-// import styles from './assets.scss'
-
-// MUI
-// import { ThemeProvider } from "@material-ui/styles";
-// import CssBaseline from "@material-ui/core/CssBaseline";
-// import theme from "../src/theme";
 
 export default class Spez extends App {
   componentDidMount() {
@@ -26,13 +18,7 @@ export default class Spez extends App {
         <Head>
           <title>Spez</title>
         </Head>
-        {/* <AuthContext> */}
-        {/* <ThemeProvider theme={theme}> */}
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        {/* <CssBaseline /> */}
         <Component pageContext={this.pageContext} {...pageProps} />
-        {/* </ThemeProvider> */}
-        {/* </AuthContext> */}
       </>
     );
   }
