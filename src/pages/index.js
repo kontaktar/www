@@ -16,7 +16,7 @@ const LandingPage = ({ user, status }) => (
 LandingPage.getInitialProps = async (ctx) => {
   const { query, store, isServer } = ctx;
 
-  store.dispatch(fetchUserExperiences(isServer));
+  store.dispatch(fetchUserExperiences("1"));
 
   if (query.id) {
     const response = await fetch(`${getBaseUrl(ctx)}/api/users/${query.id}`);
