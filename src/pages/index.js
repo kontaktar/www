@@ -1,5 +1,6 @@
-import React from "react";
-// import { connect } from "react-redux";
+/* eslint-disable no-unused-vars */
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
 import fetch from "isomorphic-unfetch";
@@ -7,16 +8,28 @@ import { FrontPageContainer, MainLayout } from "layouts";
 import { getBaseUrl } from "helpers/url";
 import { fetchUserExperiences } from "../store/actions";
 
-const LandingPage = ({ user, status }) => (
-  <MainLayout>
-    <FrontPageContainer />
-  </MainLayout>
-);
+const LandingPage = () => {
+  /* DEMO dispatch stuff */
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  // dispatch(fetchUserExperiences("2"));
+  // }, []);
+
+  const store = useSelector((state) => state);
+  console.log("store", store);
+
+  return (
+    <MainLayout>
+      <FrontPageContainer />
+    </MainLayout>
+  );
+};
 
 LandingPage.getInitialProps = async (ctx) => {
-  const { query, store, isServer } = ctx;
+  const { query, isServer, store } = ctx;
 
-  store.dispatch(fetchUserExperiences("1"));
+  /* DEMO */
+  await store.dispatch(fetchUserExperiences("1"));
 
   if (query.id) {
     const response = await fetch(`${getBaseUrl(ctx)}/api/users/${query.id}`);

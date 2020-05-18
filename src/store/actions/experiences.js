@@ -9,10 +9,18 @@ export function fetchUserExperiences(userId) {
   };
 }
 
-export function tickClock(isServer) {
+export function fetchUserExperiencesSuccess(experiences) {
   return {
-    type: types.TICK_CLOCK,
-    light: !isServer,
-    ts: Date.now()
+    type: types.FETCH_USER_EXPERIENCES_SUCCESS,
+    payload: {
+      experiences
+    }
+  };
+}
+
+export function fetchUserExperiencesFailure(message) {
+  return {
+    type: types.FETCH_USER_EXPERIENCES_SUCCESS,
+    message
   };
 }

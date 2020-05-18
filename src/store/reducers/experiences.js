@@ -7,30 +7,26 @@ export const exampleInitialState = {
 function experiences(state = exampleInitialState, action) {
   switch (action.type) {
     case actionTypes.FETCH_USER_EXPERIENCES_REQUEST:
-      console.log("state inside exp reducer", state);
-      console.log("the action", action);
       return {
         ...state,
         ...{ userId: action.payload.userId }
       };
 
     case actionTypes.FETCH_USER_EXPERIENCES_SUCCESS:
-      console.log("state inside exp reducer", state);
-      console.log("the action", action);
+      console.log("state success", state);
       return {
         ...state,
-        ...{ todo: state.todo - 1 },
-        ...{ experiences: action.payload.user }
+        ...action.payload.experiences
       };
 
     case actionTypes.FETCH_USER_EXPERIENCES_FAILURE:
       return {
         ...state,
-        ...{ error: action.error }
+        ...{ message: action.message }
       };
 
     default:
-      return state;
+      return { ...state };
   }
 }
 

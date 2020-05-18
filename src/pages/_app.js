@@ -2,10 +2,10 @@ import React from "react";
 import App from "next/app";
 import Head from "next/head";
 import { END } from "redux-saga";
-import { wrapper } from "../store/configureStore";
+import wrapper from "../store/configureStore";
 
 class Spez extends App {
-  async getInitialProps({ Component, ctx }) {
+  static async getInitialProps({ Component, ctx }) {
     const { req, store } = ctx;
 
     // 1. Wait for all page actions to dispatch
