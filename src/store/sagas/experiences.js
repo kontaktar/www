@@ -2,8 +2,8 @@ import { all, call, put, takeEvery } from "redux-saga/effects";
 import {
   fetchUserExperiencesSuccess,
   fetchUserExperiencesFailure
-} from "../actions/experiences";
-import * as actionTypes from "../actionTypes";
+} from "store/actions";
+import * as actionTypes from "store/actionTypes";
 import { GetExperiencesByUserId } from "../../pages/api/endpoints";
 
 function* fetchExperiencesByUserId(action) {

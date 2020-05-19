@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Router from "next/router";
 import nextCookie from "next-cookies";
 import cookie from "js-cookie";
-import fetch from "isomorphic-unfetch";
 
 // SEE: https://github.com/whoisryosuke/nextjs-oauth2-cookie-auth/blob/master/utils/AuthService.js
 const TOKEN_NAME = "spez_user_token";

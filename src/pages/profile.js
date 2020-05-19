@@ -4,7 +4,6 @@
 import React from "react";
 import Router from "next/router";
 import PropTypes from "prop-types";
-import fetch from "isomorphic-unfetch";
 import nextCookie from "next-cookies";
 import { logout, withAuth } from "utils/auth";
 import { UserLayout, ProfileContainer } from "layouts";

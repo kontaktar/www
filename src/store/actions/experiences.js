@@ -1,8 +1,8 @@
-import * as types from "../actionTypes";
+import * as actionType from "store/actionTypes";
 
 export function fetchUserExperiences(userId) {
   return {
-    type: types.FETCH_USER_EXPERIENCES_REQUEST,
+    type: actionType.FETCH_USER_EXPERIENCES_REQUEST,
     payload: {
       userId
     }
@@ -11,7 +11,7 @@ export function fetchUserExperiences(userId) {
 
 export function fetchUserExperiencesSuccess(experiences) {
   return {
-    type: types.FETCH_USER_EXPERIENCES_SUCCESS,
+    type: actionType.FETCH_USER_EXPERIENCES_SUCCESS,
     payload: {
       experiences
     }
@@ -20,7 +20,7 @@ export function fetchUserExperiencesSuccess(experiences) {
 
 export function fetchUserExperiencesFailure(message) {
   return {
-    type: types.FETCH_USER_EXPERIENCES_SUCCESS,
+    type: actionType.FETCH_USER_EXPERIENCES_SUCCESS,
     message
   };
 }

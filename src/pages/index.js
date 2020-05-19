@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
-import fetch from "isomorphic-unfetch";
 import { FrontPageContainer, MainLayout } from "layouts";
 import { getBaseUrl } from "helpers/url";
 import { fetchUserExperiences } from "../store/actions";

@@ -1,28 +1,28 @@
-import * as actionTypes from "../actionTypes";
+import * as actionType from "store/actionTypes";
 
-export const exampleInitialState = {
-  todo: 0
+export const initialState = {
+  experiences: {}
 };
 
-function experiences(state = exampleInitialState, action) {
+function experiences(state = initialState, action) {
   switch (action.type) {
-    case actionTypes.FETCH_USER_EXPERIENCES_REQUEST:
+    case actionType.FETCH_USER_EXPERIENCES_REQUEST:
       return {
         ...state,
         ...{ userId: action.payload.userId }
       };
 
-    case actionTypes.FETCH_USER_EXPERIENCES_SUCCESS:
+    case actionType.FETCH_USER_EXPERIENCES_SUCCESS:
       console.log("state success", state);
       return {
         ...state,
         ...action.payload.experiences
       };
 
-    case actionTypes.FETCH_USER_EXPERIENCES_FAILURE:
+    case actionType.FETCH_USER_EXPERIENCES_FAILURE:
       return {
         ...state,
-        ...{ message: action.message }
+        ...{ error: action.message }
       };
 
     default:
