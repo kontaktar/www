@@ -12,6 +12,7 @@
           "layouts": "./src/layouts",
           "helpers": "./src/helpers",
           "styles": "./src/styles",
+          "store": "./src/store",
           "utils": "./src/utils"
         }
       }

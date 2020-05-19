@@ -17,6 +17,7 @@ export default async ({ query: { params } }, response) => {
         ORDER BY (LOWER(u.user_name || ' ' || u.first_name || ' ' || u.last_name || ' ' || e.title || ' ' || e.description) <-> '${wordsLike}') ASC;
       `
     );
+    console.log(response);
     response.status(200).json(post);
   } catch (error) {
     console.error(error);

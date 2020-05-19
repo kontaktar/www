@@ -45,3 +45,18 @@ dynamic variables like `../api/user/[id].js` Visit
 
 Test instance running on AWS RDS:
 `psql --host=kontaktardb.crpycooyf4pt.eu-west-2.rds.amazonaws.com --port=5432 --username=postgres --password --dbname=kontaktar -U admin`
+
+Prevent string injections. Never user ES6 literals for database queries.
+
+### Store
+
+- Sagas for side effects (i.e. API requests)
+
+  An API request will have 3 actions: REQUEST, SUCCESS and FAILURE all with a
+  seperated action type:
+
+```
+  { type: 'FETCH_USERS_REQUEST' }
+  { type: 'FETCH_USERS_FAILURE', error: 'Failed' }
+  { type: 'FETCH_USERS_SUCCESS', response: { ... } }
+```

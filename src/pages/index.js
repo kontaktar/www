@@ -1,37 +1,41 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
-import fetch from "isomorphic-unfetch";
-// import Link from "next/link";
 import { FrontPageContainer, MainLayout } from "layouts";
+import { getBaseUrl } from "helpers/url";
+import { fetchUserExperiences } from "../store/actions";
 
-// const handleClick = () => {
-//   return <Link href="/login" prefetch />;
-// };
-const LandingPage = ({ user, status }) => (
-  <MainLayout>
-    <FrontPageContainer />
-    {/* <Link href="/login">
-      <Button onClick={handleClick}>Innskráning</Button>
-    </Link> */}
-    {/* http://localhost:3000/?id=1 */}
+const LandingPage = () => {
+  /* DEMO dispatch stuff */
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  // dispatch(fetchUserExperiences("2"));
+  // }, []);
 
-    {/* {status === 200 ? <p>{user.name}</p> : null} */}
-  </MainLayout>
-);
+  const store = useSelector((state) => state);
+  console.log("store", store);
 
-LandingPage.getInitialProps = async ({ query, req }) => {
-  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
-  const baseUrl = process.browser
-    ? `${protocol}://${window.location.host}`
-    : `${protocol}://${req.headers.host}`;
+  return (
+    <MainLayout>
+      <FrontPageContainer />
+    </MainLayout>
+  );
+};
+
+LandingPage.getInitialProps = async (ctx) => {
+  const { query, isServer, store } = ctx;
+
+  /* DEMO */
+  await store.dispatch(fetchUserExperiences("1"));
 
   if (query.id) {
-    const response = await fetch(`${baseUrl}/api/users/${query.id}`);
+    const response = await fetch(`${getBaseUrl(ctx)}/api/users/${query.id}`);
     const user = await response.json();
     return { user, status: response.status };
   }
-  return {};
+  return { isServer };
 };
 
 LandingPage.propTypes = {

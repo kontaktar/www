@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
+import { useStore } from "react-redux";
 import { Button, Carousel, SearchBar } from "components";
 import screensizes from "data/screensizes";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
@@ -14,6 +15,9 @@ const FrontPageContainer = () => {
   const [searchInput, setSearchInput] = useState(undefined);
   const [triggerSearch, setTriggerSearch] = useState(false);
   const [frameWidth, setFrameWidth] = useState(undefined);
+
+  const store = useStore();
+  console.log("GLOBAL STORE:", store.getState());
 
   let observer;
   if (process.browser) {
