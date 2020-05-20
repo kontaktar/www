@@ -4,6 +4,9 @@ export const initialState = {
   experiences: {}
 };
 
+// TODO: shape the final object better
+// store should keep all expirences by userIds
+
 function experiences(state = initialState, action) {
   switch (action.type) {
     case actionType.FETCH_USER_EXPERIENCES_REQUEST:
@@ -13,7 +16,6 @@ function experiences(state = initialState, action) {
       };
 
     case actionType.FETCH_USER_EXPERIENCES_SUCCESS:
-      console.log("state success", state);
       return {
         ...state,
         ...action.payload.experiences

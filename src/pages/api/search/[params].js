@@ -5,7 +5,7 @@ export default async ({ query: { params } }, response) => {
     const words = params.split(" ");
     const wordsRegex = `(${words.join("|")})`;
     const wordsLike = `%${words.join("% <-> %")}%`;
-    console.log("params", params);
+    // console.log("params", params);
     const post = await database.any(
       `
         SELECT
@@ -17,7 +17,7 @@ export default async ({ query: { params } }, response) => {
         ORDER BY (LOWER(u.user_name || ' ' || u.first_name || ' ' || u.last_name || ' ' || e.title || ' ' || e.description) <-> '${wordsLike}') ASC;
       `
     );
-    console.log(response);
+    // console.log(response);
     response.status(200).json(post);
   } catch (error) {
     console.error(error);

@@ -1,10 +1,9 @@
 {
-  "name": "kontaktar",
   "version": 2,
   "builds": [
     {
       "src": "package.json",
-      "use": "@now/next@canary"
+      "use": "@now/next"
     }
   ],
   "routes": [

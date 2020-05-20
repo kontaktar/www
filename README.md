@@ -35,6 +35,9 @@ For the Jest intergration to work, a jest test has to be run to generate
 For propTables to be rendered in the README.md (only visible in Storybook), it
 has to include `<!-- PROPS -->`
 
+Accessing storybook on feature branch:
+https://kontaktar-einar.kontaktar.now.sh/storybook/index.html
+
 ### Using the Next.js API Routes
 
 See `src/pages/api/`, Next.js now offers folder based API routes. Use [ ] for

@@ -1,20 +1,26 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
-import React, { useState } from "react";
+import React from "react";
 // import PropTypes from "prop-types";
-import { getBaseUrl } from "helpers/url";
+import { useDispatch, useStore } from "react-redux";
 import { useAuth } from "utils/auth";
-// eslint-disable-next-line no-unused-vars
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
+import { fetchSearchResult } from "../store/actions";
 
 const Search = ({ searchInput, isLoggedIn }) => {
-  const [cards, setCards] = useState([]);
+  // const [cards, setCards] = useState([]);
 
-  // same call is being called multiple time
+  const dispatch = useDispatch();
+  const store = useStore();
+
   const onSearch = async (params) => {
-    const response = await fetch(`${getBaseUrl()}/api/search/${params}`);
-    setCards(await response.json());
-    console.log(cards);
+    if (store.getState().searches && store.getState().searches[params]) {
+      console.log("skip searching, already in store");
+      console.log("already in store", params, store.getState().searches);
+    }
+    dispatch(fetchSearchResult(params));
+    // setCards([]);
   };
 
   return (
@@ -23,7 +29,7 @@ const Search = ({ searchInput, isLoggedIn }) => {
         <div>
           <MainLayout>
             <SearchContainer
-              cardsToDisplay={cards}
+              // cardsToDisplay={cards}
               searchInput={searchInput}
               onSearch={onSearch}
             />
@@ -41,19 +47,17 @@ const Search = ({ searchInput, isLoggedIn }) => {
 };
 
 Search.getInitialProps = async (ctx) => {
-  const { searchInput } = ctx.query;
+  const {
+    store,
+    query: { searchInput }
+  } = ctx;
   const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
 
-  // TODO: This works, do something with the data:
   if (searchInput) {
-    const response = await fetch(
-      `${getBaseUrl(ctx)}/api/search/${searchInput}`
-    );
-    const allCards = await response.json();
-    return { allCards, status: response.status };
+    await store.dispatch(fetchSearchResult(searchInput));
   }
 
-  return { searchInput, isLoggedIn };
+  return { searchInput, isLoggedIn, store };
 };
 
 // Search.propTypes = {

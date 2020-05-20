@@ -9,3 +9,4 @@ public
 *.DS_Store
 
 .env
+.vercel

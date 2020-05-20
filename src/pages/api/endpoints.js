@@ -1,10 +1,19 @@
+import { getBaseUrl } from "helpers/url";
+
 export async function GetExperiencesByUserId(userId = "2") {
-  return get(`http://localhost:3000/api/users/${userId}/experiences`);
+  return get(`/api/users/${userId}/experiences`);
 }
 
-async function get(url) {
+export async function GetSearchResult(input = "") {
+  return get(`/api/search/${input}`);
+}
+
+async function get(relativeUrl) {
+  const url = `${getBaseUrl()}${relativeUrl}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url).catch((error) =>
+      console.error(error, url)
+    );
     if (response.ok) {
       return await response.json();
     }

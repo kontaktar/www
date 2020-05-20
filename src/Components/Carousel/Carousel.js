@@ -38,9 +38,6 @@ const Carousel = ({ width }) => {
       setWindowSize(width);
       setSlidesToShow(settings.find((s) => width > s.breakpoint).slides);
       setCarouselSize(settings.find((s) => width > s.breakpoint).breakpoint);
-
-      console.log("carouselSiez", carouselSize);
-      console.log("width", width);
     }
   }, [width, carouselSize]);
 
