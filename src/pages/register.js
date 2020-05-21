@@ -7,7 +7,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const doStuff = () => {
     // temp quick update user for testing
-    const updateUser = "01";
+    const updateUser = "02";
     dispatch(
       createUser({
         ssn: `12345678${updateUser}`,
