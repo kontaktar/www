@@ -29,5 +29,11 @@ module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
       });
     }
     return config;
+  },
+  // fetch seems to add a trailing slash and Next.js doesn't know how to handle it properly
+  async exportPathMap() {
+    return {
+      "/api/users/": { page: "/api/user" }
+    };
   }
 });

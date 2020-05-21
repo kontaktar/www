@@ -9,3 +9,5 @@ export {
   fetchSearchResultFailure,
   fetchSearchResultSuccess
 } from "./searches";
+
+export { createUser, createUserFailure, createUserSuccess } from "./users";
