@@ -7,6 +7,8 @@ import { CardsContainer } from "layouts";
 import users from "../../data/all-users-mock";
 import styles from "./SearchContainer.module.scss";
 
+// TODO: Keep input value state when clicked away
+
 // eslint-disable-next-line react/prop-types
 const SearchContainer = ({ searchInput, onSearch }) => {
   const [experienceId, setExperienceId] = useState(0);

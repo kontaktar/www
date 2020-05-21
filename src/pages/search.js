@@ -18,8 +18,11 @@ const Search = ({ searchInput, isLoggedIn }) => {
     if (store.getState().searches && store.getState().searches[params]) {
       console.log("skip searching, already in store");
       console.log("already in store", params, store.getState().searches);
+    } else if (!params) {
+      console.log("empty params");
+    } else {
+      dispatch(fetchSearchResult(params));
     }
-    dispatch(fetchSearchResult(params));
     // setCards([]);
   };
 
