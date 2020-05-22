@@ -4,5 +4,6 @@ CREATE TABLE experiences(
   title TEXT,
   description TEXT,
 	years INTEGER,
-	months INTEGER
+	months INTEGER,
+	published boolean DEFAULT false
 );
