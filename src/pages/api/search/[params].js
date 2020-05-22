@@ -5,7 +5,6 @@ export default async ({ query: { params } }, response) => {
     const words = params.split(" ");
     const wordsRegex = `(${words.join("|")})`;
     const wordsLike = `%${words.join("% <-> %")}%`;
-    // console.log("params", params);
 
     const post = await database.any(
       `
@@ -19,7 +18,6 @@ export default async ({ query: { params } }, response) => {
       `,
       [wordsRegex, wordsLike]
     );
-    // console.log(response);
     response.status(200).json(post);
   } catch (error) {
     console.error(error);
