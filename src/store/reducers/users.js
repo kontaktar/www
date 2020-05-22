@@ -12,6 +12,7 @@ function users(state = {}, action) {
         [action.payload.userId]: { ...action.payload.userInfo }
       };
     case actionType.CREATE_USER_FAILURE:
+      // TODO:
       return {
         ...state,
         ...{ error: action.message }
@@ -32,19 +33,18 @@ function users(state = {}, action) {
         ...{ error: action.message }
       };
     case actionType.GET_USER_REQUEST:
-      console.log("REQUEST", action.payload);
       return {
         ...state
       };
 
     case actionType.GET_USER_SUCCESS:
-      console.log("REQUEST", action.payload);
       return {
         ...state,
         [action.payload.userInfo.id]: { ...action.payload.userInfo }
       };
 
     case actionType.GET_USER_FAILURE:
+      // TODO:
       return {
         ...state,
         ...{ error: action.message }

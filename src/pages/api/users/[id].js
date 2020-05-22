@@ -8,11 +8,9 @@ const database = require("utils/database").instance;
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
 export default async ({ body, method, query: { id: userId } }, response) => {
-  console.log("METHOD", method);
   if (method === "GET") {
     try {
       const get = await database.one("SELECT * FROM users WHERE id=$1", userId);
-      console.log("GETs", get);
       response.status(200).json(get);
     } catch (error) {
       console.error(error);
