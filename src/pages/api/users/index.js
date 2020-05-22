@@ -30,26 +30,4 @@ export default async ({ body, method }, response) => {
       response.status(500).end();
     }
   }
-  if (method === "DELETE") {
-    const { userId } = body;
-
-    try {
-      await database
-        .one(
-          "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
-          [userId]
-          // (row) => {
-          //   user = row;
-          // }
-        )
-        .catch((error) => {
-          console.error("DELETE USER 404: ", error);
-          response.status(404).end();
-        });
-      response.status(200).json({ userId });
-    } catch (error) {
-      console.error("DELETE USER 500: ", error);
-      response.status(500).end();
-    }
-  }
 };
