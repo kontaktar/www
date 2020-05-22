@@ -1,0 +1,27 @@
+☐ Bæti við "published" boolean á experience, uppfæra queries í leiðinni.
+☐ Get, Create, Update, Delete Experience
+☐ Fara vel og vandlega yfir global state
+
+☐ Gera trigger fyrir document_idx
+☐ Search á document_idx
+
+
+
+A. Þinn eigin prófill
+☐ Breyta takki við hliðiná nafni opnar modal fyrir helstu upplýsingar um notanda.
+☐ Breyta verkspjaldi opnar form í modal.
+☐ Verkspjald er með takmarkaðan stafafjöld og er með "sjá meira" hnapp.
+
+
+B. Þegar notandi er innskráður að skoða prófil annara
+☐ Valið verkspjald sprengir út svæðið fyrir ofan verkspjöld.
+☐ Geta með query params opna prófíl og tiltekið verkspjald, t.d. /profile/username?verkefni=1 
+
+☐ Fela carousel
+
+☐ Verkspjald linkable: 
+☐ Leitarvél á forsíðu -> leitarvél
+
+☐ Setja dragable pointer á card þegar það er dragable. cursor: grab
+☐ focus searchbar when stækkunargler onClick
+☐ Gera rótar button componentinn meira flexibile
