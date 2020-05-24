@@ -1,19 +1,19 @@
 
 /users:
-  ☐ GET: GetAllUsers
+  ✔ GET: GetAllUsers @done(20-05-24 16:44)
   ✔ POST: CreateUser @done(20-05-21 23:13)
 /users/[id]:
-  ☐ GET: GetUser
+  ✔ GET: GetUser @done(20-05-24 16:42)
   ✔ PUT: EditUser @done(20-05-21 23:13)
-  ☐ DELETE: DeleteUser *
+  ✔ DELETE: DeleteUser * @done(20-05-24 17:09)
 
 /users/[id]/experiences:
-  ☐ GET: GetExperiencesByUser
-  ☐ POST: CreateExperience
+  ✔ GET: GetExperiencesByUser @done(20-05-24 17:09)
+  ✔ POST: CreateExperience @done(20-05-24 17:09)
 /users/[id]/experiences/[id]:
-  ☐ GET: GetExperience
-  ☐ PUT: EditExperience
-  ☐ DELETE: DeleteExperience
+  ✔ GET: GetExperience @done(20-05-24 17:09)
+  ✔ PUT: EditExperience @done(20-05-24 17:09)
+  ✔ DELETE: DeleteExperience @done(20-05-24 17:09)
 
 /experiences
   GET: GetPayedExperiences *

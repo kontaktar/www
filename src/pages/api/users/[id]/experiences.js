@@ -10,7 +10,7 @@ export default async (request, response) => {
   if (method === "GET") {
     try {
       const get = await database.any(
-        "SELECT e.id, e.title, e.description, e.years, e.months FROM experiences e LEFT JOIN users u ON e.user_id = u.id WHERE u.id = $1",
+        "SELECT e.id, e.title, e.description, e.years, e.months, e.published FROM experiences e WHERE e.user_id = $1",
         userId
       );
       response.status(200).json(get);
@@ -31,5 +31,7 @@ export default async (request, response) => {
       console.error("POST EXPERIENCE", error);
       response.status(500).end();
     }
+  } else {
+    response.status(400).end();
   }
 };

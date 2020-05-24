@@ -1,6 +1,16 @@
 const database = require("utils/database").instance;
 
 export default async ({ body, method }, response) => {
+  if (method === "GET") {
+    try {
+      const get = await database.many("SELECT * FROM users;");
+      response.status(200).json(get);
+    } catch (error) {
+      console.error(error);
+      response.status(500).end();
+    }
+  }
+
   if (method === "POST") {
     const {
       ssn,
@@ -29,5 +39,7 @@ export default async ({ body, method }, response) => {
       console.error("POST USER", error);
       response.status(500).end();
     }
+  } else {
+    response.status(400).end();
   }
 };

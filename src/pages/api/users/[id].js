@@ -97,5 +97,7 @@ export default async ({ body, method, query: { id: userId } }, response) => {
         response.status(500).end();
       }
     }
+  } else {
+    response.status(400).end();
   }
 };

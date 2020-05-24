@@ -38,18 +38,62 @@ has to include `<!-- PROPS -->`
 Accessing storybook on feature branch:
 https://kontaktar-einar.kontaktar.now.sh/storybook/index.html
 
-### Using the Next.js API Routes
+## Using the Next.js API Routes
 
 See `src/pages/api/`, Next.js now offers folder based API routes. Use [ ] for
 dynamic variables like `../api/user/[id].js` Visit
 `http:localhost:3000/api/user/1` get the response.
 
-### Database
+## Database
 
 Test instance running on AWS RDS:
 `psql --host=kontaktardb.crpycooyf4pt.eu-west-2.rds.amazonaws.com --port=5432 --username=postgres --password --dbname=kontaktar -U admin`
 
 Prevent string injections. Never user ES6 literals for database queries.
+
+## API
+
+### GET:
+
+`/api/experiences`
+
+`/api/search/[params]`
+
+`/api/users`
+
+`/api/users/[userId]`
+
+`/api/users/[userId]/experiences`
+
+`/api/users/[userId]/experiences/[experienceId]`
+
+### POST:
+
+`/api/users`
+
+- body = { ssn, userName, firstName, lastName, email, website?, phoneNumber? ,
+  postalCode?, streetName?, city?, country? }
+
+`/api/users/[userId]/experiences`
+
+- body = { title?, description?, years?, months?, published? }
+
+### DELETE:
+
+`/api/users/[userId]`
+
+`/api/users/[userId]/experiences/[experienceId]`
+
+### PUT:
+
+`/api/users/[userId]`
+
+- body = { ssn?, userName?, firstName?, lastName?, email?, website?,
+  phoneNumber? , postalCode?, streetName?, city?, country? }
+
+`/api/users/[userId]/experiences/[experienceId]`
+
+- body = { title?, description?, years?, months?, published? }
 
 ### Store
 
