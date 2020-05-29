@@ -12,8 +12,8 @@ import { CreateUser, EditUser, GetUser } from "../../pages/api/endpoints";
 
 function* createUser(action) {
   try {
-    const result = yield call(CreateUser, action.payload.userInfo);
-    yield put(createUserSuccess(result, action.payload.userInfo));
+    const { userId } = yield call(CreateUser, action.payload.userInfo);
+    yield put(createUserSuccess(userId, action.payload.userInfo));
   } catch (error) {
     yield put(createUserFailure(error));
   }

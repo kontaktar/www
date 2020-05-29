@@ -15,7 +15,7 @@ const Register = () => {
   const dispatch = useDispatch();
   const registerNewUser = () => {
     // temp quick update user for testing
-    const updateUser = "03";
+    const updateUser = "08";
     dispatch(
       createUser({
         ssn: `12345678${updateUser}`,
@@ -35,10 +35,10 @@ const Register = () => {
   };
   const editUserTest = () => {
     const userId = 41;
-    const updateUser = "02";
+    const updateUser = "E06";
     dispatch(
       editUser(userId, {
-        ssn: `12345678${updateUser}`,
+        ssn: `1234567${updateUser}`,
         userName: `new_user_name${updateUser}`,
         firstName: "Test",
         lastName: "Testerson",
@@ -53,7 +53,7 @@ const Register = () => {
     );
   };
   const getUserTest = () => {
-    const userId = 41;
+    const userId = 81;
     dispatch(getUser(userId));
   };
   const getUserTest2 = () => {
