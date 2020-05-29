@@ -38,13 +38,13 @@ function users(state = {}, action) {
         isFetching: false,
         ...{ error: action.message }
       };
-    case actionType.GET_USER_REQUEST:
+    case actionType.FETCH_USER_REQUEST:
       return {
         ...state,
         isFetching: true
       };
 
-    case actionType.GET_USER_SUCCESS:
+    case actionType.FETCH_USER_SUCCESS:
       return {
         ...state,
         isFetching: false,
@@ -52,7 +52,7 @@ function users(state = {}, action) {
         [action.payload.userInfo.id]: { ...action.payload.userInfo }
       };
 
-    case actionType.GET_USER_FAILURE:
+    case actionType.FETCH_USER_FAILURE:
       return {
         ...state,
         isFetching: false,

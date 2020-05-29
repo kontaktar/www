@@ -58,7 +58,7 @@ export function editUserFailure(message) {
 
 export function getUser(userId) {
   return {
-    type: actionType.GET_USER_REQUEST,
+    type: actionType.FETCH_USER_REQUEST,
     payload: {
       userId
     }
@@ -67,7 +67,7 @@ export function getUser(userId) {
 
 export function getUserSuccess(userInfo) {
   return {
-    type: actionType.GET_USER_SUCCESS,
+    type: actionType.FETCH_USER_SUCCESS,
     payload: {
       userInfo
     }
@@ -76,7 +76,7 @@ export function getUserSuccess(userInfo) {
 
 export function getUserFailure(message) {
   return {
-    type: actionType.GET_USER_FAILURE,
+    type: actionType.FETCH_USER_FAILURE,
     message
   };
 }

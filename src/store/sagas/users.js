@@ -41,7 +41,7 @@ function* users() {
   yield all([
     takeEvery(actionTypes.CREATE_USER_REQUEST, createUser),
     takeEvery(actionTypes.EDIT_USER_REQUEST, editUser),
-    takeEvery(actionTypes.GET_USER_REQUEST, getUser)
+    takeEvery(actionTypes.FETCH_USER_REQUEST, getUser)
   ]);
 }
 
