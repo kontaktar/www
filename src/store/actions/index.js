@@ -1,7 +1,16 @@
 export {
   fetchUserExperiences,
   fetchUserExperiencesSuccess,
-  fetchUserExperiencesFailure
+  fetchUserExperiencesFailure,
+  createUserExperience,
+  createUserExperienceSuccess,
+  createUserExperienceFailure,
+  editUserExperience,
+  editUserExperienceSuccess,
+  editUserExperienceFailure,
+  deleteUserExperience,
+  deleteUserExperienceSuccess,
+  deleteUserExperienceFailure
 } from "./experiences";
 
 export {
