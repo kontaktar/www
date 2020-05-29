@@ -33,7 +33,6 @@ function* getUser(action) {
     const result = yield call(GetUser, action.payload.userId);
     yield put(getUserSuccess(result));
   } catch (error) {
-    console.log("getUser", error);
     yield put(getUserFailure(error));
   }
 }
