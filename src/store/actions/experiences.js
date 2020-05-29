@@ -9,11 +9,12 @@ export function fetchUserExperiences(userId) {
   };
 }
 
-export function fetchUserExperiencesSuccess(experiences) {
+export function fetchUserExperiencesSuccess(experiences, userId) {
   return {
     type: actionType.FETCH_USER_EXPERIENCES_SUCCESS,
     payload: {
-      experiences
+      experiences,
+      userId
     }
   };
 }

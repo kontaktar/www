@@ -1,7 +1,12 @@
 import React from "react";
 import { useDispatch, useStore } from "react-redux";
 import { MainLayout } from "layouts";
-import { createUser, editUser, getUser } from "../store/actions";
+import {
+  createUser,
+  editUser,
+  getUser,
+  fetchUserExperiences
+} from "../store/actions";
 
 const Register = () => {
   const store = useStore();
@@ -51,6 +56,18 @@ const Register = () => {
     const userId = 41;
     dispatch(getUser(userId));
   };
+  const getUserTest2 = () => {
+    const userId = 2;
+    dispatch(getUser(userId));
+  };
+  const getUserExperience = () => {
+    const userId = 2;
+    dispatch(fetchUserExperiences(userId));
+  };
+  const getUserExperience2 = () => {
+    const userId = 3;
+    dispatch(fetchUserExperiences(userId));
+  };
   return (
     <MainLayout>
       <button type="button" onClick={registerNewUser}>
@@ -61,6 +78,15 @@ const Register = () => {
       </button>
       <button type="button" onClick={getUserTest}>
         Get User
+      </button>
+      <button type="button" onClick={getUserTest2}>
+        Get User2
+      </button>
+      <button type="button" onClick={getUserExperience}>
+        GetUserExp
+      </button>
+      <button type="button" onClick={getUserExperience2}>
+        GetUserExp2
       </button>
     </MainLayout>
   );

@@ -15,7 +15,6 @@ function users(state = {}, action) {
         [action.payload.userId]: { ...action.payload.userInfo }
       };
     case actionType.CREATE_USER_FAILURE:
-      // TODO:
       return {
         ...state,
         isFetching: false,
@@ -34,7 +33,6 @@ function users(state = {}, action) {
         [action.payload.userId]: { ...action.payload.userInfo }
       };
     case actionType.EDIT_USER_FAILURE:
-      // TODO:
       return {
         ...state,
         isFetching: false,
@@ -55,7 +53,6 @@ function users(state = {}, action) {
       };
 
     case actionType.GET_USER_FAILURE:
-      // TODO:
       return {
         ...state,
         isFetching: false,

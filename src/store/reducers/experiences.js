@@ -1,29 +1,28 @@
 import * as actionType from "store/actionTypes";
 
-export const initialState = {
-  experiences: {}
-};
-
-// TODO: shape the final object better
-// store should keep all expirences by userIds
-
-function experiences(state = initialState, action) {
+function experiences(state = {}, action) {
   switch (action.type) {
     case actionType.FETCH_USER_EXPERIENCES_REQUEST:
       return {
         ...state,
-        ...{ userId: action.payload.userId }
+        isFetching: true
       };
 
     case actionType.FETCH_USER_EXPERIENCES_SUCCESS:
       return {
         ...state,
-        ...action.payload.experiences
+        isFetching: false,
+        error: null,
+        byUserId: {
+          ...state.byUserId,
+          [action.payload.userId]: { ...action.payload.experiences }
+        }
       };
 
     case actionType.FETCH_USER_EXPERIENCES_FAILURE:
       return {
         ...state,
+        isFetching: false,
         ...{ error: action.message }
       };
 

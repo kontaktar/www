@@ -12,7 +12,9 @@ function* fetchExperiencesByUserId(action) {
       GetExperiencesByUserId,
       action.payload.userId
     );
-    yield put(fetchUserExperiencesSuccess(userExperiences));
+    yield put(
+      fetchUserExperiencesSuccess(userExperiences, action.payload.userId)
+    );
   } catch (error) {
     yield put(fetchUserExperiencesFailure(error));
   }
