@@ -1,13 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useStore } from "react-redux";
 import { MainLayout } from "layouts";
 import { createUser, editUser, getUser } from "../store/actions";
 
 const Register = () => {
+  const store = useStore();
+  console.log("GLOBAL STORE:", store.getState());
+
   const dispatch = useDispatch();
-  const doStuff = () => {
+  const registerNewUser = () => {
     // temp quick update user for testing
-    const updateUser = "02";
+    const updateUser = "03";
     dispatch(
       createUser({
         ssn: `12345678${updateUser}`,
@@ -23,6 +26,7 @@ const Register = () => {
         country: "Niceland"
       })
     );
+    console.log("GLOBAL STORE:", store.getState());
   };
   const editUserTest = () => {
     const userId = 41;
@@ -49,7 +53,7 @@ const Register = () => {
   };
   return (
     <MainLayout>
-      <button type="button" onClick={doStuff}>
+      <button type="button" onClick={registerNewUser}>
         Register
       </button>
       <button type="button" onClick={editUserTest}>

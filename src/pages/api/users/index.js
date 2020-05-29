@@ -6,8 +6,8 @@ export default async ({ body, method }, response) => {
       const get = await database.many("SELECT * FROM users;");
       response.status(200).json(get);
     } catch (error) {
-      console.error(error);
       response.status(500).end();
+      throw new Error("GET USER", error);
     }
   }
 
@@ -36,8 +36,8 @@ export default async ({ body, method }, response) => {
       );
       response.status(200).json({ userId });
     } catch (error) {
-      console.error("POST USER", error);
       response.status(500).end();
+      throw new Error("POST USER", error);
     }
   } else {
     response.status(400).end();

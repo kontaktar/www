@@ -3,15 +3,15 @@ import { getBaseUrl } from "helpers/url";
 export async function get(relativeUrl) {
   const url = `${getBaseUrl()}${relativeUrl}`;
   try {
-    const response = await fetch(url).catch((error) =>
-      console.error(error, url)
-    );
+    const response = await fetch(url).catch((error) => {
+      throw new Error(error, url);
+    });
     if (response.ok) {
       return await response.json();
     }
-    return 0;
+    throw new Error(`${response.status} ${response.statusText}`);
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -24,13 +24,15 @@ export async function post(relativeUrl, body) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
-    }).catch((error) => console.error(error, url));
+    }).catch((error) => {
+      throw new Error(error, url);
+    });
     if (response.ok) {
       return await response.json();
     }
-    return 0;
+    throw new Error(`${response.status} ${response.statusText}`);
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -43,12 +45,14 @@ export async function put(relativeUrl, body) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
-    }).catch((error) => console.error(error, url));
+    }).catch((error) => {
+      throw new Error(error, url);
+    });
     if (response.ok) {
       return await response.json();
     }
-    return 0;
+    throw new Error(`${response.status} ${response.statusText}`);
   } catch (error) {
-    return error;
+    throw error;
   }
 }

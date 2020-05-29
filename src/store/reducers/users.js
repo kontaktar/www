@@ -4,42 +4,53 @@ function users(state = {}, action) {
   switch (action.type) {
     case actionType.CREATE_USER_REQUEST:
       return {
-        ...state
+        ...state,
+        isFetching: true
       };
     case actionType.CREATE_USER_SUCCESS:
       return {
         ...state,
+        error: null,
+        isFetcing: false,
         [action.payload.userId]: { ...action.payload.userInfo }
       };
     case actionType.CREATE_USER_FAILURE:
       // TODO:
       return {
         ...state,
+        isFetching: false,
         ...{ error: action.message }
       };
     case actionType.EDIT_USER_REQUEST:
       return {
-        ...state
+        ...state,
+        isFetching: true
       };
     case actionType.EDIT_USER_SUCCESS:
       return {
         ...state,
+        error: null,
+        isFetching: false,
         [action.payload.userId]: { ...action.payload.userInfo }
       };
     case actionType.EDIT_USER_FAILURE:
       // TODO:
       return {
         ...state,
+        isFetching: false,
         ...{ error: action.message }
       };
     case actionType.GET_USER_REQUEST:
       return {
-        ...state
+        ...state,
+        isFetching: true
       };
 
     case actionType.GET_USER_SUCCESS:
       return {
         ...state,
+        isFetching: false,
+        error: null,
         [action.payload.userInfo.id]: { ...action.payload.userInfo }
       };
 
@@ -47,6 +58,7 @@ function users(state = {}, action) {
       // TODO:
       return {
         ...state,
+        isFetching: false,
         ...{ error: action.message }
       };
     default:

@@ -1,3 +1,20 @@
+Store
+
+☐ GetAllUsers
+☐ CreateUser
+☐ GetUser
+☐ DeleteUser
+☐ EditUser
+
+☐ GetUserExperiences
+
+☐ GetExperience
+☐ EditExperience
+☐ DeleteExperience
+
+
+
+
 ☐ Bæti við "published" boolean á experience, uppfæra queries í leiðinni.
 ☐ Get, Create, Update, Delete Experience
 ☐ Fara vel og vandlega yfir global state

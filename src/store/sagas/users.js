@@ -31,9 +31,9 @@ function* editUser(action) {
 function* getUser(action) {
   try {
     const result = yield call(GetUser, action.payload.userId);
-    console.log("result", result);
     yield put(getUserSuccess(result));
   } catch (error) {
+    console.log("getUser", error);
     yield put(getUserFailure(error));
   }
 }
