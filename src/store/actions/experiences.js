@@ -9,7 +9,7 @@ export function fetchUserExperiences(userId) {
   };
 }
 
-export function fetchUserExperiencesSuccess(experiences, userId) {
+export function fetchUserExperiencesSuccess(userId, experiences) {
   return {
     type: actionType.FETCH_USER_EXPERIENCES_SUCCESS,
     payload: {
@@ -26,15 +26,16 @@ export function fetchUserExperiencesFailure(message) {
   };
 }
 
-export function createUserExperience(userId) {
+export function createUserExperience(userId, experience) {
   return {
     type: actionType.CREATE_USER_EXPERIENCE_REQUEST,
     payload: {
-      userId
+      userId,
+      experience
     }
   };
 }
-export function createUserExperienceSuccess(experience, userId) {
+export function createUserExperienceSuccess(userId, experience) {
   return {
     type: actionType.CREATE_USER_EXPERIENCE_SUCCESS,
     payload: {
@@ -50,16 +51,16 @@ export function createUserExperienceFailure(message) {
   };
 }
 
-export function editUserExperience(experienceId, userId) {
+export function editUserExperience(userId, experience) {
   return {
     type: actionType.EDIT_USER_EXPERIENCE_REQUEST,
     payload: {
-      experienceId,
+      experience,
       userId
     }
   };
 }
-export function editUserExperienceSuccess(experience, userId) {
+export function editUserExperienceSuccess(userId, experience) {
   return {
     type: actionType.EDIT_USER_EXPERIENCE_SUCCESS,
     payload: {
@@ -75,7 +76,7 @@ export function editUserExperienceFailure(message) {
   };
 }
 
-export function deleteUserExperience(experienceId, userId) {
+export function deleteUserExperience(userId, experienceId) {
   return {
     type: actionType.DELETE_USER_EXPERIENCE_REQUEST,
     payload: {
@@ -84,7 +85,7 @@ export function deleteUserExperience(experienceId, userId) {
     }
   };
 }
-export function deleteUserExperienceSuccess(experience, userId) {
+export function deleteUserExperienceSuccess(userId, experience) {
   return {
     type: actionType.DELETE_USER_EXPERIENCE_SUCCESS,
     payload: {

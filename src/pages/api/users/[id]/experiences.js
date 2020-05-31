@@ -22,11 +22,11 @@ export default async (request, response) => {
   if (method === "POST") {
     const { title, description, years, months, published } = body;
     try {
-      const { id: experienceId } = await database.one(
+      const { id } = await database.one(
         "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING id",
         [userId, title, description, years, months, published]
       );
-      response.status(200).json({ experienceId });
+      response.status(200).json({ id, ...body });
     } catch (error) {
       console.error("POST EXPERIENCE", error);
       response.status(500).end();

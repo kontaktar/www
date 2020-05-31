@@ -1,4 +1,4 @@
-import { get, post, put } from "helpers/methods";
+import { get, post, put, remove } from "helpers/methods";
 
 export async function GetExperiencesByUserId(userId) {
   return get(`/api/users/${userId}/experiences`);
@@ -17,18 +17,19 @@ export async function CreateUser(userInfo) {
   return post("/api/users", userInfo);
 }
 
-// TODO: TEST
 export async function CreateExperience(userId, experience) {
-  return post(`/api/users/${userId}`, experience);
+  return post(`/api/users/${userId}/experiences`, experience);
 }
 
-// export async function DeleteUser(userId) {
-//   return delete(`/api/users/${userId}`);
-// }
+// TODO: TEST
+export async function DeleteUser(userId) {
+  return remove(`/api/users/${userId}`);
+}
 
-// export async function DeleteExperience(userId, experienceId) {
-//   return delete(`/api/users/${userId/experiences/${experienceId}}`);
-// }
+// TODO: TEST
+export async function DeleteExperience(userId, experienceId) {
+  return remove(`/api/users/${userId}/experiences/${experienceId}`);
+}
 
 // TODO: TEST
 export async function EditUser(userId, userInfo) {

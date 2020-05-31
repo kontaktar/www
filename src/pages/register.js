@@ -5,7 +5,8 @@ import {
   createUser,
   editUser,
   getUser,
-  fetchUserExperiences
+  fetchUserExperiences,
+  createUserExperience
 } from "../store/actions";
 
 const Register = () => {
@@ -68,25 +69,43 @@ const Register = () => {
     const userId = 3;
     dispatch(fetchUserExperiences(userId));
   };
+
+  const createUserExp = () => {
+    const userId = 3;
+    dispatch(
+      createUserExperience(userId, {
+        title: "new experience!",
+        description: "descripted",
+        years: "1",
+        months: "2"
+      })
+    );
+  };
+
   return (
     <MainLayout>
-      <button type="button" onClick={registerNewUser}>
-        Register
-      </button>
-      <button type="button" onClick={editUserTest}>
-        Edit User
-      </button>
-      <button type="button" onClick={getUserTest}>
-        Get User
-      </button>
-      <button type="button" onClick={getUserTest2}>
-        Get User2
-      </button>
-      <button type="button" onClick={getUserExperience}>
-        GetUserExp
-      </button>
-      <button type="button" onClick={getUserExperience2}>
-        GetUserExp2
+      <>
+        <button type="button" onClick={registerNewUser}>
+          Register
+        </button>
+        <button type="button" onClick={editUserTest}>
+          Edit User
+        </button>
+        <button type="button" onClick={getUserTest}>
+          Get User
+        </button>
+        <button type="button" onClick={getUserTest2}>
+          Get User2
+        </button>
+        <button type="button" onClick={getUserExperience}>
+          GetUserExp
+        </button>
+        <button type="button" onClick={getUserExperience2}>
+          GetUserExp2
+        </button>
+      </>
+      <button type="button" onClick={createUserExp}>
+        CreateUserExp
       </button>
     </MainLayout>
   );

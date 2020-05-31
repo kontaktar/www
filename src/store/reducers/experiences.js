@@ -89,9 +89,9 @@ function experiences(state = {}, action) {
         isFetching: false,
         error: null,
         byUserId: {
-          ...state.byUserId,
+          ...state.byUserId
           // TODO: check if experience has been removed
-          [action.payload.userId]: { ...action.payload.experiences }
+          // [action.payload.userId]: { ...action.payload.experiences }
         }
       };
 
