@@ -26,7 +26,6 @@ export async function DeleteUser(userId) {
   return remove(`/api/users/${userId}`);
 }
 
-// TODO: TEST
 export async function DeleteExperience(userId, experienceId) {
   return remove(`/api/users/${userId}/experiences/${experienceId}`);
 }
@@ -36,7 +35,6 @@ export async function EditUser(userId, userInfo) {
   return put(`/api/users/${userId}`, userInfo);
 }
 
-// TODO: TEST
 export async function EditExperience(userId, experience) {
   return put(`/api/users/${userId}/experiences/${experience.id}`, experience);
 }
