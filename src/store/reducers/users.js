@@ -11,7 +11,7 @@ function users(state = {}, action) {
       return {
         ...state,
         error: null,
-        isFetcing: false,
+        isFetching: false,
         [action.payload.userId]: { ...action.payload.userInfo }
       };
     case actionType.CREATE_USER_FAILURE:
