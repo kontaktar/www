@@ -85,11 +85,11 @@ export function deleteUserExperience(userId, experienceId) {
     }
   };
 }
-export function deleteUserExperienceSuccess(userId, experience) {
+export function deleteUserExperienceSuccess(userId, experienceId) {
   return {
     type: actionType.DELETE_USER_EXPERIENCE_SUCCESS,
     payload: {
-      experience,
+      experienceId,
       userId
     }
   };

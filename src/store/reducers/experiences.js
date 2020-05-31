@@ -1,6 +1,13 @@
 import * as actionType from "store/actionTypes";
 
 function experiences(state = {}, action) {
+  const filtered = (userId, experienceId) =>
+    state.byUserId &&
+    state.byUserId[userId] &&
+    state.byUserId[userId].filter((experience) => {
+      return experience.id !== experienceId;
+    });
+
   switch (action.type) {
     case actionType.FETCH_USER_EXPERIENCES_REQUEST:
       return {
@@ -15,7 +22,7 @@ function experiences(state = {}, action) {
         error: null,
         byUserId: {
           ...state.byUserId,
-          [action.payload.userId]: { ...action.payload.experiences }
+          [action.payload.userId]: [...action.payload.experiences]
         }
       };
 
@@ -39,9 +46,13 @@ function experiences(state = {}, action) {
         isFetching: false,
         error: null,
         byUserId: {
-          ...state.byUserId,
-          // TODO: check if experience is added to an object if it's there in prev state
-          [action.payload.userId]: { ...action.payload.experience }
+          ...state.byUserId, // keep other userIds in the store
+          [action.payload.userId]: [
+            ...(state.byUserId && state.byUserId[action.payload.userId] // keep previous experiences
+              ? state.byUserId[action.payload.userId]
+              : []),
+            action.payload.experience
+          ]
         }
       };
 
@@ -64,9 +75,12 @@ function experiences(state = {}, action) {
         isFetching: false,
         error: null,
         byUserId: {
-          ...state.byUserId,
-          // TODO: check if experience is updated in the object
-          [action.payload.userId]: { ...action.payload.experiences }
+          ...state.byUserId, // keep other userIds in the store
+          [action.payload.userId]: [
+            ...(filtered(action.payload.userId, action.payload.experience.id) ||
+              []),
+            action.payload.experience
+          ]
         }
       };
 
@@ -89,9 +103,11 @@ function experiences(state = {}, action) {
         isFetching: false,
         error: null,
         byUserId: {
-          ...state.byUserId
-          // TODO: check if experience has been removed
-          // [action.payload.userId]: { ...action.payload.experiences }
+          ...state.byUserId,
+          [action.payload.userId]: [
+            ...(filtered(action.payload.userId, action.payload.experienceId) ||
+              [])
+          ]
         }
       };
 

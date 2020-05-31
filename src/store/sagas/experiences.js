@@ -61,13 +61,16 @@ function* editUserExperience(action) {
 
 function* deleteUserExperience(action) {
   try {
-    const userExperience = yield call(
+    yield call(
       DeleteExperience,
       action.payload.userId,
       action.payload.experienceId
     );
     yield put(
-      deleteUserExperienceSuccess(action.payload.userId, userExperience)
+      deleteUserExperienceSuccess(
+        action.payload.userId,
+        action.payload.experienceId
+      )
     );
   } catch (error) {
     yield put(deleteUserExperienceFailure(error));

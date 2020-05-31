@@ -6,7 +6,9 @@ import {
   editUser,
   getUser,
   fetchUserExperiences,
-  createUserExperience
+  createUserExperience,
+  editUserExperience,
+  deleteUserExperience
 } from "../store/actions";
 
 const Register = () => {
@@ -82,9 +84,26 @@ const Register = () => {
     );
   };
 
+  const editUserExp = () => {
+    const userId = 3;
+    dispatch(
+      editUserExperience(userId, {
+        id: "39",
+        title: "EDIT experience!",
+        description: "yooo",
+        years: "10",
+        months: "12"
+      })
+    );
+  };
+  const deleteUserExp = () => {
+    const userId = 3;
+    dispatch(deleteUserExperience(userId, 94));
+  };
+
   return (
     <MainLayout>
-      <>
+      <div>
         <button type="button" onClick={registerNewUser}>
           Register
         </button>
@@ -103,10 +122,19 @@ const Register = () => {
         <button type="button" onClick={getUserExperience2}>
           GetUserExp2
         </button>
-      </>
-      <button type="button" onClick={createUserExp}>
-        CreateUserExp
-      </button>
+      </div>
+      <br />
+      <div>
+        <button type="button" onClick={createUserExp}>
+          CreateUserExp
+        </button>
+        <button type="button" onClick={editUserExp}>
+          EditUserExp
+        </button>
+        <button type="button" onClick={deleteUserExp}>
+          DeleteUserExp
+        </button>
+      </div>
     </MainLayout>
   );
 };

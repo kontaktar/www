@@ -20,13 +20,28 @@ export default async (request, response) => {
     }
   }
   if (method === "POST") {
-    const { title, description, years, months, published } = body;
     try {
-      const { id } = await database.one(
-        "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING id",
-        [userId, title, description, years, months, published]
+      const {
+        id,
+        title,
+        description,
+        years,
+        months,
+        published
+      } = await database.one(
+        "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+        [
+          userId,
+          body.title,
+          body.description,
+          body.years,
+          body.months,
+          !!body.published
+        ]
       );
-      response.status(200).json({ id, ...body });
+      response
+        .status(200)
+        .json({ id, title, description, years, months, published });
     } catch (error) {
       console.error("POST EXPERIENCE", error);
       response.status(500).end();
