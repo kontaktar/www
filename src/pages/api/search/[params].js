@@ -20,7 +20,7 @@ export default async ({ query: { params } }, response) => {
     );
     response.status(200).json(post);
   } catch (error) {
-    console.error(error);
     response.status(500).end();
+    throw new Error(error);
   }
 };

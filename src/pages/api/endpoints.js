@@ -4,7 +4,7 @@ export async function GetExperiencesByUserId(userId) {
   return get(`/api/users/${userId}/experiences`);
 }
 
-// TODO: TEST
+// TODO: TEST - probably won't need this.
 export async function GetExperienceByUserId(userId, experienceId) {
   return get(`/api/users/${userId}/experiences/${experienceId}`);
 }
@@ -30,7 +30,6 @@ export async function DeleteExperience(userId, experienceId) {
   return remove(`/api/users/${userId}/experiences/${experienceId}`);
 }
 
-// TODO: TEST
 export async function EditUser(userId, userInfo) {
   return put(`/api/users/${userId}`, userInfo);
 }
@@ -43,7 +42,6 @@ export async function GetUser(userId) {
   return get(`/api/users/${userId}`);
 }
 
-// TODO: TEST
 export async function GetAllUsers() {
   return get(`/api/users`);
 }

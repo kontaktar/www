@@ -15,8 +15,8 @@ export default async (request, response) => {
       );
       response.status(200).json(get);
     } catch (error) {
-      console.error(error);
       response.status(500).end();
+      throw new Error(error);
     }
   }
   if (method === "POST") {
@@ -43,8 +43,8 @@ export default async (request, response) => {
         .status(200)
         .json({ id, title, description, years, months, published });
     } catch (error) {
-      console.error("POST EXPERIENCE", error);
       response.status(500).end();
+      throw new Error("POST EXPERIENCE", error);
     }
   } else {
     response.status(400).end();

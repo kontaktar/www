@@ -13,8 +13,8 @@ export default async ({ body, method, query: { id: userId } }, response) => {
       const get = await database.one("SELECT * FROM users WHERE id=$1", userId);
       response.status(200).json(get);
     } catch (error) {
-      console.error(error);
       response.status(500).end();
+      throw new Error(error);
     }
   }
   if (method === "DELETE") {
@@ -29,11 +29,11 @@ export default async ({ body, method, query: { id: userId } }, response) => {
       response.status(200).json({ userId });
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
-        console.error("DELETE USER 404: ", error);
         response.status(404).end();
+        throw new Error("DELETE USER 404: ", error);
       } else {
-        console.error("DELETE USER 500: ", error);
         response.status(500).end();
+        throw new Error("DELETE USER 500: ", error);
       }
     }
   }
@@ -90,11 +90,11 @@ export default async ({ body, method, query: { id: userId } }, response) => {
       response.status(200).json({ userId });
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
-        console.error("UPDATE USER 404: ", error);
         response.status(404).end();
+        throw new Error("UPDATE USER 404: ", error);
       } else {
-        console.error("UPDATE USER 500: ", error);
         response.status(500).end();
+        throw new Error("UPDATE USER 500: ", error);
       }
     }
   } else {

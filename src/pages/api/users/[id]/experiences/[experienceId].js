@@ -21,8 +21,8 @@ export default async (
       );
       response.status(200).json(get);
     } catch (error) {
-      console.error(error);
       response.status(500).end();
+      throw new Error(error);
     }
   }
 
@@ -35,11 +35,11 @@ export default async (
       response.status(200).json({ userId, experienceId });
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
-        console.error("DELETE EXPERIENCE 404: ", error);
         response.status(404).end();
+        throw new Error("DELETE EXPERIENCE 404: ", error);
       } else {
-        console.error("DELETE EXPERIENCE 500: ", error);
         response.status(500).end();
+        throw new Error("DELETE EXPERIENCE 500: ", error);
       }
     }
   }
@@ -71,22 +71,20 @@ export default async (
         null,
         "experiences"
       );
-      console.log("EXXXXPPP", experienceVariablesToUpdate);
       const condition = pgp.as.format(
         " WHERE id = $1 AND user_id = $2 RETURNING *",
         [id, userId]
       );
 
       const experience = await database.one(query + condition);
-      console.log("experience", experience);
       response.status(200).json(experience);
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
-        console.error("UPDATE USER 404: ", error);
         response.status(404).end();
+        throw new Error("UPDATE USER 404: ", error);
       } else {
-        console.error("UPDATE USER 500: ", error);
         response.status(500).end();
+        throw new Error("UPDATE USER 500: ", error);
       }
     }
   } else {
