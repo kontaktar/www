@@ -23,8 +23,8 @@ const SearchBar = ({ className, placeholder, ...props }) => {
 
 export default SearchBar;
 
-SearchBar.Results = () => {
-  return <div className={styles.results}>Svona margar niðurstöður</div>;
+SearchBar.Results = ({ number }) => {
+  return <div className={styles.results}>{number} niðurstöður</div>;
 };
 
 SearchBar.propTypes = {
@@ -34,4 +34,11 @@ SearchBar.propTypes = {
 SearchBar.defaultProps = {
   className: "",
   placeholder: ""
+};
+
+SearchBar.Results.propTypes = {
+  number: PropTypes.string
+};
+SearchBar.Results.defaultProps = {
+  number: "0"
 };

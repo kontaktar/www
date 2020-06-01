@@ -16,13 +16,17 @@ const Search = ({ searchInput, isLoggedIn }) => {
 
   const onSearch = async (params) => {
     if (store.getState().searches && store.getState().searches[params]) {
-      console.log("skip searching, already in store");
-      console.log("already in store", params, store.getState().searches);
+      // console.log("skip searching, already in store");
+      // console.log("already in store", params, store.getState().searches);
     } else if (!params) {
-      console.log("empty params");
+      dispatch(fetchSearchResult(""));
     } else {
       dispatch(fetchSearchResult(params));
     }
+    // console.log(
+    //   "search",
+    //   store.getState().searches[store.getState().searches.latestInput]
+    // );
     // setCards([]);
   };
 
@@ -32,7 +36,9 @@ const Search = ({ searchInput, isLoggedIn }) => {
         <div>
           <MainLayout>
             <SearchContainer
-              // cardsToDisplay={cards}
+              cardsToDisplay={
+                store.getState().searches[store.getState().searches.latestInput]
+              }
               searchInput={searchInput}
               onSearch={onSearch}
             />
@@ -52,12 +58,15 @@ const Search = ({ searchInput, isLoggedIn }) => {
 Search.getInitialProps = async (ctx) => {
   const {
     store,
-    query: { searchInput }
+    query: { searchInput = "" }
   } = ctx;
   const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
 
   if (searchInput) {
     await store.dispatch(fetchSearchResult(searchInput));
+  } else {
+    const initalSearch = "a"; // TODO: Replace with some query that will find the first cards to show, i.e. payed for cards or something.
+    await store.dispatch(fetchSearchResult(initalSearch));
   }
 
   return { searchInput, isLoggedIn, store };

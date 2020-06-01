@@ -59,6 +59,9 @@ Prevent string injections. Never user ES6 literals for database queries.
 
 `/api/search/[params]`
 
+Finds cards by user_name, first_name, last_name, experience title, description
+and published.
+
 `/api/users`
 
 `/api/users/[userId]`
