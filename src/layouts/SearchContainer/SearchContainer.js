@@ -12,7 +12,7 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
     setSearchValue(event.target.value);
     onSearch(event.target.value);
   };
-  const cardPlaceholder = () => {
+  const cardsPlaceholder = () => {
     return store.searches.isFetching ? (
       <p>LOADING</p>
     ) : (
@@ -39,7 +39,7 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
                 />
               );
             })
-          : cardPlaceholder()}
+          : cardsPlaceholder()}
       </CardsContainer>
     </div>
   );
