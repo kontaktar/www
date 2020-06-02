@@ -3,30 +3,28 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
 // import PropTypes from "prop-types";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "utils/auth";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
-import { fetchSearchResult } from "../store/actions";
+import { fetchSearchResult, updateLatestSearch } from "../store/actions";
 
 const Search = ({ searchInput, isLoggedIn }) => {
   // const [cards, setCards] = useState([]);
-
+  const store = useSelector((state) => state);
   const dispatch = useDispatch();
-  const store = useStore();
+  // const store = useStore();
 
   const onSearch = async (params) => {
-    if (store.getState().searches && store.getState().searches[params]) {
+    console.log("store", store);
+    if (params && store.searches && store.searches[params]) {
       // console.log("skip searching, already in store");
       // console.log("already in store", params, store.getState().searches);
+      dispatch(updateLatestSearch(params));
     } else if (!params) {
-      dispatch(fetchSearchResult(""));
+      dispatch(fetchSearchResult("a"));
     } else {
       dispatch(fetchSearchResult(params));
     }
-    // console.log(
-    //   "search",
-    //   store.getState().searches[store.getState().searches.latestInput]
-    // );
     // setCards([]);
   };
 
@@ -36,9 +34,7 @@ const Search = ({ searchInput, isLoggedIn }) => {
         <div>
           <MainLayout>
             <SearchContainer
-              cardsToDisplay={
-                store.getState().searches[store.getState().searches.latestInput]
-              }
+              cardsToDisplay={store.searches[store.searches.latestInput]}
               searchInput={searchInput}
               onSearch={onSearch}
             />

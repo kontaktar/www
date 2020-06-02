@@ -1,73 +1,59 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-// import Downshift from "downshift";
-// eslint-disable-next-line no-unused-vars
+import { useSelector } from "react-redux";
 import { Card, SearchBar } from "components";
 import { CardsContainer } from "layouts";
-// import users from "../../data/all-users-mock";
 import styles from "./SearchContainer.module.scss";
 
-// TODO: Keep input value state when clicked away
-
-// eslint-disable-next-line react/prop-types
 const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
+  const [searchValue, setSearchValue] = useState(searchInput);
+  const store = useSelector((state) => state);
+  const onSearchChange = (event) => {
+    setSearchValue(event.target.value);
+    onSearch(event.target.value);
+  };
+  const cardPlaceholder = () => {
+    return store.searches.isFetching ? (
+      <p>LOADING</p>
+    ) : (
+      <p>Engar niðurstöður</p>
+    );
+  };
   return (
     <div className={styles.root}>
       <div className={styles.search_bar}>
-        <SearchBar /> {/* TODO: */}
-        <SearchBar.Results number={Object.values(cardsToDisplay).length} />
+        <SearchBar value={searchValue} onChange={onSearchChange} />
+        <SearchBar.Results
+          number={(cardsToDisplay && Object.values(cardsToDisplay).length) || 0}
+        />
       </div>
       <CardsContainer>
-        {cardsToDisplay && Object.values(cardsToDisplay).length > 0 ? (
-          Object.values(cardsToDisplay).map((card) => {
-            return (
-              <Card
-                title={card.title}
-                description={card.description}
-                years={card.years}
-                months={card.months}
-              />
-            );
-          })
-        ) : (
-          <p> Engar niðurstöður </p>
-        )}
+        {cardsToDisplay && Object.values(cardsToDisplay).length > 0
+          ? Object.values(cardsToDisplay).map((card) => {
+              return (
+                <Card
+                  title={card.title}
+                  description={card.description}
+                  years={card.years}
+                  months={card.months}
+                />
+              );
+            })
+          : cardPlaceholder()}
       </CardsContainer>
     </div>
   );
-  // return (
-  //   <>
-  //     {cardsToDisplay.map((experience, i) => (
-  //       <Card
-  //         index
-  //         {...getItemProperties({
-  //           key: `${user.firstName + user.id + i}`,
-  //           index,
-  //           item: user
-  //         })}
-  //         linkToProfile={user.userName}
-  //         description={
-  //           (user.experience[i] && user.experience[i].description) || ""
-  //         }
-  //         title={(user.experience[i] && user.experience[i].title) || ""}
-  //         years={(user.experience[i] && user.experience[i].length.years) || ""}
-  //         months={
-  //           (user.experience[i] && user.experience[i].length.months) || ""
-  //         }
-  //       />
-  //     ))}
-  //   </>
-  // );
 };
 
 export default SearchContainer;
 
 SearchContainer.propTypes = {
+  cardsToDisplay: PropTypes.array,
+  onSearch: PropTypes.func.isRequired,
   searchInput: PropTypes.string
 };
 
 SearchContainer.defaultProps = {
+  cardsToDisplay: [],
   searchInput: null
 };
