@@ -13,7 +13,8 @@ const Search = ({ searchInput, isLoggedIn }) => {
   const dispatch = useDispatch();
 
   const onSearch = async (params) => {
-    if (params && store.searches && store.searches[params]) {
+    console.log("Store", store);
+    if (params && store.searches.inputs && store.searches.inputs[params]) {
       // Already in store, just update 'lastSearched'
       dispatch(updateLatestSearch(params));
     } else if (!params) {
@@ -36,7 +37,7 @@ const Search = ({ searchInput, isLoggedIn }) => {
         <div>
           <MainLayout>
             <SearchContainer
-              cardsToDisplay={store.searches[store.searches.latestInput]}
+              cardsToDisplay={store.searches.inputs[store.searches.latestInput]}
               searchInput={searchInput}
               onSearch={onSearch}
               onClearSearch={onClearSearch}

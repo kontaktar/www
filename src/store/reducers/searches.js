@@ -14,7 +14,10 @@ function searches(state = {}, action) {
         ...state,
         isFetching: false,
         error: null,
-        [action.payload.input]: { ...action.payload.results }
+        inputs: {
+          ...state.inputs,
+          ...{ [action.payload.input]: { ...action.payload.results } }
+        }
       };
 
     case actionType.FETCH_SEARCH_RESULT_FAILURE:
