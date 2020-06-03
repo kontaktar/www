@@ -18,9 +18,8 @@ const Search = ({ searchInput, isLoggedIn }) => {
       // Already in store, just update 'lastSearched'
       dispatch(updateLatestSearch(params));
     } else if (!params) {
-      // TODO: do something better then just search for "a" as initial search.
-      // Maybe search by newest
-      dispatch(fetchSearchResult("a"));
+      // TODO: Maybe search for newest or sponsored when search input is empty?
+      dispatch(fetchSearchResult(""));
     } else {
       dispatch(fetchSearchResult(params));
     }
@@ -62,12 +61,7 @@ Search.getInitialProps = async (ctx) => {
   } = ctx;
   const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
 
-  if (searchInput) {
-    await store.dispatch(fetchSearchResult(searchInput));
-  } else {
-    const initalSearch = "a"; // TODO: Replace with some query that will find the first cards to show, i.e. payed for cards or something.
-    await store.dispatch(fetchSearchResult(initalSearch));
-  }
+  await store.dispatch(fetchSearchResult(searchInput || ""));
 
   return { searchInput, isLoggedIn, store };
 };

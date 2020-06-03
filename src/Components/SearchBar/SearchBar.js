@@ -1,12 +1,23 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+
 import { Button, Icon, Input } from "components";
+import { fetchSearchResult, updateLatestSearch } from "store/actions";
+
 import styles from "./SearchBar.module.scss";
 
-const SearchBar = ({ className, placeholder, value, onClear, ...props }) => {
-  const [inputValue, setInputValue] = useState(value);
+const SearchBar = ({ className, placeholder, ...props }) => {
+  const store = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-  useEffect(() => setInputValue(value), [value]);
+  const onClear = async () => {
+    await dispatch(updateLatestSearch(""));
+    if (store.searches.inputs && !store.searches.inputs[""]) {
+      await dispatch(fetchSearchResult(""));
+    }
+  };
 
   return (
     <div className={`${className} ${styles.searchbar}`}>
@@ -15,7 +26,6 @@ const SearchBar = ({ className, placeholder, value, onClear, ...props }) => {
         id="searchbar"
         label={undefined}
         placeholder={placeholder}
-        value={inputValue}
         {...props}
         className={styles.input}
       />
@@ -34,9 +44,7 @@ SearchBar.Results = ({ number }) => {
 
 SearchBar.propTypes = {
   className: PropTypes.string,
-  placeholder: PropTypes.string,
-  onClear: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
+  placeholder: PropTypes.string
 };
 SearchBar.defaultProps = {
   className: "",
