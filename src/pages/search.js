@@ -9,23 +9,25 @@ import { MainLayout, SearchContainer, UserLayout } from "layouts";
 import { fetchSearchResult, updateLatestSearch } from "../store/actions";
 
 const Search = ({ searchInput, isLoggedIn }) => {
-  // const [cards, setCards] = useState([]);
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const store = useStore();
 
   const onSearch = async (params) => {
-    console.log("store", store);
     if (params && store.searches && store.searches[params]) {
-      // console.log("skip searching, already in store");
-      // console.log("already in store", params, store.getState().searches);
+      // Already in store, just update 'lastSearched'
       dispatch(updateLatestSearch(params));
     } else if (!params) {
+      // TODO: do something better then just search for "a" as initial search.
+      // Maybe search by newest
       dispatch(fetchSearchResult("a"));
     } else {
       dispatch(fetchSearchResult(params));
     }
-    // setCards([]);
+  };
+
+  const onClearSearch = () => {
+    // TODO: Same as above
+    dispatch(fetchSearchResult("a"));
   };
 
   return (
@@ -37,6 +39,7 @@ const Search = ({ searchInput, isLoggedIn }) => {
               cardsToDisplay={store.searches[store.searches.latestInput]}
               searchInput={searchInput}
               onSearch={onSearch}
+              onClearSearch={onClearSearch}
             />
           </MainLayout>
         </div>

@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Icon, Input } from "components";
 import styles from "./SearchBar.module.scss";
 
-const SearchBar = ({ className, placeholder, ...props }) => {
+const SearchBar = ({ className, placeholder, value, onClear, ...props }) => {
+  const [inputValue, setInputValue] = useState(value);
+
+  useEffect(() => setInputValue(value), [value]);
+
   return (
     <div className={`${className} ${styles.searchbar}`}>
       <Icon className={styles.search_icon} name="search" />
@@ -11,10 +15,11 @@ const SearchBar = ({ className, placeholder, ...props }) => {
         id="searchbar"
         label={undefined}
         placeholder={placeholder}
+        value={inputValue}
         {...props}
         className={styles.input}
       />
-      <Button modifier={["search"]}>
+      <Button modifier={["search"]} onClick={onClear}>
         <Icon className={styles.clear_icon} name="close" />
       </Button>
     </div>
@@ -29,7 +34,9 @@ SearchBar.Results = ({ number }) => {
 
 SearchBar.propTypes = {
   className: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  onClear: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired
 };
 SearchBar.defaultProps = {
   className: "",
