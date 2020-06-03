@@ -8,18 +8,12 @@ import nextCookie from "next-cookies";
 import { logout, withAuth } from "utils/auth";
 import { UserLayout, ProfileContainer } from "layouts";
 
-const Profile = (props) => {
-  // const { name, bio } = props;
-
+const Profile = () => {
   return (
     <UserLayout>
-      <ProfileContainer editMode />
+      <ProfileContainer editMode userName="hannes" />
     </UserLayout>
   );
-};
-
-Profile.propTypes = {
-  data: PropTypes.object.isRequired
 };
 
 Profile.getInitialProps = async (ctx) => {
