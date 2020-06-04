@@ -33,7 +33,9 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
     <div className={styles.root}>
       <div className={styles.search_bar}>
         <SearchBar value={searchValue} onChange={onSearchChange} />
-        <SearchBar.Results number={cards && Object.values(cards).length} />
+        {cards ? (
+          <SearchBar.Results number={`${Object.values(cards).length}`} />
+        ) : null}
       </div>
       <CardsContainer>
         {cards

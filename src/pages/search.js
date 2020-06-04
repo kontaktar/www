@@ -27,16 +27,19 @@ const Search = ({ searchInput, isLoggedIn }) => {
 
   const onClearSearch = () => {
     // TODO: Same as above
-    dispatch(fetchSearchResult("a"));
+    dispatch(fetchSearchResult(""));
   };
-
   return (
     <div>
       {!isLoggedIn ? (
         <div>
           <MainLayout>
             <SearchContainer
-              cardsToDisplay={store.searches.inputs[store.searches.latestInput]}
+              cardsToDisplay={
+                !store.searches.isFetching &&
+                store.searches.inputs &&
+                store.searches.inputs[store.searches.latestInput]
+              }
               searchInput={searchInput}
               onSearch={onSearch}
               onClearSearch={onClearSearch}
@@ -46,7 +49,16 @@ const Search = ({ searchInput, isLoggedIn }) => {
       ) : (
         <div>
           <UserLayout>
-            <SearchContainer searchInput={searchInput} />
+            <SearchContainer
+              cardsToDisplay={
+                !store.searches.isFetching &&
+                store.searches.inputs &&
+                store.searches.inputs[store.searches.latestInput]
+              }
+              searchInput={searchInput}
+              onSearch={onSearch}
+              onClearSearch={onClearSearch}
+            />
           </UserLayout>
         </div>
       )}
@@ -61,7 +73,7 @@ Search.getInitialProps = async (ctx) => {
   } = ctx;
   const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
 
-  await store.dispatch(fetchSearchResult(searchInput || ""));
+  await store.dispatch(fetchSearchResult(searchInput));
 
   return { searchInput, isLoggedIn, store };
 };

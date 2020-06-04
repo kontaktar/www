@@ -38,7 +38,7 @@ const SearchBar = ({ className, placeholder, ...props }) => {
 
 export default SearchBar;
 
-SearchBar.Results = ({ number }) => {
+SearchBar.Results = ({ number = "0" }) => {
   return <div className={styles.results}>{number} niðurstöður</div>;
 };
 
