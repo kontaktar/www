@@ -16,7 +16,8 @@ export {
 export {
   fetchSearchResult,
   fetchSearchResultFailure,
-  fetchSearchResultSuccess
+  fetchSearchResultSuccess,
+  updateLatestSearch
 } from "./searches";
 
 export {

@@ -5,21 +5,33 @@ function searches(state = {}, action) {
     case actionType.FETCH_SEARCH_RESULT_REQUEST:
       return {
         ...state,
+        isFetching: true,
         latestInput: action.payload.input
       };
 
     case actionType.FETCH_SEARCH_RESULT_SUCCESS:
       return {
         ...state,
-        [action.payload.input]: { ...action.payload.results }
+        isFetching: false,
+        error: null,
+        inputs: {
+          ...state.inputs,
+          ...{ [action.payload.input]: { ...action.payload.results } }
+        }
       };
 
     case actionType.FETCH_SEARCH_RESULT_FAILURE:
       return {
         ...state,
+        isFetching: false,
         ...{ error: action.message }
       };
 
+    case actionType.UPDATE_LATEST_SEARCH:
+      return {
+        ...state,
+        latestInput: action.payload.input
+      };
     default:
       return { ...state };
   }

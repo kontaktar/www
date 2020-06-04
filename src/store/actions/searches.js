@@ -25,3 +25,12 @@ export function fetchSearchResultFailure(message) {
     message
   };
 }
+
+export function updateLatestSearch(input) {
+  return {
+    type: actionType.UPDATE_LATEST_SEARCH,
+    payload: {
+      input
+    }
+  };
+}

@@ -1,9 +1,24 @@
-import React from "react";
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+
 import { Button, Icon, Input } from "components";
+import { fetchSearchResult, updateLatestSearch } from "store/actions";
+
 import styles from "./SearchBar.module.scss";
 
 const SearchBar = ({ className, placeholder, ...props }) => {
+  const store = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const onClear = async () => {
+    await dispatch(updateLatestSearch(""));
+    if (store.searches.inputs && !store.searches.inputs[""]) {
+      await dispatch(fetchSearchResult(""));
+    }
+  };
+
   return (
     <div className={`${className} ${styles.searchbar}`}>
       <Icon className={styles.search_icon} name="search" />
@@ -14,7 +29,7 @@ const SearchBar = ({ className, placeholder, ...props }) => {
         {...props}
         className={styles.input}
       />
-      <Button modifier={["search"]}>
+      <Button modifier={["search"]} onClick={onClear}>
         <Icon className={styles.clear_icon} name="close" />
       </Button>
     </div>
@@ -23,8 +38,8 @@ const SearchBar = ({ className, placeholder, ...props }) => {
 
 export default SearchBar;
 
-SearchBar.Results = () => {
-  return <div className={styles.results}>Svona margar niðurstöður</div>;
+SearchBar.Results = ({ number = "0" }) => {
+  return <div className={styles.results}>{number} niðurstöður</div>;
 };
 
 SearchBar.propTypes = {
@@ -34,4 +49,11 @@ SearchBar.propTypes = {
 SearchBar.defaultProps = {
   className: "",
   placeholder: ""
+};
+
+SearchBar.Results.propTypes = {
+  number: PropTypes.string
+};
+SearchBar.Results.defaultProps = {
+  number: "0"
 };

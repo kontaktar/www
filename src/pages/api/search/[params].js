@@ -12,7 +12,7 @@ export default async ({ query: { params } }, response) => {
           e.id as experience_id, u.id as user_id, u.user_name, u.first_name, u.last_name, e.title, e.description, e.years, e.months
         FROM experiences e
         LEFT JOIN users u ON e.user_id = u.id
-        WHERE LOWER(u.user_name || ' ' || u.first_name || ' ' || u.last_name || ' ' || e.title || ' ' || e.description) ~ $1
+        WHERE e.published IS TRUE AND LOWER(u.user_name || ' ' || u.first_name || ' ' || u.last_name || ' ' || e.title || ' ' || e.description) ~ $1
         GROUP BY e.id, u.id, u.user_name, u.first_name, u.last_name, e.title, e.description
         ORDER BY (LOWER(u.user_name || ' ' || u.first_name || ' ' || u.last_name || ' ' || e.title || ' ' || e.description) <-> $2) ASC;
       `,

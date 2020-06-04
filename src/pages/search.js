@@ -3,45 +3,62 @@
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
 // import PropTypes from "prop-types";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "utils/auth";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
-import { fetchSearchResult } from "../store/actions";
+import { fetchSearchResult, updateLatestSearch } from "../store/actions";
 
 const Search = ({ searchInput, isLoggedIn }) => {
-  // const [cards, setCards] = useState([]);
-
+  const store = useSelector((state) => state);
   const dispatch = useDispatch();
-  const store = useStore();
 
   const onSearch = async (params) => {
-    if (store.getState().searches && store.getState().searches[params]) {
-      console.log("skip searching, already in store");
-      console.log("already in store", params, store.getState().searches);
+    console.log("Store", store);
+    if (params && store.searches.inputs && store.searches.inputs[params]) {
+      // Already in store, just update 'lastSearched'
+      dispatch(updateLatestSearch(params));
     } else if (!params) {
-      console.log("empty params");
+      // TODO: Maybe search for newest or sponsored when search input is empty?
+      dispatch(fetchSearchResult(""));
     } else {
       dispatch(fetchSearchResult(params));
     }
-    // setCards([]);
   };
 
+  const onClearSearch = () => {
+    // TODO: Same as above
+    dispatch(fetchSearchResult(""));
+  };
   return (
     <div>
       {!isLoggedIn ? (
         <div>
           <MainLayout>
             <SearchContainer
-              // cardsToDisplay={cards}
+              cardsToDisplay={
+                !store.searches.isFetching &&
+                store.searches.inputs &&
+                store.searches.inputs[store.searches.latestInput]
+              }
               searchInput={searchInput}
               onSearch={onSearch}
+              onClearSearch={onClearSearch}
             />
           </MainLayout>
         </div>
       ) : (
         <div>
           <UserLayout>
-            <SearchContainer searchInput={searchInput} />
+            <SearchContainer
+              cardsToDisplay={
+                !store.searches.isFetching &&
+                store.searches.inputs &&
+                store.searches.inputs[store.searches.latestInput]
+              }
+              searchInput={searchInput}
+              onSearch={onSearch}
+              onClearSearch={onClearSearch}
+            />
           </UserLayout>
         </div>
       )}
@@ -52,13 +69,11 @@ const Search = ({ searchInput, isLoggedIn }) => {
 Search.getInitialProps = async (ctx) => {
   const {
     store,
-    query: { searchInput }
+    query: { searchInput = "" }
   } = ctx;
   const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
 
-  if (searchInput) {
-    await store.dispatch(fetchSearchResult(searchInput));
-  }
+  await store.dispatch(fetchSearchResult(searchInput));
 
   return { searchInput, isLoggedIn, store };
 };

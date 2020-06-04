@@ -198,7 +198,7 @@ const ProfileContainer = ({ editMode, userName }) => {
       </div>
     );
   }
-  return null;
+  return <p>No user?</p>;
 };
 
 export default ProfileContainer;
