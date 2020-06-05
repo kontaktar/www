@@ -46,6 +46,7 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
                   description={card.description}
                   years={card.years}
                   months={card.months}
+                  linkToProfile={card.userName}
                 />
               );
             })

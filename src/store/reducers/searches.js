@@ -6,7 +6,7 @@ function searches(state = {}, action) {
       return {
         ...state,
         isFetching: true,
-        latestInput: action.payload.input
+        latestInput: action.payload.input || ""
       };
 
     case actionType.FETCH_SEARCH_RESULT_SUCCESS:
@@ -16,7 +16,11 @@ function searches(state = {}, action) {
         error: null,
         inputs: {
           ...state.inputs,
-          ...{ [action.payload.input]: { ...action.payload.results } }
+          ...{
+            [(action.payload && action.payload.input) || ""]: {
+              ...(action.payload && action.payload.results)
+            }
+          }
         }
       };
 

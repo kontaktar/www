@@ -6,7 +6,7 @@ export default async ({ query: { params } }, response) => {
     const wordsRegex = `(${words.join("|")})`;
     const wordsLike = `%${words.join("% <-> %")}%`;
 
-    const post = await database.any(
+    const data = await database.any(
       `
         SELECT
           e.id as experience_id, u.id as user_id, u.user_name, u.first_name, u.last_name, e.title, e.description, e.years, e.months
@@ -18,7 +18,17 @@ export default async ({ query: { params } }, response) => {
       `,
       [wordsRegex, wordsLike]
     );
-    response.status(200).json(post);
+    const mappedData = data.map((card) => {
+      return {
+        userId: card.user_id,
+        experienceId: card.experience_id,
+        userName: card.user_name,
+        firstName: card.first_name,
+        lastName: card.last_name,
+        ...card
+      };
+    });
+    response.status(200).json(mappedData);
   } catch (error) {
     response.status(500).end();
     throw new Error(error);
