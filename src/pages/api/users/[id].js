@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
+import { withMiddleware } from "utils/apiMiddleware";
+
 import { removeEmpty } from "helpers/objects";
 
 const pgp = require("pg-promise");
@@ -7,7 +7,13 @@ const database = require("utils/database").instance;
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
-export default async ({ body, method, query: { id: userId } }, response) => {
+export default async (request, response) => {
+  await withMiddleware(request, response);
+  const {
+    body,
+    method,
+    query: { id: userId }
+  } = request;
   if (method === "GET") {
     try {
       const get = await database.one("SELECT * FROM users WHERE id=$1", userId);

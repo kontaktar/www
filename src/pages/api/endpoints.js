@@ -1,5 +1,7 @@
 import { get, post, put, remove } from "helpers/methods";
 
+// TODO: move this file, shouldn't be here
+
 export async function GetExperiencesByUserId(userId) {
   return get(`/api/users/${userId}/experiences`);
 }

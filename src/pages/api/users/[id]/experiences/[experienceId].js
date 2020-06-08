@@ -1,5 +1,4 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
+import { withMiddleware } from "utils/apiMiddleware";
 import { removeEmpty } from "helpers/objects";
 
 const pgp = require("pg-promise");
@@ -7,10 +6,13 @@ const database = require("utils/database").instance;
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
-export default async (
-  { body, method, query: { experienceId, id: userId } },
-  response
-) => {
+export default async (request, response) => {
+  await withMiddleware(request, response);
+  const {
+    body,
+    method,
+    query: { experienceId, id: userId }
+  } = request;
   if (method === "GET") {
     // I don't think this one is needed
     try {

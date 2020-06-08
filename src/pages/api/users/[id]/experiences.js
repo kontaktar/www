@@ -1,7 +1,10 @@
+import { withMiddleware } from "utils/apiMiddleware";
+
 const database = require("utils/database").instance;
 
 // export default async ({ method, query: { id } }, response) => {
 export default async (request, response) => {
+  await withMiddleware(request, response);
   const {
     body,
     method,

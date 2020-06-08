@@ -1,6 +1,9 @@
+import { withMiddleware } from "utils/apiMiddleware";
+
 const database = require("../../../utils/database").instance;
 
-export default async (_, response) => {
+export default async (_request, response) => {
+  await withMiddleware(_request, response);
   try {
     const data = await database.any(
       `SELECT

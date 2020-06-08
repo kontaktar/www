@@ -1,6 +1,12 @@
-const database = require("../../../utils/database").instance;
+import { withMiddleware } from "utils/apiMiddleware";
 
-export default async ({ query: { params } }, response) => {
+const database = require("utils/database").instance;
+
+export default async (request, response) => {
+  await withMiddleware(request, response);
+  const {
+    query: { params }
+  } = request;
   try {
     const words = params.split(" ");
     const wordsRegex = `(${words.join("|")})`;
