@@ -58,7 +58,6 @@ function users(state = {}, action) {
         isFetching: false,
         ...{ error: action.message }
       };
-
     default:
       return { ...state };
   }

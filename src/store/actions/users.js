@@ -80,28 +80,3 @@ export function getUserFailure(message) {
     message
   };
 }
-
-export function getUserByUserName(userName) {
-  return {
-    type: actionType.FETCH_USER_BY_USER_NAME_REQUEST,
-    payload: {
-      userName
-    }
-  };
-}
-
-export function getUserByUserNameSuccess(userInfo) {
-  return {
-    type: actionType.FETCH_USER_BY_USER_NAME_SUCCESS,
-    payload: {
-      userInfo
-    }
-  };
-}
-
-export function getUserByUserNameFailure(message) {
-  return {
-    type: actionType.FETCH_USER_BY_USER_NAME_FAILURE,
-    message
-  };
-}

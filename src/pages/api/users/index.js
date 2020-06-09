@@ -4,56 +4,11 @@ const database = require("utils/database").instance;
 
 export default async (request, response) => {
   await withMiddleware(request, response);
-  const { body, method, query } = request;
+  const { body, method } = request;
   if (method === "GET") {
     try {
-      let data;
-      if (query && query.userName) {
-        data = await database.one(
-          "SELECT u.id, u.user_name, u.first_name, u.last_name, u.email, u.website, u.phone_number, u.created_at, u.last_login, u.ssn, a.postal_code, a.street_name, a.city, a.country FROM users u LEFT JOIN addresses a ON a.user_id = u.id WHERE u.user_name = $1;",
-          query.userName
-        );
-        response.status(200).json({
-          id: data.id,
-          userName: data.user_name,
-          firstName: data.first_name,
-          lastName: data.last_name,
-          email: data.email,
-          website: data.website,
-          phoneNumber: data.phone_number,
-          createdAt: data.created_at,
-          lastLogin: data.last_login,
-          ssn: data.ssn,
-          postalCode: data.postal_code,
-          streetName: data.street_name,
-          city: data.city,
-          country: data.country
-        });
-      } else {
-        data = await database.many(
-          "SELECT u.id, u.user_name, u.first_name, u.last_name, u.email, u.website, u.phone_number, u.created_at, u.last_login, u.ssn, a.postal_code, a.street_name, a.city, a.country FROM users u LEFT JOIN addresses a ON a.user_id = u.id;"
-        );
-        response.status(200).json(
-          data.map((d) => {
-            return {
-              id: d.id,
-              userName: d.user_name,
-              firstName: d.first_name,
-              lastName: d.last_name,
-              email: d.email,
-              website: d.website,
-              phoneNumber: d.phone_number,
-              createdAt: d.created_at,
-              lastLogin: d.last_login,
-              ssn: d.ssn,
-              postalCode: d.postal_code,
-              streetName: d.street_name,
-              city: d.city,
-              country: d.country
-            };
-          })
-        );
-      }
+      const get = await database.many("SELECT * FROM users;");
+      response.status(200).json(get);
     } catch (error) {
       response.status(500).end();
       throw new Error("GET USER", error);

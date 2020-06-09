@@ -1,16 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
+import { login } from "utils/auth";
 import { MainLayout } from "layouts";
 import { Button, Input } from "components";
-import { getUserByUserName } from "../store/actions";
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const store = useSelector((state) => state);
-
   const [userData, setUserData] = useState({ username: "", error: "" });
 
   async function handleChange(event) {
@@ -22,7 +17,7 @@ const Login = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     setUserData(Object.assign({}, userData, { error: "" }));
-    await dispatch(getUserByUserName(userData.username));
+    login({ username: userData.username });
   }
 
   return (
@@ -54,7 +49,6 @@ const Login = () => {
           </p>
         </form>
       </div>
-      {store.auth && store.auth.error && <p>Error</p>}
     </MainLayout>
   );
 };

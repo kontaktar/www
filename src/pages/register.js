@@ -8,8 +8,7 @@ import {
   fetchUserExperiences,
   createUserExperience,
   editUserExperience,
-  deleteUserExperience,
-  getUserByUserName
+  deleteUserExperience
 } from "../store/actions";
 
 const Register = () => {
@@ -102,10 +101,6 @@ const Register = () => {
     dispatch(deleteUserExperience(userId, 94));
   };
 
-  const getUserByName = () => {
-    dispatch(getUserByUserName("hannes"));
-  };
-
   return (
     <MainLayout>
       <div>
@@ -138,9 +133,6 @@ const Register = () => {
         </button>
         <button type="button" onClick={deleteUserExp}>
           DeleteUserExp
-        </button>
-        <button type="button" onClick={getUserByName}>
-          GetHannes
         </button>
       </div>
     </MainLayout>
