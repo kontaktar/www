@@ -63,7 +63,7 @@ const FrontPageContainer = () => {
         <div className={styles.search_section}>
           <h1>
             Ertu að leita að{" "}
-            <span className={styles.highlight}>sérfræðing</span> fyrir þitt
+            <span className={styles.highlight}>sérfræðingi</span> fyrir þitt
             fyrirtæki?
           </h1>
           <div

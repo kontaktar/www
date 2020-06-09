@@ -18,6 +18,7 @@ const Profile = () => {
 
 Profile.getInitialProps = async (ctx) => {
   const { spez_user_token: token } = nextCookie(ctx);
+
   const url = `/api/profile`;
   const redirectOnError = () =>
     typeof window !== "undefined"

@@ -3,10 +3,13 @@
 // eslint-disable-next-line no-unused-vars
 import React, { Fragment, useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import { Button, Card, Icon, Modal } from "components";
 import colors from "styles/colors.scss";
 import mockUserData from "data/all-users-mock";
+import { fetchUserExperiences } from "../../store/actions";
+
 import styles from "./ProfileContainer.module.scss";
 
 const ProfileContainer = ({ editMode, userName }) => {
@@ -16,8 +19,12 @@ const ProfileContainer = ({ editMode, userName }) => {
   const [modalType, setModalType] = useState();
   const [showActiveSection, setShowActiveSection] = useState(false);
   const [activeExperiece, setActiveExperience] = useState(false);
+  const [userExperiences, setUserExperiences] = useState([]);
 
-  const [activeExperieceWidth, setActiveExperienceWidth] = useState(undefined);
+  const store = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const [activeExperienceWidth, setActiveExperienceWidth] = useState(undefined);
 
   useEffect(() => {
     function handleResize() {
@@ -40,12 +47,34 @@ const ProfileContainer = ({ editMode, userName }) => {
     return () =>
       typeof window !== "undefined" &&
       window.removeEventListener("resize", handleResize);
-  }, [activeExperieceWidth]);
+  }, [activeExperienceWidth]);
 
+  // Fetch logged in user
+  useEffect(() => {
+    if (editMode && store.auth && store.auth.user && store.auth.user.id) {
+      dispatch(fetchUserExperiences(store.auth.user.id));
+    }
+  }, [store.auth && store.auth.user]);
+
+  // Fetch experience for logged in user
+  useEffect(() => {
+    if (
+      editMode &&
+      store.experiences.byUserId &&
+      store.experiences.byUserId[store.auth.user.id]
+    ) {
+      setUserExperiences(store.experiences.byUserId[store.auth.user.id]);
+    }
+  }, [
+    store.auth &&
+      store.auth.user &&
+      store.experiences &&
+      store.experiences.byUserId
+  ]);
   // Store, GetUserExperience
   // Store, GetActiveUserExperince
 
-  const [user] = mockUserData.filter((u) => u.userName === userName);
+  const { user } = store.auth;
 
   const onCloseModal = () => {
     showModal(false);
@@ -100,17 +129,15 @@ const ProfileContainer = ({ editMode, userName }) => {
                   color={colors.red}
                   name="location"
                 />
-                {/* TODO: so that the comma inbetween is only shown if values on both sides are valid */}
-                {user.address || ""}
-                {user.address && user.city && `,`}
-                {user.city || ""}
-                {user.city &&
-                  user.postalCode &&
-                  user.postalCode !== "0" &&
-                  `,`}{" "}
-                {user.postalCode && user.postalCode !== "0"
-                  ? user.postalCode
-                  : ""}
+                {[
+                  user.address,
+                  user.postalCode && user.postalCode !== "0"
+                    ? user.postalCode
+                    : "",
+                  user.city
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
               </span>
               <span>
                 <Icon
@@ -150,7 +177,7 @@ const ProfileContainer = ({ editMode, userName }) => {
               <div
                 className={styles.active_experience_paper}
                 style={{
-                  width: activeExperieceWidth
+                  width: activeExperienceWidth
                 }}
               >
                 <h5>{`${activeExperiece.title}`}</h5>
@@ -165,19 +192,19 @@ const ProfileContainer = ({ editMode, userName }) => {
           <h4>Verkspjöld</h4>
           {editMode ? (
             <DragableCardContainer
-              items={user.experience}
+              items={userExperiences}
               handleEdit={onOpenExperienceModal}
             />
           ) : (
             <CardsContainer className={styles.cards}>
-              {user.experience.map((experience) => (
+              {userExperiences.map((experience) => (
                 <Card
                   description={experience.description}
                   editMode={editMode}
                   onEdit={onOpenExperienceModal}
                   title={experience.title}
-                  months={experience.length.month}
-                  years={experience.length.years}
+                  months={experience.month}
+                  years={experience.years}
                   onClick={() => showActiveExperienceOnTop(experience)}
                 />
               ))}

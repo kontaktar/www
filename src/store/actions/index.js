@@ -29,5 +29,8 @@ export {
   editUserSuccess,
   getUser,
   getUserFailure,
-  getUserSuccess
+  getUserSuccess,
+  getUserByUserName,
+  getUserByUserNameFailure,
+  getUserByUserNameSuccess
 } from "./users";
