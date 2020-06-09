@@ -2,3 +2,4 @@
 export { default as experiences } from "./experiences";
 export { default as searches } from "./searches";
 export { default as users } from "./users";
+export { default as auth } from "./auth";

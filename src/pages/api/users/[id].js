@@ -16,8 +16,25 @@ export default async (request, response) => {
   } = request;
   if (method === "GET") {
     try {
-      const get = await database.one("SELECT * FROM users WHERE id=$1", userId);
-      response.status(200).json(get);
+      const data = await database.one(
+        "SELECT u.id, u.user_name, u.first_name, u.last_name, u.email, u.website, u.phone_number, u.created_at, u.last_login, u.ssn, a.postal_code, a.street_name, a.city, a.country FROM users u LEFT JOIN addresses a ON a.user_id = u.id WHERE u.id=$1",
+        userId
+      );
+      response.status(200).json({
+        userName: data.user_name,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        email: data.email,
+        website: data.website,
+        phoneNumber: data.phone_number,
+        createdAt: data.created_at,
+        lastLogin: data.last_login,
+        ssn: data.ssn,
+        postalCode: data.postal_code,
+        streetName: data.street_name,
+        city: data.city,
+        country: data.country
+      });
     } catch (error) {
       response.status(500).end();
       throw new Error(error);
@@ -63,6 +80,7 @@ export default async (request, response) => {
       ssn,
       user_name,
       first_name,
+      last_name,
       email,
       website,
       phone_number
