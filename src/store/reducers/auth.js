@@ -2,13 +2,13 @@ import * as actionType from "store/actionTypes";
 
 function auth(state = {}, action) {
   switch (action.type) {
-    case actionType.FETCH_USER_BY_USER_NAME_REQUEST:
+    case actionType.LOGIN_REQUEST:
       return {
         ...state,
         isFetching: true
       };
 
-    case actionType.FETCH_USER_BY_USER_NAME_SUCCESS:
+    case actionType.LOGIN_SUCCESS:
       return {
         ...state,
         isFetching: false,
@@ -16,7 +16,7 @@ function auth(state = {}, action) {
         user: action.payload.userInfo
       };
 
-    case actionType.FETCH_USER_BY_USER_NAME_FAILURE:
+    case actionType.LOGIN_FAILURE:
       return {
         ...state,
         isFetching: false,

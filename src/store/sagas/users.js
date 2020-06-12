@@ -5,10 +5,17 @@ import {
   editUserSuccess,
   editUserFailure,
   getUserSuccess,
-  getUserFailure
+  getUserFailure,
+  getUserByUserNameSuccess,
+  getUserByUserNameFailure
 } from "store/actions";
 import * as actionTypes from "store/actionTypes";
-import { CreateUser, EditUser, GetUser } from "../../pages/api/endpoints";
+import {
+  CreateUser,
+  EditUser,
+  GetUser,
+  GetUserByUserName
+} from "../../pages/api/endpoints";
 
 function* createUser(action) {
   try {
@@ -37,11 +44,21 @@ function* getUser(action) {
   }
 }
 
+function* getUserByUserName(action) {
+  try {
+    const result = yield call(GetUserByUserName, action.payload.userName);
+    yield put(getUserByUserNameSuccess(result));
+  } catch (error) {
+    yield put(getUserByUserNameFailure(error));
+  }
+}
+
 function* users() {
   yield all([
     takeEvery(actionTypes.CREATE_USER_REQUEST, createUser),
     takeEvery(actionTypes.EDIT_USER_REQUEST, editUser),
-    takeEvery(actionTypes.FETCH_USER_REQUEST, getUser)
+    takeEvery(actionTypes.FETCH_USER_REQUEST, getUser),
+    takeEvery(actionTypes.FETCH_USER_BY_USER_NAME_REQUEST, getUserByUserName)
   ]);
 }
 

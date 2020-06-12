@@ -7,7 +7,7 @@ import {
 import * as actionTypes from "store/actionTypes";
 import { GetUserByUserName } from "../../pages/api/endpoints";
 
-function* getUserByUserName(action) {
+function* loginUserByUserName(action) {
   try {
     const result = yield call(GetUserByUserName, action.payload.userName);
     yield put(getUserByUserNameSuccess(result));
@@ -18,9 +18,7 @@ function* getUserByUserName(action) {
 }
 
 function* auth() {
-  yield all([
-    takeEvery(actionTypes.FETCH_USER_BY_USER_NAME_REQUEST, getUserByUserName)
-  ]);
+  yield all([takeEvery(actionTypes.LOGIN_REQUEST, loginUserByUserName)]);
 }
 
 export default auth;
