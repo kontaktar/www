@@ -11,7 +11,7 @@ import { UserLayout, ProfileContainer } from "layouts";
 const Profile = () => {
   return (
     <UserLayout>
-      <ProfileContainer editMode userName="hannes" />
+      <ProfileContainer editMode />
     </UserLayout>
   );
 };

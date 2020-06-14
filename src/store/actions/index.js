@@ -34,3 +34,5 @@ export {
   getUserByUserNameFailure,
   getUserByUserNameSuccess
 } from "./users";
+
+export { login, loginSuccess, loginFailure } from "./auth";

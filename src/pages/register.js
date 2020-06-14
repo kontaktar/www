@@ -9,7 +9,8 @@ import {
   createUserExperience,
   editUserExperience,
   deleteUserExperience,
-  getUserByUserName
+  getUserByUserName,
+  login
 } from "../store/actions";
 
 const Register = () => {
@@ -105,6 +106,9 @@ const Register = () => {
   const getUserByName = () => {
     dispatch(getUserByUserName("hannes"));
   };
+  const getLogin = () => {
+    dispatch(login("hannes"));
+  };
 
   return (
     <MainLayout>
@@ -141,6 +145,9 @@ const Register = () => {
         </button>
         <button type="button" onClick={getUserByName}>
           GetHannes
+        </button>
+        <button type="button" onClick={getLogin}>
+          login
         </button>
       </div>
     </MainLayout>

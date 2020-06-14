@@ -8,7 +8,7 @@ import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import { Button, Card, Icon, Modal } from "components";
 import colors from "styles/colors.scss";
 import mockUserData from "data/all-users-mock";
-import { fetchUserExperiences } from "../../store/actions";
+import { fetchUserExperiences, getUserByUserName } from "../../store/actions";
 
 import styles from "./ProfileContainer.module.scss";
 
@@ -17,8 +17,9 @@ const ProfileContainer = ({ editMode, userName }) => {
   const [openModal, showModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [modalType, setModalType] = useState();
+  const [userProfile, setUserProfile] = useState({});
   const [showActiveSection, setShowActiveSection] = useState(false);
-  const [activeExperiece, setActiveExperience] = useState(false);
+  const [activeExperience, setActiveExperience] = useState(false);
   const [userExperiences, setUserExperiences] = useState([]);
 
   const store = useSelector((state) => state);
@@ -49,32 +50,50 @@ const ProfileContainer = ({ editMode, userName }) => {
       window.removeEventListener("resize", handleResize);
   }, [activeExperienceWidth]);
 
+  // Fetch user profile
+  useEffect(() => {
+    if (!editMode && userName) {
+      if (Object.keys(store.users).length > 0) {
+        const [currentUserProfile] = Object.values(store.users).filter(
+          (user) => user && user.userName && user.userName === userName
+        );
+        if (
+          userProfile &&
+          currentUserProfile &&
+          userProfile.id !== currentUserProfile.id
+        ) {
+          setUserProfile(currentUserProfile);
+          dispatch(fetchUserExperiences(currentUserProfile.id));
+        }
+      }
+    }
+  }, [userName]);
+
   // Fetch logged in user
   useEffect(() => {
     if (editMode && store.auth && store.auth.user && store.auth.user.id) {
       dispatch(fetchUserExperiences(store.auth.user.id));
+      setUserProfile(store.auth.user);
     }
   }, [store.auth && store.auth.user]);
 
   // Fetch experience for logged in user
   useEffect(() => {
     if (
-      editMode &&
       store.experiences.byUserId &&
-      store.experiences.byUserId[store.auth.user.id]
+      store.experiences.byUserId[userProfile.id]
     ) {
-      setUserExperiences(store.experiences.byUserId[store.auth.user.id]);
+      setUserExperiences(store.experiences.byUserId[userProfile.id]);
     }
   }, [
-    store.auth &&
-      store.auth.user &&
-      store.experiences &&
-      store.experiences.byUserId
+    store.auth && store.auth.user,
+    store.users,
+    store.experiences && store.experiences.byUserId
   ]);
   // Store, GetUserExperience
   // Store, GetActiveUserExperince
 
-  const { user } = store.auth;
+  const user = userProfile;
 
   const onCloseModal = () => {
     showModal(false);
@@ -180,10 +199,10 @@ const ProfileContainer = ({ editMode, userName }) => {
                   width: activeExperienceWidth
                 }}
               >
-                <h5>{`${activeExperiece.title}`}</h5>
+                <h5>{`${activeExperience.title}`}</h5>
                 <span
                   className={styles.full_description}
-                >{`${activeExperiece.description}`}</span>
+                >{`${activeExperience.description}`}</span>
               </div>
             </div>
           )}

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { MainLayout } from "layouts";
 import { Button, Input } from "components";
-import { getUserByUserName } from "../store/actions";
+import { login } from "../store/actions";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const Login = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     setUserData(Object.assign({}, userData, { error: "" }));
-    await dispatch(getUserByUserName(userData.username));
+    await dispatch(login(userData.username));
   }
 
   return (
