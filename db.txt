@@ -1,4 +1,0 @@
-psql --host=kontaktardb.crpycooyf4pt.eu-west-2.rds.amazonaws.com --port=5432 --username=postgres --password --dbname=postgres
-
-
-TODO: RECOMPUTE TRIGGER: 12:30 @ https://www.youtube.com/watch?v=szfUbzsKvtE
