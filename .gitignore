@@ -7,6 +7,7 @@ yarn-error.log
 public
 
 *.DS_Store
+**/.DS_Store
 
 .env
 .vercel
