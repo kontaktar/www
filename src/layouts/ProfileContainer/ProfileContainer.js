@@ -76,31 +76,18 @@ const ProfileContainer = ({ editMode, userName }) => {
     }
   }, [store.auth && store.auth.user]);
 
-  // Fetch experience for logged in user
+  // Fetch experiences for logged in user
   useEffect(() => {
-    if (
-      store.experiences.byUserId &&
-      store.experiences.byUserId[userProfile.id]
-    ) {
-      setUserExperiences(store.experiences.byUserId[userProfile.id]);
-    }
-  }, [
-    store.auth && store.auth.user,
-    store.users,
-    store.experiences && store.experiences.byUserId
-  ]);
-
-  useEffect(() => {
-    console.log("HGELLO", store.experiences.byUserId[userProfile.id]);
     setUserExperiences(store.experiences.byUserId[userProfile.id]);
   }, [
     store.auth &&
       store.auth.user &&
+      store.users &&
       userProfile &&
       userProfile.id &&
       store.experiences &&
       store.experiences.byUserId &&
-      store.experiences.byUserId[userProfile.id],
+      store.experiences.byUserId[userProfile.id] === true,
     store.experiences.byUserId[userProfile.id]
   ]);
 

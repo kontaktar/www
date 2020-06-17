@@ -115,6 +115,13 @@
   height: 250px;
   width: 300px;
   border: none;
+  &:hover,
+  &:active,
+  &:focus {
+    .add_new_plus {
+      color: $color-red;
+    }
+  }
   .add_new_plus {
     font-size: 120px;
     color: white;
