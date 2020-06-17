@@ -99,6 +99,11 @@ const ProfileContainer = ({ editMode, userName }) => {
     showModal(false);
   };
 
+  const onOpenNewExperienceModal = () => {
+    setModalType({ experience: true });
+    showModal(true);
+  };
+
   const onOpenExperienceModal = (title, description, years, months) => {
     setModalData({
       title,
@@ -210,10 +215,19 @@ const ProfileContainer = ({ editMode, userName }) => {
         <div className={styles.card_container}>
           <h4>Verkspjöld</h4>
           {editMode ? (
-            <DragableCardContainer
-              items={userExperiences}
-              handleEdit={onOpenExperienceModal}
-            />
+            <>
+              <DragableCardContainer
+                items={userExperiences}
+                handleEdit={onOpenExperienceModal}
+              />
+              <CardsContainer className={styles.cards}>
+                <button
+                  type="button"
+                  className={styles.add_new_experience}
+                  onClick={onOpenNewExperienceModal}
+                />
+              </CardsContainer>
+            </>
           ) : (
             <CardsContainer className={styles.cards}>
               {userExperiences.map((experience) => (
@@ -227,7 +241,6 @@ const ProfileContainer = ({ editMode, userName }) => {
                   onClick={() => showActiveExperienceOnTop(experience)}
                 />
               ))}
-              {/* TODO: "Add new card" Card} */}
             </CardsContainer>
           )}
 
