@@ -103,7 +103,6 @@ const Register = () => {
     dispatch(deleteUserExperience(userId, 94));
   };
 
-<<<<<<< HEAD
   const getUserByName = () => {
     dispatch(getUserByUserName("hannes"));
   };
@@ -111,8 +110,6 @@ const Register = () => {
     dispatch(login("hannes"));
   };
 
-=======
->>>>>>> master
   return (
     <MainLayout>
       <div>
