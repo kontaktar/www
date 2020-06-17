@@ -88,7 +88,7 @@ const Card = (props) => {
 };
 
 Card.propTypes = {
-  children: PropTypes.node.isRequired,
+  // children: PropTypes.node.isRequired,
   description: PropTypes.string,
   linkToProfile: PropTypes.string
 };

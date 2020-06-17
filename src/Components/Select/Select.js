@@ -24,13 +24,12 @@ const options = [
   }
 ];
 
-const Select = (props) => {
-  const { className, error, label } = props;
-  const [selectedOption, setSelectedOption] = React.useState("EUR");
+const Select = ({ className, error, label, ...props }) => {
+  // const [selectedOption, setSelectedOption] = React.useState("EUR");
 
-  const handleChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setSelectedOption(event.target.value);
+  // };
   return (
     <div className={`${styles.select} ${className}`}>
       {console.log(label === "")}
@@ -44,13 +43,12 @@ const Select = (props) => {
       )}
       {label === "" && <div className={styles.hidden_label}></div>}
       <MUITextField
-        id="standard-select-currency"
+        id="selector"
         select
-        value={selectedOption}
-        onChange={handleChange}
         SelectProps={{
           native: true
         }}
+        {...props}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
