@@ -30,7 +30,6 @@ Button.Edit = ({ type, ...props }) => {
     <Button className={`${styles.edit} ${styles[type]}`} {...props}>
       <p>{type === "save" ? "Vista" : "Birta"}</p>
       <Icon
-        // color={colors.black20}
         className={styles.icon}
         name={type === "save" ? "save" : "publish"}
       />
@@ -50,10 +49,7 @@ Button.Navigation = ({ compact = false, title, url, ...props }) => {
           className={styles.navigation_icon}
           name="user"
         />
-        <p>
-          {/* <div className={styles.icon}>.</div> */}
-          {title}
-        </p>
+        <p>{title}</p>
       </Button>
     </Link>
   );

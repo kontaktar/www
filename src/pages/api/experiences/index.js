@@ -2,8 +2,9 @@ import { withMiddleware } from "utils/apiMiddleware";
 
 const database = require("utils/database").instance;
 
-export default async ({ method }, response) => {
+export default async (request, response) => {
   await withMiddleware(request, response);
+  const { method } = request;
   if (method === "GET") {
     try {
       const get = await database.many("SELECT * FROM experiences;");

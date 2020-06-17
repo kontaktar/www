@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import { Button, Card, Icon, Modal } from "components";
 import colors from "styles/colors.scss";
-import mockUserData from "data/all-users-mock";
 import { fetchUserExperiences, getUserByUserName } from "../../store/actions";
 
 import styles from "./ProfileContainer.module.scss";
@@ -22,10 +21,10 @@ const ProfileContainer = ({ editMode, userName }) => {
   const [activeExperience, setActiveExperience] = useState(false);
   const [userExperiences, setUserExperiences] = useState([]);
 
+  const [activeExperienceWidth, setActiveExperienceWidth] = useState(undefined);
+
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  const [activeExperienceWidth, setActiveExperienceWidth] = useState(undefined);
 
   useEffect(() => {
     function handleResize() {
@@ -77,21 +76,20 @@ const ProfileContainer = ({ editMode, userName }) => {
     }
   }, [store.auth && store.auth.user]);
 
-  // Fetch experience for logged in user
+  // Fetch experiences for logged in user
   useEffect(() => {
-    if (
-      store.experiences.byUserId &&
-      store.experiences.byUserId[userProfile.id]
-    ) {
-      setUserExperiences(store.experiences.byUserId[userProfile.id]);
-    }
+    setUserExperiences(store.experiences.byUserId[userProfile.id]);
   }, [
-    store.auth && store.auth.user,
-    store.users,
-    store.experiences && store.experiences.byUserId
+    store.auth &&
+      store.auth.user &&
+      store.users &&
+      userProfile &&
+      userProfile.id &&
+      store.experiences &&
+      store.experiences.byUserId &&
+      store.experiences.byUserId[userProfile.id] === true,
+    store.experiences.byUserId[userProfile.id]
   ]);
-  // Store, GetUserExperience
-  // Store, GetActiveUserExperince
 
   const user = userProfile;
 
@@ -99,8 +97,15 @@ const ProfileContainer = ({ editMode, userName }) => {
     showModal(false);
   };
 
-  const onOpenExperienceModal = (title, description, years, months) => {
+  const onOpenNewExperienceModal = () => {
+    setModalData({});
+    setModalType({ experience: true });
+    showModal(true);
+  };
+
+  const onOpenExperienceModal = (id, title, description, years, months) => {
     setModalData({
+      id,
       title,
       description,
       years,
@@ -210,24 +215,40 @@ const ProfileContainer = ({ editMode, userName }) => {
         <div className={styles.card_container}>
           <h4>Verkspjöld</h4>
           {editMode ? (
-            <DragableCardContainer
-              items={userExperiences}
-              handleEdit={onOpenExperienceModal}
-            />
+            <>
+              {userExperiences && (
+                <DragableCardContainer
+                  items={userExperiences}
+                  handleEdit={onOpenExperienceModal}
+                />
+              )}
+              <CardsContainer className={styles.cards}>
+                <button
+                  type="button"
+                  className={styles.add_new_experience}
+                  onClick={onOpenNewExperienceModal}
+                >
+                  <span className={styles.add_new_plus}>+</span>
+                </button>
+              </CardsContainer>
+            </>
           ) : (
             <CardsContainer className={styles.cards}>
-              {userExperiences.map((experience) => (
-                <Card
-                  description={experience.description}
-                  editMode={editMode}
-                  onEdit={onOpenExperienceModal}
-                  title={experience.title}
-                  months={experience.month}
-                  years={experience.years}
-                  onClick={() => showActiveExperienceOnTop(experience)}
-                />
-              ))}
-              {/* TODO: "Add new card" Card} */}
+              {userExperiences &&
+                userExperiences.map((experience) => {
+                  return (
+                    <Card
+                      description={experience.description}
+                      editMode={editMode}
+                      experienceId={experience.id}
+                      onEdit={onOpenExperienceModal}
+                      title={experience.title}
+                      months={experience.month}
+                      years={experience.years}
+                      onClick={() => showActiveExperienceOnTop(experience)}
+                    />
+                  );
+                })}
             </CardsContainer>
           )}
 
