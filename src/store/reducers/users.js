@@ -58,6 +58,27 @@ function users(state = {}, action) {
         isFetching: false,
         ...{ error: action.message }
       };
+    case actionType.FETCH_USER_BY_USER_NAME_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+
+    case actionType.FETCH_USER_BY_USER_NAME_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        [action.payload.userInfo.id]: { ...action.payload.userInfo }
+      };
+
+    case actionType.FETCH_USER_BY_USER_NAME_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        user: null,
+        ...{ error: action.message }
+      };
     default:
       return { ...state };
   }

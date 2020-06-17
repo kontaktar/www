@@ -11,13 +11,14 @@ import { UserLayout, ProfileContainer } from "layouts";
 const Profile = () => {
   return (
     <UserLayout>
-      <ProfileContainer editMode userName="hannes" />
+      <ProfileContainer editMode />
     </UserLayout>
   );
 };
 
 Profile.getInitialProps = async (ctx) => {
   const { spez_user_token: token } = nextCookie(ctx);
+
   const url = `/api/profile`;
   const redirectOnError = () =>
     typeof window !== "undefined"

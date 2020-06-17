@@ -1,0 +1,79 @@
+@import "../../styles/config";
+
+.card_container {
+  display: flex;
+  flex-direction: row;
+  * {
+    min-width: 250px;
+  }
+}
+
+// back button
+.carousel div:nth-child(3) {
+  right: 150px !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+// next button
+.carousel div:nth-child(4) {
+  right: 75px !important;
+}
+
+.carousel div:nth-child(5),
+div:nth-child(6),
+div:nth-child(7) {
+  display: none;
+}
+
+// slider background
+.carousel div:nth-child(2) {
+  ul {
+    margin: 20px 0 !important;
+  }
+}
+
+.carousel {
+  padding-top: 80px;
+  margin-left: -20px;
+  :global {
+    .slider-frame {
+      padding-left: 20px !important;
+    }
+  }
+
+  .small {
+    height: 30px;
+  }
+}
+
+.carousel.small {
+  padding-top: 30px;
+}
+
+.carousel_header {
+  display: flex;
+  flex-direction: row;
+  padding-top: 150px;
+
+  h3 {
+    flex-grow: 1;
+    font-size: 40px;
+    font-family: "Berlingske Serif";
+    position: relative;
+    top: 58px;
+  }
+}
+
+.carousel_header.medium {
+  h3 {
+    font-size: 28px;
+  }
+}
+
+.carousel_header.small {
+  h3 {
+    font-size: 28px;
+    margin-bottom: 60px;
+  }
+}

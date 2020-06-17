@@ -1,0 +1,54 @@
+@import "../../styles/config";
+
+.modal {
+  background-color: red;
+}
+
+.modal_content {
+  position: absolute;
+
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  height: 600px;
+  width: 800px;
+
+  background: #ffffff;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1);
+
+  // @media only screen and (max-width: 800px) {
+  //   height: 600px;
+  //   width: 100%;
+  // }
+  @media only screen and (max-width: 800px) {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.button_clear {
+  cursor: pointer;
+  float: right;
+  margin-top: 25px;
+  width: 25px;
+  height: 0px;
+  border: none;
+  color: white;
+  position: absolute;
+  right: 25px;
+
+  &:hover,
+  &:active {
+    border: none;
+    background-color: white;
+    color: white;
+  }
+}
+
+.close_icon {
+  //something aloing these lines:
+  // fill: black;
+}

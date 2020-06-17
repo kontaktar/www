@@ -1,0 +1,24 @@
+@import "../../styles/config";
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 90px;
+
+  background-color: $secondary-black-color;
+  height: 135px;
+  bottom: 0;
+
+  p {
+    margin-left: 18px;
+    margin-right: 40px;
+    font-family: "Berlingske Sans Bold";
+    font-size: 18px;
+    color: white;
+  }
+}
+
+.logo {
+  flex-grow: 1;
+}
