@@ -2,52 +2,79 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { createUserExperience, editUserExperience } from "store/actions";
 import { Button, Input, Select, TextArea } from "components";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
+  const dispatch = useDispatch();
+
+  // useEFfect á data?
+
+  const store = useSelector((state) => state);
   // TODO: make sure data object is { description, title, years, months }
-  const [userData, setUserData] = useState(data);
+  const [experience, setExperience] = useState(data);
   const [errorMessage, setErrorMessage] = useState("");
   const isNew = Object.keys(data).length === 0;
 
-  const saveExperience = () => {
-    console.log("isNew", isNew);
-    console.log("uuuu", userData);
+  const validateExperience = () => {
+    let message = "";
 
-    /*
-    if isNew dispatch newExperience
-    else dispatch updateExperience
-    */
+    if (Object.entries(experience).length === 0) {
+      message = "Heiti verks vantar. Lýsing á hæfni vantar.";
+    }
+    if (!experience.title) {
+      message += "Heiti verks vantar. ";
+    }
+    if (!experience.description) {
+      message += "Lýsing á hæfni vantar.";
+    }
+    setErrorMessage(message);
+    return message === "";
+  };
+
+  const saveExperience = () => {
+    if (validateExperience()) {
+      if (isNew) {
+        dispatch(createUserExperience(store.auth.user.id, experience));
+      } else {
+        // TODO: test
+        dispatch(editUserExperience(store.auth.user.id, experience));
+      }
+    }
   };
 
   const handleChange = (event) => {
-    setUserData({ ...userData, [event.target.name]: event.target.value });
+    console.log("handle", experience);
+    setExperience({ ...experience, [event.target.name]: event.target.value });
   };
   return (
     <>
-      <div className={styles.header}>Verkspjald</div>
+      <div className={styles.header}>
+        {isNew ? "Nýtt verkspjald" : "Verkspjald"}
+      </div>
       <div className={styles.input_line}>
         <Input
           name="title"
           label="Heiti verks"
           onChange={handleChange}
-          value={userData.title}
+          value={experience.title}
         />
         <div className={styles.dropdown_line}>
-          <Select
+          <Select.YearsMonths
             name="years"
             onChange={handleChange}
             label="Lengd hæfni"
             className={styles.length_dropdown}
-            value={userData.years || "1"}
+            value={experience.years || "0"}
           />
-          <Select
+          <Select.YearsMonths
             name="months"
             onChange={handleChange}
             label=""
             className={styles.length_dropdown}
-            value={userData.months || "1"}
+            value={experience.months || "0"}
           />
         </div>
       </div>
@@ -56,11 +83,11 @@ const Experience = ({ data }) => {
         onChange={handleChange}
         className={styles.textarea}
         label="Lýsing á hæfni"
-        value={userData.description}
+        value={experience.description}
       />
       <div className={styles.button_line}>
         {errorMessage && (
-          <span styles={styles.error_message}>errorMessage</span>
+          <span className={styles.error_message}>{errorMessage}</span>
         )}
         <Button.Edit onClick={saveExperience} type="save" />
         <Button.Edit type="publish" />

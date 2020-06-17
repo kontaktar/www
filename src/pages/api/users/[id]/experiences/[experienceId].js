@@ -83,7 +83,7 @@ export default async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
-        throw new Error("UPDATE USER 404: ", error);
+        throw new Error("UPDATE EXPERIENCE 404: ", error);
       } else {
         response.status(500).end();
         throw new Error("UPDATE USER 500: ", error);

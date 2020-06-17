@@ -12,10 +12,11 @@ const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
       {/* This extra div is crucial for the dragging to work: https://github.com/clauderic/react-sortable-hoc/issues/367#issuecomment-380523336 */}
       <Card
         editMode
+        experienceId={cardContent.id}
         description={cardContent.description}
         title={cardContent.title}
-        months={cardContent.month}
-        years={cardContent.years}
+        months={cardContent.months || "0"}
+        years={cardContent.years || "0"}
         onEdit={handleEdit}
       />
     </div>
@@ -53,8 +54,8 @@ const DragableCardContainer = ({ items, handleEdit }) => {
       {arrangement.map((card, index) => (
         <SortableItem
           // eslint-disable-next-line react/no-array-index-key
-          key={`item-${index}`}
-          index={index}
+          key={`item-${card.id}`}
+          index={card.id}
           handleEdit={handleEdit}
           cardContent={card}
         />

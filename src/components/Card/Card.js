@@ -13,24 +13,23 @@ import styles from "./Card.module.scss";
 
 const Card = (props) => {
   const {
+    experienceId,
     description,
     editMode = false,
     linkToProfile = "",
-    months,
+    months = "0",
     onClick,
     onEdit,
     title,
     style,
-    years
+    years = "0"
   } = props;
 
   const onEditCard = () => {
-    onEdit(title, description, years, months);
+    onEdit(experienceId, title, description, years, months);
   };
 
-  // eslint-disable-next-line no-shadow
   const LinkToProfile = ({ children }) => {
-    // TODO replace hardcoded Link
     if (linkToProfile) {
       return <Link href={`/user/${linkToProfile}`}>{children}</Link>;
     }
@@ -72,14 +71,16 @@ const Card = (props) => {
             {/* <p>Í birtingu</p> */}
             <span className={styles.title_description}>{title}</span>
             <span className={styles.description}>{description}</span>
-
-            {(years || months) && (
-              <span className={styles.length}>
-                <Icon className={styles.clock_icon} name="clock" />
-                <span>{years && years !== "0" ? `${years} ár` : ""}</span>
-                <span>{months && months !== "0" ? `${months} mán` : ""}</span>
-              </span>
-            )}
+            {console.log("y", years, "months", months)}
+            <span className={styles.length}>
+              {((years && years !== "0") || (months && months !== "0")) && (
+                <>
+                  <Icon className={styles.clock_icon} name="clock" />
+                  <span>{years && years !== "0" ? `${years} ár` : ""}</span>
+                  <span>{months && months !== "0" ? `${months} mán` : ""}</span>
+                </>
+              )}
+            </span>
           </CardContent>
         </CardActionArea>
       </MuiCard>

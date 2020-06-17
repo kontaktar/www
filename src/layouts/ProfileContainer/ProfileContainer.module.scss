@@ -110,8 +110,13 @@
 }
 
 .add_new_experience {
-  background-color: red;
+  background-color: #f0f0f0;
   cursor: pointer;
-  height: 200px;
+  height: 250px;
   width: 300px;
+  border: none;
+  .add_new_plus {
+    font-size: 120px;
+    color: white;
+  }
 }
