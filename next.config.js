@@ -20,7 +20,7 @@ module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
     importLoaders: 1,
     localIdentName: "[local]___[hash:base64:5]"
   },
-  webpack(config, { dev, isServer }) {
+  webpack(config, { dev, isServer, webpack }) {
     if (dev) {
       config.module.rules.push({
         test: /\.js$/,
@@ -28,6 +28,7 @@ module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
         loader: "eslint-loader"
       });
     }
+    config.plugins.push(new webpack.IgnorePlugin(/^pg-native$/));
     return config;
   },
   // fetch seems to add a trailing slash and Next.js doesn't know how to handle it properly
