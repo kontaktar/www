@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import arrayMove from "array-move";
 import PropTypes from "prop-types";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
@@ -14,8 +14,8 @@ const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
         editMode
         description={cardContent.description}
         title={cardContent.title}
-        months={cardContent.month}
-        years={cardContent.years}
+        months={cardContent.length.month}
+        years={cardContent.length.years}
         onEdit={handleEdit}
       />
     </div>
@@ -39,7 +39,6 @@ const DragableCardContainer = ({ items, handleEdit }) => {
       setArrangement(arrayMove(arrangement, oldIndex, newIndex));
     }
   };
-  useEffect(() => setArrangement(items), [items]);
 
   return (
     <SortableContainer
@@ -50,13 +49,13 @@ const DragableCardContainer = ({ items, handleEdit }) => {
       axis="xy"
       onSortEnd={onChange}
     >
-      {arrangement.map((card, index) => (
+      {arrangement.map((value, index) => (
         <SortableItem
           // eslint-disable-next-line react/no-array-index-key
           key={`item-${index}`}
           index={index}
           handleEdit={handleEdit}
-          cardContent={card}
+          cardContent={value}
         />
       ))}
     </SortableContainer>

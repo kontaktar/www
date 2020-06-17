@@ -36,8 +36,16 @@ const Carousel = ({ width }) => {
   React.useEffect(() => {
     if (windowSize !== width) {
       setWindowSize(width);
-      setSlidesToShow(settings.find((s) => width > s.breakpoint).slides);
-      setCarouselSize(settings.find((s) => width > s.breakpoint).breakpoint);
+      setSlidesToShow(
+        (settings.find((s) => width > s.breakpoint) &&
+          settings.find((s) => width > s.breakpoint).slides) ||
+          1
+      );
+      setCarouselSize(
+        (settings.find((s) => width > s.breakpoint) &&
+          settings.find((s) => width > s.breakpoint).breakpoint) ||
+          332
+      );
     }
   }, [width, carouselSize]);
 

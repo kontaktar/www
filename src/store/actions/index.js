@@ -29,10 +29,7 @@ export {
   editUserSuccess,
   getUser,
   getUserFailure,
-  getUserSuccess,
-  getUserByUserName,
-  getUserByUserNameFailure,
-  getUserByUserNameSuccess
+  getUserSuccess
 } from "./users";
 
 export { login, loginSuccess, loginFailure } from "./auth";

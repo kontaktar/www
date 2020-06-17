@@ -44,10 +44,6 @@ export async function GetUser(userId) {
   return get(`/api/users/${userId}`);
 }
 
-export async function GetUserByUserName(userName) {
-  return get(`/api/users?userName=${userName}`);
-}
-
 export async function GetAllUsers() {
   return get(`/api/users`);
 }
