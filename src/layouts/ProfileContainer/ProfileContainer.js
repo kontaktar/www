@@ -56,14 +56,8 @@ const ProfileContainer = ({ editMode, userName }) => {
         const [currentUserProfile] = Object.values(store.users).filter(
           (user) => user && user.userName && user.userName === userName
         );
-        if (
-          userProfile &&
-          currentUserProfile &&
-          userProfile.id !== currentUserProfile.id
-        ) {
-          setUserProfile(currentUserProfile);
-          dispatch(fetchUserExperiences(currentUserProfile.id));
-        }
+        setUserProfile(currentUserProfile);
+        dispatch(fetchUserExperiences(currentUserProfile.id));
       }
     }
   }, [userName]);
@@ -83,28 +77,26 @@ const ProfileContainer = ({ editMode, userName }) => {
     }
   }, [store.users && store.auth && store.auth.user]);
 
-  // Fetch experiences for logged in user
+  // Fetch profile for logged in user
   useEffect(() => {
-    setUserProfile(store.users[store.auth.user.id]);
-  }, [
-    store.auth && store.auth.user && store.users === true,
-    store.users[store.auth.user.id]
-  ]);
+    if (store.auth && store.auth.user && store.auth.user.id && store.users) {
+      console.log("WTF", store.auth.user.id);
+      setUserProfile(store.users[store.auth.user.id]);
+    }
+  }, [store.users]);
 
   //
   useEffect(() => {
-    setUserExperiences(store.experiences.byUserId[userProfile.id]);
-  }, [
-    store.auth &&
-      store.auth.user &&
+    if (
       store.users &&
-      userProfile &&
       userProfile.id &&
       store.experiences &&
       store.experiences.byUserId &&
-      store.experiences.byUserId[userProfile.id] === true,
-    store.experiences.byUserId[userProfile.id]
-  ]);
+      store.experiences.byUserId[userProfile.id]
+    ) {
+      setUserExperiences(store.experiences.byUserId[userProfile.id]);
+    }
+  }, [store.experiences]);
 
   const user = userProfile;
 
@@ -169,11 +161,12 @@ const ProfileContainer = ({ editMode, userName }) => {
                   name="location"
                 />
                 {[
-                  user.address,
+                  user.streetName,
                   user.postalCode && user.postalCode !== "0"
                     ? user.postalCode
                     : "",
-                  user.city
+                  user.city,
+                  user.country
                 ]
                   .filter(Boolean)
                   .join(", ")}

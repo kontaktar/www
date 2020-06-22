@@ -31,7 +31,7 @@ const Navigation = ({ isOpen }) => {
           key={route.title}
           compact={!isOpen}
           title={route.title}
-          url={!route.title ? route.url : ""}
+          url={route.url || "/"}
           onClick={route.title === "Útskrá" ? logout : () => {}}
         />
       ))}

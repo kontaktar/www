@@ -1,14 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { MainLayout, ProfileContainer } from "layouts";
+import { useAuth } from "utils/auth";
+import { MainLayout, ProfileContainer, UserLayout } from "layouts";
 import { getUserByUserName } from "src/store/actions";
 
-const UserProfile = ({ userName }) => {
+const UserProfile = ({ userName, isLoggedIn }) => {
   console.log("User userName from pages/user: ", userName);
   return (
-    <MainLayout>
-      <ProfileContainer userName={userName} />
-    </MainLayout>
+    <>
+      {!isLoggedIn ? (
+        <MainLayout>
+          <ProfileContainer userName={userName} />
+        </MainLayout>
+      ) : (
+        <UserLayout>
+          <ProfileContainer userName={userName} />
+        </UserLayout>
+      )}
+    </>
   );
 };
 
@@ -17,12 +26,15 @@ UserProfile.getInitialProps = async (ctx) => {
     query: { userName },
     store
   } = ctx;
+  const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
+
   await store.dispatch(getUserByUserName(userName));
-  return { userName };
+  return { isLoggedIn, userName };
 };
 
 UserProfile.propTypes = {
-  userName: PropTypes.string
+  userName: PropTypes.string,
+  isLoggedIn: PropTypes.bool.isRequired
 };
 
 UserProfile.defaultProps = {
