@@ -70,13 +70,28 @@ const ProfileContainer = ({ editMode, userName }) => {
 
   // Fetch logged in user
   useEffect(() => {
-    if (editMode && store.auth && store.auth.user && store.auth.user.id) {
+    if (
+      editMode &&
+      store.auth &&
+      store.auth.user &&
+      store.auth.user.id &&
+      store.users &&
+      store.users[store.auth.user.id]
+    ) {
       dispatch(fetchUserExperiences(store.auth.user.id));
-      setUserProfile(store.auth.user);
+      setUserProfile(store.users[store.auth.user.id]);
     }
-  }, [store.auth && store.auth.user]);
+  }, [store.users && store.auth && store.auth.user]);
 
   // Fetch experiences for logged in user
+  useEffect(() => {
+    setUserProfile(store.users[store.auth.user.id]);
+  }, [
+    store.auth && store.auth.user && store.users === true,
+    store.users[store.auth.user.id]
+  ]);
+
+  //
   useEffect(() => {
     setUserExperiences(store.experiences.byUserId[userProfile.id]);
   }, [
@@ -116,7 +131,7 @@ const ProfileContainer = ({ editMode, userName }) => {
   };
 
   const onEditUserInfoModal = () => {
-    setModalData({ title: "Breyta upplýsingum " });
+    setModalData({ ...store.users[store.auth.user.id] });
     setModalType({ userInformation: true });
     showModal(true);
   };

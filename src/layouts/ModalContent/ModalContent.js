@@ -3,19 +3,21 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { createUserExperience, editUserExperience } from "store/actions";
+import {
+  createUserExperience,
+  editUserExperience,
+  editUser
+} from "store/actions";
 import { Button, Input, Select, TextArea } from "components";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
   const dispatch = useDispatch();
 
-  // useEFfect á data?
-
   const store = useSelector((state) => state);
-  // TODO: make sure data object is { description, title, years, months }
   const [experience, setExperience] = useState(data);
   const [errorMessage, setErrorMessage] = useState("");
+  const [timestamp, setTimestamp] = useState(undefined);
   const isNew = Object.keys(data).length === 0;
 
   const validateExperience = () => {
@@ -39,16 +41,16 @@ const Experience = ({ data }) => {
       if (isNew) {
         dispatch(createUserExperience(store.auth.user.id, experience));
       } else {
-        // TODO: test
         dispatch(editUserExperience(store.auth.user.id, experience));
       }
+      setTimestamp(new Date());
     }
   };
 
   const handleChange = (event) => {
-    console.log("handle", experience);
     setExperience({ ...experience, [event.target.name]: event.target.value });
   };
+
   return (
     <>
       <div className={styles.header}>
@@ -89,6 +91,7 @@ const Experience = ({ data }) => {
         {errorMessage && (
           <span className={styles.error_message}>{errorMessage}</span>
         )}
+        {timestamp && <LastChange timestamp={timestamp} />}
         <Button.Edit onClick={saveExperience} type="save" />
         <Button.Edit type="publish" />
       </div>
@@ -97,29 +100,106 @@ const Experience = ({ data }) => {
 };
 
 const UserInformation = ({ data }) => {
+  const [userInfo, setUserInfo] = useState(data);
+  const [timestamp, setTimestamp] = useState(undefined);
+  const dispatch = useDispatch();
+
+  const store = useSelector((state) => state);
+
+  const saveUserInfo = () => {
+    setTimestamp(new Date());
+    dispatch(editUser(store.auth.user.id, userInfo));
+  };
+
+  const handleChange = (event) => {
+    setUserInfo({ ...userInfo, [event.target.name]: event.target.value });
+  };
+
   return (
     <>
-      <div className={styles.header}>Verkspjald</div>
+      <div className={styles.header}>Breyta upplýsingum</div>
       <div className={styles.input_rows}>
         <div className={styles.input_line}>
-          <Input label="Nafn" value={data.title} />
+          <Input
+            label="Fornafn"
+            name="firstName"
+            value={userInfo.firstName}
+            onChange={handleChange}
+          />
+          <Input
+            label="Eftirnafn"
+            name="lastName"
+            value={userInfo.lastName}
+            onChange={handleChange}
+          />
+          <Input
+            label="Notendanafn"
+            name="userName"
+            value={userInfo.userName}
+            onChange={handleChange}
+          />
         </div>
         <div className={styles.input_line}>
-          <Input label="Heimilisfang" value={data.title} />
-          <Input label="Símanúmer" value={data.title} />
+          <Input
+            label="Heimilisfang"
+            name="streetName"
+            value={userInfo.streetName}
+            onChange={handleChange}
+          />
+          <Input
+            name="city"
+            label="Bær"
+            value={userInfo.city}
+            onChange={handleChange}
+          />
+          <Input
+            label="Póstfang"
+            name="postalCode"
+            value={userInfo.postalCode}
+            onChange={handleChange}
+          />
+          <Input
+            label="Land"
+            name="country"
+            value={userInfo.country}
+            onChange={handleChange}
+          />
+          <Input
+            label="Símanúmer"
+            name="phoneNumber"
+            value={userInfo.phoneNumber}
+            onChange={handleChange}
+          />
         </div>
         <div className={styles.input_line}>
-          <Input label="Netfang" value={data.title} />
-          <Input label="Vefsíða" value={data.title} />
+          <Input
+            label="Netfang"
+            name="email"
+            value={userInfo.email}
+            onChange={handleChange}
+          />
+          <Input
+            label="Vefsíða"
+            name="website"
+            value={userInfo.website}
+            onChange={handleChange}
+          />
         </div>
       </div>
       <div className={styles.button_line}>
-        <Button.Edit type="save" />
-        <Button.Edit type="publish" />
+        {timestamp && <LastChange timestamp={timestamp} />}
+        <Button.Edit onClick={saveUserInfo} type="save" />
       </div>
     </>
   );
 };
+
+const LastChange = ({ timestamp }) => (
+  <div style={{ marginRight: "auto" }}>
+    Síðast breytt: {timestamp.getHours()}:{timestamp.getSeconds()}:
+    {timestamp.getSeconds()}
+  </div>
+);
 
 const ModalContent = ({ data, experience, userInformation }) => {
   return (

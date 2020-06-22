@@ -71,7 +71,6 @@ const Card = (props) => {
             {/* <p>Í birtingu</p> */}
             <span className={styles.title_description}>{title}</span>
             <span className={styles.description}>{description}</span>
-            {console.log("y", years, "months", months)}
             <span className={styles.length}>
               {((years && years !== "0") || (months && months !== "0")) && (
                 <>

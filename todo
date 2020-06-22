@@ -5,24 +5,20 @@ https://levelup.gitconnected.com/a-guide-to-next-js-api-routes-a287eda1f784
 ☐ Gera trigger fyrir document_idx
 ☐ Search á document_idx
 
-☐ Takmarka stafafjölda í titli á verkspjaldi
+Þinn prófill:
+☐ Verkspjald er með takmarkaðan stafafjöld og er með "sjá meira" hnapp.
+☐ Takmarka stafafjölda í titli
 ☐ Setja upp order virkni, til að raða upp spjöldum
  - nota editUserExperience
+☐ Setja dragable pointer á card þegar það er dragable. cursor: grab
 
-
-
-A. Þinn eigin prófill
-☐ Verkspjald er með takmarkaðan stafafjöld og er með "sjá meira" hnapp.
-
-B. Þegar notandi er innskráður að skoða prófil annara
+Annarra prófill:
 ☐ Valið verkspjald sprengir út svæðið fyrir ofan verkspjöld.
 ☐ Geta með query params opna prófíl og tiltekið verkspjald, t.d. /profile/username?verkefni=1 
 
-☐ Fela carousel
+Forsíða:
+☐ Enter eftir að leita fer beint í leitarvél, núna þarf músaklikk á takkann
 
-☐ Verkspjald linkable: 
-☐ Leitarvél á forsíðu -> leitarvél
 
-☐ Setja dragable pointer á card þegar það er dragable. cursor: grab
 ☐ focus searchbar when stækkunargler onClick
 ☐ Gera rótar button componentinn meira flexibile

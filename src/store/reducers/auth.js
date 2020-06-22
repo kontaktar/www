@@ -13,7 +13,9 @@ function auth(state = {}, action) {
         ...state,
         isFetching: false,
         error: null,
-        user: action.payload.userInfo
+        user: {
+          id: action.payload.userInfo.id
+        }
       };
 
     case actionType.LOGIN_FAILURE:
@@ -23,6 +25,7 @@ function auth(state = {}, action) {
         user: null,
         ...{ error: action.message }
       };
+
     default:
       return { ...state };
   }
