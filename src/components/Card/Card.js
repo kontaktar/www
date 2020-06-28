@@ -2,12 +2,14 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import Link from "next/link";
-
+import cx from "classnames";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import MuiCard from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { Icon } from "components";
+import { editUserExperience } from "store/actions";
 
 import styles from "./Card.module.scss";
 
@@ -20,13 +22,36 @@ const Card = (props) => {
     months = "0",
     onClick,
     onEdit,
+    published,
     title,
     style,
     years = "0"
   } = props;
+  const dispatch = useDispatch();
+
+  const store = useSelector((state) => state);
 
   const onEditCard = () => {
-    onEdit(experienceId, title, description, years, months);
+    onEdit(experienceId, title, description, years, months, published);
+  };
+
+  const onPublishToggleCard = () => {
+    console.log("published", published);
+    dispatch(
+      editUserExperience(store.auth.user.id, {
+        id: experienceId,
+        title,
+        description,
+        years,
+        months,
+        published: !published
+      })
+    );
+    // onEdit(experienceId, title, description, years, months, !published);
+  };
+
+  const onDeleteCard = () => {
+    // do nithi
   };
 
   const LinkToProfile = ({ children }) => {
@@ -50,20 +75,27 @@ const Card = (props) => {
           <div className={styles.buttons}>
             <button
               type="button"
-              className={`${styles.button} ${styles.left}`}
+              className={cx(styles.button, styles.left)}
               onClick={onEditCard}
             >
               <Icon className={styles.button_icon} name="edit" />
             </button>
             <button
               type="button"
-              className={`${styles.button} ${styles.center}`}
+              className={cx(styles.button, styles.center, {
+                [styles.center_secondary]: !published
+              })}
+              onClick={onPublishToggleCard}
             >
-              <Icon className={styles.button_icon} name="save" />
+              <Icon
+                className={styles.button_icon}
+                name={published ? "save" : "publish"}
+              />
             </button>
             <button
               type="button"
-              className={`${styles.button} ${styles.right}`}
+              className={cx(styles.button, styles.right)}
+              onClick={onDeleteCard}
             >
               <Icon className={styles.button_icon} name="delete" />
             </button>
@@ -72,7 +104,15 @@ const Card = (props) => {
 
         <CardActionArea onClick={onClick} className={styles.card_area}>
           <CardContent className={styles.card_content}>
-            {/* <p>Í birtingu</p> */}
+            {editMode && (
+              <span
+                className={cx(styles.publish_status, {
+                  [styles.published]: published
+                })}
+              >
+                {published ? "Í birtingu" : "Í geymslu"}
+              </span>
+            )}
             <span className={styles.title_description}>{title}</span>
             <span className={styles.description}>{description}</span>
             <span className={styles.length}>

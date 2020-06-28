@@ -115,3 +115,23 @@
   //TODO:
   padding-left: 100x;
 }
+
+.publish_status {
+  display: flex;
+  position: absolute;
+  top: 15px;
+  font-size: 10px;
+}
+
+.publish_status::before {
+  height: 9px;
+  width: 9px;
+  margin-right: 9px;
+  background-color: $color-orange;
+  border-radius: 50%;
+  display: inline-block;
+  content: "";
+}
+.publish_status.published::before {
+  background-color: $color-green;
+}

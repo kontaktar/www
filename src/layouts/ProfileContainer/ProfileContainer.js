@@ -116,13 +116,21 @@ const ProfileContainer = ({ editMode, userName }) => {
     showModal(true);
   };
 
-  const onOpenExperienceModal = (id, title, description, years, months) => {
+  const onOpenExperienceModal = (
+    id,
+    title,
+    description,
+    years,
+    months,
+    published
+  ) => {
     setModalData({
       id,
       title,
       description,
       years,
-      months
+      months,
+      published
     });
     setModalType({ experience: true });
     showModal(true);
@@ -256,6 +264,7 @@ const ProfileContainer = ({ editMode, userName }) => {
                       editMode={editMode}
                       experienceId={experience.id}
                       onEdit={onOpenExperienceModal}
+                      published={experience.published}
                       title={experience.title}
                       months={experience.month}
                       years={experience.years}

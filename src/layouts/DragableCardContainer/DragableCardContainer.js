@@ -15,6 +15,7 @@ const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
         experienceId={cardContent.id}
         description={cardContent.description}
         title={cardContent.title}
+        published={cardContent.published}
         months={cardContent.months || "0"}
         years={cardContent.years || "0"}
         onEdit={handleEdit}
