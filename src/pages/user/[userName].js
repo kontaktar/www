@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useAuth } from "utils/auth";
+import { withAuth } from "utils/auth";
 import { MainLayout, ProfileContainer, UserLayout } from "layouts";
 import { getUserByUserName } from "src/store/actions";
 
@@ -26,10 +26,9 @@ UserProfile.getInitialProps = async (ctx) => {
     query: { userName },
     store
   } = ctx;
-  const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
-
   await store.dispatch(getUserByUserName(userName));
-  return { isLoggedIn, userName };
+
+  return { userName };
 };
 
 UserProfile.propTypes = {
@@ -41,4 +40,4 @@ UserProfile.defaultProps = {
   userName: ""
 };
 
-export default UserProfile;
+export default withAuth(UserProfile);

@@ -57,7 +57,7 @@ function useAuth() {
 function withAuth(WrappedComponent) {
   class WithAuth extends Component {
     static async getInitialProps(ctx) {
-      const token = auth(ctx);
+      const { spez_user_token: token } = nextCookie(ctx);
       const componentProperties =
         WrappedComponent.getInitialProps &&
         (await WrappedComponent.getInitialProps(ctx));

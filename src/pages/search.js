@@ -4,7 +4,7 @@
 import React from "react";
 // import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { useAuth } from "utils/auth";
+import { withAuth } from "utils/auth";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 import { fetchSearchResult, updateLatestSearch } from "../store/actions";
 
@@ -29,36 +29,32 @@ const Search = ({ searchInput, isLoggedIn }) => {
     // TODO: Same as above
     dispatch(fetchSearchResult(""));
   };
+
+  const SearchWrapper = () => {
+    if (!store.searches.isFetching && store.searches.inputs) {
+      return (
+        <SearchContainer
+          cardsToDisplay={store.searches.inputs[store.searches.latestInput]}
+          searchInput={searchInput}
+          onSearch={onSearch}
+          onClearSearch={onClearSearch}
+        />
+      );
+    }
+    return null;
+  };
   return (
     <div>
       {!isLoggedIn ? (
         <div>
           <MainLayout>
-            <SearchContainer
-              cardsToDisplay={
-                !store.searches.isFetching &&
-                store.searches.inputs &&
-                store.searches.inputs[store.searches.latestInput]
-              }
-              searchInput={searchInput}
-              onSearch={onSearch}
-              onClearSearch={onClearSearch}
-            />
+            <SearchWrapper />
           </MainLayout>
         </div>
       ) : (
         <div>
           <UserLayout>
-            <SearchContainer
-              cardsToDisplay={
-                !store.searches.isFetching &&
-                store.searches.inputs &&
-                store.searches.inputs[store.searches.latestInput]
-              }
-              searchInput={searchInput}
-              onSearch={onSearch}
-              onClearSearch={onClearSearch}
-            />
+            <SearchWrapper />
           </UserLayout>
         </div>
       )}
@@ -71,15 +67,16 @@ Search.getInitialProps = async (ctx) => {
     store,
     query: { searchInput = "" }
   } = ctx;
-  const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
+  // const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
+  // console.log("searh isLogged", isLoggedIn);
 
   await store.dispatch(fetchSearchResult(searchInput));
 
-  return { searchInput, isLoggedIn, store };
+  return { searchInput, store };
 };
 
 // Search.propTypes = {
 //   data: PropTypes.object.isRequired
 // };
 
-export default Search;
+export default withAuth(Search);

@@ -16,7 +16,7 @@ const ProfileContainer = ({ editMode, userName }) => {
   const [openModal, showModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [modalType, setModalType] = useState();
-  const [userProfile, setUserProfile] = useState({});
+  const [user, setUserProfile] = useState({});
   const [showActiveSection, setShowActiveSection] = useState(false);
   const [activeExperience, setActiveExperience] = useState(false);
   const [userExperiences, setUserExperiences] = useState([]);
@@ -52,15 +52,19 @@ const ProfileContainer = ({ editMode, userName }) => {
   // Fetch user profile
   useEffect(() => {
     if (!editMode && userName) {
-      if (Object.keys(store.users).length > 0) {
+      if (
+        Object.entries(user).length === 0 &&
+        Object.entries(store.users).length > 0 &&
+        !store.users.isFetching
+      ) {
         const [currentUserProfile] = Object.values(store.users).filter(
-          (user) => user && user.userName && user.userName === userName
+          (u) => u && u.userName && u.userName === userName
         );
         setUserProfile(currentUserProfile);
         dispatch(fetchUserExperiences(currentUserProfile.id));
       }
     }
-  }, [userName]);
+  }, [userName, store.users]);
 
   // Fetch logged in user
   useEffect(() => {
@@ -79,26 +83,28 @@ const ProfileContainer = ({ editMode, userName }) => {
 
   // Fetch profile for logged in user
   useEffect(() => {
-    if (store.auth && store.auth.user && store.auth.user.id && store.users) {
-      console.log("WTF", store.auth.user.id);
+    if (
+      editMode &&
+      store.auth &&
+      store.auth.user &&
+      store.auth.user.id &&
+      store.users
+    ) {
       setUserProfile(store.users[store.auth.user.id]);
     }
   }, [store.users]);
 
-  //
   useEffect(() => {
     if (
       store.users &&
-      userProfile.id &&
+      user.id &&
       store.experiences &&
       store.experiences.byUserId &&
-      store.experiences.byUserId[userProfile.id]
+      store.experiences.byUserId[user.id]
     ) {
-      setUserExperiences(store.experiences.byUserId[userProfile.id]);
+      setUserExperiences(store.experiences.byUserId[user.id]);
     }
   }, [store.experiences]);
-
-  const user = userProfile;
 
   const onCloseModal = () => {
     showModal(false);

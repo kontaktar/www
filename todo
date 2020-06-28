@@ -1,4 +1,7 @@
 Store
+https://github.com/vercel/next.js/blob/canary/examples/with-redux/store.js
+Something wrong with store. Client side routing between will clear the store. See auth.
+Logged in user goes to search and back to profile, kaputsky
 Add typescript should be ez, maybe start with API
 https://levelup.gitconnected.com/a-guide-to-next-js-api-routes-a287eda1f784
 

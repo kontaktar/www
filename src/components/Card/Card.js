@@ -31,7 +31,11 @@ const Card = (props) => {
 
   const LinkToProfile = ({ children }) => {
     if (linkToProfile) {
-      return <Link href={`/user/${linkToProfile}`}>{children}</Link>;
+      return (
+        <Link href="/user/[userName]" as={`/user/${linkToProfile}`}>
+          {children}
+        </Link>
+      );
     }
     return children;
   };
