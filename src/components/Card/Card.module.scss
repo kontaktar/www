@@ -2,19 +2,12 @@
 
 .card {
   display: flex;
-  // align-self: flex-end;
-  // justify-content: center;
-  // margin: auto;
-
   height: 250px;
   width: 300px;
 
   overflow: visible !important;
-
-  // border: solid 1px $color-red;
   background-color: $color-paper-white;
   box-shadow: 0px 4px 23px rgba(0, 0, 0, 0.1) !important;
-  // box-shadow: 0 2px 4px rgba(#000, 0.2);
 
   // tablet
   @media only screen and (max-width: 1024px) {
@@ -30,7 +23,6 @@
   padding: 0 !important;
   position: relative;
   margin: 0 16px;
-  // margin: 16px;
   height: 250px;
   display: flex;
   flex-direction: column;
@@ -95,25 +87,21 @@
     width: 32px;
     border: none;
     cursor: pointer;
-    // path {
-    //   fill: white;
-    // }
     &:hover {
       box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
     }
   }
 
   .left {
-    background: #b3b3b3;
+    background: $color-grey-30;
     left: 170px;
   }
   .center {
-    background: #f2994a;
+    background: $color-orange;
     left: 210px;
   }
-  .center-secondary {
-    background: #6fcf97;
-    left: 210px;
+  .center_secondary {
+    background: $color-green;
   }
   .right {
     background: #eb5757;
