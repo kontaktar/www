@@ -8,7 +8,7 @@ import {
   editUserExperience,
   editUser
 } from "store/actions";
-import { Button, Input, Select, TextArea } from "components";
+import { Button, Checkbox, Input, Select, TextArea } from "components";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
@@ -45,6 +45,10 @@ const Experience = ({ data }) => {
       }
       setTimestamp(new Date());
     }
+  };
+
+  const togglePublishState = (published) => {
+    setExperience({ ...experience, published });
   };
 
   const handleChange = (event) => {
@@ -88,12 +92,23 @@ const Experience = ({ data }) => {
         value={experience.description}
       />
       <div className={styles.button_line}>
+        {/* TODO: arrange this better, all messed up */}
         {errorMessage && (
           <span className={styles.error_message}>{errorMessage}</span>
         )}
+        <Checkbox
+          id="publish"
+          checked={experience.published}
+          onChange={() => togglePublishState(!experience.published)}
+          label="Í birtingu"
+        />
         {timestamp && <LastChange timestamp={timestamp} />}
-        <Button.Edit onClick={saveExperience} type="save" />
-        <Button.Edit type="publish" />
+        <Button.Edit
+          className={styles.save_button}
+          onClick={saveExperience}
+          type="save"
+        />
+        {/* <Button.Edit onClick={togglePublishState(experience.published)} type="publish" /> */}
       </div>
     </>
   );

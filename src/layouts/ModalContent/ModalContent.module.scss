@@ -58,7 +58,6 @@
   display: flex;
   flex: 0 0 50%;
   flex-direction: row;
-  justify-content: flex-end;
 }
 .textarea {
   padding-top: 20px;
@@ -67,4 +66,8 @@
 .error_message {
   color: red;
   margin-right: auto;
+}
+
+.save_button {
+  margin-left: auto;
 }

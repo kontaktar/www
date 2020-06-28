@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
+import cx from "classnames";
 // import { style } from "@material-ui/system";
 import { Icon } from "components";
 import colors from "styles/colors.scss";
@@ -25,9 +26,9 @@ const Button = (props) => {
   );
 };
 
-Button.Edit = ({ type, ...props }) => {
+Button.Edit = ({ type, className, ...props }) => {
   return (
-    <Button className={`${styles.edit} ${styles[type]}`} {...props}>
+    <Button className={cx(className, styles.edit, styles[type])} {...props}>
       <p>{type === "save" ? "Vista" : "Birta"}</p>
       <Icon
         className={styles.icon}
