@@ -53,21 +53,42 @@
   flex: 0 0 48%;
 }
 
-.button_line {
-  padding-top: 45px;
+.footer {
+  padding-top: 30px;
+  position: relative;
   display: flex;
   flex: 0 0 50%;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 .textarea {
   padding-top: 20px;
 }
 
 .error_message {
-  color: red;
-  margin-right: auto;
+  position: absolute;
+  color: red; // TODO:
+  top: 15px;
 }
 
-.save_button {
+.footer_upper_line {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.footer_text_area {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.user_info_timestamp {
   margin-left: auto;
+}
+
+.experience_timestamp {
+  margin: auto;
 }

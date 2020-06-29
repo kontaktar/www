@@ -91,8 +91,8 @@ const Experience = ({ data }) => {
         label="Lýsing á hæfni"
         value={experience.description}
       />
-      <div className={styles.button_line}>
-        {/* TODO: arrange this better, all messed up */}
+
+      <div className={styles.footer}>
         {errorMessage && (
           <span className={styles.error_message}>{errorMessage}</span>
         )}
@@ -102,13 +102,13 @@ const Experience = ({ data }) => {
           onChange={() => togglePublishState(!experience.published)}
           label="Í birtingu"
         />
-        {timestamp && <LastChange timestamp={timestamp} />}
-        <Button.Edit
-          className={styles.save_button}
-          onClick={saveExperience}
-          type="save"
-        />
-        {/* <Button.Edit onClick={togglePublishState(experience.published)} type="publish" /> */}
+        {timestamp && (
+          <LastChange
+            className={styles.experience_timestamp}
+            timestamp={timestamp}
+          />
+        )}
+        <Button.Edit onClick={saveExperience} type="save" />
       </div>
     </>
   );
@@ -202,19 +202,30 @@ const UserInformation = ({ data }) => {
         </div>
       </div>
       <div className={styles.button_line}>
-        {timestamp && <LastChange timestamp={timestamp} />}
         <Button.Edit onClick={saveUserInfo} type="save" />
+        {timestamp && (
+          <LastChange
+            className={styles.user_info_timestamp}
+            timestamp={timestamp}
+          />
+        )}
       </div>
     </>
   );
 };
 
-const LastChange = ({ timestamp }) => (
-  <div style={{ marginRight: "auto" }}>
-    Síðast breytt: {timestamp.getHours()}:{timestamp.getSeconds()}:
-    {timestamp.getSeconds()}
-  </div>
-);
+const LastChange = ({ className, timestamp }) => {
+  function addZeroBefore(n) {
+    return (n < 10 ? "0" : "") + n;
+  }
+  return (
+    <div className={className}>
+      Síðast breytt: {addZeroBefore(timestamp.getHours())}:
+      {addZeroBefore(timestamp.getMinutes())}:
+      {addZeroBefore(timestamp.getSeconds())}
+    </div>
+  );
+};
 
 const ModalContent = ({ data, experience, userInformation }) => {
   return (
