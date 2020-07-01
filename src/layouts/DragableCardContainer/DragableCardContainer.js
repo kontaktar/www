@@ -8,7 +8,7 @@ import styles from "./DragableCardContainer.module.scss";
 
 const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
   return (
-    <div>
+    <div key={cardContent.id} className={cardContent.id}>
       {/* This extra div is crucial for the dragging to work: https://github.com/clauderic/react-sortable-hoc/issues/367#issuecomment-380523336 */}
       <Card
         editMode
@@ -55,7 +55,7 @@ const DragableCardContainer = ({ items, handleEdit }) => {
       {arrangement.map((card, index) => (
         <SortableItem
           // eslint-disable-next-line react/no-array-index-key
-          key={`item-${card.id}`}
+          key={`item-${card.id}-${index}`}
           index={card.id}
           handleEdit={handleEdit}
           cardContent={card}

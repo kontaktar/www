@@ -20,10 +20,12 @@
   right: 75px !important;
 }
 
-.carousel div:nth-child(5),
-div:nth-child(6),
-div:nth-child(7) {
-  display: none;
+.carousel {
+  div:nth-child(5),
+  div:nth-child(6),
+  div:nth-child(7) {
+    display: none;
+  }
 }
 
 // slider background

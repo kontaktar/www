@@ -36,7 +36,6 @@ const Card = (props) => {
   };
 
   const onPublishToggleCard = () => {
-    console.log("published", published);
     dispatch(
       editUserExperience(store.auth.user.id, {
         id: experienceId,
@@ -47,11 +46,10 @@ const Card = (props) => {
         published: !published
       })
     );
-    // onEdit(experienceId, title, description, years, months, !published);
   };
 
   const onDeleteCard = () => {
-    // do nithi
+    // do something
   };
 
   const LinkToProfile = ({ children }) => {
