@@ -101,7 +101,8 @@ const ProfileContainer = ({ editMode, userName }) => {
       user.id &&
       store.experiences &&
       store.experiences.byUserId &&
-      store.experiences.byUserId[user.id]
+      store.experiences.byUserId[user.id] &&
+      !store.experiences.isFetching
     ) {
       console.log(
         "useEffect: ProfileContainer [store.experiences]",

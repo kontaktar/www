@@ -41,10 +41,29 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
   const dispatch = useDispatch();
 
   const [arrangement, setArrangement] = useState(items);
+  async function updateOrder(rearrangeItems) {
+    await rearrangeItems.map(async (experience, index) => {
+      if (experience.order !== index + 1) {
+        await dispatch(
+          editUserExperience(userId, {
+            id: experience.id,
+            title: experience.title,
+            description: experience.description,
+            years: experience.years,
+            months: experience.months,
+            published: experience.published,
+            order: index + 1
+          })
+        );
+      }
+      return null;
+    });
+  }
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions
     if (oldIndex !== newIndex && newIndex !== null) {
       setArrangement(arrayMove(arrangement, oldIndex, newIndex));
+      updateOrder(arrayMove(items, oldIndex, newIndex));
     }
   };
 
@@ -52,31 +71,31 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
     if (!isEqual(items, arrangement)) {
       setArrangement(items);
     }
-  }, [items, arrangement]);
+  }, [items]);
 
-  useEffect(() => {
-    async function updateOrder() {
-      await arrangement.map(async (experience, index) => {
-        if (experience.order !== index + 1) {
-          return dispatch(
-            editUserExperience(userId, {
-              id: experience.id,
-              title: experience.title,
-              description: experience.description,
-              years: experience.years,
-              months: experience.months,
-              published: experience.published,
-              order: index + 1
-            })
-          );
-        }
-        return null;
-      });
-    }
-    if (!isEqual(items, arrangement)) {
-      updateOrder();
-    }
-  }, [arrangement]);
+  // useEffect(() => {
+  //   async function updateOrder() {
+  //     await arrangement.map(async (experience, index) => {
+  //       if (experience.order !== index + 1) {
+  //         return dispatch(
+  //           editUserExperience(userId, {
+  //             id: experience.id,
+  //             title: experience.title,
+  //             description: experience.description,
+  //             years: experience.years,
+  //             months: experience.months,
+  //             published: experience.published,
+  //             order: index + 1
+  //           })
+  //         );
+  //       }
+  //       return null;
+  //     });
+  //   }
+  //   if (!isEqual(items, arrangement)) {
+  //     updateOrder();
+  //   }
+  // }, [arrangement]);
 
   return (
     <SortableContainer
