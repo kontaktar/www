@@ -13,7 +13,7 @@ export default async (request, response) => {
   if (method === "GET") {
     try {
       const get = await database.any(
-        "SELECT e.id, e.title, e.description, e.years, e.months, e.published FROM experiences e WHERE e.user_id = $1",
+        "SELECT e.id, e.title, e.description, e.years, e.months, e.published, e.order FROM experiences e WHERE e.user_id = $1",
         userId
       );
       response.status(200).json(get);
@@ -30,21 +30,23 @@ export default async (request, response) => {
         description,
         years,
         months,
-        published
+        published,
+        order
       } = await database.one(
-        "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+        "INSERT INTO experiences(user_id, title, description, years, months, published, order) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
         [
           userId,
           body.title,
           body.description,
           body.years,
           body.months,
-          !!body.published
+          !!body.published,
+          body.order
         ]
       );
       response
         .status(200)
-        .json({ id, title, description, years, months, published });
+        .json({ id, title, description, years, months, published, order });
     } catch (error) {
       response.status(500).end();
       throw new Error("POST EXPERIENCE", error);

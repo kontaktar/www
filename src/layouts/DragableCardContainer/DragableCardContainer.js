@@ -1,9 +1,13 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import arrayMove from "array-move";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import isEqual from "lodash.isequal";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { Card } from "components";
 import { CardsContainer } from "layouts";
+import { editUserExperience } from "store/actions";
 import styles from "./DragableCardContainer.module.scss";
 
 const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
@@ -32,8 +36,10 @@ const SortableContainer = sortableContainer(({ children }) => {
   );
 });
 // eslint-disable-next-line react/prop-types
-const DragableCardContainer = ({ items, handleEdit }) => {
+const DragableCardContainer = ({ userId, items, handleEdit }) => {
   // eslint-disable-next-line no-param-reassign
+  const dispatch = useDispatch();
+
   const [arrangement, setArrangement] = useState(items);
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions
@@ -41,7 +47,36 @@ const DragableCardContainer = ({ items, handleEdit }) => {
       setArrangement(arrayMove(arrangement, oldIndex, newIndex));
     }
   };
-  useEffect(() => setArrangement(items), [items]);
+
+  useEffect(() => {
+    if (!isEqual(items, arrangement)) {
+      setArrangement(items);
+    }
+  }, [items, arrangement]);
+
+  useEffect(() => {
+    async function updateOrder() {
+      await arrangement.map(async (experience, index) => {
+        if (experience.order !== index + 1) {
+          return dispatch(
+            editUserExperience(userId, {
+              id: experience.id,
+              title: experience.title,
+              description: experience.description,
+              years: experience.years,
+              months: experience.months,
+              published: experience.published,
+              order: index + 1
+            })
+          );
+        }
+        return null;
+      });
+    }
+    if (!isEqual(items, arrangement)) {
+      updateOrder();
+    }
+  }, [arrangement]);
 
   return (
     <SortableContainer
@@ -52,15 +87,17 @@ const DragableCardContainer = ({ items, handleEdit }) => {
       axis="xy"
       onSortEnd={onChange}
     >
-      {arrangement.map((card, index) => (
-        <SortableItem
-          // eslint-disable-next-line react/no-array-index-key
-          key={`item-${card.id}-${index}`}
-          index={card.id}
-          handleEdit={handleEdit}
-          cardContent={card}
-        />
-      ))}
+      {arrangement.map((card, index) => {
+        return (
+          <SortableItem
+            // eslint-disable-next-line react/no-array-index-key
+            key={`item-${card.id}-${index}`}
+            index={index}
+            handleEdit={handleEdit}
+            cardContent={card}
+          />
+        );
+      })}
     </SortableContainer>
   );
 };

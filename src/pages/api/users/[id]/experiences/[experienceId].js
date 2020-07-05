@@ -17,7 +17,7 @@ export default async (request, response) => {
     // I don't think this one is needed
     try {
       const get = await database.one(
-        "SELECT e.id, e.title, e.description, e.years, e.months, e.published FROM experiences e WHERE e.id = $1 AND e.user_id = $2",
+        "SELECT e.id, e.title, e.description, e.years, e.months, e.published, e.order FROM experiences e WHERE e.id = $1 AND e.user_id = $2",
         experienceId,
         userId
       );
@@ -53,7 +53,8 @@ export default async (request, response) => {
       description = null,
       years = null,
       months = null,
-      published = false
+      published = false,
+      order = null
     } = body;
 
     const experienceVariables = {
@@ -62,7 +63,8 @@ export default async (request, response) => {
       description,
       years,
       months,
-      published
+      published,
+      order
     };
 
     const experienceVariablesToUpdate = removeEmpty(experienceVariables);

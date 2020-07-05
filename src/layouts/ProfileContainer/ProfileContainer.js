@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { Fragment, useState, useRef, useEffect } from "react";
+import orderBy from "lodash.orderby";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
@@ -102,7 +103,13 @@ const ProfileContainer = ({ editMode, userName }) => {
       store.experiences.byUserId &&
       store.experiences.byUserId[user.id]
     ) {
-      setUserExperiences(store.experiences.byUserId[user.id]);
+      console.log(
+        "useEffect: ProfileContainer [store.experiences]",
+        store.experiences
+      );
+      setUserExperiences(
+        orderBy(store.experiences.byUserId[user.id], ["order"], ["asc"])
+      );
     }
   }, [store.experiences]);
 
@@ -240,6 +247,7 @@ const ProfileContainer = ({ editMode, userName }) => {
             <>
               {userExperiences && (
                 <DragableCardContainer
+                  userId={user.id}
                   items={userExperiences}
                   handleEdit={onOpenExperienceModal}
                 />

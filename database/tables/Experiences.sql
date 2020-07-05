@@ -5,5 +5,6 @@ CREATE TABLE experiences(
   description TEXT,
 	years INTEGER,
 	months INTEGER,
-	published boolean DEFAULT false NOT NULL
+	published boolean DEFAULT false NOT NULL,
+	order INTEGER
 );

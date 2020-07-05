@@ -8,5 +8,6 @@ CREATE TABLE users(
 	phone_number TEXT,
 	created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 	last_login TIMESTAMPTZ,
-  ssn VARCHAR (10) UNIQUE NOT NULL
+  ssn VARCHAR (10) UNIQUE NOT NULL,
+	password VARCHAR(255)
 );
