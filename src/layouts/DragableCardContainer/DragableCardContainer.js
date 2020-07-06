@@ -73,35 +73,10 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
     }
   }, [items]);
 
-  // useEffect(() => {
-  //   async function updateOrder() {
-  //     await arrangement.map(async (experience, index) => {
-  //       if (experience.order !== index + 1) {
-  //         return dispatch(
-  //           editUserExperience(userId, {
-  //             id: experience.id,
-  //             title: experience.title,
-  //             description: experience.description,
-  //             years: experience.years,
-  //             months: experience.months,
-  //             published: experience.published,
-  //             order: index + 1
-  //           })
-  //         );
-  //       }
-  //       return null;
-  //     });
-  //   }
-  //   if (!isEqual(items, arrangement)) {
-  //     updateOrder();
-  //   }
-  // }, [arrangement]);
-
   return (
     <SortableContainer
       helperClass={styles.sortable_container}
-      distance={10} // needs to be dragged 10px for the sorting to stars, allows the buttons on the cards to be clickable
-      // hideSortableGhost={false}
+      distance={10} // needs to be dragged 10px for the sorting to start, allows the buttons on the cards to be clickable
       hideSortableGhost
       axis="xy"
       onSortEnd={onChange}
