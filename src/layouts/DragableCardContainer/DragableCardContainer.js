@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import arrayMove from "array-move";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import isEqual from "lodash.isequal";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { Card } from "components";
 import { CardsContainer } from "layouts";
-import { editUserExperience } from "store/actions";
+import { editUserExperiences } from "store/actions";
 import styles from "./DragableCardContainer.module.scss";
 
 const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
@@ -39,13 +39,15 @@ const SortableContainer = sortableContainer(({ children }) => {
 const DragableCardContainer = ({ userId, items, handleEdit }) => {
   // eslint-disable-next-line no-param-reassign
   const dispatch = useDispatch();
+  const store = useSelector((state) => state);
 
   const [arrangement, setArrangement] = useState(items);
   async function updateOrder(rearrangeItems) {
-    await rearrangeItems.map(async (experience, index) => {
-      if (experience.order !== index + 1) {
-        await dispatch(
-          editUserExperience(userId, {
+    dispatch(
+      editUserExperiences(
+        userId,
+        rearrangeItems.map((experience, index) => {
+          return {
             id: experience.id,
             title: experience.title,
             description: experience.description,
@@ -53,16 +55,35 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
             months: experience.months,
             published: experience.published,
             order: index + 1
-          })
-        );
-      }
-      return null;
-    });
+          };
+        })
+      )
+    );
   }
+  // await rearrangeItems.map(async (experience, index) => {
+  //   if (experience.order !== index + 1) {
+  //     await dispatch(
+  //       editUserExperience(userId, {
+  //         id: experience.id,
+  //         title: experience.title,
+  //         description: experience.description,
+  //         years: experience.years,
+  //         months: experience.months,
+  //         published: experience.published,
+  //         order: index + 1
+  //       })
+  //     );
+  //   }
+  //   return null;
+  // });
+  // }
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions
     if (oldIndex !== newIndex && newIndex !== null) {
       setArrangement(arrayMove(arrangement, oldIndex, newIndex));
+      // dispatch(
+      //   editUserExperiences(userId, arrayMove(items, oldIndex, newIndex))
+      // );
       updateOrder(arrayMove(items, oldIndex, newIndex));
     }
   };
@@ -71,6 +92,7 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
     if (!isEqual(items, arrangement)) {
       setArrangement(items);
     }
+    console.log("jsus", store.experiences);
   }, [items]);
 
   return (

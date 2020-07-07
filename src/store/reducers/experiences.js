@@ -90,6 +90,30 @@ function experiences(state = {}, action) {
         isFetching: false,
         ...{ error: action.message }
       };
+    // BULK EDIT
+    case actionType.EDIT_USER_EXPERIENCES_REQUEST:
+      return {
+        ...state,
+        isFetching: true
+      };
+
+    case actionType.EDIT_USER_EXPERIENCES_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        byUserId: {
+          ...state.byUserId, // keep other userIds in the store
+          [action.payload.userId]: action.payload.allExperiences
+        }
+      };
+
+    case actionType.EDIT_USER_EXPERIENCES_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        ...{ error: action.message }
+      };
     // DELETE
     case actionType.DELETE_USER_EXPERIENCE_REQUEST:
       return {

@@ -8,6 +8,9 @@ export {
   editUserExperience,
   editUserExperienceSuccess,
   editUserExperienceFailure,
+  editUserExperiences,
+  editUserExperiencesSuccess,
+  editUserExperiencesFailure,
   deleteUserExperience,
   deleteUserExperienceSuccess,
   deleteUserExperienceFailure

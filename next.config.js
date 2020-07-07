@@ -31,7 +31,7 @@ module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
     config.plugins.push(new webpack.IgnorePlugin(/^pg-native$/));
     return config;
   },
-  // fetch seems to add a trailing slash and Next.js doesn't know how to handle it properly
+  // I dont think this is doing anything. I thought fetch was adding trailing slash.
   async exportPathMap() {
     return {
       "/api/users/": { page: "/api/user" }

@@ -75,6 +75,32 @@ export function editUserExperienceFailure(message) {
     message
   };
 }
+export function editUserExperiences(userId, allExperiences) {
+  return {
+    type: actionType.EDIT_USER_EXPERIENCES_REQUEST,
+    payload: {
+      allExperiences,
+      userId
+    }
+  };
+}
+
+export function editUserExperiencesSuccess(userId, allExperiences) {
+  return {
+    type: actionType.EDIT_USER_EXPERIENCES_SUCCESS,
+    payload: {
+      allExperiences,
+      userId
+    }
+  };
+}
+
+export function editUserExperiencesFailure(message) {
+  return {
+    type: actionType.EDIT_USER_EXPERIENCES_FAILURE,
+    message
+  };
+}
 
 export function deleteUserExperience(userId, experienceId) {
   return {

@@ -1,6 +1,10 @@
 import { withMiddleware } from "utils/apiMiddleware";
 
+const pgp = require("pg-promise");
 const database = require("utils/database").instance;
+
+// eslint-disable-next-line no-unused-vars
+const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
 // export default async ({ method, query: { id } }, response) => {
 export default async (request, response) => {
@@ -50,6 +54,49 @@ export default async (request, response) => {
     } catch (error) {
       response.status(500).end();
       throw new Error("POST EXPERIENCE", error);
+    }
+  } else {
+    response.status(400).end();
+  }
+  if (method === "PUT") {
+    try {
+      const cs = new pgpHelpers.ColumnSet(
+        [
+          "?id",
+          "title",
+          "description",
+          "years",
+          "months",
+          "published",
+          "order"
+        ],
+        { table: "experiences" }
+      );
+      // eslint-disable-next-line no-unused-vars
+      const query =
+        pgpHelpers.update(body, cs) +
+        pgp.as.format(" WHERE v.id = t.id AND user_id = $1 RETURNING *", [
+          userId
+        ]);
+
+      // let exp;
+      // try {
+      await database.any(query);
+      // } catch (error) {
+      //   console.log("eeee", error);
+      // }
+
+      // console.log(exp);
+      // response.status(200).json(JSON.stringify(experiences));
+      // response.status(200).json(exp);
+    } catch (error) {
+      if (error instanceof pgp.errors.QueryResultError) {
+        response.status(404).end();
+        throw new Error("UPDATE EXPERIENCES 404: ", error);
+      } else {
+        response.status(500).end();
+        throw new Error("UPDATE EXPERIENCES 500: ", error);
+      }
     }
   } else {
     response.status(400).end();
