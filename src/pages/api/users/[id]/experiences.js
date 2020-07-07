@@ -34,26 +34,24 @@ export default async (request, response) => {
         description,
         years,
         months,
-        published,
-        order
+        published
       } = await database.one(
-        "INSERT INTO experiences(user_id, title, description, years, months, published, order) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+        "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
         [
           userId,
           body.title,
           body.description,
           body.years,
           body.months,
-          !!body.published,
-          body.order
+          !!body.published
         ]
       );
       response
         .status(200)
-        .json({ id, title, description, years, months, published, order });
+        .json({ id, title, description, years, months, published });
     } catch (error) {
       response.status(500).end();
-      console.log(error, error.error, error.message);
+      console.log(error, error.name, error.message);
       throw new Error("POST EXPERIENCE", error);
     }
   }

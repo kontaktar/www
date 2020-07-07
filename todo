@@ -8,6 +8,11 @@ https://levelup.gitconnected.com/a-guide-to-next-js-api-routes-a287eda1f784
 ☐ Gera trigger fyrir document_idx
 ☐ Search á document_idx
 
+POST EXPERIENCE: gæti þurft að "reikna út" order, fer bara inn sem null núna
+
+Villa kemur í modal til að búa til nýtt experience
+react_devtools_backend.js:6 Warning: A component is changing an uncontrolled input of type text to be controlled. Input elements should not switch from uncontrolled to controlled (or vice versa). Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://fb.me/react-controlled-components
+
 Þinn prófill:
 ☐ Verkspjald er með takmarkaðan stafafjöld og er með "sjá meira" hnapp.
 ☐ Takmarka stafafjölda í titli
