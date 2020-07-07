@@ -53,25 +53,15 @@ export default async (request, response) => {
         .json({ id, title, description, years, months, published, order });
     } catch (error) {
       response.status(500).end();
+      console.log(error, error.error, error.message);
       throw new Error("POST EXPERIENCE", error);
     }
-  } else {
-    response.status(400).end();
   }
   if (method === "PUT") {
     try {
-      const cs = new pgpHelpers.ColumnSet(
-        [
-          "?id",
-          "title",
-          "description",
-          "years",
-          "months",
-          "published",
-          "order"
-        ],
-        { table: "experiences" }
-      );
+      const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
+        table: "experiences"
+      });
       // eslint-disable-next-line no-unused-vars
       const query =
         pgpHelpers.update(body, cs) +
@@ -79,17 +69,11 @@ export default async (request, response) => {
           userId
         ]);
 
-      // let exp;
-      // try {
-      await database.any(query);
-      // } catch (error) {
-      //   console.log("eeee", error);
-      // }
+      const experiences = database.any(query);
 
-      // console.log(exp);
-      // response.status(200).json(JSON.stringify(experiences));
-      // response.status(200).json(exp);
+      response.status(200).json(experiences);
     } catch (error) {
+      console.log(error, error.name, error.message);
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
         throw new Error("UPDATE EXPERIENCES 404: ", error);

@@ -64,13 +64,16 @@ function* editUserExperience(action) {
 
 function* editUserExperiences(action) {
   try {
-    const userExperiences = yield call(
+    yield call(
       EditExperiences,
       action.payload.userId,
       action.payload.allExperiences
     );
     yield put(
-      editUserExperiencesSuccess(action.payload.userId, userExperiences)
+      editUserExperiencesSuccess(
+        action.payload.userId,
+        action.payload.allExperiences
+      )
     );
   } catch (error) {
     yield put(editUserExperiencesFailure(error));
