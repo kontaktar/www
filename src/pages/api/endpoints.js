@@ -40,6 +40,10 @@ export async function EditExperience(userId, experience) {
   return put(`/api/users/${userId}/experiences/${experience.id}`, experience);
 }
 
+export async function EditExperiences(userId, allExperiences) {
+  return put(`/api/users/${userId}/experiences`, allExperiences);
+}
+
 export async function GetUser(userId) {
   return get(`/api/users/${userId}`);
 }

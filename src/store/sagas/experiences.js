@@ -6,6 +6,8 @@ import {
   createUserExperienceFailure,
   editUserExperienceSuccess,
   editUserExperienceFailure,
+  editUserExperiencesSuccess,
+  editUserExperiencesFailure,
   deleteUserExperienceSuccess,
   deleteUserExperienceFailure
 } from "store/actions";
@@ -13,6 +15,7 @@ import * as actionTypes from "store/actionTypes";
 import {
   CreateExperience,
   EditExperience,
+  EditExperiences,
   DeleteExperience,
   GetExperiencesByUserId
 } from "../../pages/api/endpoints";
@@ -59,6 +62,24 @@ function* editUserExperience(action) {
   }
 }
 
+function* editUserExperiences(action) {
+  try {
+    yield call(
+      EditExperiences,
+      action.payload.userId,
+      action.payload.allExperiences
+    );
+    yield put(
+      editUserExperiencesSuccess(
+        action.payload.userId,
+        action.payload.allExperiences
+      )
+    );
+  } catch (error) {
+    yield put(editUserExperiencesFailure(error));
+  }
+}
+
 function* deleteUserExperience(action) {
   try {
     yield call(
@@ -85,6 +106,7 @@ function* experiences() {
     ),
     takeEvery(actionTypes.CREATE_USER_EXPERIENCE_REQUEST, createUserExperience),
     takeEvery(actionTypes.EDIT_USER_EXPERIENCE_REQUEST, editUserExperience),
+    takeEvery(actionTypes.EDIT_USER_EXPERIENCES_REQUEST, editUserExperiences),
     takeEvery(actionTypes.DELETE_USER_EXPERIENCE_REQUEST, deleteUserExperience)
   ]);
 }
