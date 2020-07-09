@@ -11,6 +11,7 @@
           "components": "./src/components",
           "layouts": "./src/layouts",
           "helpers": "./src/helpers",
+          "hooks": "./src/hooks",
           "styles": "./src/styles",
           "store": "./src/store",
           "utils": "./src/utils"

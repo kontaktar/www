@@ -1,0 +1,11 @@
+@import "../../styles/config";
+
+.registercontainer {
+  background-color: red;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 16px;
+}

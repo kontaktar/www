@@ -12,7 +12,9 @@ function users(state = {}, action) {
         ...state,
         error: null,
         isFetching: false,
-        [action.payload.userId]: { ...action.payload.userInfo }
+        [action.payload.userId]: {
+          ...action.payload.userInfo
+        }
       };
     case actionType.CREATE_USER_FAILURE:
       return {

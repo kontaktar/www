@@ -13,11 +13,13 @@ export function createUser(userInfo) {
 }
 
 export function createUserSuccess(userId, userInfo) {
+  // eslint-disable-next-line no-unused-vars
+  const { password, ...restOfUserInfo } = userInfo; // removing password from store
   return {
     type: actionType.CREATE_USER_SUCCESS,
     payload: {
       userId,
-      userInfo
+      userInfo: restOfUserInfo
     }
   };
 }

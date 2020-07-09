@@ -1,5 +1,7 @@
 import { withMiddleware } from "utils/apiMiddleware";
 
+const bcrypt = require("bcrypt");
+
 const database = require("utils/database").instance;
 
 export default async (request, response) => {
@@ -64,6 +66,7 @@ export default async (request, response) => {
     const {
       ssn,
       userName,
+      password,
       firstName,
       lastName,
       email,
@@ -74,10 +77,21 @@ export default async (request, response) => {
       city,
       country
     } = body;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     try {
       const { id: userId } = await database.one(
-        "INSERT INTO users(ssn, user_name, first_name, last_name, email, website, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id",
-        [ssn, userName, firstName, lastName, email, website, phoneNumber]
+        "INSERT INTO users(ssn, user_name, password, first_name, last_name, email, website, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
+        [
+          ssn,
+          userName,
+          hashedPassword,
+          firstName,
+          lastName,
+          email,
+          website,
+          phoneNumber
+        ]
       );
       database.none(
         "INSERT INTO addresses(user_id, postal_code, street_name, city, country) VALUES($1, $2, $3, $4, $5)",
