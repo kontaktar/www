@@ -60,30 +60,10 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
       )
     );
   }
-  // await rearrangeItems.map(async (experience, index) => {
-  //   if (experience.order !== index + 1) {
-  //     await dispatch(
-  //       editUserExperience(userId, {
-  //         id: experience.id,
-  //         title: experience.title,
-  //         description: experience.description,
-  //         years: experience.years,
-  //         months: experience.months,
-  //         published: experience.published,
-  //         order: index + 1
-  //       })
-  //     );
-  //   }
-  //   return null;
-  // });
-  // }
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions
     if (oldIndex !== newIndex && newIndex !== null) {
       setArrangement(arrayMove(arrangement, oldIndex, newIndex));
-      // dispatch(
-      //   editUserExperiences(userId, arrayMove(items, oldIndex, newIndex))
-      // );
       updateOrder(arrayMove(items, oldIndex, newIndex));
     }
   };
@@ -92,7 +72,6 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
     if (!isEqual(items, arrangement)) {
       setArrangement(items);
     }
-    console.log("jsus", store.experiences);
   }, [items]);
 
   return (
