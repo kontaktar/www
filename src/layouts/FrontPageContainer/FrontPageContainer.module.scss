@@ -4,18 +4,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  // overflow: hiddesn;
 }
-.hero {
-  margin: auto;
-  flex-grow: 1;
-  height: 100%;
-  width: 100%;
-  // @media (max-width: $tablet-portrait) {
-  //   margin-left: 90px;
-  // }
-}
+
 .search_section {
   max-width: 680px;
   margin-top: 120px;
@@ -45,13 +35,27 @@
   }
   .search.mobile {
     flex-direction: column;
-    // width: 100%;
     .search_button {
       margin-top: 20px;
       align-self: center;
     }
     .search_bar {
       width: 100%;
+    }
+  }
+}
+
+.hero {
+  margin: auto;
+  flex-grow: 1;
+  height: 100%;
+  padding: 0 90px;
+
+  @media (max-width: 560px) {
+    padding: 0 25px;
+    h1,
+    .highlight {
+      font-size: 40px;
     }
   }
 }
