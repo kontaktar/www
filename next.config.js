@@ -3,11 +3,11 @@
 require("dotenv").config({ path: ".env" });
 
 const withPlugins = require("next-compose-plugins");
-const withCSS = require("@zeit/next-css");
+// const withCSS = require("@zeit/next-css");
 const withSass = require("@zeit/next-sass");
 const withFonts = require("next-fonts");
 
-module.exports = withPlugins([[withCSS], [withSass], [withFonts]], {
+module.exports = withPlugins([[withSass], [withFonts]], {
   target: "serverless",
   // publicRuntimeConfig: false,
   ssr: true,

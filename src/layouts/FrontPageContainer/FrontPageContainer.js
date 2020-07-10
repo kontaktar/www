@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import { useStore } from "react-redux";
 import { Button, Carousel, SearchBar } from "components";
+import { breakPointSettings } from "components/Carousel/Carousel";
 import screensizes from "data/screensizes";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./FrontPageContainer.module.scss";
@@ -17,7 +18,6 @@ const FrontPageContainer = () => {
   const [frameWidth, setFrameWidth] = useState(undefined);
 
   const store = useStore();
-  console.log("GLOBAL STORE:", store.getState());
 
   let observer;
   if (process.browser) {
@@ -26,7 +26,16 @@ const FrontPageContainer = () => {
       new ResizeObserver((entries) => {
         // Only care about the first element, we expect one element to be watched
         const { width } = entries[0].contentRect;
-        setFrameWidth(width);
+        console.log("obserce width", width);
+        if (
+          breakPointSettings.find((s) => width >= s.breakpoint) &&
+          breakPointSettings.find((s) => width >= s.breakpoint).breakpoint !==
+            frameWidth
+        ) {
+          setFrameWidth(
+            breakPointSettings.find((s) => width >= s.breakpoint).breakpoint
+          );
+        }
       })
     );
   }
@@ -90,7 +99,7 @@ const FrontPageContainer = () => {
             </Link>
           </div>
         </div>
-        <Carousel width={frameWidth} />
+        {/* <Carousel width={frameWidth} /> */}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import { Button, Card } from "components";
 import mockUserData from "data/all-users-mock";
 import styles from "./Carousel.module.scss";
 
-const settings = [
+export const breakPointSettings = [
   {
     breakpoint: 1328,
     slides: 4
@@ -37,13 +37,13 @@ const Carousel = ({ width }) => {
     if (windowSize !== width) {
       setWindowSize(width);
       setSlidesToShow(
-        (settings.find((s) => width > s.breakpoint) &&
-          settings.find((s) => width > s.breakpoint).slides) ||
+        (breakPointSettings.find((s) => width >= s.breakpoint) &&
+          breakPointSettings.find((s) => width >= s.breakpoint).slides) ||
           1
       );
       setCarouselSize(
-        (settings.find((s) => width > s.breakpoint) &&
-          settings.find((s) => width > s.breakpoint).breakpoint) ||
+        (breakPointSettings.find((s) => width >= s.breakpoint) &&
+          breakPointSettings.find((s) => width >= s.breakpoint).breakpoint) ||
           332
       );
     }
