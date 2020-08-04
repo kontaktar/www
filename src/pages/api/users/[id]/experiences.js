@@ -50,7 +50,7 @@ export default async (request, response) => {
         .status(200)
         .json({ id, title, description, years, months, published });
     } catch (error) {
-      response.status(500).end();
+      response.status(500).send({ error: error.detail });
       console.log(error, error.name, error.message);
       throw new Error("POST EXPERIENCE", error);
     }

@@ -1,20 +1,23 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useStore } from "react-redux";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
-import { createUser } from "store/actions";
+// eslint-disable-next-line no-unused-vars
+import { createUser, login } from "store/actions";
 import styles from "./RegisterContainer.module.scss";
 
 const RegisterContainer = () => {
   const store = useStore();
   const [newUser, setNewUser] = useState({});
+  const [errorMessage, setErrorMessage] = useState(undefined);
   console.log("GLOBAL STORE:", store.getState());
 
   const dispatch = useDispatch();
 
-  const registerNewUser = () => {
-    dispatch(
+  const registerNewUser = async () => {
+    await dispatch(
       createUser({
         ssn: newUser.ssn,
         userName: newUser.userName,
@@ -32,8 +35,18 @@ const RegisterContainer = () => {
     );
 
     // TODO:
-    // login user and add to auth store
-    // formik plz
+    // Þetta er smá shaky, þurfti að ýta tvisvar á Submit til að staðfesta.
+    // Reproduce:
+    // 1. Fylla út form, email: yo@yo.is (það er til)
+    // 2. Submit
+    // 3. Setja email sem er nýtt (notendanafn og kennitala líka)
+    // 4. Submit? kannski þarf að submit aftur... wtf
+
+    if (store.getState().users.error) {
+      console.error("Yoooo", store.getState().users.error);
+    } else {
+      await dispatch(login(newUser.userName));
+    }
     console.log("GLOBAL STORE:", store.getState());
   };
 

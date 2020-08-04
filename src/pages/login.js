@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import Link from "next/link";
 import { MainLayout } from "layouts";
 import { Button, Input } from "components";
 import { login } from "../store/actions";
@@ -48,6 +49,9 @@ const Login = () => {
           />
 
           <Button type="submit">Login</Button>
+          <Link href="/register" as="/register">
+            <Button>Register</Button>
+          </Link>
 
           <p className={`error ${userData.error && "show"}`}>
             {userData.error && `Error: ${userData.error}`}
