@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
 import { createUser } from "store/actions";
 import styles from "./RegisterContainer.module.scss";
 
 const RegisterContainer = () => {
-  const store = useStore();
   const [newUser, setNewUser] = useState({});
-  console.log("GLOBAL STORE:", store.getState());
+  const [hasRegistered, setHasRegistered] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(undefined);
+  const [isBeingLoggedIn, setIsBeingLoggedIn] = useState(false);
+  const store = useSelector((state) => state);
+  const { users } = store;
 
   const dispatch = useDispatch();
 
-  const registerNewUser = () => {
-    dispatch(
+  const registerNewUser = async () => {
+    await dispatch(
       createUser({
         ssn: newUser.ssn,
         userName: newUser.userName,
@@ -30,12 +33,18 @@ const RegisterContainer = () => {
         country: newUser.country
       })
     );
-
-    // TODO:
-    // login user and add to auth store
-    // formik plz
-    console.log("GLOBAL STORE:", store.getState());
+    setHasRegistered(true);
   };
+
+  useEffect(() => {
+    if (users && !users.error && hasRegistered) {
+      // TODO: Waiting to be logged in, show a spinner?
+      setIsBeingLoggedIn(true);
+    } else if (users.error) {
+      setIsBeingLoggedIn(false);
+      setErrorMessage(users.error);
+    }
+  }, [hasRegistered, users, users.error]);
 
   const handleChange = (event) => {
     setNewUser({ ...newUser, [event.target.name]: event.target.value });
@@ -124,9 +133,16 @@ const RegisterContainer = () => {
           value={newUser.country}
         />
       </div>
-      <Button type="button" onClick={registerNewUser}>
+      <Button
+        disabled={isBeingLoggedIn}
+        type="button"
+        onClick={registerNewUser}
+      >
         Register
       </Button>
+      {errorMessage && (
+        <p style={{ color: "red" }}>{errorMessage.toString()}</p>
+      )}
     </div>
   );
 };

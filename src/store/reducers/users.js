@@ -5,7 +5,8 @@ function users(state = {}, action) {
     case actionType.CREATE_USER_REQUEST:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        error: null
       };
     case actionType.CREATE_USER_SUCCESS:
       return {
@@ -20,7 +21,7 @@ function users(state = {}, action) {
       return {
         ...state,
         isFetching: false,
-        ...{ error: action.message }
+        ...{ error: action.error }
       };
     case actionType.EDIT_USER_REQUEST:
       return {

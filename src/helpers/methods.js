@@ -30,7 +30,8 @@ export async function post(relativeUrl, body) {
     if (response.ok) {
       return await response.json();
     }
-    throw new Error(`${response.status} ${response.statusText}`);
+    const { error } = await response.json();
+    throw new Error(error);
   } catch (error) {
     throw error;
   }

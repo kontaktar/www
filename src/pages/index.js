@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { FrontPageContainer, MainLayout } from "layouts";
 import { getBaseUrl } from "helpers/url";
-import useMaxWidth from "src/hooks/useMaxWidth";
+// import useMaxWidth from "src/hooks/useMaxWidth";
 import { fetchUserExperiences } from "../store/actions";
 
 const LandingPage = () => {

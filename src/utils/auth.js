@@ -49,7 +49,6 @@ function useAuth() {
   };
   return {
     isLoggedIn: cookie.get(TOKEN_NAME) === "my-token",
-
     // call this in getInitialProps for logged in status for pages
     isLoggedInServerSide: (ctx) => checkCookie(ctx)
   };
