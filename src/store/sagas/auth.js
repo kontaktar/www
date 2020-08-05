@@ -21,8 +21,19 @@ function* loginUserByUserName(action) {
   }
 }
 
+function* loginCreatedUser(action) {
+  yield loginUserByUserName({
+    payload: {
+      userName: action.payload.userInfo.userName
+    }
+  });
+}
+
 function* auth() {
-  yield all([takeEvery(actionTypes.LOGIN_REQUEST, loginUserByUserName)]);
+  yield all([
+    takeEvery(actionTypes.CREATE_USER_SUCCESS, loginCreatedUser),
+    takeEvery(actionTypes.LOGIN_REQUEST, loginUserByUserName)
+  ]);
 }
 
 export default auth;

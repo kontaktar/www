@@ -30,31 +30,36 @@ const Search = ({ searchInput, isLoggedIn }) => {
     dispatch(fetchSearchResult(""));
   };
 
-  const SearchWrapper = () => {
-    if (!store.searches.isFetching && store.searches.inputs) {
-      return (
-        <SearchContainer
-          cardsToDisplay={store.searches.inputs[store.searches.latestInput]}
-          searchInput={searchInput}
-          onSearch={onSearch}
-          onClearSearch={onClearSearch}
-        />
-      );
-    }
-    return null;
-  };
   return (
     <div>
       {!isLoggedIn ? (
         <div>
           <MainLayout>
-            <SearchWrapper />
+            <SearchContainer
+              cardsToDisplay={
+                !store.searches.isFetching &&
+                store.searches.inputs &&
+                store.searches.inputs[store.searches.latestInput]
+              }
+              searchInput={searchInput}
+              onSearch={onSearch}
+              onClearSearch={onClearSearch}
+            />
           </MainLayout>
         </div>
       ) : (
         <div>
           <UserLayout>
-            <SearchWrapper />
+            <SearchContainer
+              cardsToDisplay={
+                !store.searches.isFetching &&
+                store.searches.inputs &&
+                store.searches.inputs[store.searches.latestInput]
+              }
+              searchInput={searchInput}
+              onSearch={onSearch}
+              onClearSearch={onClearSearch}
+            />
           </UserLayout>
         </div>
       )}

@@ -1,18 +1,18 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
-// eslint-disable-next-line no-unused-vars
-import { createUser, login } from "store/actions";
+import { createUser } from "store/actions";
 import styles from "./RegisterContainer.module.scss";
 
 const RegisterContainer = () => {
-  const store = useStore();
   const [newUser, setNewUser] = useState({});
+  const [hasRegistered, setHasRegistered] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
-  console.log("GLOBAL STORE:", store.getState());
+  const [isBeingLoggedIn, setIsBeingLoggedIn] = useState(false);
+  const store = useSelector((state) => state);
+  const { users } = store;
 
   const dispatch = useDispatch();
 
@@ -33,22 +33,18 @@ const RegisterContainer = () => {
         country: newUser.country
       })
     );
-
-    // TODO:
-    // Þetta er smá shaky, þurfti að ýta tvisvar á Submit til að staðfesta.
-    // Reproduce:
-    // 1. Fylla út form, email: yo@yo.is (það er til)
-    // 2. Submit
-    // 3. Setja email sem er nýtt (notendanafn og kennitala líka)
-    // 4. Submit? kannski þarf að submit aftur... wtf
-
-    if (store.getState().users.error) {
-      console.error("Yoooo", store.getState().users.error);
-    } else {
-      await dispatch(login(newUser.userName));
-    }
-    console.log("GLOBAL STORE:", store.getState());
+    setHasRegistered(true);
   };
+
+  useEffect(() => {
+    if (users && !users.error && hasRegistered) {
+      // TODO: Waiting to be logged in, show a spinner?
+      setIsBeingLoggedIn(true);
+    } else if (users.error) {
+      setIsBeingLoggedIn(false);
+      setErrorMessage(users.error);
+    }
+  }, [hasRegistered, users, users.error]);
 
   const handleChange = (event) => {
     setNewUser({ ...newUser, [event.target.name]: event.target.value });
@@ -137,9 +133,16 @@ const RegisterContainer = () => {
           value={newUser.country}
         />
       </div>
-      <Button type="button" onClick={registerNewUser}>
+      <Button
+        disabled={isBeingLoggedIn}
+        type="button"
+        onClick={registerNewUser}
+      >
         Register
       </Button>
+      {errorMessage && (
+        <p style={{ color: "red" }}>{errorMessage.toString()}</p>
+      )}
     </div>
   );
 };

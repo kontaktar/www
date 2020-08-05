@@ -99,8 +99,8 @@ export default async (request, response) => {
       );
       response.status(200).json({ userId });
     } catch (error) {
-      response.status(500).send({ error: error.detail });
-      console.log(error, error.name, error.message);
+      response.status(500).send({ error: error.message });
+      // console.log(error, error.name, error.message);
       throw new Error("POST USER:", error);
     }
   } else {

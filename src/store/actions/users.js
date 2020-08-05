@@ -24,10 +24,10 @@ export function createUserSuccess(userId, userInfo) {
   };
 }
 
-export function createUserFailure(message) {
+export function createUserFailure(error) {
   return {
     type: actionType.CREATE_USER_FAILURE,
-    message
+    error
   };
 }
 
