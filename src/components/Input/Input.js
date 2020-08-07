@@ -9,9 +9,7 @@ const Input = ({ error, id, label, placeholder, value, ...props }) => {
   return (
     <div className={`${styles.input_wrapper} input_wrapper`}>
       <label htmlFor={id} className={cx({ [styles.error]: error })}>
-        {label && (
-          <span className={label && styles.label}>{error || label}</span>
-        )}
+        {label && <span className={label && styles.label}>{label}</span>}
         <input
           type="text"
           id={id}
@@ -19,6 +17,7 @@ const Input = ({ error, id, label, placeholder, value, ...props }) => {
           value={value}
           {...props}
         />
+        <span className={styles.error_message}>{error}</span>
       </label>
     </div>
   );

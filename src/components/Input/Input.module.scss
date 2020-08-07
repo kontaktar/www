@@ -1,10 +1,11 @@
 @import "../../styles/config";
 
 .input_wrapper {
-  margin-bottom: 0px;
+  position: relative;
+  padding: 25px 0;
   .label {
+    margin-bottom: 23px;
     display: block;
-    margin-bottom: 25px;
   }
   input {
     width: 100%;
@@ -32,7 +33,12 @@
   input {
     border-color: $color-red;
   }
-  span {
+  .error_message {
     color: $color-red;
+    position: absolute;
+    margin-bottom: -5px;
+    font-size: 14px;
+    bottom: 0px;
+    left: 0px;
   }
 }
