@@ -5,9 +5,19 @@ import PropTypes from "prop-types";
 import styles from "./Input.module.scss";
 
 // todo add clicker on hover
-const Input = ({ error, id, label, placeholder, value, ...props }) => {
+const Input = ({
+  error,
+  id,
+  label,
+  placeholder,
+  value,
+  wrapperClassName,
+  ...props
+}) => {
   return (
-    <div className={`${styles.input_wrapper} input_wrapper`}>
+    <div
+      className={`${styles.input_wrapper} input_wrapper ${wrapperClassName}`}
+    >
       <label htmlFor={id} className={cx({ [styles.error]: error })}>
         {label && <span className={label && styles.label}>{label}</span>}
         <input
@@ -31,12 +41,14 @@ Input.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string,
   placeholder: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 Input.defaultProps = {
   className: "",
   error: undefined,
   label: undefined,
   placeholder: undefined,
-  value: undefined
+  value: undefined,
+  wrapperClassName: ""
 };

@@ -28,6 +28,7 @@ const SearchBar = ({ className, placeholder, ...props }) => {
         placeholder={placeholder}
         {...props}
         className={styles.input}
+        wrapperClassName={styles.input_wrapper}
       />
       <Button modifier={["search"]} onClick={onClear}>
         <Icon className={styles.clear_icon} name="close" />
