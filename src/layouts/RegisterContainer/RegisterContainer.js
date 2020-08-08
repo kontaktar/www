@@ -51,8 +51,9 @@ const RegisterContainer = () => {
   };
 
   return (
-    <div>
-      <div {...useMaxWidth()} className={styles.row}>
+    <div {...useMaxWidth()} className={styles.wrapper}>
+      <span className={styles.heading}>Nýskráning</span>
+      <div className={styles.row}>
         <Input
           name="userName"
           label="Notendanafn / slóð"

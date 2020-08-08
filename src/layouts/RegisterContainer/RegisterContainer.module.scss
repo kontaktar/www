@@ -8,4 +8,18 @@
   display: flex;
   flex-direction: row;
   padding-bottom: 16px;
+  > * {
+    margin-right: 15px;
+  }
+}
+
+.wrapper {
+  padding: 0px 120px 80px;
+}
+
+.heading {
+  font-size: 24px;
+  font-family: "Berlingske Sans Bold";
+  display: block;
+  margin-bottom: 30px;
 }
