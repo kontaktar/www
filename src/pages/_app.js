@@ -2,6 +2,8 @@ import React from "react";
 import App from "next/app";
 import Head from "next/head";
 import { END } from "redux-saga";
+import { SWRConfig } from "swr";
+import fetch from "../lib/fetchJson";
 import wrapper from "../store/configureStore";
 
 class Spez extends App {
@@ -34,10 +36,19 @@ class Spez extends App {
     const { Component, pageProps } = this.props;
     return (
       <>
-        <Head>
-          <title>Spez</title>
-        </Head>
-        <Component {...pageProps} />
+        <SWRConfig
+          value={{
+            fetcher: fetch,
+            onError: (error) => {
+              console.error(error);
+            }
+          }}
+        >
+          <Head>
+            <title>Spez</title>
+          </Head>
+          <Component {...pageProps} />
+        </SWRConfig>
       </>
     );
   }

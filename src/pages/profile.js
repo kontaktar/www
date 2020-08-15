@@ -5,8 +5,8 @@ import React from "react";
 import Router from "next/router";
 import PropTypes from "prop-types";
 import nextCookie from "next-cookies";
-import { logout, withAuth } from "utils/auth";
 import { UserLayout, ProfileContainer } from "layouts";
+import withSession from "../lib/sessions";
 
 const Profile = () => {
   return (
@@ -16,28 +16,20 @@ const Profile = () => {
   );
 };
 
-Profile.getInitialProps = async (ctx) => {
-  const { spez_user_token: token } = nextCookie(ctx);
-  const url = `/api/profile`;
-  const redirectOnError = () =>
-    typeof window !== "undefined"
-      ? Router.push("/login")
-      : ctx.res.writeHead(302, { Location: "/login" }).end();
-  try {
-    const response = await fetch(url, {
-      credentials: "include",
-      headers: {
-        Authorization: JSON.stringify({ token })
-      }
-    });
-    if (response.ok) {
-      console.log("is ok");
-      return await response.json();
-    }
-    return redirectOnError();
-  } catch (error) {
-    return redirectOnError();
-  }
-};
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = req.session.get("user");
 
-export default withAuth(Profile);
+  if (user === undefined) {
+    res.setHeader("location", "/login");
+    res.statusCode = 302;
+    res.end();
+    return { props: {} };
+  }
+
+  return {
+    props: { user: req.session.get("user") }
+  };
+});
+
+export default Profile;
