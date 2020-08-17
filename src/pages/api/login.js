@@ -3,7 +3,7 @@ import withSession from "../../lib/sessions";
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 const login = withSession(async (req, res) => {
-  await withMiddleware(request, response);
+  await withMiddleware(req, res);
   const { username } = await req.body;
 
   try {
