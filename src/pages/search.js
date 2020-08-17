@@ -4,8 +4,9 @@
 import React from "react";
 // import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { withAuth } from "utils/auth";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
+import withSession from "../lib/sessions";
+import wrapper from "../store/configureStore";
 import { fetchSearchResult, updateLatestSearch } from "../store/actions";
 
 const Search = ({ searchInput, isLoggedIn }) => {
@@ -67,21 +68,49 @@ const Search = ({ searchInput, isLoggedIn }) => {
   );
 };
 
-Search.getInitialProps = async (ctx) => {
-  const {
-    store,
-    query: { searchInput = "" }
-  } = ctx;
-  // const isLoggedIn = useAuth().isLoggedInServerSide(ctx);
-  // console.log("searh isLogged", isLoggedIn);
+// Search.getInitialProps = withSession(async (ctx) => {
+//   const {
+//     req,
+//     store,
+//     query: { searchInput = "" }
+//   } = ctx;
+//   await store.dispatch(fetchSearchResult(searchInput));
 
-  await store.dispatch(fetchSearchResult(searchInput));
+//   return {
+//     isLoggedIn: req.session.get("user").isLoggedIn,
+//     searchInput,
+//     store
+//   };
+// });
 
-  return { searchInput, store };
-};
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export const getServerSideProps = wrapper.getServerSideProps(
+  withSession(async ({ store, req, res, query }) => {
+    // console.log("req", req);
+    console.log("store", store.getState());
+    console.log("user", req.session.get("user"));
+    const isLoggedIn = req.session.get("user")
+      ? req.session.get("user").isLoggedIn
+      : false;
+    // console.log(req)
+    // const isLoggedIn =
+    // req.session.get("user") && req.session.get("user").isLoggedIn;
+
+    // if (user === undefined) {
+    //   res.setHeader("location", "/login");
+    //   res.statusCode = 302;
+    //   res.end();
+    //   return { props: {} };
+    // }
+
+    return {
+      props: { isLoggedIn, searchInput: query.searchInput || "" }
+    };
+  })
+);
 
 // Search.propTypes = {
 //   data: PropTypes.object.isRequired
 // };
 
-export default withAuth(Search);
+export default Search;

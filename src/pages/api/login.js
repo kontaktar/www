@@ -11,6 +11,7 @@ const login = withSession(async (req, res) => {
       isLoggedIn: true,
       login: username
     };
+
     req.session.set("user", user);
 
     try {

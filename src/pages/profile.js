@@ -6,6 +6,7 @@ import Router from "next/router";
 import PropTypes from "prop-types";
 import nextCookie from "next-cookies";
 import { UserLayout, ProfileContainer } from "layouts";
+import wrapper from "../store/configureStore";
 import withSession from "../lib/sessions";
 
 const Profile = () => {
@@ -17,19 +18,21 @@ const Profile = () => {
 };
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
-export const getServerSideProps = withSession(async ({ req, res }) => {
-  const user = req.session.get("user");
+export const getServerSideProps = wrapper.getServerSideProps(
+  withSession(async ({ req, res }) => {
+    const user = req.session.get("user");
 
-  if (user === undefined) {
-    res.setHeader("location", "/login");
-    res.statusCode = 302;
-    res.end();
-    return { props: {} };
-  }
+    if (user === undefined) {
+      res.setHeader("location", "/login");
+      res.statusCode = 302;
+      res.end();
+      return { props: {} };
+    }
 
-  return {
-    props: { user: req.session.get("user") }
-  };
-});
+    return {
+      props: { user: req.session.get("user") }
+    };
+  })
+);
 
 export default Profile;

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { logout } from "utils/auth";
+// import { logout } from "utils/auth";
+import fetchJson from "../../lib/fetchJson";
 import Button from "../Button";
 import styles from "./Navigation.module.scss";
 
@@ -22,6 +23,10 @@ const routes = [
     title: "Útskrá"
   }
 ];
+
+const logout = () => {
+  fetchJson("/api/logout");
+};
 
 const Navigation = ({ isOpen }) => {
   return (

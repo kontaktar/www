@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 // import { useRouter } from "next/router";
 import Link from "next/link";
 import PropTypes from "prop-types";
@@ -7,12 +7,13 @@ import { Button, Input } from "components";
 import useMaxWidth from "hooks/useMaxWidth";
 // import { login } from "store/actions";
 
+import { login } from "store/actions";
 import fetchJson from "../../lib/fetchJson";
 import useUser from "../../lib/useUser";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const store = useSelector((state) => state);
 
   const { mutateUser } = useUser({
@@ -20,7 +21,7 @@ const LoginFormContainer = () => {
     redirectIfFound: true
   });
 
-  // const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -39,9 +40,10 @@ const LoginFormContainer = () => {
         })
       );
     } catch (error) {
-      console.error("An unexpected error happened:", error);
-      // setErrorMessage(error.data.message);
-      // setErrorMessage(error);
+      setErrorMessage(error.data.message);
+      setErrorMessage(error);
+    } finally {
+      dispatch(login(body.username));
     }
   }
   return (
@@ -67,7 +69,7 @@ const LoginFormContainer = () => {
           {/* <p className={`error ${userData.error && "show"}`}>
             {userData.error && `Error: ${userData.error}`}
           </p> */}
-          {/* <p>{errorMessage}</p> */}
+          <p>{errorMessage}</p>
           <Button
             className={styles.button}
             type="submit"
