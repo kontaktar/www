@@ -85,26 +85,16 @@ const Search = ({ searchInput, isLoggedIn }) => {
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ store, req, res, query }) => {
-    // console.log("req", req);
-    console.log("store", store.getState());
-    console.log("user", req.session.get("user"));
+  withSession(async ({ store, req, res, query: { searchInput = "" } }) => {
     const isLoggedIn = req.session.get("user")
       ? req.session.get("user").isLoggedIn
       : false;
-    // console.log(req)
-    // const isLoggedIn =
-    // req.session.get("user") && req.session.get("user").isLoggedIn;
-
-    // if (user === undefined) {
-    //   res.setHeader("location", "/login");
-    //   res.statusCode = 302;
-    //   res.end();
-    //   return { props: {} };
-    // }
+    // TODO: search is not being triggerd with queryParams
+    // TODO: this seems to be dispatched, then what?
+    store.dispatch(fetchSearchResult(searchInput));
 
     return {
-      props: { isLoggedIn, searchInput: query.searchInput || "" }
+      props: { isLoggedIn, searchInput }
     };
   })
 );
