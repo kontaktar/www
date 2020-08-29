@@ -21,8 +21,7 @@ async function login({ username }) {
     } else {
       // https://github.com/developit/unfetch#caveats
       const error = new Error(response.statusText);
-      console.log("ERROR", error);
-      console.log("ERROR", response);
+      console.log("ERROR in login", error, response);
       error.response = response;
       throw error;
     }
