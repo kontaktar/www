@@ -2,24 +2,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from "react";
-import Router from "next/router";
-import PropTypes from "prop-types";
-import nextCookie from "next-cookies";
 import { END } from "redux-saga";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "store/actions";
+import { getUserByUserNameSuccess, loginSuccess } from "store/actions";
 import { UserLayout, ProfileContainer } from "layouts";
+import { GetUserByUserName } from "src/pages/api/endpoints";
 import wrapper from "../store/configureStore";
 import withSession from "../lib/sessions";
 
-const Profile = ({ user }) => {
-  const dispatch = useDispatch();
-  const store = useSelector((state) => state);
-
-  // Get profile for user from cookie
-  if (user && user.login && !Object.entries(store.auth).length > 0) {
-    dispatch(login(user.login));
-  }
+const Profile = () => {
   return (
     <UserLayout>
       <ProfileContainer editMode />
@@ -39,13 +29,24 @@ export const getServerSideProps = wrapper.getServerSideProps(
       return { props: {} };
     }
 
-    // Ideally the login dispatch should be done here, but state is being lost on Hydrate - solve later
-    // store.dispatch(login(user.login));
-    // store.dispatch(END);
-    // await store.sagaTask.toPromise();
+    // Had to disassemble dispatch(login(...)),
+    // fetch not working properly inside saga with getServerSideProps
+    // probably need something like https://github.com/pburtchaell/redux-promise-middleware/
+    if (
+      (user && user.login && store && !store.auth) ||
+      !Object.entries(store.auth).length > 0
+    ) {
+      // Get profile for user from cookie
+      const results = await GetUserByUserName(user.login);
+      store.dispatch(getUserByUserNameSuccess(results));
+      store.dispatch(loginSuccess(results));
+
+      store.dispatch(END);
+      await store.sagaTask.toPromise();
+    }
 
     return {
-      props: { user: req.session.get("user") }
+      props: {}
     };
   })
 );

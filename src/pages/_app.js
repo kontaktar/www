@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
 // import App from "next/app";
 import Head from "next/head";
