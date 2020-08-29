@@ -27,7 +27,7 @@ function auth(state = {}, action) {
       };
 
     default:
-      return { ...state };
+      return state;
   }
 }
 

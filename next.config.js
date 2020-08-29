@@ -12,7 +12,8 @@ module.exports = withPlugins([[withSass], [withFonts]], {
   // publicRuntimeConfig: false,
   ssr: true,
   env: {
-    BASE_URL: process.env.VERCEL_URL || "localhost:3000"
+    BASE_URL: process.env.VERCEL_URL || "localhost:3000",
+    SECRET_COOKIE_PASSWORD: "THIS_HAS_TO_BE_AT_LEAST_32_LETTER_LONG" // TODO: host at VERCEL (and change ofcourse)
   },
   enableSvg: true,
   cssModules: true,

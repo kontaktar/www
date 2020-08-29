@@ -4,7 +4,7 @@ import * as reducers from "./reducers";
 
 const otherReducers = combineReducers(reducers);
 
-const rootReducer = (state = {}, action) => {
+const rootReducer = (state = { app: "init", page: "init" }, action) => {
   switch (action.type) {
     case HYDRATE:
       return { ...state, ...action.payload };
