@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,11 +7,12 @@ import { fetchSearchResult, updateLatestSearch } from "store/actions";
 
 import styles from "./SearchBar.module.scss";
 
-const SearchBar = ({ className, placeholder, ...props }) => {
+const SearchBar = ({ className, placeholder, onClearClicked, ...props }) => {
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const onClear = async () => {
+    onClearClicked();
     await dispatch(updateLatestSearch(""));
     if (store.searches.inputs && !store.searches.inputs[""]) {
       await dispatch(fetchSearchResult(""));
@@ -21,7 +21,7 @@ const SearchBar = ({ className, placeholder, ...props }) => {
 
   return (
     <div className={`${className} ${styles.searchbar}`}>
-      <Icon className={styles.search_icon} name="search" />
+      <Icon className={styles.search_icon} name="search-large" />
       <Input
         id="searchbar"
         label={undefined}
@@ -45,11 +45,13 @@ SearchBar.Results = ({ number = "0" }) => {
 
 SearchBar.propTypes = {
   className: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  onClearClicked: PropTypes.func
 };
 SearchBar.defaultProps = {
   className: "",
-  placeholder: ""
+  placeholder: "",
+  onClearClicked: () => {}
 };
 
 SearchBar.Results.propTypes = {

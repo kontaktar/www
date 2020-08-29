@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
+import SvgLock from "assets/icons/SvgLock";
 import SvgPhoneProfile from "assets/icons/SvgPhoneProfile";
 import SvgUser from "assets/icons/SvgUser";
 import SvgSearch from "assets/icons/SvgSearch";
+import SvgSearchLarge from "assets/icons/SvgSearchLarge";
 import SvgClose from "assets/icons/SvgClose";
 import SvgPhone from "assets/icons/SvgPhone";
 import SvgEmail from "assets/icons/SvgEmail";
@@ -25,9 +27,11 @@ const Icon = ({ className, name, ...props }) => {
     <div className={`${className} ${styles.icon}`}>
       {name === "user" && <SvgUser {...props} />}
       {name === "search" && <SvgSearch {...props} />}
+      {name === "search-large" && <SvgSearchLarge {...props} />}
       {name === "close" && <SvgClose {...props} />}
       {name === "phone" && <SvgPhone {...props} />}
       {name === "email" && <SvgEmail {...props} />}
+      {name === "lock" && <SvgLock {...props} />}
       {name === "arrow" && <SvgArrow {...props} />}
       {name === "clock" && <SvgClock {...props} />}
       {name === "delete" && <SvgDelete {...props} />}

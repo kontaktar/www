@@ -6,20 +6,19 @@ import styles from "./Navigation.module.scss";
 
 const routes = [
   {
-    url: "/search",
-    title: "Leit"
-  },
-  {
     url: "/profile",
-    title: "Profile"
+    title: "Þinn prófíll",
+    icon: "user"
+  },
+  {
+    url: "/search",
+    title: "Leit",
+    icon: "search"
   },
   {
     url: "/",
-    title: "Title"
-  },
-  {
-    url: "/",
-    title: "Útskrá"
+    title: "Útskrá",
+    icon: "lock"
   }
 ];
 
@@ -28,6 +27,7 @@ const Navigation = ({ isOpen }) => {
     <div className={styles.navigation_bar} id="navi">
       {routes.map((route) => (
         <Button.Navigation
+          icon={route.icon}
           key={route.title}
           compact={!isOpen}
           title={route.title}
