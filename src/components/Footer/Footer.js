@@ -7,8 +7,8 @@ import styles from "./Footer.module.scss";
 
 const Footer = ({ className }) => {
   return (
-    <footer {...useMaxWidth()}>
-      <div className={`${styles.footer} ${className}`}>
+    <footer className={styles.root}>
+      <div {...useMaxWidth()} className={`${styles.footer} ${className}`}>
         <Logo className={styles.logo} withTitle inverted />
         <Icon name="phone" />
         <p>444 4444</p>
