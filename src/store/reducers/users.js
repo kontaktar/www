@@ -76,6 +76,7 @@ function users(state = {}, action) {
       };
 
     case actionType.FETCH_USER_BY_USER_NAME_FAILURE:
+      console.log("login failure", action.message);
       return {
         ...state,
         isFetching: false,
@@ -83,7 +84,7 @@ function users(state = {}, action) {
         ...{ error: action.message }
       };
     default:
-      return { ...state };
+      return state;
   }
 }
 
