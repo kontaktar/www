@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withAuth } from "utils/auth";
 import { MainLayout, ProfileContainer, UserLayout } from "layouts";
-import { getUserByUserName } from "src/store/actions";
+import { getUserByUserNameSuccess } from "src/store/actions";
+import { GetUserByUserName } from "src/pages/api/endpoints";
+import wrapper from "store/configureStore";
+import withSession from "../../lib/sessions";
 
 const UserProfile = ({ userName, isLoggedIn }) => {
-  console.log("User userName from pages/user: ", userName);
   return (
     <>
       {!isLoggedIn ? (
@@ -21,15 +22,19 @@ const UserProfile = ({ userName, isLoggedIn }) => {
   );
 };
 
-UserProfile.getInitialProps = async (ctx) => {
-  const {
-    query: { userName },
-    store
-  } = ctx;
-  await store.dispatch(getUserByUserName(userName));
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export const getServerSideProps = wrapper.getServerSideProps(
+  withSession(async ({ store, req, query: { userName } }) => {
+    const { isLoggedIn } = req.session.get("user");
 
-  return { userName };
-};
+    const userResult = await GetUserByUserName(userName);
+    store.dispatch(getUserByUserNameSuccess(userResult));
+
+    return {
+      props: { isLoggedIn, userName }
+    };
+  })
+);
 
 UserProfile.propTypes = {
   userName: PropTypes.string,
@@ -40,4 +45,4 @@ UserProfile.defaultProps = {
   userName: ""
 };
 
-export default withAuth(UserProfile);
+export default UserProfile;

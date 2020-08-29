@@ -2,6 +2,7 @@
 
 .frontpage {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -46,7 +47,7 @@
 }
 
 .hero {
-  margin: auto;
+  // margin: auto;
   flex-grow: 1;
   height: 100%;
   padding: 0 90px;
@@ -61,4 +62,10 @@
 }
 .carousel_section {
   margin-top: 280px;
+}
+
+.solid_ring {
+  position: absolute;
+  z-index: -1;
+  right: 0;
 }

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useStore } from "react-redux";
 import { Button, Carousel, SearchBar } from "components";
 import { breakPointSettings } from "components/Carousel/Carousel";
+import SvgSolidRing from "assets/background/SvgSolidRing";
 import screensizes from "data/screensizes";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./FrontPageContainer.module.scss";
@@ -101,8 +102,10 @@ const FrontPageContainer = () => {
             </Link>
           </div>
         </div>
-        {/* <Carousel width={frameWidth} /> */}
+        <Carousel width={frameWidth} />
       </div>
+
+      <SvgSolidRing className={styles.solid_ring} />
     </div>
   );
 };

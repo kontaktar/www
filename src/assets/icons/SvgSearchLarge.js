@@ -1,8 +1,10 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgSearchLarge = () => (
+// eslint-disable-next-line react/prop-types
+const SvgSearchLarge = ({ className }) => (
   <svg
+    className={className}
     width="27"
     height="28"
     viewBox="0 0 27 28"
