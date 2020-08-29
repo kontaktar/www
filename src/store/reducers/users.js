@@ -84,7 +84,7 @@ function users(state = {}, action) {
         ...{ error: action.message }
       };
     default:
-      return { ...state };
+      return state;
   }
 }
 

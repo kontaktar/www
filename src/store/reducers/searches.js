@@ -37,7 +37,7 @@ function searches(state = {}, action) {
         latestInput: action.payload.input
       };
     default:
-      return { ...state };
+      return state;
   }
 }
 

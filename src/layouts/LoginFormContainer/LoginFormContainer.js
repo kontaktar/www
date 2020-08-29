@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { useRouter } from "next/router";
 import Link from "next/link";
 import PropTypes from "prop-types";
 import { Button, Input } from "components";
 import useMaxWidth from "hooks/useMaxWidth";
-// import { login } from "store/actions";
 
 import { login } from "store/actions";
 import fetchJson from "../../lib/fetchJson";
@@ -55,17 +53,8 @@ const LoginFormContainer = () => {
             id="username"
             label="Notendanafn"
             name="username"
-            // value={userData.username}
-            // onChange={handleChange}
           />
-          <Input
-            type="text"
-            id="password"
-            label="Lykilorð"
-            name="password"
-            // value={userData.password}
-            // onChange={handleChange}
-          />
+          <Input type="text" id="password" label="Lykilorð" name="password" />
           {/* <p className={`error ${userData.error && "show"}`}>
             {userData.error && `Error: ${userData.error}`}
           </p> */}

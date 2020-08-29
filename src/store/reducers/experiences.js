@@ -143,7 +143,7 @@ function experiences(state = {}, action) {
       };
 
     default:
-      return { ...state };
+      return state;
   }
 }
 

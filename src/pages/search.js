@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
-import React from "react";
+import React, { useEffect } from "react";
 // import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
@@ -12,6 +12,11 @@ import { fetchSearchResult, updateLatestSearch } from "../store/actions";
 const Search = ({ searchInput, isLoggedIn }) => {
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Ideally this should be done in getServerSideProps - hydrate overwrites it there though - solve later
+    dispatch(fetchSearchResult(searchInput));
+  }, [searchInput]);
 
   const onSearch = async (params) => {
     console.log("Store", store);
@@ -68,30 +73,12 @@ const Search = ({ searchInput, isLoggedIn }) => {
   );
 };
 
-// Search.getInitialProps = withSession(async (ctx) => {
-//   const {
-//     req,
-//     store,
-//     query: { searchInput = "" }
-//   } = ctx;
-//   await store.dispatch(fetchSearchResult(searchInput));
-
-//   return {
-//     isLoggedIn: req.session.get("user").isLoggedIn,
-//     searchInput,
-//     store
-//   };
-// });
-
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store, req, res, query: { searchInput = "" } }) => {
     const isLoggedIn = req.session.get("user")
       ? req.session.get("user").isLoggedIn
       : false;
-    // TODO: search is not being triggerd with queryParams
-    // TODO: this seems to be dispatched, then what?
-    store.dispatch(fetchSearchResult(searchInput));
 
     return {
       props: { isLoggedIn, searchInput }
