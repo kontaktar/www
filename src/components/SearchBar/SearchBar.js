@@ -7,7 +7,13 @@ import { fetchSearchResult, updateLatestSearch } from "store/actions";
 
 import styles from "./SearchBar.module.scss";
 
-const SearchBar = ({ className, placeholder, onClearClicked, ...props }) => {
+const SearchBar = ({
+  className,
+  placeholder,
+  onClearClicked,
+  value,
+  ...props
+}) => {
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -26,13 +32,16 @@ const SearchBar = ({ className, placeholder, onClearClicked, ...props }) => {
         id="searchbar"
         label={undefined}
         placeholder={placeholder}
-        {...props}
         className={styles.input}
         wrapperClassName={styles.input_wrapper}
+        value={value}
+        {...props}
       />
-      <Button modifier={["search"]} onClick={onClear}>
-        <Icon className={styles.clear_icon} name="close" />
-      </Button>
+      {value && (
+        <Button modifier={["search"]} onClick={onClear}>
+          <Icon className={styles.clear_icon} name="close" />
+        </Button>
+      )}
     </div>
   );
 };
@@ -46,12 +55,14 @@ SearchBar.Results = ({ number = "0" }) => {
 SearchBar.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
-  onClearClicked: PropTypes.func
+  onClearClicked: PropTypes.func,
+  value: PropTypes.string
 };
 SearchBar.defaultProps = {
   className: "",
   placeholder: "",
-  onClearClicked: () => {}
+  onClearClicked: () => {},
+  value: ""
 };
 
 SearchBar.Results.propTypes = {

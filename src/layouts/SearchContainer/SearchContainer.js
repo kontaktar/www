@@ -32,7 +32,14 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
   return (
     <div className={styles.root}>
       <div className={styles.search_bar}>
-        <SearchBar value={searchValue} onChange={onSearchChange} />
+        <SearchBar
+          value={searchValue}
+          onChange={onSearchChange}
+          onClearClicked={() => {
+            setSearchValue("");
+            onSearch("");
+          }}
+        />
         {cards ? (
           <SearchBar.Results number={`${Object.values(cards).length}`} />
         ) : null}
