@@ -5,10 +5,13 @@ import Head from "next/head";
 import { END } from "redux-saga";
 import { SWRConfig } from "swr";
 import fetch from "../lib/fetchJson";
+import useUser from "../lib/useUser";
 import wrapper from "../store/configureStore";
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps }) => {
+  const { user } = useUser();
+
   // componentDidMount() {
   //   // Remove the server-side injected CSS. - MaterialUI
   //   const jssStyles = document.querySelector("#jss-server-side");
@@ -30,7 +33,7 @@ const App = ({ Component, pageProps }) => {
         <Head>
           <title>Spez</title>
         </Head>
-        <Component {...pageProps} />
+        <Component isLoggedIn={user && user.isLoggedIn} {...pageProps} />
       </SWRConfig>
     </>
   );
