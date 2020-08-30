@@ -8,6 +8,7 @@ import { useStore } from "react-redux";
 import { Button, Carousel, SearchBar } from "components";
 import { breakPointSettings } from "components/Carousel/Carousel";
 import SvgSolidRing from "assets/background/SvgSolidRing";
+import SvgPluses from "assets/background/SvgPluses";
 import screensizes from "data/screensizes";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./FrontPageContainer.module.scss";
@@ -106,6 +107,15 @@ const FrontPageContainer = () => {
       </div>
 
       <SvgSolidRing className={styles.solid_ring} />
+      <SvgSolidRing
+        className={styles.transparent_ring}
+        width="620"
+        height="950"
+        fill="#cfb59b"
+        fillOpacity="0.2"
+        rotate="45"
+      />
+      <SvgPluses className={styles.plusses} />
     </div>
   );
 };
