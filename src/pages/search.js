@@ -7,6 +7,7 @@ import { END } from "redux-saga";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSearchResult } from "src/pages/api/endpoints";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
+import useAuth from "hooks/useAuth";
 import withSession from "../lib/sessions";
 import wrapper from "../store/configureStore";
 import {
@@ -15,7 +16,8 @@ import {
   updateLatestSearch
 } from "../store/actions";
 
-const Search = ({ searchInput, isLoggedIn }) => {
+const Search = ({ searchInput }) => {
+  const { isLoggedIn } = useAuth();
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -73,13 +75,8 @@ const Search = ({ searchInput, isLoggedIn }) => {
   );
 };
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ store, req, res, query: { searchInput = "" } }) => {
-    const isLoggedIn = req.session.get("user")
-      ? req.session.get("user").isLoggedIn
-      : false;
-
+  withSession(async ({ store, query: { searchInput = "" } }) => {
     const searchResult = await GetSearchResult(searchInput);
     store.dispatch(updateLatestSearch(searchInput));
     store.dispatch(
@@ -87,7 +84,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     );
 
     return {
-      props: { isLoggedIn, searchInput }
+      props: { searchInput }
     };
   })
 );

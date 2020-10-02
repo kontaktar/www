@@ -1,10 +1,11 @@
 import { withMiddleware } from "utils/apiMiddleware";
 import withSession from "../../lib/sessions";
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
-const login = withSession(async (req, res) => {
-  await withMiddleware(req, res);
-  const { username } = await req.body;
+const login = withSession(async (request, response) => {
+  await withMiddleware(request, response);
+  const { username } = await request.body;
+
+  // TODO: Need to validate if user actually exists
 
   try {
     const user = {
@@ -12,11 +13,12 @@ const login = withSession(async (req, res) => {
       login: username
     };
 
-    req.session.set("user", user);
+    console.log("setting to session: user", user);
+    request.session.set("user", user);
 
     try {
-      await req.session.save();
-      res.json(user);
+      await request.session.save();
+      response.json(user);
     } catch (error) {
       console.error("Failed to save session:", error);
     }

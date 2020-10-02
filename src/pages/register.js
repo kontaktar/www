@@ -1,6 +1,7 @@
 import React from "react";
-import { withAuth, useAuth } from "utils/auth";
 import { MainLayout, RegisterContainer } from "layouts";
+import wrapper from "../store/configureStore";
+import withSession from "../lib/sessions";
 
 const Register = () => {
   return (
@@ -10,13 +11,20 @@ const Register = () => {
   );
 };
 
-Register.getInitialProps = async (ctx) => {
-  const { isLoggedInServerSide } = useAuth();
+export const getServerSideProps = wrapper.getServerSideProps(
+  withSession(async ({ req, res }) => {
+    const user = req.session.get("user");
 
-  if (ctx && ctx.req && isLoggedInServerSide(ctx)) {
-    ctx.res.writeHead(302, { Location: `/` });
-    ctx.res.end();
-  }
-};
+    if (user !== undefined) {
+      res.setHeader("location", "/profile");
+      res.statusCode = 302;
+      res.end();
+      return { props: {} };
+    }
+    return {
+      props: {}
+    };
+  })
+);
 
-export default withAuth(Register);
+export default Register;

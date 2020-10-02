@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import fetchJson from "../../lib/fetchJson";
+import useAuth from "hooks/useAuth";
 import Button from "../Button";
 import styles from "./Navigation.module.scss";
 
@@ -22,11 +22,9 @@ const routes = [
   }
 ];
 
-const logout = () => {
-  fetchJson("/api/logout");
-};
-
 const Navigation = ({ isOpen }) => {
+  const { logout } = useAuth();
+
   return (
     <div className={styles.navigation_bar} id="navi">
       {routes.map((route) => (
@@ -36,7 +34,7 @@ const Navigation = ({ isOpen }) => {
           compact={!isOpen}
           title={route.title}
           url={route.url || "/"}
-          onClick={route.title === "Útskrá" ? logout : () => {}}
+          onClick={route.title === "Útskrá" ? () => logout() : () => {}}
         />
       ))}
     </div>

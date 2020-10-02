@@ -4,10 +4,36 @@ import * as reducers from "./reducers";
 
 const otherReducers = combineReducers(reducers);
 
-const rootReducer = (state = { app: "init", page: "init" }, action) => {
+const rootReducer = (state = {}, action) => {
   switch (action.type) {
     case HYDRATE:
-      return { ...state, ...action.payload };
+      // Because server overwrites client, some of it we wan't to keep.
+      return {
+        experiences: {
+          byUserId: {
+            ...state.experiences.byUserId,
+            ...action.payload.experiences
+          },
+          ...state.experiences,
+          ...action.payload.experiences
+        },
+        users: {
+          ...state.users,
+          ...action.payload.users
+        },
+        auth: {
+          ...state.auth,
+          ...action.payload.auth
+        },
+        searches: {
+          inputs: {
+            ...state.searches.inputs,
+            ...action.payload.searches.inputs
+          },
+          ...state.searches,
+          ...action.payload.searches
+        }
+      };
     default:
       return otherReducers(state, action);
   }

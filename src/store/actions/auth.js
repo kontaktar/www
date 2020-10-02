@@ -1,11 +1,10 @@
 import * as actionType from "store/actionTypes";
 
-export function login(userName, password) {
+export function login(userName) {
   return {
     type: actionType.LOGIN_REQUEST,
     payload: {
-      userName,
-      password
+      userName
     }
   };
 }

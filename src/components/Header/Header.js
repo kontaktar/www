@@ -1,40 +1,21 @@
-/* eslint-disable react/destructuring-assignment */
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
-// eslint-disable-next-line no-unused-vars
 import useMaxWidth from "hooks/useMaxWidth";
 import screensizes from "data/screensizes";
-import fetchJson from "lib/fetchJson";
 
 import { Button, Logo } from "components";
-// import { logout } from "utils/auth";
-
-import useUser from "lib/useUser";
-
+import useAuth from "hooks/useAuth";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 
-// TOOD:
 const Header = ({ className }) => {
-  const { user } = useUser();
-  const [isLoggedIn, setIsLoggedIn] = useState();
   const { width } = useWindowDimensions();
+  const { isLoggedIn, logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
 
   const mobileView = width < screensizes.tabletsPortrait;
-  const logout = () => {
-    fetchJson("/api/logout");
-    setIsLoggedIn(false);
-  };
-
-  useEffect(() => {
-    if (isLoggedIn !== user && user.isLoggedIn) {
-      setIsLoggedIn(user.isLoggedIn);
-    }
-  }, [user]);
 
   return (
     <div {...useMaxWidth()}>
