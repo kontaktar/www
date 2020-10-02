@@ -258,7 +258,16 @@
       }
     ],
     "react/button-has-type": "warn",
-    "react/self-closing-comp": "warn"
+    "react/self-closing-comp": "warn",
+    "spaced-comment": [
+      "error",
+      "always",
+      {
+        "markers": [
+          "/"
+        ]
+      }
+    ]
   },
   "overrides": [
     {
