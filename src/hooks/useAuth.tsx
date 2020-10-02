@@ -38,15 +38,11 @@ export const reducer = (
   }
 };
 
-const useAuth = (): React.ReactNode => useContext(AuthContext);
+const useAuth = () => useContext(AuthContext);
 
 // This provider is meant to be a connection between the redux store and the session storage.
 
-export const AuthProvider = ({
-  children
-}: {
-  children: React.ReactChild;
-}): React.ReactNode => {
+export const AuthProvider = ({ children }: { children: React.ReactChild }) => {
   const dispatchToStore = useDispatch();
   const [state, dispatch] = useReducer(reducer, initialProps);
 
