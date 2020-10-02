@@ -34,7 +34,7 @@ const Select = ({ className, error, label, options, ...props }) => {
           {error || label}
         </span>
       )}
-      {label === "" && <div className={styles.hidden_label}></div>}
+      {label === "" && <div className={styles.hidden_label} />}
       <MUITextField
         id="selector"
         select

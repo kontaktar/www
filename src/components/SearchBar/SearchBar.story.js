@@ -1,9 +1,10 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
-import { boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
-import SearchBar from "./SearchBar";
+import { boolean } from "@storybook/addon-knobs";
+import { storiesOf } from "@storybook/react";
+
 import SearchBarReadme from "./README.md";
+import SearchBar from "./SearchBar";
 
 storiesOf("Components", module)
   .addParameters({

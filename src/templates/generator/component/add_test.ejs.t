@@ -3,9 +3,8 @@ to: src/components/<%= name %>/<%= name %>.test.js
 message: |
  - {green CREATED}: TEST
 ---
-
-import { shallow } from "enzyme";
 import React from "react";
+import { shallow } from "enzyme";
 import renderer from "react-test-renderer";
 
 import <%= name %> from "./<%= name %>";

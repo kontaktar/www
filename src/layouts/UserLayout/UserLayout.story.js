@@ -1,10 +1,11 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
-import { boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
+import { boolean, text } from "@storybook/addon-knobs";
+import { storiesOf } from "@storybook/react";
 import ProfileContainer from "../ProfileContainer";
-import UserLayout from "./UserLayout";
+
 import UserLayoutReadme from "./README.md";
+import UserLayout from "./UserLayout";
 
 storiesOf("Layouts", module)
   .addParameters({

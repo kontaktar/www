@@ -1,5 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
+
 import Carousel from "./Carousel";
 import CarouselReadme from "./README.md";
 

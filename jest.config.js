@@ -78,7 +78,7 @@ module.exports = {
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    "\\.(css|less|scss)$": "identity-obj-proxy",
+    "\\.(css|less|scss)$": "identity-obj-proxy"
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -150,8 +150,8 @@ module.exports = {
   testPathIgnorePatterns: [
     "<rootDir>/.next/",
     "<rootDir>/node_modules/",
-    "<rootDir>/.storybook/",
-  ],
+    "<rootDir>/.storybook/"
+  ]
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],

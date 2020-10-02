@@ -134,8 +134,11 @@
     "max-len": [
       "warn",
       {
-        "code": 100,
-        "ignoreUrls": true
+        "code": 120,
+        "ignoreUrls": true,
+        "ignoreComments": true,
+        "ignoreTrailingComments": true,
+        "ignoreStrings": true
       }
     ],
     "multiline-ternary": [
