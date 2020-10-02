@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { END } from "redux-saga";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
-import useAuth from "hooks/useAuth";
+import useAuth from "hooks/useAuth.tsx";
 import { GetSearchResult } from "pages/api/endpoints";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 import {

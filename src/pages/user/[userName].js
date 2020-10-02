@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { getUserByUserNameSuccess } from "store/actions";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
-import useAuth from "hooks/useAuth";
+import useAuth from "hooks/useAuth.tsx";
 import { GetUserByUserName } from "pages/api/endpoints";
 import { MainLayout, ProfileContainer, UserLayout } from "layouts";
 

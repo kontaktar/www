@@ -3,7 +3,7 @@ import Modal from "@material-ui/core/Modal";
 import screensizes from "data/screensizes";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import useAuth from "hooks/useAuth";
+import useAuth from "hooks/useAuth.tsx";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Logo } from "components";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
