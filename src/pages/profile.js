@@ -12,7 +12,6 @@ const Profile = () => {
   );
 };
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store, req, res }) => {
     const user = req.session.get("user");
