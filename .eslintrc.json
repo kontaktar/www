@@ -232,6 +232,6 @@
         }
       }
     ],
-    "unicorn/throw-new-error": "error",
+    "unicorn/throw-new-error": "error"
   }
 }

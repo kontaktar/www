@@ -13,7 +13,7 @@ const Profile = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ store, req, res }) => {
+  withSession(async ({ req, res }) => {
     const user = req.session.get("user");
 
     if (user === undefined) {
