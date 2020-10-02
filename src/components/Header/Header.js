@@ -7,14 +7,14 @@ import Modal from "@material-ui/core/Modal";
 import useMaxWidth from "hooks/useMaxWidth";
 import screensizes from "data/screensizes";
 import { Button, Logo } from "components";
-import { logout, useAuth } from "utils/auth";
+import useAuth from "hooks/useAuth";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 
 // TOOD:
 const Header = ({ className }) => {
   const { width } = useWindowDimensions();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
 
   const mobileView = width < screensizes.tabletsPortrait;

@@ -5,8 +5,6 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { Button, Input } from "components";
 import useMaxWidth from "hooks/useMaxWidth";
-// import { login } from "store/actions";
-
 import { login } from "store/actions";
 import fetchJson from "../../lib/fetchJson";
 import useUser from "../../lib/useUser";

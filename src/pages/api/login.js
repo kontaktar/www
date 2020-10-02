@@ -6,12 +6,15 @@ const login = withSession(async (req, res) => {
   await withMiddleware(req, res);
   const { username } = await req.body;
 
+  // TODO: Need to validate if user actually exists
+
   try {
     const user = {
       isLoggedIn: true,
       login: username
     };
 
+    console.log("setting to session: user", user);
     req.session.set("user", user);
 
     try {

@@ -3,6 +3,7 @@ import React from "react";
 import Head from "next/head";
 import { END } from "redux-saga";
 import { SWRConfig } from "swr";
+import { AuthProvider } from "src/hooks/useAuth";
 import fetch from "../lib/fetchJson";
 import wrapper from "../store/configureStore";
 
@@ -18,25 +19,26 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <>
-      <SWRConfig
-        value={{
-          fetcher: fetch,
-          onError: (error) => {
-            console.error(error);
-          }
-        }}
-      >
-        <Head>
-          <title>Spez</title>
-        </Head>
-        <Component {...pageProps} />
-      </SWRConfig>
+      <AuthProvider>
+        <SWRConfig
+          value={{
+            fetcher: fetch,
+            onError: (error) => {
+              console.error(error);
+            }
+          }}
+        >
+          <Head>
+            <title>Spez</title>
+          </Head>
+          <Component {...pageProps} />
+        </SWRConfig>
+      </AuthProvider>
     </>
   );
 };
 App.getInitialProps = async ({ Component, ctx }) => {
   const { req, store } = ctx;
-
   // 1. Wait for all page actions to dispatch
   const pageProps = {
     ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {})

@@ -25,19 +25,19 @@ const LandingPage = () => {
   );
 };
 
-LandingPage.getInitialProps = async (ctx) => {
-  const { query, isServer, store } = ctx;
+// LandingPage.getInitialProps = async (ctx) => {
+//   const { query, isServer, store } = ctx;
 
-  /* DEMO */
-  await store.dispatch(fetchUserExperiences("1"));
+//   /* DEMO */
+//   await store.dispatch(fetchUserExperiences("1"));
 
-  if (query.id) {
-    const response = await fetch(`${getBaseUrl(ctx)}/api/users/${query.id}`);
-    const user = await response.json();
-    return { user, status: response.status };
-  }
-  return { isServer };
-};
+//   if (query.id) {
+//     const response = await fetch(`${getBaseUrl(ctx)}/api/users/${query.id}`);
+//     const user = await response.json();
+//     return { user, status: response.status };
+//   }
+//   return { isServer };
+// };
 
 LandingPage.propTypes = {
   user: PropTypes.object,
