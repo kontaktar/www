@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
-// import App from "next/app";
+import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import wrapper from "store/configureStore";
@@ -9,7 +9,7 @@ import fetch from "lib/fetchJson";
 import { AuthProvider } from "hooks/useAuth";
 
 // eslint-disable-next-line react/prop-types
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps }: AppProps) => {
   // componentDidMount() {
   //   // Remove the server-side injected CSS. - MaterialUI
   //   const jssStyles = document.querySelector("#jss-server-side");
@@ -23,7 +23,7 @@ const App = ({ Component, pageProps }) => {
       <SWRConfig
         value={{
           fetcher: fetch,
-          onError: error => {
+          onError: (error) => {
             console.error(error);
           }
         }}

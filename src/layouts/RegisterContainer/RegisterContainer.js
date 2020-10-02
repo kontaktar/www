@@ -11,7 +11,7 @@ const RegisterContainer = () => {
   const [hasRegistered, setHasRegistered] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isBeingLoggedIn, setIsBeingLoggedIn] = useState(false);
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
   const { users } = store;
 
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const RegisterContainer = () => {
     }
   }, [hasRegistered, users, users.error]);
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setNewUser({ ...newUser, [event.target.name]: event.target.value });
   };
 

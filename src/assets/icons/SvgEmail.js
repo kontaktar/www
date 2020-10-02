@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgEmail = props => (
+const SvgEmail = (props) => (
   <svg
     width="24"
     height="17"

@@ -20,7 +20,7 @@ export default async (_request, response) => {
     LEFT JOIN users u ON e.user_id = u.id
     WHERE e.published IS TRUE;`
     );
-    const mappedData = data.map(card => {
+    const mappedData = data.map((card) => {
       return {
         userId: card.user_id,
         userName: card.user_name,

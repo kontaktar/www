@@ -37,13 +37,13 @@ const Carousel = ({ width }) => {
     if (windowSize !== width) {
       setWindowSize(width);
       setSlidesToShow(
-        (breakPointSettings.find(s => width >= s.breakpoint) &&
-          breakPointSettings.find(s => width >= s.breakpoint).slides) ||
+        (breakPointSettings.find((s) => width >= s.breakpoint) &&
+          breakPointSettings.find((s) => width >= s.breakpoint).slides) ||
           1
       );
       setCarouselSize(
-        (breakPointSettings.find(s => width >= s.breakpoint) &&
-          breakPointSettings.find(s => width >= s.breakpoint).breakpoint) ||
+        (breakPointSettings.find((s) => width >= s.breakpoint) &&
+          breakPointSettings.find((s) => width >= s.breakpoint).breakpoint) ||
           332
       );
     }

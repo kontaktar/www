@@ -14,7 +14,7 @@ const LandingPage = () => {
   // dispatch(fetchUserExperiences("2"));
   // }, []);
 
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
   console.log("store", store);
 
   return (

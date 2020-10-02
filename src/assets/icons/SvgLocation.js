@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgLocation = props => (
+const SvgLocation = (props) => (
   <svg
     width="12"
     height="17"

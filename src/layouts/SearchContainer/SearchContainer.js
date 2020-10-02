@@ -8,13 +8,13 @@ import styles from "./SearchContainer.module.scss";
 const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
   const [searchValue, setSearchValue] = useState(searchInput);
   const [cards, setCards] = useState(cardsToDisplay);
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
 
   useEffect(() => setSearchValue(store.searches.latestInput), [
     store.searches.latestInput
   ]);
 
-  const onSearchChange = event => {
+  const onSearchChange = (event) => {
     setSearchValue(event.target.value);
     onSearch(event.target.value);
   };
@@ -46,7 +46,7 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
       </div>
       <CardsContainer>
         {cards
-          ? Object.values(cards).map(card => {
+          ? Object.values(cards).map((card) => {
               return (
                 <Card
                   title={card.title}

@@ -7,11 +7,11 @@ import rootSaga from "./saga";
 
 const isServer = typeof window === "undefined";
 
-const bindMiddleware = middleware => {
+const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== "production") {
     const developmentMiddleware = [];
     if (isServer) {
-      developmentMiddleware.push(_store => next => action => {
+      developmentMiddleware.push((_store) => (next) => (action) => {
         console.log("REDUX action type: ", action.type);
         next(action);
       });

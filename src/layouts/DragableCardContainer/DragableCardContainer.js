@@ -39,7 +39,7 @@ const SortableContainer = sortableContainer(({ children }) => {
 const DragableCardContainer = ({ userId, items, handleEdit }) => {
   // eslint-disable-next-line no-param-reassign
   const dispatch = useDispatch();
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
 
   const [arrangement, setArrangement] = useState(items);
   async function updateOrder(rearrangeItems) {

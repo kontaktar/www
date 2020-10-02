@@ -14,7 +14,7 @@ const Drawer = ({ open, rightSide }) => {
     // eslint-disable-next-line no-unused-expressions
     !rightSide && toggleOpen(true);
   };
-  const offHover = event => {
+  const offHover = (event) => {
     const stillInDrawer =
       event.relatedTarget && event.relatedTarget.parentNode.id === "navi";
 

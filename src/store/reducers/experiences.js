@@ -4,7 +4,7 @@ function experiences(state = {}, action) {
   const filtered = (userId, experienceId) =>
     state.byUserId &&
     state.byUserId[userId] &&
-    state.byUserId[userId].filter(experience => {
+    state.byUserId[userId].filter((experience) => {
       return experience.id !== experienceId;
     });
 

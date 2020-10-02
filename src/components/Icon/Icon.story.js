@@ -16,7 +16,7 @@ storiesOf("Components", module)
     }
   })
   .add("Icon", () => {
-    return icons.map(name => (
+    return icons.map((name) => (
       <div style={{ backgroundColor: "gray" }}>
         <Icon
           disabled={boolean("Disabled", false)}

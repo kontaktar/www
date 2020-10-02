@@ -3,44 +3,43 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "store/actions";
+import useUser from "lib/useUser";
+import { post } from "helpers/methods";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
-import fetchJson from "../../lib/fetchJson";
-import useUser from "../../lib/useUser";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = () => {
   const dispatch = useDispatch();
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
 
   const { mutateUser } = useUser({
     redirectTo: "/profile",
     redirectIfFound: true
   });
 
+  // eslint-disable-next-line no-unused-vars
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     const body = {
-      username: event.currentTarget.username.value,
-      password: event.currentTarget.username.value
+      userName: event.currentTarget.username.value,
+      password: event.currentTarget.password.value
     };
 
     try {
-      await mutateUser(
-        fetchJson("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body)
-        })
+      const { isLoggedIn } = await mutateUser(
+        post("/api/login", body).catch((error) =>
+          setErrorMessage(error.response.message)
+        )
       );
+      if (isLoggedIn) {
+        dispatch(login(body.userName));
+      }
     } catch (error) {
-      setErrorMessage(error.data.message);
-      // setErrorMessage(error);
-    } finally {
-      dispatch(login(body.username));
+      setErrorMessage("Something went wrong");
     }
   }
   return (

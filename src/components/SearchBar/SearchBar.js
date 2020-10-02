@@ -12,7 +12,7 @@ const SearchBar = ({
   value,
   ...props
 }) => {
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const onClear = async () => {

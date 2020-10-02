@@ -12,7 +12,7 @@ import { deleteUserExperience, editUserExperience } from "store/actions";
 import { Icon } from "components";
 import styles from "./Card.module.scss";
 
-const Card = props => {
+const Card = (props) => {
   const {
     experienceId,
     description,
@@ -28,7 +28,7 @@ const Card = props => {
   } = props;
   const dispatch = useDispatch();
 
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
 
   const onEditCard = () => {
     onEdit(experienceId, title, description, years, months, published);

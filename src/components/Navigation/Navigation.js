@@ -27,7 +27,7 @@ const Navigation = ({ isOpen }) => {
 
   return (
     <div className={styles.navigation_bar} id="navi">
-      {routes.map(route => (
+      {routes.map((route) => (
         <Button.Navigation
           icon={route.icon}
           key={route.title}

@@ -44,7 +44,7 @@ const Select = ({ className, error, label, options, ...props }) => {
         {...props}
       >
         {options &&
-          options.map(option => (
+          options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

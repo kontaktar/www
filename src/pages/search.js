@@ -18,10 +18,10 @@ import {
 
 const Search = ({ searchInput }) => {
   const { isLoggedIn } = useAuth();
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const onSearch = async params => {
+  const onSearch = async (params) => {
     if (params && store.searches.inputs && store.searches.inputs[params]) {
       // Already in store, just update 'lastSearched'
       dispatch(updateLatestSearch(params));

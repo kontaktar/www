@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { GetServerSideProps } from "next";
 import { UserSessionStorage } from "types";
-// import { NextRouter, useRouter } from "next/router";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
 import { ProfileContainer, UserLayout } from "layouts";

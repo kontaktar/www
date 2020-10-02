@@ -24,6 +24,7 @@
     "plugin:cypress/recommended"
   ],
   "plugins": [
+    "react-hooks",
     "prettier",
     "unicorn",
     "jest",
@@ -205,6 +206,11 @@
     "unicorn/prevent-abbreviations": [
       "error",
       {
+        "replacements": {
+          "props": {
+            "properties": false
+          }
+        },
         "whitelist": {
           "req": true,
           "res": true,

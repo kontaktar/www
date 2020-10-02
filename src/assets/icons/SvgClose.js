@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgClose = props => (
+const SvgClose = (props) => (
   <svg
     width="16"
     height="16"

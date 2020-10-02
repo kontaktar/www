@@ -23,7 +23,7 @@ const ProfileContainer = ({ editMode, userName }) => {
 
   const [activeExperienceWidth, setActiveExperienceWidth] = useState(undefined);
 
-  const store = useSelector(state => state);
+  const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const ProfileContainer = ({ editMode, userName }) => {
         !store.users.isFetching
       ) {
         const [currentUserProfile] = Object.values(store.users).filter(
-          u => u && u.userName && u.userName === userName
+          (u) => u && u.userName && u.userName === userName
         );
 
         if (currentUserProfile) {
@@ -152,7 +152,7 @@ const ProfileContainer = ({ editMode, userName }) => {
     showModal(true);
   };
 
-  const showActiveExperienceOnTop = experience => {
+  const showActiveExperienceOnTop = (experience) => {
     setShowActiveSection(true);
     setActiveExperience(experience);
   };
@@ -268,7 +268,7 @@ const ProfileContainer = ({ editMode, userName }) => {
           ) : (
             <CardsContainer className={styles.cards}>
               {userExperiences &&
-                userExperiences.map(experience => {
+                userExperiences.map((experience) => {
                   return (
                     <Card
                       description={experience.description}

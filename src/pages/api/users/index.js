@@ -36,7 +36,7 @@ export default async (request, response) => {
           "SELECT u.id, u.user_name, u.first_name, u.last_name, u.email, u.website, u.phone_number, u.created_at, u.last_login, u.ssn, a.postal_code, a.street_name, a.city, a.country FROM users u LEFT JOIN addresses a ON a.user_id = u.id;"
         );
         response.status(200).json(
-          data.map(d => {
+          data.map((d) => {
             return {
               id: d.id,
               userName: d.user_name,
