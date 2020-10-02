@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { GetServerSideProps } from "next";
+import { UserSessionStorage } from "types";
 // import { NextRouter, useRouter } from "next/router";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
@@ -13,15 +14,9 @@ const Profile: FC = () => {
   );
 };
 
-// move this somewhere good
-interface UserSession {
-  login: string;
-  isLoggedIn: boolean;
-}
-
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ req, res }) => {
-    const user: UserSession = req && req.session?.get("user");
+    const user: UserSessionStorage = req && req.session?.get("user");
 
     if (user === undefined) {
       res.setHeader("location", "/login");
