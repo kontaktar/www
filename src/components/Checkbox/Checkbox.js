@@ -1,6 +1,6 @@
 import React from "react";
-import cx from "classnames";
 import PropTypes from "prop-types";
+import cx from "classnames";
 import styles from "./Checkbox.module.scss";
 
 const Checkbox = ({ id, label, error, checked, ...props }) => {

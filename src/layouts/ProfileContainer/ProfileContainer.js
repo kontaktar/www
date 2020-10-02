@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import orderBy from "lodash.orderby";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
+import { fetchUserExperiences, getUserByUserName } from "store/actions";
 import { Button, Card, Icon, Modal } from "components";
-import colors from "styles/colors.scss";
-import { fetchUserExperiences, getUserByUserName } from "../../store/actions";
-
+import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import styles from "./ProfileContainer.module.scss";
+import colors from "styles/colors.scss";
 
 const ProfileContainer = ({ editMode, userName }) => {
   const wrapperElement = useRef(null);
@@ -24,7 +23,7 @@ const ProfileContainer = ({ editMode, userName }) => {
 
   const [activeExperienceWidth, setActiveExperienceWidth] = useState(undefined);
 
-  const store = useSelector((state) => state);
+  const store = useSelector(state => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const ProfileContainer = ({ editMode, userName }) => {
         !store.users.isFetching
       ) {
         const [currentUserProfile] = Object.values(store.users).filter(
-          (u) => u && u.userName && u.userName === userName
+          u => u && u.userName && u.userName === userName
         );
 
         if (currentUserProfile) {
@@ -153,7 +152,7 @@ const ProfileContainer = ({ editMode, userName }) => {
     showModal(true);
   };
 
-  const showActiveExperienceOnTop = (experience) => {
+  const showActiveExperienceOnTop = experience => {
     setShowActiveSection(true);
     setActiveExperience(experience);
   };
@@ -269,7 +268,7 @@ const ProfileContainer = ({ editMode, userName }) => {
           ) : (
             <CardsContainer className={styles.cards}>
               {userExperiences &&
-                userExperiences.map((experience) => {
+                userExperiences.map(experience => {
                   return (
                     <Card
                       description={experience.description}
@@ -306,8 +305,10 @@ const ProfileContainer = ({ editMode, userName }) => {
 export default ProfileContainer;
 
 ProfileContainer.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  userName: PropTypes.string
 };
 ProfileContainer.defaultProps = {
-  className: ""
+  className: "",
+  userName: undefined
 };

@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { MainLayout, ProfileContainer, UserLayout } from "layouts";
-import { getUserByUserNameSuccess } from "src/store/actions";
-import { GetUserByUserName } from "src/pages/api/endpoints";
-import useAuth from "hooks/useAuth";
+import { getUserByUserNameSuccess } from "store/actions";
 import wrapper from "store/configureStore";
-import withSession from "../../lib/sessions";
+import withSession from "lib/sessions";
+import useAuth from "hooks/useAuth";
+import { GetUserByUserName } from "pages/api/endpoints";
+import { MainLayout, ProfileContainer, UserLayout } from "layouts";
 
 const UserProfile = ({ userName }) => {
   const { isLoggedIn } = useAuth();

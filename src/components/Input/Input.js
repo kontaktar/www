@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
-import cx from "classnames";
 import PropTypes from "prop-types";
+import cx from "classnames";
 import styles from "./Input.module.scss";
 
 // todo add clicker on hover

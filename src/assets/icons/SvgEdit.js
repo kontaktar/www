@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgEdit = (props) => (
+const SvgEdit = props => (
   <svg
     width="18"
     height="16"

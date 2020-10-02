@@ -1,7 +1,7 @@
 import React, { useContext, useReducer } from "react";
 import { useDispatch } from "react-redux";
-import { get } from "helpers/methods";
 import { login } from "store/actions";
+import { get } from "helpers/methods";
 
 const AuthContext = React.createContext({ status: "INITIAL" });
 

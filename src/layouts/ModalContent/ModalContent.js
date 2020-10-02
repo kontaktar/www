@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createUserExperience,
-  editUserExperience,
-  editUser
+  editUser,
+  editUserExperience
 } from "store/actions";
 import { Button, Checkbox, Input, Select, TextArea } from "components";
 import styles from "./ModalContent.module.scss";
@@ -14,7 +14,7 @@ import styles from "./ModalContent.module.scss";
 const Experience = ({ data }) => {
   const dispatch = useDispatch();
 
-  const store = useSelector((state) => state);
+  const store = useSelector(state => state);
   const [experience, setExperience] = useState(data);
   const [errorMessage, setErrorMessage] = useState("");
   const [timestamp, setTimestamp] = useState(undefined);
@@ -47,11 +47,11 @@ const Experience = ({ data }) => {
     }
   };
 
-  const togglePublishState = (published) => {
+  const togglePublishState = published => {
     setExperience({ ...experience, published });
   };
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setExperience({ ...experience, [event.target.name]: event.target.value });
   };
 
@@ -119,14 +119,14 @@ const UserInformation = ({ data }) => {
   const [timestamp, setTimestamp] = useState(undefined);
   const dispatch = useDispatch();
 
-  const store = useSelector((state) => state);
+  const store = useSelector(state => state);
 
   const saveUserInfo = () => {
     setTimestamp(new Date());
     dispatch(editUser(store.auth.user.id, userInfo));
   };
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setUserInfo({ ...userInfo, [event.target.name]: event.target.value });
   };
 

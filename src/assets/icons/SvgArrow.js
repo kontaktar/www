@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgArrow = (props) => (
+const SvgArrow = props => (
   <svg
     width="11"
     height="6"

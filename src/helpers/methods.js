@@ -3,7 +3,7 @@ import { getBaseUrl } from "helpers/url";
 export async function get(relativeUrl) {
   const url = `${getBaseUrl()}${relativeUrl}`;
   try {
-    const response = await fetch(url).catch((error) => {
+    const response = await fetch(url).catch(error => {
       throw new Error(error, url);
     });
     if (response.ok) {
@@ -24,7 +24,7 @@ export async function post(relativeUrl, body) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
-    }).catch((error) => {
+    }).catch(error => {
       throw new Error(error, url);
     });
     if (response.ok) {
@@ -46,7 +46,7 @@ export async function put(relativeUrl, body) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
-    }).catch((error) => {
+    }).catch(error => {
       throw new Error(error, url);
     });
     if (response.ok) {
@@ -67,7 +67,7 @@ export async function remove(relativeUrl, body) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
-    }).catch((error) => {
+    }).catch(error => {
       throw new Error(error, url);
     });
     if (response.ok) {

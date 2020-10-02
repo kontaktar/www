@@ -2,12 +2,12 @@ import { all, call, put, takeEvery } from "redux-saga/effects";
 import {
   createUserFailure,
   createUserSuccess,
-  editUserSuccess,
   editUserFailure,
-  getUserSuccess,
-  getUserFailure,
+  editUserSuccess,
+  getUserByUserNameFailure,
   getUserByUserNameSuccess,
-  getUserByUserNameFailure
+  getUserFailure,
+  getUserSuccess
 } from "store/actions";
 import * as actionTypes from "store/actionTypes";
 import {

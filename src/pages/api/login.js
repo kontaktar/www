@@ -1,5 +1,5 @@
+import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
-import withSession from "../../lib/sessions";
 
 const login = withSession(async (request, response) => {
   await withMiddleware(request, response);
@@ -24,7 +24,9 @@ const login = withSession(async (request, response) => {
     }
   } catch (error) {
     const { response: fetchResponse } = error;
-    res.status((fetchResponse && fetchResponse.status) || 500).json(error.data);
+    response
+      .status((fetchResponse && fetchResponse.status) || 500)
+      .json(error.data);
   }
 });
 export default login;

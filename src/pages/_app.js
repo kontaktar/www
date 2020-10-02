@@ -2,12 +2,11 @@
 import React from "react";
 // import App from "next/app";
 import Head from "next/head";
-// import { END } from "redux-saga";
 import { SWRConfig } from "swr";
-import { AuthProvider } from "src/hooks/useAuth";
+import wrapper from "store/configureStore";
+// import { END } from "redux-saga";
 import fetch from "lib/fetchJson";
-
-import wrapper from "../store/configureStore";
+import { AuthProvider } from "hooks/useAuth";
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps }) => {
@@ -24,7 +23,7 @@ const App = ({ Component, pageProps }) => {
       <SWRConfig
         value={{
           fetcher: fetch,
-          onError: (error) => {
+          onError: error => {
             console.error(error);
           }
         }}

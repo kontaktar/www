@@ -1,6 +1,5 @@
 import React from "react";
-
-import { MainLayout, LoginFormContainer } from "layouts";
+import { LoginFormContainer, MainLayout } from "layouts";
 
 const Login = () => {
   return (

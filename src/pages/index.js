@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
 import PropTypes from "prop-types";
-import { FrontPageContainer, MainLayout } from "layouts";
+import { useDispatch, useSelector } from "react-redux";
 import { getBaseUrl } from "helpers/url";
+import { FrontPageContainer, MainLayout } from "layouts";
 // import useMaxWidth from "src/hooks/useMaxWidth";
 import { fetchUserExperiences } from "../store/actions";
 
@@ -15,7 +14,7 @@ const LandingPage = () => {
   // dispatch(fetchUserExperiences("2"));
   // }, []);
 
-  const store = useSelector((state) => state);
+  const store = useSelector(state => state);
   console.log("store", store);
 
   return (

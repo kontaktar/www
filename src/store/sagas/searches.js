@@ -1,7 +1,7 @@
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import {
-  fetchSearchResultSuccess,
-  fetchSearchResultFailure
+  fetchSearchResultFailure,
+  fetchSearchResultSuccess
 } from "store/actions";
 import * as actionTypes from "store/actionTypes";
 import { GetSearchResult } from "../../pages/api/endpoints";

@@ -1,11 +1,11 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+import mockUserData from "data/all-users-mock";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import NukaCarousel from "nuka-carousel";
+import PropTypes from "prop-types";
 import { Button, Card } from "components";
-import mockUserData from "data/all-users-mock";
 import styles from "./Carousel.module.scss";
 
 export const breakPointSettings = [
@@ -37,13 +37,13 @@ const Carousel = ({ width }) => {
     if (windowSize !== width) {
       setWindowSize(width);
       setSlidesToShow(
-        (breakPointSettings.find((s) => width >= s.breakpoint) &&
-          breakPointSettings.find((s) => width >= s.breakpoint).slides) ||
+        (breakPointSettings.find(s => width >= s.breakpoint) &&
+          breakPointSettings.find(s => width >= s.breakpoint).slides) ||
           1
       );
       setCarouselSize(
-        (breakPointSettings.find((s) => width >= s.breakpoint) &&
-          breakPointSettings.find((s) => width >= s.breakpoint).breakpoint) ||
+        (breakPointSettings.find(s => width >= s.breakpoint) &&
+          breakPointSettings.find(s => width >= s.breakpoint).breakpoint) ||
           332
       );
     }

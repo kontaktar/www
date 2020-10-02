@@ -1,15 +1,15 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import SvgPluses from "assets/background/SvgPluses";
+import SvgSolidRing from "assets/background/SvgSolidRing";
+import screensizes from "data/screensizes";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useStore } from "react-redux";
 import { Button, Carousel, SearchBar } from "components";
 import { breakPointSettings } from "components/Carousel/Carousel";
-import SvgSolidRing from "assets/background/SvgSolidRing";
-import SvgPluses from "assets/background/SvgPluses";
-import screensizes from "data/screensizes";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./FrontPageContainer.module.scss";
 
@@ -26,17 +26,17 @@ const FrontPageContainer = () => {
   if (process.browser) {
     // client side only
     observer = React.useRef(
-      new ResizeObserver((entries) => {
+      new ResizeObserver(entries => {
         // Only care about the first element, we expect one element to be watched
         const { width } = entries[0].contentRect;
         console.log("obserce width", width);
         if (
-          breakPointSettings.find((s) => width >= s.breakpoint) &&
-          breakPointSettings.find((s) => width >= s.breakpoint).breakpoint !==
+          breakPointSettings.find(s => width >= s.breakpoint) &&
+          breakPointSettings.find(s => width >= s.breakpoint).breakpoint !==
             frameWidth
         ) {
           setFrameWidth(
-            breakPointSettings.find((s) => width >= s.breakpoint).breakpoint
+            breakPointSettings.find(s => width >= s.breakpoint).breakpoint
           );
         }
       })
@@ -53,10 +53,10 @@ const FrontPageContainer = () => {
     };
   }, [heroRef, observer]);
 
-  const onSearchBarInput = (event) => {
+  const onSearchBarInput = event => {
     setSearchInput(event.target.value);
   };
-  const onSearchBarSubmit = (event) => {
+  const onSearchBarSubmit = event => {
     if (event.key === "Enter") {
       setSearchInput(event.target.value);
       router.push({

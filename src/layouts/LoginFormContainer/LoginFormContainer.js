@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Link from "next/link";
 import PropTypes from "prop-types";
-import { Button, Input } from "components";
-import useMaxWidth from "hooks/useMaxWidth";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "store/actions";
+import useMaxWidth from "hooks/useMaxWidth";
+import { Button, Input } from "components";
 import fetchJson from "../../lib/fetchJson";
 import useUser from "../../lib/useUser";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = () => {
   const dispatch = useDispatch();
-  const store = useSelector((state) => state);
+  const store = useSelector(state => state);
 
   const { mutateUser } = useUser({
     redirectTo: "/profile",
@@ -38,7 +38,7 @@ const LoginFormContainer = () => {
       );
     } catch (error) {
       setErrorMessage(error.data.message);
-      setErrorMessage(error);
+      // setErrorMessage(error);
     } finally {
       dispatch(login(body.username));
     }

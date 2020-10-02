@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgClock = (props) => (
+const SvgClock = props => (
   <svg
     width="14"
     height="15"

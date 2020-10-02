@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgDelete = (props) => (
+const SvgDelete = props => (
   <svg
     width="14"
     height="16"

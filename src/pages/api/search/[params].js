@@ -24,7 +24,7 @@ export default async (request, response) => {
       `,
       [wordsRegex, wordsLike]
     );
-    const mappedData = data.map((card) => {
+    const mappedData = data.map(card => {
       return {
         userId: card.user_id,
         experienceId: card.experience_id,

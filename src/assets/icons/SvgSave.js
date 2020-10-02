@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React from "react";
 
-const SvgSave = (props) => (
+const SvgSave = props => (
   <svg
     width="14"
     height="14"

@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import PropTypes from "prop-types";
 import { TextField as MUITextField } from "@material-ui/core";
-
+import PropTypes from "prop-types";
 import styles from "./Select.module.scss";
 
 // const options = [
@@ -45,7 +44,7 @@ const Select = ({ className, error, label, options, ...props }) => {
         {...props}
       >
         {options &&
-          options.map((option) => (
+          options.map(option => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

@@ -6,7 +6,7 @@ const cors = Cors({
 
 function runMiddleware(request, response, fn) {
   return new Promise((resolve, reject) => {
-    fn(request, response, (result) => {
+    fn(request, response, result => {
       if (result instanceof Error) {
         return reject(result);
       }

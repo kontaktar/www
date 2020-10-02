@@ -2,14 +2,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import PropTypes from "prop-types";
 import { END } from "redux-saga";
-import { useDispatch, useSelector } from "react-redux";
-import { GetSearchResult } from "src/pages/api/endpoints";
-import { MainLayout, SearchContainer, UserLayout } from "layouts";
+import wrapper from "store/configureStore";
+import withSession from "lib/sessions";
 import useAuth from "hooks/useAuth";
-import withSession from "../lib/sessions";
-import wrapper from "../store/configureStore";
+import { GetSearchResult } from "pages/api/endpoints";
+import { MainLayout, SearchContainer, UserLayout } from "layouts";
 import {
   fetchSearchResult,
   fetchSearchResultSuccess,
@@ -18,10 +18,10 @@ import {
 
 const Search = ({ searchInput }) => {
   const { isLoggedIn } = useAuth();
-  const store = useSelector((state) => state);
+  const store = useSelector(state => state);
   const dispatch = useDispatch();
 
-  const onSearch = async (params) => {
+  const onSearch = async params => {
     if (params && store.searches.inputs && store.searches.inputs[params]) {
       // Already in store, just update 'lastSearched'
       dispatch(updateLatestSearch(params));

@@ -1,12 +1,11 @@
 import React, { useState } from "react";
+import Modal from "@material-ui/core/Modal";
+import screensizes from "data/screensizes";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import Modal from "@material-ui/core/Modal";
-import useMaxWidth from "hooks/useMaxWidth";
-import screensizes from "data/screensizes";
-
-import { Button, Logo } from "components";
 import useAuth from "hooks/useAuth";
+import useMaxWidth from "hooks/useMaxWidth";
+import { Button, Logo } from "components";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 

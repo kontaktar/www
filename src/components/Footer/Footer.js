@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { Icon, Logo } from "components";
 import useMaxWidth from "hooks/useMaxWidth";
+import { Icon, Logo } from "components";
 import styles from "./Footer.module.scss";
 
 const Footer = ({ className }) => {
