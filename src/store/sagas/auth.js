@@ -1,5 +1,4 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
-// import { login } from "utils/auth";
 import {
   getUserByUserNameSuccess,
   getUserByUserNameFailure,
@@ -14,7 +13,6 @@ function* loginUserByUserName(action) {
     const result = yield call(GetUserByUserName, action.payload.userName);
     yield put(getUserByUserNameSuccess(result));
     yield put(loginSuccess(result));
-    // yield login({ username: action.payload.userName });
   } catch (error) {
     yield put(getUserByUserNameFailure(error));
     yield put(loginFailure(error));

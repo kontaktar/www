@@ -7,15 +7,7 @@ const otherReducers = combineReducers(reducers);
 const rootReducer = (state = {}, action) => {
   switch (action.type) {
     case HYDRATE:
-      return {
-        ...state,
-        // ...action.payload
-        server: {
-          ...state.server,
-          ...action.payload.server
-        }
-      };
-
+      return state;
     default:
       return otherReducers(state, action);
   }

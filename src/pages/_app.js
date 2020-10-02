@@ -19,21 +19,21 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <>
-      <AuthProvider>
-        <SWRConfig
-          value={{
-            fetcher: fetch,
-            onError: (error) => {
-              console.error(error);
-            }
-          }}
-        >
-          <Head>
-            <title>Spez</title>
-          </Head>
+      <SWRConfig
+        value={{
+          fetcher: fetch,
+          onError: (error) => {
+            console.error(error);
+          }
+        }}
+      >
+        <Head>
+          <title>Spez</title>
+        </Head>
+        <AuthProvider>
           <Component {...pageProps} />
-        </SWRConfig>
-      </AuthProvider>
+        </AuthProvider>
+      </SWRConfig>
     </>
   );
 };

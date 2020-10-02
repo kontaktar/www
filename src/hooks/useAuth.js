@@ -1,8 +1,5 @@
-// todo split this up
-
 import React, { useContext, useReducer } from "react";
 import { useDispatch } from "react-redux";
-import { GetUserByUserName } from "src/pages/api/endpoints";
 import { get } from "helpers/methods";
 import { login } from "store/actions";
 
@@ -31,13 +28,6 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initial);
 
   const logout = async () => {
-    console.log("logout");
-    console.log("logout");
-    console.log("logout");
-    console.log("logout");
-    console.log("logout");
-    console.log("logout");
-    console.log("logout");
     await get("/api/logout");
     dispatch({
       type: "AUTH/UPDATE_LOGIN_STATUS",
@@ -51,8 +41,6 @@ export const AuthProvider = ({ children }) => {
   const getUserSessionData = async () => {
     const userSessionData = await get("/api/user");
     if (!state.isLoggedIn && userSessionData && userSessionData.isLoggedIn) {
-      const result = await GetUserByUserName(userSessionData.login);
-      console.log("result", result);
       dispatchToStore(login(userSessionData.login));
 
       dispatch({
@@ -67,8 +55,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   getUserSessionData();
-
-  // useEffect(() => {
 
   return (
     <AuthContext.Provider
