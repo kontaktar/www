@@ -11,7 +11,6 @@ const Register = () => {
   );
 };
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ req, res }) => {
     const user = req.session.get("user");

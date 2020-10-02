@@ -75,7 +75,6 @@ const Search = ({ searchInput }) => {
   );
 };
 
-// eslint-disable-next-line unicorn/prevent-abbreviations
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store, query: { searchInput = "" } }) => {
     const searchResult = await GetSearchResult(searchInput);

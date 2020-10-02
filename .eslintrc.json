@@ -15,28 +15,63 @@
     "plugin:jest/recommended",
     "plugin:cypress/recommended"
   ],
-  "plugins": ["prettier", "unicorn", "jest", "cypress"],
+  "plugins": [
+    "prettier",
+    "unicorn",
+    "jest",
+    "cypress"
+  ],
   "settings": {
     "import/resolver": {
       "babel-module": {}
     }
   },
   "rules": {
-    "prettier/prettier": ["error"],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "no-unused-vars": ["error", { "args": "none" }],
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "prettier/prettier": [
+      "error"
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "none"
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
-        "components": ["Link"],
-        "specialLink": ["route"],
-        "aspects": ["invalidHref", "preferButton"]
+        "components": [
+          "Link"
+        ],
+        "specialLink": [
+          "route"
+        ],
+        "aspects": [
+          "invalidHref",
+          "preferButton"
+        ]
       }
     ],
     "import/no-unresolved": "off",
     "class-methods-use-this": "off",
-    "comma-dangle": ["error", "never"],
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
     "_comment": "/* THE FOLLOWING RULES ARE A DUMP FROM ELSEWHERE, DISABLE WHEN NEEDED */",
     "import/extensions": [
       "error",
@@ -82,7 +117,9 @@
     "jest/lowercase-name": [
       "error",
       {
-        "ignore": ["describe"]
+        "ignore": [
+          "describe"
+        ]
       }
     ],
     "jest/no-jasmine-globals": "error",
@@ -96,9 +133,13 @@
     "jsx-a11y/label-has-for": [
       2,
       {
-        "components": ["Label"],
+        "components": [
+          "Label"
+        ],
         "required": {
-          "some": ["for"]
+          "some": [
+            "for"
+          ]
         },
         "allowChildren": true
       }
@@ -110,7 +151,10 @@
         "ignoreUrls": true
       }
     ],
-    "multiline-ternary": ["error", "always-multiline"],
+    "multiline-ternary": [
+      "error",
+      "always-multiline"
+    ],
     "no-console": "warn",
     "no-restricted-imports": [
       "error",
@@ -127,7 +171,9 @@
     "react/forbid-prop-types": [
       "error",
       {
-        "forbid": ["any"]
+        "forbid": [
+          "any"
+        ]
       }
     ],
     "react/jsx-curly-brace-presence": [
@@ -148,7 +194,9 @@
     "react/no-did-mount-set-state": "off",
     "react/no-unused-prop-types": "off",
     "react/no-unused-state": "error",
-    "react/prefer-stateless-function": ["off"],
+    "react/prefer-stateless-function": [
+      "off"
+    ],
     "unicorn/catch-error-name": "error",
     "unicorn/error-message": "error",
     "unicorn/no-abusive-eslint-disable": "error",
@@ -168,6 +216,7 @@
       "error",
       {
         "whitelist": {
+          "getServerSideProps": true,
           "getInitialProps": true,
           "initialProps": true,
           "props": true,
@@ -183,6 +232,6 @@
         }
       }
     ],
-    "unicorn/throw-new-error": "error"
+    "unicorn/throw-new-error": "error",
   }
 }
