@@ -38,7 +38,7 @@ Button.Edit = ({ type, className, ...props }) => {
   );
 };
 
-Button.Navigation = ({ compact = false, title, url, ...props }) => {
+Button.Navigation = ({ compact = false, title, url, icon, ...props }) => {
   return (
     <Link href={url}>
       <Button
@@ -48,7 +48,7 @@ Button.Navigation = ({ compact = false, title, url, ...props }) => {
         <Icon
           color={colors.black20}
           className={styles.navigation_icon}
-          name="user"
+          name={icon}
         />
         <p>{title}</p>
       </Button>
@@ -59,7 +59,7 @@ Button.Navigation = ({ compact = false, title, url, ...props }) => {
 Button.Search = () => {
   return (
     <Button>
-      <Icon className={styles.icon} name="search" />
+      <Icon className={styles.icon} name="search-large" />
     </Button>
   );
 };

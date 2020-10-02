@@ -61,8 +61,11 @@ const ProfileContainer = ({ editMode, userName }) => {
         const [currentUserProfile] = Object.values(store.users).filter(
           (u) => u && u.userName && u.userName === userName
         );
-        setUserProfile(currentUserProfile);
-        dispatch(fetchUserExperiences(currentUserProfile.id));
+
+        if (currentUserProfile) {
+          setUserProfile(currentUserProfile);
+          dispatch(fetchUserExperiences(currentUserProfile.id));
+        }
       }
     }
   }, [userName, store.users]);

@@ -1,27 +1,22 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import Modal from "@material-ui/core/Modal";
-// eslint-disable-next-line no-unused-vars
 import useMaxWidth from "hooks/useMaxWidth";
 import screensizes from "data/screensizes";
+
 import { Button, Logo } from "components";
 import useAuth from "hooks/useAuth";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 
-// TOOD:
 const Header = ({ className }) => {
   const { width } = useWindowDimensions();
   const { isLoggedIn, logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
 
   const mobileView = width < screensizes.tabletsPortrait;
-  // const openBurger = () => {
 
-  //   console.log("test");
-  // };
   return (
     <div {...useMaxWidth()}>
       <div className={`${styles.header} ${className}`}>
@@ -73,11 +68,7 @@ const Header = ({ className }) => {
                 </Button>
               </Link>
             ) : (
-              <Button
-                className={styles.login}
-                onClick={logout}
-                // modifier={["inverted"]}
-              >
+              <Button className={styles.login} onClick={logout}>
                 Útskrá
               </Button>
             )}

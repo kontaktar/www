@@ -1,20 +1,27 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
-import React from "react";
+import React, { useEffect } from "react";
 // import PropTypes from "prop-types";
+import { END } from "redux-saga";
 import { useDispatch, useSelector } from "react-redux";
+import { GetSearchResult } from "src/pages/api/endpoints";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
+import useAuth from "hooks/useAuth";
 import withSession from "../lib/sessions";
 import wrapper from "../store/configureStore";
-import { fetchSearchResult, updateLatestSearch } from "../store/actions";
+import {
+  fetchSearchResult,
+  fetchSearchResultSuccess,
+  updateLatestSearch
+} from "../store/actions";
 
-const Search = ({ searchInput, isLoggedIn }) => {
+const Search = ({ searchInput }) => {
+  const { isLoggedIn } = useAuth();
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const onSearch = async (params) => {
-    console.log("Store", store);
     if (params && store.searches.inputs && store.searches.inputs[params]) {
       // Already in store, just update 'lastSearched'
       dispatch(updateLatestSearch(params));
@@ -68,33 +75,17 @@ const Search = ({ searchInput, isLoggedIn }) => {
   );
 };
 
-// Search.getInitialProps = withSession(async (ctx) => {
-//   const {
-//     req,
-//     store,
-//     query: { searchInput = "" }
-//   } = ctx;
-//   await store.dispatch(fetchSearchResult(searchInput));
-
-//   return {
-//     isLoggedIn: req.session.get("user").isLoggedIn,
-//     searchInput,
-//     store
-//   };
-// });
-
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ store, req, res, query: { searchInput = "" } }) => {
-    const isLoggedIn = req.session.get("user")
-      ? req.session.get("user").isLoggedIn
-      : false;
-    // TODO: search is not being triggerd with queryParams
-    // TODO: this seems to be dispatched, then what?
-    store.dispatch(fetchSearchResult(searchInput));
+  withSession(async ({ store, query: { searchInput = "" } }) => {
+    const searchResult = await GetSearchResult(searchInput);
+    store.dispatch(updateLatestSearch(searchInput));
+    store.dispatch(
+      fetchSearchResultSuccess(searchInput, Object.values(searchResult))
+    );
 
     return {
-      props: { isLoggedIn, searchInput }
+      props: { searchInput }
     };
   })
 );

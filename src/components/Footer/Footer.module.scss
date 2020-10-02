@@ -1,12 +1,14 @@
 @import "../../styles/config";
 
+.root {
+  background-color: $secondary-black-color;
+}
+
 .footer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0 90px;
   flex-wrap: wrap;
-  background-color: $secondary-black-color;
   height: 135px;
   bottom: 0;
 

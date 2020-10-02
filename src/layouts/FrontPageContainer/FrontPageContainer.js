@@ -3,18 +3,21 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useStore } from "react-redux";
 import { Button, Carousel, SearchBar } from "components";
 import { breakPointSettings } from "components/Carousel/Carousel";
+import SvgSolidRing from "assets/background/SvgSolidRing";
+import SvgPluses from "assets/background/SvgPluses";
 import screensizes from "data/screensizes";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./FrontPageContainer.module.scss";
 
 const FrontPageContainer = () => {
   const heroRef = React.useRef(null);
+  const router = useRouter();
   const { width: windowWidth } = useWindowDimensions();
   const [searchInput, setSearchInput] = useState(undefined);
-  const [triggerSearch, setTriggerSearch] = useState(false);
   const [frameWidth, setFrameWidth] = useState(undefined);
 
   const store = useStore();
@@ -55,10 +58,12 @@ const FrontPageContainer = () => {
   };
   const onSearchBarSubmit = (event) => {
     if (event.key === "Enter") {
-      setTriggerSearch(true);
+      setSearchInput(event.target.value);
+      router.push({
+        pathname: "/search",
+        query: { searchInput }
+      });
     }
-    // eslint-disable-next-line react/destructuring-assignment
-    console.log(triggerSearch);
   };
 
   const onSearchSubmit = () => {
@@ -84,23 +89,33 @@ const FrontPageContainer = () => {
               onChange={onSearchBarInput}
               className={styles.search_bar}
               placeholder="Að hverju ertu að leita?"
+              value={searchInput}
               onKeyDown={onSearchBarSubmit}
+              onClearClicked={() => setSearchInput("")}
             />
-            {/* TODO: trigger link route onKeyDown === Enter */}
             <Link
               href={{
                 pathname: "/search",
                 query: { searchInput }
               }}
             >
-              <Button className={styles.search_button} onClick={onSearchSubmit}>
-                Leita
-              </Button>
+              <Button className={styles.search_button}>Leita</Button>
             </Link>
           </div>
         </div>
-        {/* <Carousel width={frameWidth} /> */}
+        <Carousel width={frameWidth} />
       </div>
+
+      <SvgSolidRing className={styles.solid_ring} />
+      <SvgSolidRing
+        className={styles.transparent_ring}
+        width="620"
+        height="950"
+        fill="#cfb59b"
+        fillOpacity="0.2"
+        rotate="45"
+      />
+      <SvgPluses className={styles.plusses} />
     </div>
   );
 };

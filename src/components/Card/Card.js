@@ -9,7 +9,7 @@ import MuiCard from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { Icon } from "components";
-import { editUserExperience } from "store/actions";
+import { editUserExperience, deleteUserExperience } from "store/actions";
 
 import styles from "./Card.module.scss";
 
@@ -49,7 +49,7 @@ const Card = (props) => {
   };
 
   const onDeleteCard = () => {
-    // do something
+    dispatch(deleteUserExperience(store.auth.user.id, experienceId));
   };
 
   const LinkToProfile = ({ children }) => {

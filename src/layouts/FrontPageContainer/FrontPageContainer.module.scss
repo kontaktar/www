@@ -1,9 +1,12 @@
 @import "../../styles/config";
 
 .frontpage {
-  height: 100%;
+  // height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
 .search_section {
@@ -46,7 +49,7 @@
 }
 
 .hero {
-  margin: auto;
+  // margin: auto;
   flex-grow: 1;
   height: 100%;
   padding: 0 90px;
@@ -61,4 +64,24 @@
 }
 .carousel_section {
   margin-top: 280px;
+}
+
+.solid_ring {
+  position: absolute;
+  z-index: -1;
+  right: -160px;
+}
+
+.transparent_ring {
+  position: absolute;
+  z-index: -2;
+  right: 69px;
+  top: 150px;
+}
+
+.plusses {
+  position: absolute;
+  z-index: -2;
+  right: 145px;
+  top: 475px;
 }
