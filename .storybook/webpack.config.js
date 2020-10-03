@@ -6,7 +6,7 @@ module.exports = ({ config }) => {
     extensions: [".ts", ".tsx", ".js"],
     plugins: [
       new TsconfigPathsPlugin({
-        configFile: path.resolve("./tsconfig.json"),
+        configFile: path.resolve("./.storybook/tsconfig.json"),
         logLevel: "info",
         extensions: [".ts", ".tsx", ".js"]
       })
@@ -32,7 +32,7 @@ module.exports = ({ config }) => {
       exclude: /^node_modules/,
       loader: "ts-loader",
       options: {
-        configFile: path.resolve("./tsconfig.json")
+        configFile: path.resolve("./.storybook/tsconfig.json")
       }
     }
   );

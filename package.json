@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "build": "next build && yarn storybook:build",
+    "build": "next build",
     "dev": "NODE_ENV=development next",
     "start": "next start -p 8000",
     "generate": "yarn hygen generator",
