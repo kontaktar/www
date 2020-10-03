@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import arrayMove from "array-move";
+import isEqual from "lodash.isequal";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import isEqual from "lodash.isequal";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
+import { editUserExperiences } from "store/actions";
 import { Card } from "components";
 import { CardsContainer } from "layouts";
-import { editUserExperiences } from "store/actions";
 import styles from "./DragableCardContainer.module.scss";
 
 const SortableItem = sortableElement(({ cardContent, handleEdit }) => {

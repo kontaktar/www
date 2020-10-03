@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-
-import { Button, Icon, Input } from "components";
 import { fetchSearchResult, updateLatestSearch } from "store/actions";
-
+import { Button, Icon, Input } from "components";
 import styles from "./SearchBar.module.scss";
 
 const SearchBar = ({

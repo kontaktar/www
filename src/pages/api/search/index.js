@@ -7,7 +7,15 @@ export default async (_request, response) => {
   try {
     const data = await database.any(
       `SELECT
-      e.id as experience_id, u.id as user_id, u.user_name, u.first_name, u.last_name, e.title, e.description, e.years, e.months
+      e.id as experience_id,
+      u.id as user_id,
+      u.user_name,
+      u.first_name,
+      u.last_name,
+      e.title,
+      e.description,
+      e.years,
+      e.months
     FROM experiences e
     LEFT JOIN users u ON e.user_id = u.id
     WHERE e.published IS TRUE;`

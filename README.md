@@ -114,3 +114,13 @@ and published.
   { type: 'FETCH_USERS_FAILURE', error: 'Failed' }
   { type: 'FETCH_USERS_SUCCESS', response: { ... } }
 ```
+
+### TODO
+
+Update Storybook to 6.0
+I disabled to storybook build for the feature branch `"build": "next build && yarn storybook:build"`
+Wasn't able to get it to build properly, next automatcly sets `"jsx": "preserve"` on every build and storybook wouldn't properly build typscript unless with `"jsx": "react"`.
+Putting a tsconfig in the `.storybook` folder that extends the root config didn't work eiter.
+
+Zero typescript config and other migrations notes:
+https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-typescript

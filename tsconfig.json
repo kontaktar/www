@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "target": "es5",
     "lib": [
       "dom",
@@ -10,7 +11,7 @@
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "noEmit": false,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -25,5 +26,43 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "paths": {
+    "assets": [
+      "assets"
+    ],
+    "components": [
+      "components"
+    ],
+    "data": [
+      "data"
+    ],
+    "helpers": [
+      "helpers"
+    ],
+    "hooks": [
+      "hooks"
+    ],
+    "layouts": [
+      "layouts"
+    ],
+    "lib": [
+      "lib"
+    ],
+    "pages": [
+      "pages"
+    ],
+    "store": [
+      "store"
+    ],
+    "styles": [
+      "styles"
+    ],
+    "types": [
+      "types"
+    ],
+    "utils": [
+      "utils"
+    ]
+  }
 }

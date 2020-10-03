@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createUserExperience,
-  editUserExperience,
-  editUser
+  editUser,
+  editUserExperience
 } from "store/actions";
 import { Button, Checkbox, Input, Select, TextArea } from "components";
 import styles from "./ModalContent.module.scss";

@@ -5,8 +5,9 @@ import styles from "./Logo.module.scss";
 const Logo = ({ className, inverted, withTitle }) => {
   return (
     <div
-      className={`${styles.logo_wrapper} ${inverted &&
-        styles.inverted} ${className}`}
+      className={`${styles.logo_wrapper} ${
+        inverted && styles.inverted
+      } ${className}`}
     >
       <div className={styles.logo}>
         <h1>K</h1>

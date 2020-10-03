@@ -1,17 +1,18 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
-import { boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
-import SubscriptionContainer from "./SubscriptionContainer";
+import { boolean, text } from "@storybook/addon-knobs";
+import { storiesOf } from "@storybook/react";
+
 import SubscriptionContainerReadme from "./README.md";
+import SubscriptionContainer from "./SubscriptionContainer";
 
 storiesOf("Layouts", module)
   .addParameters({
     jest: ["SubscriptionContainer.test"],
     readme: {
       sidebar: SubscriptionContainerReadme,
-      includePropTables: [SubscriptionContainer],
-    },
+      includePropTables: [SubscriptionContainer]
+    }
   })
   .add("SubscriptionContainer", () => (
     <SubscriptionContainer

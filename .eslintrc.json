@@ -7,7 +7,15 @@
     "jest": true,
     "node": true
   },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
   "extends": [
+    "eslint:recommended",
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "prettier",
@@ -16,17 +24,23 @@
     "plugin:cypress/recommended"
   ],
   "plugins": [
+    "react-hooks",
     "prettier",
     "unicorn",
     "jest",
-    "cypress"
+    "cypress",
+    "simple-import-sort"
   ],
   "settings": {
+    "react": {
+      "version": "detect"
+    },
     "import/resolver": {
       "babel-module": {}
     }
   },
   "rules": {
+    "react/react-in-jsx-scope": "off",
     "prettier/prettier": [
       "error"
     ],
@@ -35,7 +49,9 @@
       {
         "extensions": [
           ".js",
-          ".jsx"
+          ".jsx",
+          ".ts",
+          ".tsx"
         ]
       }
     ],
@@ -72,7 +88,6 @@
       "error",
       "never"
     ],
-    "_comment": "/* THE FOLLOWING RULES ARE A DUMP FROM ELSEWHERE, DISABLE WHEN NEEDED */",
     "import/extensions": [
       "error",
       "never",
@@ -82,19 +97,6 @@
         "json": "always",
         "png": "always",
         "svg": "always"
-      }
-    ],
-    "import/order": [
-      "error",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ]
       }
     ],
     "jest/consistent-test-it": [
@@ -130,25 +132,14 @@
     "jest/prefer-to-be-undefined": "error",
     "jest/require-tothrow-message": "error",
     "jest/valid-describe": "error",
-    "jsx-a11y/label-has-for": [
-      2,
-      {
-        "components": [
-          "Label"
-        ],
-        "required": {
-          "some": [
-            "for"
-          ]
-        },
-        "allowChildren": true
-      }
-    ],
     "max-len": [
       "warn",
       {
-        "code": 100,
-        "ignoreUrls": true
+        "code": 120,
+        "ignoreUrls": true,
+        "ignoreComments": true,
+        "ignoreTrailingComments": true,
+        "ignoreStrings": true
       }
     ],
     "multiline-ternary": [
@@ -215,7 +206,14 @@
     "unicorn/prevent-abbreviations": [
       "error",
       {
+        "replacements": {
+          "props": {
+            "properties": false
+          }
+        },
         "whitelist": {
+          "req": true,
+          "res": true,
           "getServerSideProps": true,
           "getInitialProps": true,
           "initialProps": true,
@@ -232,6 +230,69 @@
         }
       }
     ],
-    "unicorn/throw-new-error": "error"
-  }
+    "unicorn/throw-new-error": "error",
+    "import/order": "off",
+    "simple-import-sort/sort": [
+      "error",
+      {
+        "groups": [
+          [
+            "^react$",
+            "^redux$",
+            "^@?\\w",
+            "^next",
+            "^react",
+            "^redux",
+            "^classnames$",
+            "^swr",
+            "^\\u0000",
+            "^types",
+            "^store",
+            "^lib",
+            "^utils",
+            "^helpers",
+            "^hooks",
+            "^pages",
+            "^components",
+            "^layouts",
+            "^\\.\\.(?!/?$)",
+            "^\\.\\./?$",
+            "^styles\\/",
+            "^.+\\.s?css$"
+          ]
+        ]
+      }
+    ],
+    "react/button-has-type": "warn",
+    "react/self-closing-comp": "warn",
+    "spaced-comment": [
+      "error",
+      "always",
+      {
+        "markers": [
+          "/"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "extends": [
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "rules": {
+        "react/prop-types": "off",
+        "@typescript-eslint/indent": "off",
+        "@typescript-eslint/ban-ts-comment": 1,
+        "@typescript-eslint/explicit-member-accessibility": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
 }

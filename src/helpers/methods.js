@@ -17,6 +17,11 @@ export async function get(relativeUrl) {
 
 export async function post(relativeUrl, body) {
   const url = `${getBaseUrl()}${relativeUrl}`;
+
+  // TODO: Sync other methods to this one.
+  // This one works well and returns error messages properly
+  // error.response.message
+  // See the flow from LoginFormContainer > api/login
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -24,15 +29,17 @@ export async function post(relativeUrl, body) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
-    }).catch((error) => {
-      throw new Error(error, url);
-    });
+    }).then((res) => res.json());
     if (response.ok) {
-      return await response.json();
+      return response;
     }
-    const { error } = await response.json();
-    throw new Error(error);
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
   } catch (error) {
+    if (!error.data) {
+      error.data = { message: error.message };
+    }
     throw error;
   }
 }

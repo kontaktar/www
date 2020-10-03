@@ -24,9 +24,12 @@ module.exports = withPlugins([[withSass], [withFonts]], {
   webpack(config, { dev, isServer, webpack }) {
     if (dev) {
       config.module.rules.push({
-        test: /\.js$/,
+        test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
         loader: "eslint-loader"
+        // options: {
+        //   fix: true
+        // }
       });
     }
     config.plugins.push(new webpack.IgnorePlugin(/^pg-native$/));

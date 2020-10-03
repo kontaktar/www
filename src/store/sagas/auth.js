@@ -1,9 +1,9 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import {
-  getUserByUserNameSuccess,
   getUserByUserNameFailure,
-  loginSuccess,
-  loginFailure
+  getUserByUserNameSuccess,
+  loginFailure,
+  loginSuccess
 } from "store/actions";
 import * as actionTypes from "store/actionTypes";
 import { GetUserByUserName } from "../../pages/api/endpoints";

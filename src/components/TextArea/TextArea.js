@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import PropTypes from "prop-types";
 import { TextField as MUITextField } from "@material-ui/core";
+import PropTypes from "prop-types";
 import styles from "./TextArea.module.scss";
 
 const TextArea = ({ className, error, label, ...props }) => {

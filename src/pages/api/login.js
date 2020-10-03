@@ -1,30 +1,48 @@
+import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
-import withSession from "../../lib/sessions";
+
+const pgp = require("pg-promise");
+const bcrypt = require("bcrypt");
+const database = require("utils/database").instance;
 
 const login = withSession(async (request, response) => {
   await withMiddleware(request, response);
-  const { username } = await request.body;
-
-  // TODO: Need to validate if user actually exists
-
-  try {
-    const user = {
-      isLoggedIn: true,
-      login: username
-    };
-
-    console.log("setting to session: user", user);
-    request.session.set("user", user);
-
+  const { body, method } = request;
+  if (method === "POST") {
+    const { userName, password } = body;
     try {
-      await request.session.save();
-      response.json(user);
+      const data = await database.one(
+        "SELECT u.password FROM users u WHERE u.user_name=$1",
+        userName
+      );
+
+      const passwordMatches = await bcrypt.compare(password, data.password);
+      if (passwordMatches) {
+        // Add to sessionStorage
+        const user = {
+          isLoggedIn: true,
+          login: userName
+        };
+        request.session.set("user", user);
+
+        try {
+          await request.session.save();
+          response.json(user);
+        } catch (error) {
+          console.error("Failed to save session:", error);
+        }
+      } else {
+        response.status(404).json({ message: "Incorrect password" });
+      }
     } catch (error) {
-      console.error("Failed to save session:", error);
+      if (error instanceof pgp.errors.QueryResultError) {
+        response.status(404).json({ message: error.message });
+        throw new Error(error.message);
+      } else {
+        response.status(500).json({ message: error.message });
+        throw new Error("LOGIN USER 500: ", error);
+      }
     }
-  } catch (error) {
-    const { response: fetchResponse } = error;
-    res.status((fetchResponse && fetchResponse.status) || 500).json(error.data);
   }
 });
 export default login;

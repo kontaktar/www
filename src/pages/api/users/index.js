@@ -80,7 +80,9 @@ export default async (request, response) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     try {
-      const { id: userId } = await database.one(
+      const {
+        id: userId
+      } = await database.one(
         "INSERT INTO users(ssn, user_name, password, first_name, last_name, email, website, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
         [
           ssn,

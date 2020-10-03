@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
-import React, { Fragment, useState, useRef, useEffect } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import orderBy from "lodash.orderby";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
+import { fetchUserExperiences, getUserByUserName } from "store/actions";
 import { Button, Card, Icon, Modal } from "components";
-import colors from "styles/colors.scss";
-import { fetchUserExperiences, getUserByUserName } from "../../store/actions";
-
+import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import styles from "./ProfileContainer.module.scss";
+import colors from "styles/colors.scss";
 
 const ProfileContainer = ({ editMode, userName }) => {
   const wrapperElement = useRef(null);
@@ -306,8 +305,10 @@ const ProfileContainer = ({ editMode, userName }) => {
 export default ProfileContainer;
 
 ProfileContainer.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  userName: PropTypes.string
 };
 ProfileContainer.defaultProps = {
-  className: ""
+  className: "",
+  userName: undefined
 };

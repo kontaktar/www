@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { createUser } from "store/actions";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
-import { createUser } from "store/actions";
 import styles from "./RegisterContainer.module.scss";
 
 const RegisterContainer = () => {

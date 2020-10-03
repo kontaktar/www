@@ -1,16 +1,15 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
 import React from "react";
-import Link from "next/link";
-import cx from "classnames";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import MuiCard from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
+import PropTypes from "prop-types";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import cx from "classnames";
+import { deleteUserExperience, editUserExperience } from "store/actions";
 import { Icon } from "components";
-import { editUserExperience, deleteUserExperience } from "store/actions";
-
 import styles from "./Card.module.scss";
 
 const Card = (props) => {
@@ -29,6 +28,8 @@ const Card = (props) => {
   } = props;
   const dispatch = useDispatch();
 
+  // TODO: This, onEditCard, onPublishToggleCard, onDeleteCard doesn't belong in the component.
+  // Should be in a provider, this is breaking Storybook.
   const store = useSelector((state) => state);
 
   const onEditCard = () => {

@@ -3,8 +3,8 @@
 /* eslint-disable react/destructuring-assignment */
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Modal as MUIModal } from "@material-ui/core";
+import PropTypes from "prop-types";
 import { Button, Icon } from "components";
 import styles from "./Modal.module.scss";
 

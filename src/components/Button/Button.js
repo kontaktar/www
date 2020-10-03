@@ -5,12 +5,11 @@ import Link from "next/link";
 import cx from "classnames";
 // import { style } from "@material-ui/system";
 import { Icon } from "components";
-import colors from "styles/colors.scss";
 import styles from "./Button.module.scss";
+import colors from "styles/colors.scss";
 
 const Button = (props) => {
   const { children, className, disabled, onClick, modifier, type } = props;
-
   return (
     // eslint-disable-next-line react/button-has-type
     <button

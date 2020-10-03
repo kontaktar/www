@@ -1,17 +1,18 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
-import { boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
-import RegisterContainer from "./RegisterContainer";
+import { boolean, text } from "@storybook/addon-knobs";
+import { storiesOf } from "@storybook/react";
+
 import RegisterContainerReadme from "./README.md";
+import RegisterContainer from "./RegisterContainer";
 
 storiesOf("Layouts", module)
   .addParameters({
     jest: ["RegisterContainer.test"],
     readme: {
       sidebar: RegisterContainerReadme,
-      includePropTables: [RegisterContainer],
-    },
+      includePropTables: [RegisterContainer]
+    }
   })
   .add("RegisterContainer", () => (
     <RegisterContainer

@@ -1,17 +1,18 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
-import { boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
-import TextArea from "./TextArea";
+import { boolean, text } from "@storybook/addon-knobs";
+import { storiesOf } from "@storybook/react";
+
 import TextAreaReadme from "./README.md";
+import TextArea from "./TextArea";
 
 storiesOf("Components", module)
   .addParameters({
     jest: ["TextArea.test"],
     readme: {
       sidebar: TextAreaReadme,
-      includePropTables: [TextArea],
-    },
+      includePropTables: [TextArea]
+    }
   })
   .add("TextArea", () => (
     <TextArea

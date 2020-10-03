@@ -1,17 +1,18 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
-import { boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
-import Select from "./Select";
+import { boolean, text } from "@storybook/addon-knobs";
+import { storiesOf } from "@storybook/react";
+
 import SelectReadme from "./README.md";
+import Select from "./Select";
 
 storiesOf("Components", module)
   .addParameters({
     jest: ["Select.test"],
     readme: {
       sidebar: SelectReadme,
-      includePropTables: [Select],
-    },
+      includePropTables: [Select]
+    }
   })
   .add("Select", () => (
     <Select

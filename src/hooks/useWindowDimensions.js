@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-expressions */
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } =

@@ -2,14 +2,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import PropTypes from "prop-types";
 import { END } from "redux-saga";
-import { useDispatch, useSelector } from "react-redux";
-import { GetSearchResult } from "src/pages/api/endpoints";
+import wrapper from "store/configureStore";
+import withSession from "lib/sessions";
+import useAuth from "hooks/useAuth.tsx";
+import { GetSearchResult } from "pages/api/endpoints";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
-import useAuth from "hooks/useAuth";
-import withSession from "../lib/sessions";
-import wrapper from "../store/configureStore";
 import {
   fetchSearchResult,
   fetchSearchResultSuccess,

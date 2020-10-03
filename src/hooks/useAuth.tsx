@@ -1,13 +1,31 @@
-import React, { useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useDispatch } from "react-redux";
-import { get } from "helpers/methods";
 import { login } from "store/actions";
+import { get } from "helpers/methods";
 
-const AuthContext = React.createContext({ status: "INITIAL" });
+type AuthContextProps = {
+  status: string;
+  isLoggedIn: boolean;
+  logout?: () => void;
+};
 
-const initial = { status: "NOT_AUTHENTICATED " };
+type AuthReducerState = {
+  status: string;
+  isLoggedIn: boolean;
+};
 
-export const reducer = (state, action) => {
+type AuthReducerPayload = {
+  payload: AuthReducerState;
+  type: string;
+};
+
+const initialProps = { status: "INITIAL", isLoggedIn: false };
+const AuthContext = createContext<AuthContextProps>(initialProps);
+
+export const reducer = (
+  state: AuthReducerState,
+  action: AuthReducerPayload
+): AuthReducerState => {
   switch (action.type) {
     case "AUTH/UPDATE_LOGIN_STATUS":
       return {
@@ -22,17 +40,18 @@ export const reducer = (state, action) => {
 
 const useAuth = () => useContext(AuthContext);
 
-// eslint-disable-next-line react/prop-types
-export const AuthProvider = ({ children }) => {
+// This provider is meant to be a connection between the redux store and the session storage.
+
+export const AuthProvider = ({ children }: { children: React.ReactChild }) => {
   const dispatchToStore = useDispatch();
-  const [state, dispatch] = useReducer(reducer, initial);
+  const [state, dispatch] = useReducer(reducer, initialProps);
 
   const logout = async () => {
     await get("/api/logout");
     dispatch({
       type: "AUTH/UPDATE_LOGIN_STATUS",
-      status: "LOGGED_OUT",
       payload: {
+        status: "LOGGED_OUT",
         isLoggedIn: false
       }
     });
@@ -45,8 +64,8 @@ export const AuthProvider = ({ children }) => {
 
       dispatch({
         type: "AUTH/UPDATE_LOGIN_STATUS",
-        status: "FETCHED_FROM_SESSION",
         payload: {
+          status: "FETCHED_FROM_SESSION",
           isLoggedIn: userSessionData.isLoggedIn
         }
       });
@@ -54,7 +73,11 @@ export const AuthProvider = ({ children }) => {
     return userSessionData;
   };
 
-  getUserSessionData();
+  useEffect(() => {
+    if (!state.isLoggedIn) {
+      getUserSessionData();
+    }
+  }, [state.isLoggedIn]);
 
   return (
     <AuthContext.Provider

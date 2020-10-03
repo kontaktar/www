@@ -1,5 +1,4 @@
 import { withMiddleware } from "utils/apiMiddleware";
-
 import { removeEmpty } from "helpers/objects";
 
 const pgp = require("pg-promise");

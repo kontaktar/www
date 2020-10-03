@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import PropTypes from "prop-types";
 import { TextField as MUITextField } from "@material-ui/core";
-
+import PropTypes from "prop-types";
 import styles from "./Select.module.scss";
 
 // const options = [
@@ -35,7 +34,7 @@ const Select = ({ className, error, label, options, ...props }) => {
           {error || label}
         </span>
       )}
-      {label === "" && <div className={styles.hidden_label}></div>}
+      {label === "" && <div className={styles.hidden_label} />}
       <MUITextField
         id="selector"
         select

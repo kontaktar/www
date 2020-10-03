@@ -1,8 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-// import { action } from "@storybook/addon-actions";
-import SearchContainer from "./SearchContainer";
+
 import SearchContainerReadme from "./README.md";
+import SearchContainer from "./SearchContainer";
 
 storiesOf("Layouts", module)
   .addParameters({

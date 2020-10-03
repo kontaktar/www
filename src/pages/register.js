@@ -1,7 +1,7 @@
 import React from "react";
+import wrapper from "store/configureStore";
+import withSession from "lib/sessions";
 import { MainLayout, RegisterContainer } from "layouts";
-import wrapper from "../store/configureStore";
-import withSession from "../lib/sessions";
 
 const Register = () => {
   return (

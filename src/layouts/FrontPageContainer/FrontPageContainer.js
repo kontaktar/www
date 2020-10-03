@@ -1,15 +1,15 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
+import SvgPluses from "assets/background/SvgPluses";
+import SvgSolidRing from "assets/background/SvgSolidRing";
+import screensizes from "data/screensizes";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useStore } from "react-redux";
 import { Button, Carousel, SearchBar } from "components";
 import { breakPointSettings } from "components/Carousel/Carousel";
-import SvgSolidRing from "assets/background/SvgSolidRing";
-import SvgPluses from "assets/background/SvgPluses";
-import screensizes from "data/screensizes";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./FrontPageContainer.module.scss";
 

@@ -1,16 +1,15 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
-// import App from "next/app";
+import type { AppProps } from "next/app";
 import Head from "next/head";
-// import { END } from "redux-saga";
 import { SWRConfig } from "swr";
-import { AuthProvider } from "src/hooks/useAuth";
+import wrapper from "store/configureStore";
+// import { END } from "redux-saga";
 import fetch from "lib/fetchJson";
-
-import wrapper from "../store/configureStore";
+import { AuthProvider } from "hooks/useAuth";
 
 // eslint-disable-next-line react/prop-types
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps }: AppProps) => {
   // componentDidMount() {
   //   // Remove the server-side injected CSS. - MaterialUI
   //   const jssStyles = document.querySelector("#jss-server-side");
