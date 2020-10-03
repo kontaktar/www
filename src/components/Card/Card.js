@@ -28,6 +28,8 @@ const Card = (props) => {
   } = props;
   const dispatch = useDispatch();
 
+  // TODO: This, onEditCard, onPublishToggleCard, onDeleteCard doesn't belong in the component.
+  // Should be in a provider, this is breaking Storybook.
   const store = useSelector((state) => state);
 
   const onEditCard = () => {

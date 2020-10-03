@@ -18,7 +18,6 @@ storiesOf("Components", module)
     <Checkbox
       disabled={boolean("Disabled", false)}
       onClick={action("Checkbox-clicked")}
-    >
-      {text("Label", "This is a Checkbox")}
-    </Checkbox>
+      label={text("Label", "This is a Checkbox")}
+    />
   ));
