@@ -7,6 +7,7 @@
     "dev": "NODE_ENV=development next",
     "start": "next start -p 8000",
     "generate": "yarn hygen generator",
+    "new": "yarn hygen generator",
     "lint": "eslint . --ext .ts,.tsx,.js",
     "pre-push": "yarn lint",
     "test": "jest --json --outputFile=.jest-test-results.json",

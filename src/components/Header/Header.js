@@ -3,10 +3,9 @@ import Modal from "@material-ui/core/Modal";
 import screensizes from "data/screensizes";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import cx from "classnames";
 import useAuth from "hooks/useAuth.tsx";
 import useMaxWidth from "hooks/useMaxWidth";
-import { Button, Logo } from "components";
+import { Button, DropdownMenu, Logo } from "components";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 
@@ -14,6 +13,7 @@ const Header = ({ className }) => {
   const { width } = useWindowDimensions();
   const { isLoggedIn, logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
+  const [anchorElement, setAnchorElement] = React.useState(null);
 
   const mobileView = width < screensizes.tabletsPortrait;
   const tabletPortrait = width < screensizes.tabletsPortrait;
@@ -27,7 +27,18 @@ const Header = ({ className }) => {
         {mobileView ? (
           <>
             {!openBurger ? (
-              <Button.Hamburger onClick={() => setOpenBurger(false)} />
+              <>
+                <Button.Hamburger
+                  onClick={(event) => {
+                    setOpenBurger(false);
+                    setAnchorElement(event.currentTarget);
+                  }}
+                />
+                <DropdownMenu
+                  onClose={() => setAnchorElement(null)}
+                  anchorEl={anchorElement}
+                />
+              </>
             ) : (
               <Modal
                 open={openBurger}
@@ -47,10 +58,7 @@ const Header = ({ className }) => {
           <div role="navigation" className={styles.navigation}>
             {!tabletPortrait && (
               <Link href="/">
-                <Button
-                  className={cx(styles.tab, styles.tab_first)}
-                  modifier={["borderless"]}
-                >
+                <Button className={styles.tab} modifier={["borderless"]}>
                   Kontaktar
                 </Button>
               </Link>

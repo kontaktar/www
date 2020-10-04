@@ -1,25 +1,21 @@
 ---
-to: src/components/<%= name %>/<%= name %>.js
+to: src/components/<%= name %>/<%= name %>.tsx
 message: |
  - {green CREATED}: FUNCTIONAL COMPONENT @ src/components/<%= name %>/
 ---
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./<%= name %>.module.scss";
 
-const <%= name %> = () => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const <%= name %> = ({ children }: Props) => {
   return (
     <div className={styles.<%= name.toLowerCase() %>}>
-      <p><%= name %></p>
+      {children}
     </div>
   );
 };
 
 export default <%= name %>;
-
-<%= name %>.propTypes = {
-  className: PropTypes.string
-};
-<%= name %>.defaultProps = {
-  className: ""
-};
