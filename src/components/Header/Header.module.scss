@@ -1,12 +1,15 @@
 @import "../../styles/config";
-
+.root {
+  padding: 50px 90px;
+}
 .header {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
 
   background-color: $color-white;
-  padding: 50px 90px;
 
   * {
     font-family: "Berlingske Sans Bold";
@@ -42,4 +45,16 @@
 .modal_content {
   background: white;
   height: 100vh;
+}
+
+@media (max-width: $screen-tablet-portrait) {
+  .root {
+    padding: 50px 40px;
+  }
+}
+
+@media (max-width: $screen-wide-smartphone) {
+  .root {
+    padding: 30px 40px;
+  }
 }

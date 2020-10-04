@@ -21,7 +21,12 @@ $background-color: $color-white;
 
 $font-size-paragraph: 16px;
 
-$tablet-portrait: 768px;
+$screen-smartphone: 320px;
+$screen-wide-smartphone: 415px;
+$screen-tablet-portrait: 768px;
+$screen-tablet-landscape: 992px;
+$screen-desktop: 1024px;
+$screen-desktop-large: 120px;
 
 * {
   margin: 0;

@@ -1,6 +1,8 @@
 @import "../../styles/config";
 
 .form {
+  padding: 20px;
+  padding-bottom: 60px;
   > * {
     padding-bottom: 15px;
     margin-left: auto;
@@ -20,4 +22,11 @@
 .or {
   text-align: center;
   display: inline-block;
+}
+
+.error {
+  padding: 0;
+  margin-bottom: 24px;
+  height: 20px;
+  color: mediumblue;
 }

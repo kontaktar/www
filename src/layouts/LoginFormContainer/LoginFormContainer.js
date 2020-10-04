@@ -56,7 +56,7 @@ const LoginFormContainer = () => {
           {/* <p className={`error ${userData.error && "show"}`}>
             {userData.error && `Error: ${userData.error}`}
           </p> */}
-          <p>{errorMessage}</p>
+          <p className={styles.error}>{errorMessage}</p>
           <Button
             className={styles.button}
             type="submit"

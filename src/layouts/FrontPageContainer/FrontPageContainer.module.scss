@@ -16,9 +16,6 @@
     font-family: "Berlingske Serif";
     font-size: 48px;
     line-height: 58px;
-    .highlight {
-      color: $primary-color;
-    }
   }
   .search {
     display: flex;
@@ -51,14 +48,6 @@
   flex-grow: 1;
   height: 100%;
   padding: 0 90px;
-
-  @media (max-width: 560px) {
-    padding: 0 25px;
-    h1,
-    .highlight {
-      font-size: 40px;
-    }
-  }
 }
 .carousel_section {
   margin-top: 280px;
@@ -82,4 +71,48 @@
   z-index: -2;
   right: 145px;
   top: 475px;
+}
+
+.highlight {
+  color: $primary-color;
+  background: white;
+  border-radius: 48px;
+  padding-right: 18px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+@media (max-width: $screen-wide-smartphone) {
+  .search_section {
+    h1,
+    .highlight {
+      font-size: 36px;
+    }
+  }
+}
+@media (max-width: $screen-tablet-landscape) {
+  .highlight {
+    display: block;
+    background: unset;
+    padding: 0;
+  }
+}
+
+@media (max-width: $screen-tablet-portrait) {
+  .hero {
+    padding: 0 40px;
+  }
+  .solid_ring {
+    display: none;
+  }
+  .search_section {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: $screen-wide-smartphone) {
+  h1,
+  .highlight {
+    font-size: 32px;
+  }
 }

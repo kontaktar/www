@@ -80,6 +80,7 @@ const FrontPageContainer = () => {
             <span className={styles.highlight}>sérfræðingi</span> fyrir þitt
             fyrirtæki?
           </h1>
+
           <div
             className={`${styles.search} ${
               windowWidth < screensizes.tabletsLandscape ? styles.mobile : ""

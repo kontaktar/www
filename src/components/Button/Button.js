@@ -80,6 +80,16 @@ Button.CarouselNavi = ({ direction, className, ...props }) => {
   );
 };
 
+Button.Hamburger = (props) => {
+  return (
+    <Button className={styles.hamburger} {...props}>
+      <p />
+      <p />
+      <p />
+    </Button>
+  );
+};
+
 export default Button;
 
 Button.propTypes = {

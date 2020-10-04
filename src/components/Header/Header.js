@@ -3,6 +3,7 @@ import Modal from "@material-ui/core/Modal";
 import screensizes from "data/screensizes";
 import PropTypes from "prop-types";
 import Link from "next/link";
+import cx from "classnames";
 import useAuth from "hooks/useAuth.tsx";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Logo } from "components";
@@ -15,9 +16,10 @@ const Header = ({ className }) => {
   const [openBurger, setOpenBurger] = useState(false);
 
   const mobileView = width < screensizes.tabletsPortrait;
+  const tabletPortrait = width < screensizes.tabletsPortrait;
 
   return (
-    <div {...useMaxWidth()}>
+    <div className={styles.root} {...useMaxWidth()}>
       <div className={`${styles.header} ${className}`}>
         <div className={styles.logo_area}>
           {width < screensizes.default ? <Logo /> : <Logo withTitle />}
@@ -25,9 +27,7 @@ const Header = ({ className }) => {
         {mobileView ? (
           <>
             {!openBurger ? (
-              <Button onClick={() => setOpenBurger(true)}>
-                <p> closed menu </p>
-              </Button>
+              <Button.Hamburger onClick={() => setOpenBurger(false)} />
             ) : (
               <Modal
                 open={openBurger}
@@ -36,20 +36,25 @@ const Header = ({ className }) => {
                 aria-describedby="mobile-dropdown-menu"
               >
                 <div className={styles.modal_content}>
-                  <Button onClick={() => setOpenBurger(false)}>
-                    <p> open menu, todo </p>
-                  </Button>
+                  <Button.Hamburger onClick={() => setOpenBurger(false)}>
+                    <p> TODO: close menu </p>
+                  </Button.Hamburger>
                 </div>
               </Modal>
             )}
           </>
         ) : (
           <div role="navigation" className={styles.navigation}>
-            <Link href="/">
-              <Button className={styles.tab} modifier={["borderless"]}>
-                Kontaktar
-              </Button>
-            </Link>
+            {!tabletPortrait && (
+              <Link href="/">
+                <Button
+                  className={cx(styles.tab, styles.tab_first)}
+                  modifier={["borderless"]}
+                >
+                  Kontaktar
+                </Button>
+              </Link>
+            )}
             <Link href="/search">
               <Button className={styles.tab} modifier={["borderless"]}>
                 Leita

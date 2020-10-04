@@ -2,9 +2,10 @@
 
 .input_wrapper {
   position: relative;
-  padding: 25px 0;
+  // padding: 25px 0;
   .label {
-    margin-bottom: 23px;
+    // margin-bottom: 23px;
+    margin-bottom: 8px;
     display: block;
   }
   input {
@@ -16,7 +17,7 @@
     font-size: 16px;
     line-height: 144%;
 
-    padding-left: 50px;
+    padding-left: 20px;
     &::placeholder {
       color: $color-black-60;
       font-size: 32px;

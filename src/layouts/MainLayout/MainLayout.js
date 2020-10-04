@@ -7,13 +7,13 @@ import styles from "./MainLayout.module.scss";
 
 const MainLayout = ({ children }) => {
   return (
-    <>
+    <div className={styles.root}>
       <Header />
-      <div {...useMaxWidth()} className={styles.root}>
+      <div {...useMaxWidth()} className={styles.content}>
         <div className={styles.main_content}>{children}</div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

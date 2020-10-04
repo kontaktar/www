@@ -1,5 +1,7 @@
 export default {
   // this file is temporary, had some better setup on my home computer
+  smartphone: 320,
+  wideSmartphone: 415,
   tabletsPortrait: 768,
   tabletsLandscape: 992,
   default: 1024,
