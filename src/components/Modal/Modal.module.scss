@@ -32,13 +32,13 @@
 .button_clear {
   cursor: pointer;
   float: right;
-  margin-top: 25px;
+  top: 40px;
   width: 25px;
   height: 0px;
   border: none;
   color: white;
   position: absolute;
-  right: 25px;
+  right: 40px;
 
   &:hover,
   &:active {

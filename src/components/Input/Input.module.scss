@@ -2,10 +2,8 @@
 
 .input_wrapper {
   position: relative;
-  // padding: 25px 0;
   .label {
-    // margin-bottom: 23px;
-    margin-bottom: 8px;
+    margin-bottom: 20px;
     display: block;
   }
   input {
@@ -16,17 +14,18 @@
 
     font-size: 16px;
     line-height: 144%;
+    font-size: 16px;
 
-    padding-left: 20px;
+    text-indent: 20px;
     &::placeholder {
       color: $color-black-60;
-      font-size: 32px;
+      font-size: 16px;
     }
   }
   input,
   label {
     color: black;
-    font-size: 32px;
+    font-size: 16px;
   }
 }
 

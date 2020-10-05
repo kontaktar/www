@@ -10,7 +10,12 @@
     border: none;
     border-bottom: 1px solid black;
     padding-left: 50px;
+    font-size: 32px;
   }
+  input::placeholder {
+    font-size: 32px;
+  }
+
   .input_wrapper {
     position: initial;
     padding: 0px;

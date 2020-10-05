@@ -3,8 +3,12 @@
 .form {
   padding: 20px;
   padding-bottom: 60px;
+  > *:first-child {
+    padding-bottom: 50px;
+  }
   > * {
     padding-bottom: 15px;
+
     margin-left: auto;
     margin-right: auto;
     width: 100%;

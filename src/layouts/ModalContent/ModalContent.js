@@ -58,7 +58,7 @@ const Experience = ({ data }) => {
   return (
     <>
       <div className={styles.header}>
-        {isNew ? "Nýtt verkspjald" : "Verkspjald"}
+        {isNew ? "Nýtt verkspjald" : "Breyta verkspjaldi"}
       </div>
       <div className={styles.input_line}>
         <Input

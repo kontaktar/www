@@ -1,6 +1,7 @@
 @import "../../styles/config";
 
 .root {
+  overflow-x: hidden;
   height: 100vh;
   display: flex;
   flex-direction: column;
