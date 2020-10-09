@@ -16,6 +16,13 @@
       padding: 0;
       text-indent: 20px;
     }
+    .MuiInput-underline:before {
+      border-bottom: none;
+    }
+    .MuiSelect-icon {
+      right: 5px;
+      fill: $primary-color;
+    }
   }
 }
 

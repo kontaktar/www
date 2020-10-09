@@ -58,7 +58,10 @@ Select.YearsMonths = ({ name, ...props }) => {
   const COUNTER = name === "years" ? 80 : 12;
   const options = [];
   for (let i = 0; i <= COUNTER; i += 1) {
-    options.push({ value: i, label: i });
+    options.push({
+      value: i,
+      label: name === "years" ? `${i} ár` : `${i} mán`
+    });
   }
 
   return <Select options={options} name={name} {...props} />;
