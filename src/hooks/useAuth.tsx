@@ -66,8 +66,8 @@ export const AuthProvider = ({
 
   useEffect(() => {
     if (user && user?.isLoggedIn !== state?.isLoggedIn) {
-      console.log("uuuuuuuuuuu");
       if (user.isLoggedIn) {
+        // TODO: get rid of Auth the store
         dispatchToStore(login(user.login));
       } else if (!user.isLoggedIn) {
         dispatchToStore(logout());
