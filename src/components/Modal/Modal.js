@@ -5,11 +5,12 @@
 import React, { useEffect, useState } from "react";
 import { Modal as MUIModal } from "@material-ui/core";
 import PropTypes from "prop-types";
+import cx from "classnames";
 import { Button, Icon } from "components";
 import styles from "./Modal.module.scss";
 
 // eslint-disable-next-line react/prop-types
-const Modal = ({ children, height, open, onClose, width }) => {
+const Modal = ({ children, experience, userInformation, open, onClose }) => {
   return (
     <MUIModal
       aria-labelledby="simple-modal-title"
@@ -17,7 +18,12 @@ const Modal = ({ children, height, open, onClose, width }) => {
       open={open}
       onClose={onClose}
     >
-      <div className={styles.modal_content}>
+      <div
+        className={cx(styles.modal_content, {
+          [styles.experience]: experience,
+          [styles.user_information]: userInformation
+        })}
+      >
         <Button className={styles.button_clear} onClick={onClose}>
           <Icon className={styles.close_icon} name="close" onClick={onClose} />
         </Button>

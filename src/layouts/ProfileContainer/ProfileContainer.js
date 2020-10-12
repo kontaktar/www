@@ -290,6 +290,7 @@ const ProfileContainer = ({ editMode, userName }) => {
           <Modal
             open={openModal}
             onClose={onCloseModal}
+            {...modalType}
             // height="600px"
             // width="800px"
           >

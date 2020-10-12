@@ -4,6 +4,9 @@
   padding: 40px;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: scroll;
 }
 .header {
   padding-bottom: 10px;
@@ -27,8 +30,9 @@
   }
 }
 .input_line {
-  align-items: flex-end;
+  align-items: stretch;
   flex-direction: row;
+  flex-wrap: wrap;
   @media only screen and (max-width: 765px) {
     flex-direction: column;
   }
@@ -89,4 +93,8 @@
 
 .experience_timestamp {
   margin: auto;
+}
+
+.button_line {
+  margin: 32px 0;
 }
