@@ -10,7 +10,6 @@ function runMiddleware(request, response, fn) {
       if (result instanceof Error) {
         return reject(result);
       }
-
       return resolve(result);
     });
   });
@@ -19,4 +18,17 @@ function runMiddleware(request, response, fn) {
 // eslint-disable-next-line import/prefer-default-export
 export const withMiddleware = (request, response) => {
   runMiddleware(request, response, cors);
+};
+
+export const withUserAccess = (request, response) => {
+  if (request.session.get("user")?.id !== request.query.id) {
+    response.status(403).end("Forbidden");
+
+    // TODO: Hide on production
+    throw new Error(
+      `User ${request.body.id} doesn't have access to ${
+        request.session.get("user").id
+      }`
+    );
+  }
 };

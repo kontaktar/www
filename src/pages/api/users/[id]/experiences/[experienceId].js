@@ -1,3 +1,4 @@
+import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
 import { removeEmpty } from "helpers/objects";
 
@@ -6,7 +7,7 @@ const database = require("utils/database").instance;
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
-export default async (request, response) => {
+export default withSession(async (request, response) => {
   await withMiddleware(request, response);
   const {
     body,
@@ -94,4 +95,4 @@ export default async (request, response) => {
   } else {
     response.status(400).end();
   }
-};
+});

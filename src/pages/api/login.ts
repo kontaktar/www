@@ -1,10 +1,11 @@
+import bcrypt from "bcrypt";
+import pgp from "pg-promise";
+import { UserSessionStorage } from "types";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
+import db from "utils/database";
 
-const pgp = require("pg-promise");
-const bcrypt = require("bcrypt");
-const database = require("utils/database").instance;
-
+const database = db.instance;
 const login = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body, method } = request;
@@ -12,14 +13,14 @@ const login = withSession(async (request, response) => {
     const { userName, password } = body;
     try {
       const data = await database.one(
-        "SELECT u.password FROM users u WHERE u.user_name=$1",
+        "SELECT u.id, u.password FROM users u WHERE u.user_name=$1",
         userName
       );
-
       const passwordMatches = await bcrypt.compare(password, data.password);
       if (passwordMatches) {
         // Add to sessionStorage
-        const user = {
+        const user: UserSessionStorage = {
+          id: data.id,
           isLoggedIn: true,
           login: userName
         };
@@ -40,7 +41,7 @@ const login = withSession(async (request, response) => {
         throw new Error(error.message);
       } else {
         response.status(500).json({ message: error.message });
-        throw new Error("LOGIN USER 500: ", error);
+        throw new Error(`LOGIN USER 500: ${error}`);
       }
     }
   }

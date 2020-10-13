@@ -1,7 +1,9 @@
+// eslint-disable-next-line import/extensions
 import { withMiddleware } from "utils/apiMiddleware";
 
 const database = require("utils/database").instance;
 
+// I'm pretty sure this is not being used anywhere.
 export default async (request, response) => {
   await withMiddleware(request, response);
   const { method } = request;
