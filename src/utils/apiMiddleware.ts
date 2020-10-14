@@ -21,14 +21,19 @@ export const withMiddleware = (request, response) => {
 };
 
 export const withUserAccess = (request, response) => {
-  if (request.session.get("user")?.id !== request.query.id) {
+  if (
+    request.session.get("user")?.id.toString() !== request.query.id.toString()
+  ) {
     response.status(403).end("Forbidden");
 
-    // TODO: Hide on production
-    throw new Error(
-      `User ${request.body.id} doesn't have access to ${
-        request.session.get("user").id
-      }`
-    );
+    if (request.session.get("user") === undefined) {
+      throw new Error(`User is not logged in`);
+    } else {
+      throw new Error(
+        `User ${request.body.id} doesn't have access to ${
+          request.session.get("user").id
+        }`
+      );
+    }
   }
 };

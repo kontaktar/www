@@ -1,9 +1,8 @@
 import pgp from "pg-promise";
 import withSession from "lib/sessions";
 import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
-import db from "utils/database";
+import database from "utils/database";
 
-const database = db.instance;
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
 export default withSession(async (request, response) => {
@@ -28,7 +27,7 @@ export default withSession(async (request, response) => {
 
   if (method === "GET") {
     try {
-      let get;
+      let get: Experiences;
       if (session.get("user")?.id === parseInt(userId, 2)) {
         get = await database.any(
           "SELECT e.id, e.title, e.description, e.years, e.months, e.published, e.order FROM experiences e WHERE e.user_id = $1",

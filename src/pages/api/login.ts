@@ -1,12 +1,11 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import pgp from "pg-promise";
 import { UserSessionStorage } from "types";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
-import db from "utils/database";
+import database from "utils/database";
 
-const database = db.instance;
-const login = withSession(async (request, response) => {
+const Login = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body, method } = request;
   if (method === "POST") {
@@ -46,4 +45,4 @@ const login = withSession(async (request, response) => {
     }
   }
 });
-export default login;
+export default Login;

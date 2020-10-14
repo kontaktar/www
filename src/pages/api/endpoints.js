@@ -6,11 +6,6 @@ export async function GetExperiencesByUserId(userId) {
   return get(`/api/users/${userId}/experiences`);
 }
 
-// TODO: TEST - probably won't need this.
-export async function GetExperienceByUserId(userId, experienceId) {
-  return get(`/api/users/${userId}/experiences/${experienceId}`);
-}
-
 export async function GetSearchResult(input = "") {
   return input === "" ? get(`/api/search`) : get(`/api/search/${input}`);
 }

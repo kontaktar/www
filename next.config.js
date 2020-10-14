@@ -34,11 +34,11 @@ module.exports = withPlugins([[withSass], [withFonts]], {
     }
     config.plugins.push(new webpack.IgnorePlugin(/^pg-native$/));
     return config;
-  },
-  // I dont think this is doing anything. I thought fetch was adding trailing slash.
-  async exportPathMap() {
-    return {
-      "/api/users/": { page: "/api/user" }
-    };
   }
+  // I dont think this is doing anything. I thought fetch was adding trailing slash.
+  // async exportPathMap() {
+  //   return {
+  //     "/api/users/": { page: "/api/user" }
+  //   };
+  // }
 });
