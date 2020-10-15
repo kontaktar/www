@@ -1,11 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 import { GetServerSideProps } from "next";
 import { UserSessionStorage } from "types";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
 import { ProfileContainer, UserLayout } from "layouts";
 
-const Profile: FC = () => {
+const Profile = (): JSX.Element => {
   return (
     <UserLayout>
       <ProfileContainer editMode />
@@ -15,7 +15,7 @@ const Profile: FC = () => {
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ req, res }) => {
-    const user: UserSessionStorage = req && req.session?.get("user");
+    const user: UserSessionStorage = req?.session?.get("user");
 
     if (user === undefined) {
       res.setHeader("location", "/login");

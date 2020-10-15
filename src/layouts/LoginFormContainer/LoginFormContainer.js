@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
+import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "store/actions";
-import useUser from "lib/useUser";
 import { post } from "helpers/methods";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
@@ -13,12 +14,6 @@ const LoginFormContainer = () => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state);
 
-  const { mutateUser } = useUser({
-    redirectTo: "/profile",
-    redirectIfFound: true
-  });
-
-  // eslint-disable-next-line no-unused-vars
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(event) {
@@ -30,16 +25,14 @@ const LoginFormContainer = () => {
     };
 
     try {
-      const { isLoggedIn } = await mutateUser(
-        post("/api/login", body).catch((error) =>
-          setErrorMessage(error.response.message)
-        )
-      );
-      if (isLoggedIn) {
-        dispatch(login(body.userName));
-      }
+      await post("/api/login", body).then(({ isLoggedIn }) => {
+        if (isLoggedIn) {
+          dispatch(login(body.userName)); // Get rid of auth store.
+          Router.push("/profile");
+        }
+      });
     } catch (error) {
-      setErrorMessage("Something went wrong");
+      setErrorMessage(`Something went wrong. ${error}`);
     }
   }
   return (
@@ -53,9 +46,6 @@ const LoginFormContainer = () => {
             name="username"
           />
           <Input type="text" id="password" label="Lykilorð" name="password" />
-          {/* <p className={`error ${userData.error && "show"}`}>
-            {userData.error && `Error: ${userData.error}`}
-          </p> */}
           <p className={styles.error}>{errorMessage}</p>
           <Button
             className={styles.button}

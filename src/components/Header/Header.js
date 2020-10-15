@@ -66,7 +66,7 @@ const Header = ({ className }) => {
               </Button>
             </Link>
           ) : (
-            <Button className={styles.login} onClick={logout}>
+            <Button className={styles.login} onClick={() => logout()}>
               Útskrá
             </Button>
           )}

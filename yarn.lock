@@ -11230,10 +11230,10 @@ next-fonts@^0.19.0:
     file-loader "^2.0.0"
     url-loader "^1.1.1"
 
-next-iron-session@^4.1.7:
-  version "4.1.8"
-  resolved "https://registry.yarnpkg.com/next-iron-session/-/next-iron-session-4.1.8.tgz#7e847b0173c9cb256885f962502debb8cbfda677"
-  integrity sha512-L/kDZtKv/cHeeh0Jh12rFLjmyaGxvt0ACSaw/g83MEQ+IRyV9jfQhryYULBvH/LqWki8dTwB6qQeR653oC+vqw==
+next-iron-session@^4.1.9:
+  version "4.1.9"
+  resolved "https://registry.yarnpkg.com/next-iron-session/-/next-iron-session-4.1.9.tgz#6175dade1f6294236604e39bd78115670e5023b7"
+  integrity sha512-8AmKWSDXEHc35364zY4y4H0xWLA3f7pqFGBubiuDunxvh159am7sonMoFDPJ7y38UQ8Qa1AHrKMM8qgTGeuhjg==
   dependencies:
     clone "^2.1.2"
     cookie "^0.4.1"

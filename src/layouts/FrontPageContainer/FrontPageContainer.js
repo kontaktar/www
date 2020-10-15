@@ -25,6 +25,7 @@ const FrontPageContainer = () => {
   let observer;
   if (process.browser) {
     // client side only
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     observer = React.useRef(
       new ResizeObserver((entries) => {
         // Only care about the first element, we expect one element to be watched
