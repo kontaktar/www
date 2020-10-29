@@ -42,10 +42,17 @@ const LoginFormContainer = () => {
           <Input
             type="text"
             id="username"
-            label="Notendanafn"
+            // label="Notendanafn"
             name="username"
+            placeholder="Notendanafn"
           />
-          <Input type="text" id="password" label="Lykilorð" name="password" />
+          <Input
+            type="password"
+            id="password"
+            // label="Lykilorð"
+            name="password"
+            placeholder="Lykilorð"
+          />
           <p className={styles.error}>{errorMessage}</p>
           <Button
             className={styles.button}
@@ -54,10 +61,12 @@ const LoginFormContainer = () => {
           >
             Innskrá
           </Button>
-          <span className={styles.or}>--- eða ---</span>
+          <span className={styles.or}>~ eða ~</span>
+
           <Link href="/register" as="/register">
             <Button className={styles.button}>Stofna aðgang</Button>
           </Link>
+
           {store.auth && store.auth.error && <p>Error {store.auth.error}</p>}
         </form>
       </div>

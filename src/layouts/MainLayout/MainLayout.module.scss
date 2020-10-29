@@ -13,9 +13,9 @@
   flex-grow: 1;
 
   .main_content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    display: grid;
+    place-items: center;
+    height: 100%;
     padding: 0px 100px;
   }
 }
