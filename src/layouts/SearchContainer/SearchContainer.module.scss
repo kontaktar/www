@@ -1,16 +1,8 @@
 .root {
   display: flex;
   flex-direction: column;
-  // max-width: 960px;
   padding-top: 80px;
-
-  // @media (max-width: 960px) {
-  //   width: 640px;
-  // }
-
-  // @media (max-width: 710px) {
-  //   width: 90%;
-  // }
+  width: 100%;
 
   .search_bar {
     height: 120px;
