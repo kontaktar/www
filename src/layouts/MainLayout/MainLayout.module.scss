@@ -16,6 +16,12 @@
     display: grid;
     place-items: center;
     height: 100%;
-    padding: 0px 100px;
+    padding: 0px 96px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .main_content {
+    padding: 0px 0px !important;
   }
 }

@@ -82,6 +82,9 @@
   padding-bottom: 8px;
 }
 
+.carousel {
+  place-items: center;
+}
 @media (max-width: $screen-wide-smartphone) {
   .search_section {
     h1,

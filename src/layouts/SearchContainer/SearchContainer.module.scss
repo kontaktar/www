@@ -1,10 +1,17 @@
-.root {
-  display: flex;
-  flex-direction: column;
-  padding-top: 80px;
-  width: 100%;
+@import "../../styles/config";
 
+.search_container_root {
+  display: inline-block;
+  place-self: stretch;
+  padding-top: 80px;
+}
+.search_bar {
+  height: 120px;
+  padding: 0 96px;
+}
+
+@media (max-width: $screen-tablet-portrait) {
   .search_bar {
-    height: 120px;
+    padding: 0 20px;
   }
 }

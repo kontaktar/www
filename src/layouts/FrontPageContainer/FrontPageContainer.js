@@ -30,14 +30,15 @@ const FrontPageContainer = () => {
       new ResizeObserver((entries) => {
         // Only care about the first element, we expect one element to be watched
         const { width } = entries[0].contentRect;
-        console.log("obserce width", width);
+        const padding = 96;
         if (
-          breakPointSettings.find((s) => width >= s.breakpoint) &&
-          breakPointSettings.find((s) => width >= s.breakpoint).breakpoint !==
-            frameWidth
+          breakPointSettings.find((s) => width + padding >= s.breakpoint) &&
+          breakPointSettings.find((s) => width + padding >= s.breakpoint)
+            .breakpoint !== frameWidth
         ) {
           setFrameWidth(
-            breakPointSettings.find((s) => width >= s.breakpoint).breakpoint
+            breakPointSettings.find((s) => width + padding >= s.breakpoint)
+              .breakpoint
           );
         }
       })
@@ -105,7 +106,7 @@ const FrontPageContainer = () => {
             </Link>
           </div>
         </div>
-        <Carousel width={frameWidth} />
+        <Carousel className={styles.carousel} width={frameWidth} />
       </div>
 
       <SvgSolidRing className={styles.solid_ring} />
