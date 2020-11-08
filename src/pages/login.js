@@ -3,7 +3,7 @@ import { LoginFormContainer, MainLayout } from "layouts";
 
 const Login = () => {
   return (
-    <MainLayout>
+    <MainLayout noDistraction>
       <LoginFormContainer />
     </MainLayout>
   );

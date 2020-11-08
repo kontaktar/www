@@ -8,8 +8,14 @@ import { Icon } from "components";
 import styles from "./Button.module.scss";
 import colors from "styles/colors.scss";
 
-const Button = (props) => {
-  const { children, className, disabled, onClick, modifier, type } = props;
+const Button = ({
+  children,
+  className = "",
+  disabled,
+  onClick,
+  modifier,
+  type
+}) => {
   return (
     // eslint-disable-next-line react/button-has-type
     <button

@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Link from "next/link";
 import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +8,7 @@ import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
 import styles from "./LoginFormContainer.module.scss";
 
-const LoginFormContainer = () => {
+const LoginFormContainer = (): JSX.Element => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state);
 
@@ -42,29 +40,27 @@ const LoginFormContainer = () => {
           <Input
             type="text"
             id="username"
-            // label="Notendanafn"
             name="username"
             placeholder="Notendanafn"
           />
           <Input
             type="password"
             id="password"
-            // label="Lykilorð"
             name="password"
             placeholder="Lykilorð"
           />
           <p className={styles.error}>{errorMessage}</p>
-          <Button
-            className={styles.button}
-            type="submit"
-            modifier={["inverted"]}
-          >
+          <Button className={styles.button} type="submit">
             Innskrá
           </Button>
-          <span className={styles.or}>~ eða ~</span>
+          <span className={styles.or}>
+            <span>eða</span>
+          </span>
 
           <Link href="/register" as="/register">
-            <Button className={styles.button}>Stofna aðgang</Button>
+            <Button className={styles.button} modifier={["inverted"]}>
+              Stofna aðgang
+            </Button>
           </Link>
 
           {store.auth && store.auth.error && <p>Error {store.auth.error}</p>}
@@ -75,10 +71,3 @@ const LoginFormContainer = () => {
 };
 
 export default LoginFormContainer;
-
-LoginFormContainer.propTypes = {
-  className: PropTypes.string
-};
-LoginFormContainer.defaultProps = {
-  className: ""
-};
