@@ -7,6 +7,10 @@
       border: 1px solid $color-grey-30;
     }
 
+    .MuiInputBase-input {
+      font-size: 16px;
+      line-height: 23px;
+    }
     /* Override MUI focus */
     .MuiInputBase-input:focus {
       outline: 4px auto rgba(0, 103, 244, 0.247) !important;
@@ -24,13 +28,14 @@
       padding: 0px;
     }
     .MuiInputBase-inputMultiline {
-      padding: 10px;
+      padding: 20px;
+      height: 150px;
     }
   }
 }
 
 .label {
   display: block;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   color: black;
 }

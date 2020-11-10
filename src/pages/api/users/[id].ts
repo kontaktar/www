@@ -1,12 +1,12 @@
-import { withMiddleware } from "utils/apiMiddleware";
+import pgp from "pg-promise";
+import withSession from "lib/sessions";
+import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import database from "utils/database";
 import { removeEmpty } from "helpers/objects";
-
-const pgp = require("pg-promise");
-const database = require("utils/database").instance;
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
-export default async (request, response) => {
+const UserById = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const {
     body,
@@ -40,6 +40,8 @@ export default async (request, response) => {
     }
   }
   if (method === "DELETE") {
+    withUserAccess(request, response);
+
     try {
       await database.one(
         "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
@@ -52,15 +54,15 @@ export default async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
-        throw new Error("DELETE USER 404: ", error);
+        throw new Error(`DELETE USER 404: ${error}`);
       } else {
         response.status(500).end();
-        throw new Error("DELETE USER 500: ", error);
+        throw new Error(`DELETE USER 500:  ${error}`);
       }
     }
   }
   if (method === "PUT") {
-    // I wish this was typescript
+    withUserAccess(request, response);
     const {
       ssn = null,
       userName: user_name = null,
@@ -75,7 +77,7 @@ export default async (request, response) => {
       country = null
     } = body;
 
-    const userVariables = {
+    const userVariablesToUpdate = removeEmpty({
       ssn,
       user_name,
       first_name,
@@ -83,17 +85,13 @@ export default async (request, response) => {
       email,
       website,
       phone_number
-    };
-
-    const addressVariables = {
+    });
+    const addressVariablesToUpdate = removeEmpty({
       postal_code,
       street_name,
       city,
       country
-    };
-
-    const userVariablesToUpdate = removeEmpty(userVariables);
-    const addressVariablesToUpdate = removeEmpty(addressVariables);
+    });
 
     try {
       const userQuery = pgpHelpers.update(userVariablesToUpdate, null, "users");
@@ -114,13 +112,15 @@ export default async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
-        throw new Error("UPDATE USER 404: ", error);
+        throw new Error(`UPDATE USER 404: ${error}`);
       } else {
         response.status(500).end();
-        throw new Error("UPDATE USER 500: ", error);
+        throw new Error(`UPDATE USER 500: ${error}`);
       }
     }
   } else {
     response.status(400).end();
   }
-};
+});
+
+export default UserById;

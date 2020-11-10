@@ -1,24 +1,17 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Link from "next/link";
+import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "store/actions";
-import useUser from "lib/useUser";
 import { post } from "helpers/methods";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
 import styles from "./LoginFormContainer.module.scss";
 
-const LoginFormContainer = () => {
+const LoginFormContainer = (): React.ReactElement => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state);
 
-  const { mutateUser } = useUser({
-    redirectTo: "/profile",
-    redirectIfFound: true
-  });
-
-  // eslint-disable-next-line no-unused-vars
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(event) {
@@ -30,16 +23,14 @@ const LoginFormContainer = () => {
     };
 
     try {
-      const { isLoggedIn } = await mutateUser(
-        post("/api/login", body).catch((error) =>
-          setErrorMessage(error.response.message)
-        )
-      );
-      if (isLoggedIn) {
-        dispatch(login(body.userName));
-      }
+      await post("/api/login", body).then(({ isLoggedIn }) => {
+        if (isLoggedIn) {
+          dispatch(login(body.userName)); // Get rid of auth store.
+          Router.push("/profile");
+        }
+      });
     } catch (error) {
-      setErrorMessage("Something went wrong");
+      setErrorMessage(`Something went wrong. ${error}`);
     }
   }
   return (
@@ -49,25 +40,29 @@ const LoginFormContainer = () => {
           <Input
             type="text"
             id="username"
-            label="Notendanafn"
             name="username"
+            placeholder="Notendanafn"
           />
-          <Input type="text" id="password" label="Lykilorð" name="password" />
-          {/* <p className={`error ${userData.error && "show"}`}>
-            {userData.error && `Error: ${userData.error}`}
-          </p> */}
+          <Input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Lykilorð"
+          />
           <p className={styles.error}>{errorMessage}</p>
-          <Button
-            className={styles.button}
-            type="submit"
-            modifier={["inverted"]}
-          >
+          <Button className={styles.button} type="submit">
             Innskrá
           </Button>
-          <span className={styles.or}>--- eða ---</span>
+          <span className={styles.or}>
+            <span>eða</span>
+          </span>
+
           <Link href="/register" as="/register">
-            <Button className={styles.button}>Stofna aðgang</Button>
+            <Button className={styles.button} modifier={["inverted"]}>
+              Stofna aðgang
+            </Button>
           </Link>
+
           {store.auth && store.auth.error && <p>Error {store.auth.error}</p>}
         </form>
       </div>
@@ -76,10 +71,3 @@ const LoginFormContainer = () => {
 };
 
 export default LoginFormContainer;
-
-LoginFormContainer.propTypes = {
-  className: PropTypes.string
-};
-LoginFormContainer.defaultProps = {
-  className: ""
-};

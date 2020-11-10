@@ -1,21 +1,31 @@
 
 /users:
-  ✔ GET: GetAllUsers @done(20-05-24 16:44)
-  ✔ POST: CreateUser @done(20-05-21 23:13)
+  ✔ GET: GetAllUsers @done(20-10-14 21:25)
+  ✔ POST: CreateUser @done(20-10-14 21:25)
+
 /users/[id]:
-  ✔ GET: GetUser @done(20-05-24 16:42)
-  ✔ PUT: EditUser @done(20-05-21 23:13)
-  ✔ DELETE: DeleteUser * @done(20-05-24 17:09)
+  ✔ GET: GetUser @done(20-10-14 21:56)
+  ✔ PUT: EditUser @done(20-10-14 21:56)
+  ☐ DELETE: DeleteUser *
 
 /users/[id]/experiences:
-  ✔ GET: GetExperiencesByUser @done(20-05-24 17:09)
-  ✔ POST: CreateExperience @done(20-05-24 17:09)
+  ✔ GET: GetExperiencesByUser @done(20-10-14 20:35)
+  ✔ POST: CreateExperience @done(20-10-14 20:35)
+  ✔ PUT: EditExperiences @done(20-10-14 20:35)
 /users/[id]/experiences/[id]:
-  ✔ GET: GetExperience @done(20-05-24 17:09)
-  ✔ PUT: EditExperience @done(20-05-24 17:09)
-  ✔ DELETE: DeleteExperience @done(20-05-24 17:09)
+  ✔ GET: GetExperience @done(20-10-14 21:21)
+  ✔ PUT: EditExperience @done(20-10-14 21:21)
+  ✔ DELETE: DeleteExperience @done(20-10-14 21:21)
 
-/experiences
-  GET: GetPayedExperiences *
+/search/[params]:
+  ✔ GET: GetSearchResult(params) @done(20-10-14 21:10)
+/search/:
+  ✔ GET: GetSearchResult @done(20-10-14 21:10)
+
+/user/:
+  ✔ GET: GetLoggedInUser @done(20-10-14 21:57)
+
+/experiences:
+  ☐ GET: GetPromotedExperiences *
 
 * later

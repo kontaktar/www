@@ -1,14 +1,11 @@
 @import "../../styles/config";
 
 .cards_container {
-  display: flex;
+  display: grid;
 
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: space-between;
-
-  > div {
-    margin-bottom: 20px;
-    margin-right: 20px;
-  }
+  grid-template-columns: repeat(auto-fill, 300px);
+  grid-auto-rows: auto;
+  place-content: center;
+  column-gap: 16px;
+  row-gap: 30px;
 }

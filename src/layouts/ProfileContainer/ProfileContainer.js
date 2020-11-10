@@ -160,7 +160,7 @@ const ProfileContainer = ({ editMode, userName }) => {
     return (
       <div
         ref={wrapperElement}
-        className={!editMode ? styles.wrapper : undefined}
+        className={!editMode ? styles.wrapper : styles.edit_wrapper}
       >
         <div className={!editMode ? styles.title : styles.header}>
           <div className={styles.user_name}>
@@ -290,6 +290,7 @@ const ProfileContainer = ({ editMode, userName }) => {
           <Modal
             open={openModal}
             onClose={onCloseModal}
+            {...modalType}
             // height="600px"
             // width="800px"
           >

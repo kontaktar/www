@@ -1,10 +1,8 @@
-import { withMiddleware } from "utils/apiMiddleware";
+import bcrypt from "bcryptjs";
+import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import database from "utils/database";
 
-const bcrypt = require("bcrypt");
-
-const database = require("utils/database").instance;
-
-export default async (request, response) => {
+const Users = async (request, response) => {
   await withMiddleware(request, response);
   const { body, method, query } = request;
   if (method === "GET") {
@@ -58,11 +56,12 @@ export default async (request, response) => {
       }
     } catch (error) {
       response.status(500).end();
-      throw new Error("GET USER", error);
+      throw new Error(`GET USER: ${error}`);
     }
   }
 
   if (method === "POST") {
+    withUserAccess(request, response);
     const {
       ssn,
       userName,
@@ -103,9 +102,11 @@ export default async (request, response) => {
     } catch (error) {
       response.status(500).send({ error: error.message });
       // console.log(error, error.name, error.message);
-      throw new Error("POST USER:", error);
+      throw new Error(`POST USER: ${error}`);
     }
   } else {
     response.status(400).end();
   }
 };
+
+export default Users;

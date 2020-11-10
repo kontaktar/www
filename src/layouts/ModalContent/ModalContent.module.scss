@@ -1,12 +1,17 @@
 @import "../../styles/config";
 
 .modalcontent {
-  padding: 20px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: scroll;
 }
 .header {
-  padding-bottom: 35px;
+  padding-bottom: 10px;
+  font-size: 24px;
+  font-family: "Berlingske Sans Bold";
 }
 
 .input_line,
@@ -23,15 +28,11 @@
       padding-top: 25px;
     }
   }
-
-  input {
-    color: $color-grey-30;
-    font-size: 16px;
-    padding: 10px;
-  }
 }
 .input_line {
+  align-items: stretch;
   flex-direction: row;
+  flex-wrap: wrap;
   @media only screen and (max-width: 765px) {
     flex-direction: column;
   }
@@ -43,6 +44,7 @@
 
 .dropdown_line {
   display: flex;
+  align-items: flex-end;
   flex-direction: row;
   justify-content: space-between;
   flex: 0 0 48%;
@@ -63,7 +65,7 @@
   align-items: center;
 }
 .textarea {
-  padding-top: 20px;
+  padding-top: 40px;
 }
 
 .error_message {
@@ -91,4 +93,8 @@
 
 .experience_timestamp {
   margin: auto;
+}
+
+.button_line {
+  margin: 32px 0;
 }

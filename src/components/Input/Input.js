@@ -6,12 +6,12 @@ import styles from "./Input.module.scss";
 
 // todo add clicker on hover
 const Input = ({
-  error,
+  error = undefined,
   id,
-  label,
+  label = undefined,
   placeholder,
-  value,
-  wrapperClassName,
+  value = undefined,
+  wrapperClassName = "",
   ...props
 }) => {
   return (

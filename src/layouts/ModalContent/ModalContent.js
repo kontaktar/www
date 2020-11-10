@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import cx from "classnames";
 import {
   createUserExperience,
   editUser,
@@ -58,7 +59,7 @@ const Experience = ({ data }) => {
   return (
     <>
       <div className={styles.header}>
-        {isNew ? "Nýtt verkspjald" : "Verkspjald"}
+        {isNew ? "Nýtt verkspjald" : "Breyta verkspjaldi"}
       </div>
       <div className={styles.input_line}>
         <Input
@@ -229,7 +230,11 @@ const LastChange = ({ className, timestamp }) => {
 
 const ModalContent = ({ data, experience, userInformation }) => {
   return (
-    <div className={styles.modalcontent}>
+    <div
+      className={cx(styles.modalcontent, {
+        [styles.user_information]: userInformation
+      })}
+    >
       {experience && <Experience data={data} />}
       {userInformation && <UserInformation data={data} />}
     </div>

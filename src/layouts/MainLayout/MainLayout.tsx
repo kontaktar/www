@@ -1,14 +1,20 @@
 import React from "react";
-import PropTypes from "prop-types";
 import useMaxWidth from "hooks/useMaxWidth";
-// eslint-disable-next-line no-unused-vars
 import { Footer, Header } from "components";
 import styles from "./MainLayout.module.scss";
 
-const MainLayout = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+  noDistraction?: boolean;
+};
+
+const MainLayout = ({
+  children,
+  noDistraction = false
+}: Props): React.ReactElement => {
   return (
     <div className={styles.root}>
-      <Header />
+      <Header noDistraction={noDistraction} />
       <div {...useMaxWidth()} className={styles.content}>
         <div className={styles.main_content}>{children}</div>
       </div>
@@ -18,7 +24,3 @@ const MainLayout = ({ children }) => {
 };
 
 export default MainLayout;
-
-MainLayout.propTypes = {
-  children: PropTypes.node.isRequired
-};

@@ -14,13 +14,21 @@
     }
     .MuiInputBase-input {
       padding: 0;
+      text-indent: 20px;
+    }
+    .MuiInput-underline:before {
+      border-bottom: none;
+    }
+    .MuiSelect-icon {
+      right: 5px;
+      fill: $primary-color;
     }
   }
 }
 
 .label {
   display: block;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   color: black;
   // font-size: 32px;
 }

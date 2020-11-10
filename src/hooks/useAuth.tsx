@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "store/actions";
+import useUser from "lib/useUser";
 import { get } from "helpers/methods";
 
 type AuthContextProps = {
@@ -38,13 +39,18 @@ export const reducer = (
   }
 };
 
-const useAuth = () => useContext(AuthContext);
+const useAuth = (): AuthContextProps => useContext(AuthContext);
 
 // This provider is meant to be a connection between the redux store and the session storage.
 
-export const AuthProvider = ({ children }: { children: React.ReactChild }) => {
+export const AuthProvider = ({
+  children
+}: {
+  children: React.ReactChild;
+}): React.ReactElement => {
   const dispatchToStore = useDispatch();
   const [state, dispatch] = useReducer(reducer, initialProps);
+  const { user } = useUser();
 
   const logout = async () => {
     await get("/api/logout");
@@ -57,27 +63,24 @@ export const AuthProvider = ({ children }: { children: React.ReactChild }) => {
     });
     // TODO: hreinsa auth store, dispatch(logout)
   };
-  const getUserSessionData = async () => {
-    const userSessionData = await get("/api/user");
-    if (!state.isLoggedIn && userSessionData && userSessionData.isLoggedIn) {
-      dispatchToStore(login(userSessionData.login));
 
+  useEffect(() => {
+    if (user && user?.isLoggedIn !== state?.isLoggedIn) {
+      if (user.isLoggedIn) {
+        // TODO: get rid of Auth the store
+        dispatchToStore(login(user.login));
+      } else if (!user.isLoggedIn) {
+        dispatchToStore(logout());
+      }
       dispatch({
         type: "AUTH/UPDATE_LOGIN_STATUS",
         payload: {
           status: "FETCHED_FROM_SESSION",
-          isLoggedIn: userSessionData.isLoggedIn
+          isLoggedIn: user.isLoggedIn
         }
       });
     }
-    return userSessionData;
-  };
-
-  useEffect(() => {
-    if (!state.isLoggedIn) {
-      getUserSessionData();
-    }
-  }, [state.isLoggedIn]);
+  }, [dispatchToStore, state?.isLoggedIn, user]);
 
   return (
     <AuthContext.Provider

@@ -1,25 +1,45 @@
-import { withMiddleware } from "utils/apiMiddleware";
+import pgp from "pg-promise";
+import withSession from "lib/sessions";
+import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import database from "utils/database";
 
-const pgp = require("pg-promise");
-const database = require("utils/database").instance;
-
-// eslint-disable-next-line no-unused-vars
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
-// export default async ({ method, query: { id } }, response) => {
-export default async (request, response) => {
+export default withSession(async (request, response) => {
   await withMiddleware(request, response);
+
   const {
     body,
     method,
-    query: { id: userId }
+    query: { id: userId },
+    session
   } = request;
+
+  type Experiences = {
+    id: number;
+    title: string;
+    description: string;
+    years: number;
+    months: number;
+    published: boolean;
+    order: number;
+  };
+
   if (method === "GET") {
     try {
-      const get = await database.any(
-        "SELECT e.id, e.title, e.description, e.years, e.months, e.published, e.order FROM experiences e WHERE e.user_id = $1",
-        userId
-      );
+      let get: Experiences;
+      if (session.get("user")?.id === parseInt(userId, 2)) {
+        get = await database.any(
+          "SELECT e.id, e.title, e.description, e.years, e.months, e.published, e.order FROM experiences e WHERE e.user_id = $1",
+          userId
+        );
+      } else {
+        get = await database.any(
+          "SELECT e.id, e.title, e.description, e.years, e.months, e.published, e.order FROM experiences e WHERE e.published = true AND e.user_id = $1",
+          userId
+        );
+      }
+
       response.status(200).json(get);
     } catch (error) {
       response.status(500).end();
@@ -27,6 +47,7 @@ export default async (request, response) => {
     }
   }
   if (method === "POST") {
+    withUserAccess(request, response);
     try {
       const {
         id,
@@ -52,10 +73,11 @@ export default async (request, response) => {
     } catch (error) {
       response.status(500).send({ error: error.message });
       console.log(error, error.name, error.message);
-      throw new Error("POST EXPERIENCE", error);
+      throw new Error(`POST EXPERIENCE: ${error}`);
     }
   }
   if (method === "PUT") {
+    withUserAccess(request, response);
     try {
       const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
         table: "experiences"
@@ -74,13 +96,13 @@ export default async (request, response) => {
       console.log(error, error.name, error.message);
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
-        throw new Error("UPDATE EXPERIENCES 404: ", error);
+        throw new Error(`UPDATE EXPERIENCES 404: ${error}`);
       } else {
         response.status(500).end();
-        throw new Error("UPDATE EXPERIENCES 500: ", error);
+        throw new Error(`UPDATE EXPERIENCES 500: ${error}`);
       }
     }
   } else {
     response.status(400).end();
   }
-};
+});

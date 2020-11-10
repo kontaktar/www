@@ -37,6 +37,7 @@
 
 .carousel {
   padding-top: 80px;
+  padding-bottom: 50px;
   margin-left: -20px;
   :global {
     .slider-frame {
@@ -77,5 +78,29 @@
   h3 {
     font-size: 28px;
     margin-bottom: 60px;
+  }
+}
+
+@media (max-width: $screen-tablet-landscape) {
+  .carousel {
+    margin: auto;
+  }
+}
+
+@media (max-width: 660px) {
+  .carousel_header {
+    padding-top: 50px;
+    text-align: center;
+  }
+  // back button
+  .carousel div:nth-child(3) {
+    right: 0px !important;
+    left: 190px !important;
+    transform: none !important;
+  }
+
+  // next button
+  .carousel div:nth-child(4) {
+    right: 0px !important;
   }
 }

@@ -18,27 +18,37 @@
 
   background: #ffffff;
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1);
+}
 
-  // @media only screen and (max-width: 800px) {
-  //   height: 600px;
-  //   width: 100%;
-  // }
-  @media only screen and (max-width: 800px) {
+.user_information {
+  height: 1000px;
+  width: 800px;
+}
+
+.modal_content,
+.user_information {
+  @media only screen and (max-width: 800px), screen and (max-height: 1000px) {
     height: 100%;
     width: 100%;
+    display: flex;
+    :global {
+      .input_line {
+        align-items: stretch;
+      }
+    }
   }
 }
 
 .button_clear {
   cursor: pointer;
   float: right;
-  margin-top: 25px;
+  top: 40px;
   width: 25px;
   height: 0px;
   border: none;
   color: white;
   position: absolute;
-  right: 25px;
+  right: 40px;
 
   &:hover,
   &:active {

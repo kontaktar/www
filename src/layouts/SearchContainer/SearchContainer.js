@@ -30,7 +30,7 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
     setCards(cardsToDisplay);
   }
   return (
-    <div className={styles.root}>
+    <div className={styles.search_container_root}>
       <div className={styles.search_bar}>
         <SearchBar
           value={searchValue}

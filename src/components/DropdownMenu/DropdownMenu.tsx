@@ -1,6 +1,7 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import styles from "./DropDownMenu.module.scss";
 // import Tooltip as MUITooltip from '@material-ui/core/Tooltip';
 type Props = {
   anchorEl: any;
@@ -8,9 +9,10 @@ type Props = {
 };
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
-const DropdownMenu = ({ anchorEl, onClose }: Props) => {
+const DropdownMenu = ({ anchorEl, onClose }: Props): ReactElement => {
   return (
     <Menu
+      className={styles.dropdownmenu}
       id="simple-menu"
       anchorEl={anchorEl}
       keepMounted

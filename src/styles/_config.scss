@@ -1,23 +1,5 @@
 @import "./fonts";
-
-$color-orange: #f2994a;
-$color-green: #6fcf97;
-$color-red: #b40409;
-$color-brown: #ddc3ac;
-$color-black: #000000;
-$color-grey: #c2c2c2;
-$color-grey-30: #b3b3b3;
-$color-white: #ffffff;
-$color-black-60: rgba(0, 0, 0, 0.3);
-
-$color-paper-white: #f3f3f3;
-
-$secondary-black-color: rgba(0, 0, 0, 0.8);
-$paragraph-color: rgba(0, 0, 0, 0.9);
-$paragraph-inverted-color: $color-white;
-$primary-color: $color-red;
-$secondary-color: $color-brown;
-$background-color: $color-white;
+@import "./colors";
 
 $font-size-paragraph: 16px;
 
@@ -32,7 +14,6 @@ $screen-desktop-large: 120px;
   margin: 0;
   padding: 0;
   color: $paragraph-color;
-  // background: $background;
   font-family: "Berlingske Sans";
   font-size: 16px;
   font-style: normal;

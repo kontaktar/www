@@ -6,7 +6,8 @@ const withSession = (handler) => {
     password: process.env.SECRET_COOKIE_PASSWORD,
     cookieName: "userSession",
     cookieOptions: {
-      secure: process.env.NODE_ENV === "production"
+      secure: false // TODO: this was causing issues on "prod"
+      // secure: process.env.NODE_ENV === "production"
     }
   });
 };

@@ -1,8 +1,8 @@
 @import "../../styles/config";
-.root {
-  padding: 50px 90px;
-}
+
 .header {
+  padding: 50px 90px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -48,13 +48,13 @@
 }
 
 @media (max-width: $screen-tablet-portrait) {
-  .root {
+  .header {
     padding: 50px 40px;
   }
 }
 
 @media (max-width: $screen-wide-smartphone) {
-  .root {
+  .header {
     padding: 30px 40px;
   }
 }

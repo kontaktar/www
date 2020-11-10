@@ -1,10 +1,14 @@
 @import "../../styles/config";
 
 .form {
-  padding: 20px;
+  // padding: 20px;
   padding-bottom: 60px;
+  min-width: 280px;
+  position: relative;
+  > *:first-child {
+    padding-bottom: 40px;
+  }
   > * {
-    padding-bottom: 15px;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
@@ -13,20 +17,39 @@
 
 .button {
   display: block;
-  width: 60%;
 
   padding: 0px;
-  margin-bottom: 15px;
+  // margin-bottom: 15px;
 }
 
 .or {
   text-align: center;
   display: inline-block;
+  padding: 25px 0;
+  position: relative;
+
+  span {
+    z-index: -1;
+    padding: 0 8px;
+    color: $color-black-60;
+    background: $color-white;
+  }
+}
+
+.or::after {
+  content: " ";
+  background: $color-black-60;
+  width: 100%;
+  display: block;
+  position: absolute;
+  height: 1px;
+  bottom: 50%;
+  z-index: -1;
 }
 
 .error {
   padding: 0;
-  margin-bottom: 24px;
+  margin-bottom: 25px;
   height: 20px;
-  color: mediumblue;
+  color: $color-red;
 }
