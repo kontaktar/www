@@ -218,13 +218,13 @@
   height: 50px;
   padding: 8px;
   background: white;
-  border: none;
+  border: 1px solid white;
 
+  .hamburgerFocus,
   &:hover,
-  &:active,
-  &:focus {
+  &:active {
     background-color: $color-white;
-    // border: 1px solid $primary-color;
+    border: 1px solid white;
     color: $primary-color;
 
     *:first-child {

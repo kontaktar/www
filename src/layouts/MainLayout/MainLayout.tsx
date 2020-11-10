@@ -11,7 +11,7 @@ type Props = {
 const MainLayout = ({
   children,
   noDistraction = false
-}: Props): JSX.Element => {
+}: Props): React.ReactElement => {
   return (
     <div className={styles.root}>
       <Header noDistraction={noDistraction} />

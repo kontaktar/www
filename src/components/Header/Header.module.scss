@@ -48,13 +48,13 @@
 }
 
 @media (max-width: $screen-tablet-portrait) {
-  .root {
+  .header {
     padding: 50px 40px;
   }
 }
 
 @media (max-width: $screen-wide-smartphone) {
-  .root {
+  .header {
     padding: 30px 40px;
   }
 }

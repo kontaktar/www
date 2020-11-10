@@ -7,6 +7,7 @@ import React from "react";
 import { action } from "@storybook/addon-actions";
 import { boolean, text } from "@storybook/addon-knobs";
 import { storiesOf } from "@storybook/react";
+
 import <%= name %> from "./<%= name %>";
 import <%= name %>Readme from "./README.md";
 
@@ -15,7 +16,7 @@ storiesOf("Components", module)
     jest: ["<%= name %>.test"],
     readme: {
       sidebar: <%= name %>Readme,
-      includePropTables: [<%= name %>],
+      includePropTables: [<%= name %>]
     },
   })
   .add("<%= name %>", () => (

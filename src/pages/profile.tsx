@@ -5,7 +5,7 @@ import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
 import { ProfileContainer, UserLayout } from "layouts";
 
-const Profile = (): JSX.Element => {
+const Profile = (): React.ReactElement => {
   return (
     <UserLayout>
       <ProfileContainer editMode />

@@ -8,7 +8,7 @@ import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
 import styles from "./LoginFormContainer.module.scss";
 
-const LoginFormContainer = (): JSX.Element => {
+const LoginFormContainer = (): React.ReactElement => {
   const dispatch = useDispatch();
   const store = useSelector((state) => state);
 

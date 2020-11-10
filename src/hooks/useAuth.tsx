@@ -47,7 +47,7 @@ export const AuthProvider = ({
   children
 }: {
   children: React.ReactChild;
-}): JSX.Element => {
+}): React.ReactElement => {
   const dispatchToStore = useDispatch();
   const [state, dispatch] = useReducer(reducer, initialProps);
   const { user } = useUser();
@@ -80,7 +80,7 @@ export const AuthProvider = ({
         }
       });
     }
-  }, [user]);
+  }, [dispatchToStore, state?.isLoggedIn, user]);
 
   return (
     <AuthContext.Provider
