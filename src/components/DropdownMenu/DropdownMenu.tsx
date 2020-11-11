@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import styles from "./DropDownMenu.module.scss";
+import styles from "./DropdownMenu.module.scss";
 // import Tooltip as MUITooltip from '@material-ui/core/Tooltip';
 type Props = {
   anchorEl: any;
