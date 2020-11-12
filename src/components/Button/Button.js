@@ -87,14 +87,8 @@ Button.CarouselNavi = ({ direction, className, ...props }) => {
 };
 
 Button.Hamburger = (props) => {
-  const { hamburgerFocus } = props;
   return (
-    <Button
-      className={cx(styles.hamburger, {
-        [styles.hamburgerFocus]: hamburgerFocus
-      })}
-      {...props}
-    >
+    <Button className={styles.hamburger} {...props}>
       <p />
       <p />
       <p />

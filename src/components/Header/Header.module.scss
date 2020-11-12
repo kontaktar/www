@@ -19,7 +19,6 @@
   display: block;
   .tab {
     display: inline-blocK;
-    // width: 44px;
   }
   @media (max-width: 1024px) {
     .tab {
@@ -47,6 +46,31 @@
   height: 100vh;
 }
 
+.close_button {
+  background-color: unset;
+  border: none;
+  padding: 0;
+  margin: 0;
+  div {
+    height: 50px;
+    width: 50px;
+
+    color: white;
+    position: relative;
+  }
+
+  div:after {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    color: $color-red;
+    right: 0;
+    content: "\D7";
+    font-size: 50px;
+    line-height: 50px;
+    text-align: center;
+  }
+}
 @media (max-width: $screen-tablet-portrait) {
   .header {
     padding: 50px 40px;

@@ -32,14 +32,16 @@
       width: 140px;
     }
   }
-  .search.mobile {
-    flex-direction: column;
-    .search_button {
-      margin-top: 20px;
-      align-self: center;
-    }
-    .search_bar {
-      width: 100%;
+  .search {
+    &.mobile {
+      flex-direction: column;
+      .search_button {
+        margin-top: 20px;
+        align-self: center;
+      }
+      .search_bar {
+        width: 100%;
+      }
     }
   }
 }

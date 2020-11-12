@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useStore } from "react-redux";
+import cx from "classnames";
 import { Button, Carousel, SearchBar } from "components";
 import { breakPointSettings } from "components/Carousel/Carousel";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
@@ -84,9 +85,9 @@ const FrontPageContainer = () => {
           </h1>
 
           <div
-            className={`${styles.search} ${
-              windowWidth < screensizes.tabletsLandscape ? styles.mobile : ""
-            }`}
+            className={cx(styles.search, {
+              [styles.mobile]: windowWidth < screensizes.tabletsLandscape
+            })}
           >
             <SearchBar
               onChange={onSearchBarInput}

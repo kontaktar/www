@@ -5,7 +5,7 @@ import Link from "next/link";
 import cx from "classnames";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
-import { Button, DropdownMenu, Logo } from "components";
+import { Button, Logo } from "components";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 
@@ -20,8 +20,6 @@ const Header = ({
   const { width } = useWindowDimensions();
   const { isLoggedIn, logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
-  const [anchorElement, setAnchorElement] = useState(null);
-  const [hamburgerFocus, setHamburgerFocus] = useState(false);
 
   const mobileView = width < screensizes.tabletsPortrait;
   const tabletPortrait = width < screensizes.tabletsPortrait;
@@ -39,19 +37,10 @@ const Header = ({
                 {!openBurger ? (
                   <>
                     <Button.Hamburger
-                      hasFocus={hamburgerFocus}
-                      onClick={(event) => {
-                        setOpenBurger(false);
-                        setAnchorElement(event.currentTarget);
-                        setHamburgerFocus(true);
+                      // hasFocus={hamburgerFocus}
+                      onClick={() => {
+                        setOpenBurger(true);
                       }}
-                    />
-                    <DropdownMenu
-                      onClose={() => {
-                        setAnchorElement(null);
-                        setHamburgerFocus(false);
-                      }}
-                      anchorEl={anchorElement}
                     />
                   </>
                 ) : (
@@ -62,9 +51,18 @@ const Header = ({
                     aria-describedby="mobile-dropdown-menu"
                   >
                     <div className={styles.modal_content}>
-                      <Button.Hamburger onClick={() => setOpenBurger(false)}>
-                        <p> TODO: close menu </p>
-                      </Button.Hamburger>
+                      <div className={styles.header}>
+                        <div className={styles.logo_area}>
+                          <Logo />
+                        </div>
+                        <button
+                          type="button"
+                          className={styles.close_button}
+                          onClick={() => setOpenBurger(false)}
+                        >
+                          <div />
+                        </button>
+                      </div>
                     </div>
                   </Modal>
                 )}
