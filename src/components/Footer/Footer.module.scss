@@ -11,6 +11,7 @@
   box-sizing: border-box;
   flex-wrap: wrap-reverse;
   padding: 42px 140px;
+  overflow: hidden;
   bottom: 0;
 
   p {
@@ -22,15 +23,30 @@
   }
 }
 
+// TODO: FIX THE FOOTER
+//
+//
+//
+//
+//
+
 .logo {
   flex-grow: 1;
   padding-right: 80px;
 }
 
 .row {
+  // margin: 8px 0;
   display: flex;
   align-items: center;
+  // flex-direction: column;
+  // align-items: flex-start;
+  // justify-content: center;
 }
+
+// .icons {
+//   align-self: center;
+// }
 
 .info {
   display: flex;
@@ -41,8 +57,20 @@
   }
 }
 
-@media (max-width: $screen-tablet-portrait) {
+@media (max-width: $screen-tablet-landscape) {
   .footer {
     padding: 42px 40px;
   }
+  .logo {
+    padding-right: 20px;
+  }
+}
+
+@media only screen and (max-width: $screen-wide-smartphone) {
+  .footer {
+    padding: 42px 40px;
+  }
+  // .logo {
+  //   display: none;
+  // }
 }

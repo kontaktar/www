@@ -1,11 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable unicorn/prevent-abbreviations */
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import mockUserData from "data/all-users-mock";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import NukaCarousel from "nuka-carousel";
 import PropTypes from "prop-types";
 import { Button, Card } from "components";
+import usePrevious from "../../hooks/usePrevious";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Carousel.module.scss";
 
 export const breakPointSettings = [
@@ -26,30 +29,51 @@ export const breakPointSettings = [
     slides: 1
   }
 ];
+export const breakPointSettingsSecond = [
+  {
+    breakpoint: 332,
+    slides: 1
+  },
+  {
+    breakpoint: 664, // 2*300px (card width) + 2*32px (spacing)
+    slides: 2
+  },
+  {
+    breakpoint: 996,
+    slides: 3
+  },
+  {
+    breakpoint: 1328,
+    slides: 4
+  }
+];
 
 // TODO: laga að wraparoun er ekki smooth með custom buttons, virkar fínt með lyklaborði!
-const Carousel = ({ width }) => {
+const Carousel = () => {
+  const { width } = useWindowDimensions();
   const [slidesToShow, setSlidesToShow] = useState(4);
-  const [windowSize, setWindowSize] = useState(undefined);
   const [carouselSize, setCarouselSize] = useState(undefined);
 
-  React.useEffect(() => {
-    if (windowSize !== width) {
-      setWindowSize(width);
-      setSlidesToShow(
-        (breakPointSettings.find((s) => width >= s.breakpoint) &&
-          breakPointSettings.find((s) => width >= s.breakpoint).slides) ||
-          1
-      );
-      setCarouselSize(
-        (breakPointSettings.find((s) => width >= s.breakpoint) &&
-          breakPointSettings.find((s) => width >= s.breakpoint).breakpoint) ||
-          332
-      );
-    }
-  }, [width, carouselSize]);
-
   const users = mockUserData;
+
+  useEffect(() => {
+    let breakpoint;
+    let slides;
+    for (let i = 0; i < breakPointSettingsSecond.length; i += 1) {
+      if (width > breakPointSettingsSecond[i].breakpoint) {
+        // eslint-disable-next-line prefer-destructuring
+        breakpoint = breakPointSettingsSecond[i].breakpoint;
+        // eslint-disable-next-line prefer-destructuring
+        slides = breakPointSettingsSecond[i].slides;
+      }
+    }
+    if (slidesToShow !== slides) {
+      setSlidesToShow(slides);
+    }
+    if (carouselSize !== breakpoint) {
+      setCarouselSize(breakpoint);
+    }
+  }, [width]);
 
   const bySize = () => {
     let size;

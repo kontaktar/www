@@ -6,7 +6,7 @@ import cx from "classnames";
 // import { style } from "@material-ui/system";
 import { Icon } from "components";
 import styles from "./Button.module.scss";
-import colors from "styles/colors.scss";
+import colors from "styles/colors.module.scss";
 
 const Button = ({
   children,

@@ -1,55 +1,52 @@
 @font-face {
+  font-display: swap;
   font-family: "Berlingske Sans";
   // IE9
-  src: url("../../styles/fonts/BerlingskeSans.eot");
+  src: url("/fonts/BerlingskeSans.eot");
   // IE6-IE8
-  src: url("../../styles/fonts/BerlingskeSans.eot?#iefix")
-      format("embedded-opentype"),
+  src: url("/fonts/BerlingskeSans.eot?#iefix") format("embedded-opentype"),
     // chrome firefox
-      url("../../styles/fonts/BerlingskeSans.woff2") format("woff2"),
+    url("/fonts/BerlingskeSans.woff2") format("woff2"),
     // chrome firefox
-      url("../../styles/fonts/BerlingskeSans.woff") format("woff"),
+    url("/fonts/BerlingskeSans.woff") format("woff"),
     //chrome firefox opera Safari, Android, iOS 4.2
-      url("../../styles/fonts/BerlingskeSans.ttf") format("truetype"),
+    url("/fonts/BerlingskeSans.ttf") format("truetype"),
     // iOS 4.1-
-      url("../../styles/fonts/BerlingskeSans.svg#BerlingskeSansRegular")
-      format("svg");
+    url("/fonts/BerlingskeSans.svg#BerlingskeSansRegular") format("svg");
 }
 
 @font-face {
+  font-display: swap;
   font-family: "Berlingske Sans Bold";
   // IE9
-  src: url("../../styles/fonts/BerlingskeSansBold.eot");
+  src: url("/fonts/BerlingskeSansBold.eot");
   // IE6-IE8
-  src: url("../../styles/fonts/BerlingskeSansBold.eot?#iefix")
-      format("embedded-opentype"),
+  src: url("/fonts/BerlingskeSansBold.eot?#iefix") format("embedded-opentype"),
     // chrome firefox
-      url("../../styles/fonts/BerlingskeSansBold.woff2") format("woff2"),
+    url("/fonts/BerlingskeSansBold.woff2") format("woff2"),
     // chrome firefox
-      url("../../styles/fonts/BerlingskeSansBold.woff") format("woff"),
+    url("/fonts/BerlingskeSansBold.woff") format("woff"),
     //chrome firefox opera Safari, Android, iOS 4.2
-      url("../../styles/fonts/BerlingskeSansBold.ttf") format("truetype"),
+    url("/fonts/BerlingskeSansBold.ttf") format("truetype"),
     // iOS 4.1-
-      url("../../styles/fonts/BerlingskeSansBold.svg#BerlingskeSansBold")
-      format("svg");
+    url("/fonts/BerlingskeSansBold.svg#BerlingskeSansBold") format("svg");
 }
 
 @font-face {
+  font-display: swap;
   font-family: "Berlingske Serif";
   // IE9
-  src: url("../../styles/fonts/BerlingskeSerif.eot");
+  src: url("/fonts/BerlingskeSerif.eot");
   // IE6-IE8
-  src: url("../../styles/fonts/BerlingskeSerif.eot?#iefix")
-      format("embedded-opentype"),
+  src: url("/fonts/BerlingskeSerif.eot?#iefix") format("embedded-opentype"),
     // chrome firefox
-      url("../../styles/fonts/BerlingskeSerif.woff2") format("woff2"),
+    url("/fonts/BerlingskeSerif.woff2") format("woff2"),
     // chrome firefox
-      url("../../styles/fonts/BerlingskeSerif.woff") format("woff"),
+    url("/fonts/BerlingskeSerif.woff") format("woff"),
     //chrome firefox opera Safari, Android, iOS 4.2
-      url("../../styles/fonts/BerlingskeSerif.ttf") format("truetype"),
+    url("/fonts/BerlingskeSerif.ttf") format("truetype"),
     // iOS 4.1-
-      url("../../styles/fonts/BerlingskeSerif.svg#BerlingskeSerif")
-      format("svg");
+    url("/fonts/BerlingskeSerif.svg#BerlingskeSerif") format("svg");
 }
 
 // @import url(//db.onlinewebfonts.com/c/6cd0079deb96856f116444a35ce6001f?family=Berlingske+Sans);

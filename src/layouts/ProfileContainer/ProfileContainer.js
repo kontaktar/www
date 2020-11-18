@@ -9,7 +9,7 @@ import { fetchUserExperiences, getUserByUserName } from "store/actions";
 import { Button, Card, Icon, Modal } from "components";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import styles from "./ProfileContainer.module.scss";
-import colors from "styles/colors.scss";
+import colors from "styles/colors.module.scss";
 
 const ProfileContainer = ({ editMode, userName }) => {
   const wrapperElement = useRef(null);

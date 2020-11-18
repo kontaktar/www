@@ -19,42 +19,44 @@ const FrontPageContainer = () => {
   const router = useRouter();
   const { width: windowWidth } = useWindowDimensions();
   const [searchInput, setSearchInput] = useState(undefined);
-  const [frameWidth, setFrameWidth] = useState(undefined);
+  // const [frameWidth, setFrameWidth] = useState(undefined);
 
   const store = useStore();
 
-  let observer;
-  if (process.browser) {
-    // client side only
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    observer = React.useRef(
-      new ResizeObserver((entries) => {
-        // Only care about the first element, we expect one element to be watched
-        const { width } = entries[0].contentRect;
-        const padding = 96;
-        if (
-          breakPointSettings.find((s) => width + padding >= s.breakpoint) &&
-          breakPointSettings.find((s) => width + padding >= s.breakpoint)
-            .breakpoint !== frameWidth
-        ) {
-          setFrameWidth(
-            breakPointSettings.find((s) => width + padding >= s.breakpoint)
-              .breakpoint
-          );
-        }
-      })
-    );
-  }
+  // let observer;
+  // if (process.browser) {
+  //   // client side only
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   observer = React.useRef(
+  //     new ResizeObserver((entries) => {
+  //       // Only care about the first element, we expect one element to be watched
+  //       const { width } = entries[0].contentRect;
+  //       const padding = 96;
+  //       if (
+  //         breakPointSettings.find((s) => width + padding >= s.breakpoint) &&
+  //         breakPointSettings.find((s) => width + padding >= s.breakpoint)
+  //           .breakpoint !== frameWidth
+  //       ) {
+  //         setFrameWidth(
+  //           breakPointSettings.find((s) => width + padding >= s.breakpoint)
+  //             .breakpoint
+  //         );
+  //       }
+  //     })
+  //   );
+  // }
 
-  React.useEffect(() => {
-    if (heroRef.current) {
-      observer.current.observe(heroRef.current);
-    }
+  // React.useEffect(() => {
+  //   if (heroRef.current) {
+  //     observer.current.observe(heroRef.current);
+  //   }
 
-    return () => {
-      observer.current.unobserve(heroRef.current);
-    };
-  }, [heroRef, observer]);
+  //   return () => {
+  //     observer.current.unobserve(heroRef.current);
+  //   };
+  // }, [heroRef, observer]);
+
+  // React.useEffect(() => console.log("framewidht", windowWidth), [windowWidth]);
 
   const onSearchBarInput = (event) => {
     setSearchInput(event.target.value);
@@ -107,7 +109,7 @@ const FrontPageContainer = () => {
             </Link>
           </div>
         </div>
-        <Carousel className={styles.carousel} width={frameWidth} />
+        <Carousel className={styles.carousel} width={windowWidth} />
       </div>
 
       <SvgSolidRing className={styles.solid_ring} />

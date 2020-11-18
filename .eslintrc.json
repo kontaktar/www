@@ -167,7 +167,7 @@
     "unicorn/error-message": "error",
     "unicorn/no-abusive-eslint-disable": "error",
     "unicorn/no-fn-reference-in-iterator": "error",
-    "unicorn/no-for-loop": "error",
+    "unicorn/no-for-loop": "off",
     "unicorn/no-unreadable-array-destructuring": "error",
     "unicorn/no-zero-fractions": "error",
     "unicorn/prefer-includes": "error",

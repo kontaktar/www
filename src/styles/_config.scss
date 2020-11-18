@@ -1,5 +1,5 @@
 @import "./fonts";
-@import "./colors";
+@import "./colors.module";
 
 $font-size-paragraph: 16px;
 
@@ -9,42 +9,3 @@ $screen-tablet-portrait: 768px;
 $screen-tablet-landscape: 992px;
 $screen-desktop: 1024px;
 $screen-desktop-large: 120px;
-
-* {
-  margin: 0;
-  padding: 0;
-  color: $paragraph-color;
-  font-family: "Berlingske Sans";
-  font-size: 16px;
-  font-style: normal;
-
-  letter-spacing: 0.01em;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-// @mixin font-paragraph {
-//   font-family: neue-haas-grotesk-display, sans-serif;
-//   font-style: normal;
-//   font-weight: 100;
-// }
-
-/* Mobile Styles */
-@media only screen and (max-width: 400px) {
-  // background-color: #f09a9d;
-  // h1 {
-  //   color: olive;
-  // }
-}
-
-/* Tablet Styles */
-@media only screen and (min-width: 401px) and (max-width: 960px) {
-  // * {
-  //   background-color: #f5cf8e; /* Yellow */
-  // }
-}
-
-/* Desktop Styles */
-@media only screen and (min-width: 961px) {
-}

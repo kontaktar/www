@@ -7,6 +7,7 @@ import wrapper from "store/configureStore";
 // import { END } from "redux-saga";
 import fetch from "lib/fetchJson";
 import { AuthProvider } from "hooks/useAuth";
+import "../styles/index.scss";
 
 // eslint-disable-next-line react/prop-types
 const App = ({ Component, pageProps }: AppProps) => {

@@ -10,7 +10,26 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link
+            rel="preload"
+            href="/fonts/BerlingskeSans.ttf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/BerlingskeSansBold.ttf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
+            href="/fonts/BerlingskeSerif.ttf"
+            as="font"
+            crossOrigin=""
+          />
+        </Head>
         <body>
           <Main />
           <NextScript />

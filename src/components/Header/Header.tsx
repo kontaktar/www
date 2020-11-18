@@ -63,6 +63,11 @@ const Header = ({
                           <div />
                         </button>
                       </div>
+                      <nav>
+                        <span>Leita</span>
+                        <span>Áskrift</span>
+                        <span>Skrá inn</span>
+                      </nav>
                     </div>
                   </Modal>
                 )}

@@ -116,8 +116,10 @@
 }
 
 @media (max-width: $screen-wide-smartphone) {
-  h1,
-  .highlight {
-    font-size: 32px;
+  .search_section {
+    h1,
+    .highlight {
+      font-size: 32px;
+    }
   }
 }
