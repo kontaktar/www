@@ -23,30 +23,15 @@
   }
 }
 
-// TODO: FIX THE FOOTER
-//
-//
-//
-//
-//
-
 .logo {
   flex-grow: 1;
   padding-right: 80px;
 }
 
 .row {
-  // margin: 8px 0;
   display: flex;
   align-items: center;
-  // flex-direction: column;
-  // align-items: flex-start;
-  // justify-content: center;
 }
-
-// .icons {
-//   align-self: center;
-// }
 
 .info {
   display: flex;
@@ -70,7 +55,4 @@
   .footer {
     padding: 42px 40px;
   }
-  // .logo {
-  //   display: none;
-  // }
 }
