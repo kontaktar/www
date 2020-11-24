@@ -1,18 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
+import cx from "classnames";
 import styles from "./Logo.module.scss";
 
 const Logo = ({ className, inverted, withTitle }) => {
   return (
     <div
-      className={`${styles.logo_wrapper} ${
-        inverted && styles.inverted
-      } ${className}`}
+      className={cx(
+        styles.logo_wrapper,
+        { [styles.inverted]: inverted },
+        className
+      )}
     >
-      <div className={styles.logo}>
+      <div className={styles.letter}>
         <h1>K</h1>
       </div>
-      {withTitle ? <Logo.Title /> : null}
+      <>{withTitle ? <Logo.Title /> : null}</>
     </div>
   );
 };

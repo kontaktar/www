@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SvgPluses from "assets/background/SvgPluses";
 import SvgSolidRing from "assets/background/SvgSolidRing";
 import screensizes from "data/screensizes";
@@ -17,8 +17,13 @@ const FrontPageContainer = () => {
   const router = useRouter();
   const { width: windowWidth } = useWindowDimensions();
   const [searchInput, setSearchInput] = useState(undefined);
+  const [isMobile, setMobile] = useState(undefined);
 
   const store = useStore();
+
+  useEffect(() => {
+    setMobile(windowWidth < screensizes.tabletsLandscape);
+  }, [windowWidth]);
 
   const onSearchBarInput = (event) => {
     setSearchInput(event.target.value);
@@ -51,7 +56,7 @@ const FrontPageContainer = () => {
 
           <div
             className={cx(styles.search, {
-              [styles.mobile]: windowWidth < screensizes.tabletsLandscape
+              [styles.mobile]: isMobile
             })}
           >
             <SearchBar

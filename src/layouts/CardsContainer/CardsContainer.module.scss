@@ -5,7 +5,7 @@
 
   grid-template-columns: repeat(auto-fill, 300px);
   grid-auto-rows: auto;
-  place-content: center;
+  place-content: flex-start;
   column-gap: 16px;
   row-gap: 30px;
 }

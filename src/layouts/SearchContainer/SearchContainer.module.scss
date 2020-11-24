@@ -8,11 +8,12 @@
 }
 .search_bar {
   height: 120px;
-  padding: 0 96px;
+  padding-right: 96px;
+  min-width: 250px;
 }
 
 @media (max-width: $screen-tablet-portrait) {
   .search_bar {
-    padding: 0 20px;
+    padding-right: 20px;
   }
 }

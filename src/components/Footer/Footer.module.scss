@@ -21,11 +21,10 @@
     font-size: 18px;
     color: white;
   }
-}
-
-.logo {
-  flex-grow: 1;
-  padding-right: 80px;
+  .logo {
+    flex-grow: 1;
+    padding-right: 80px;
+  }
 }
 
 .row {
@@ -45,9 +44,9 @@
 @media (max-width: $screen-tablet-landscape) {
   .footer {
     padding: 42px 40px;
-  }
-  .logo {
-    padding-right: 20px;
+    .logo {
+      padding-right: 20px;
+    }
   }
 }
 

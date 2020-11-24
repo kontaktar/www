@@ -41,17 +41,36 @@
   margin-left: -20px;
   :global {
     .slider-frame {
-      padding-left: 20px !important;
+      // margin-left: 20px !important;
     }
   }
 
   .small {
-    height: 30px;
+    height: 250px;
+    width: 30px;
+    box-sizing: border-box;
+    border: none;
+    background: none;
+    svg {
+      height: 20px;
+      width: 20px;
+
+      &:hover,
+      &:focus,
+      &:active {
+        path {
+          fill: $color-red;
+        }
+      }
+      path {
+        fill: $color-red;
+      }
+    }
   }
 }
 
 .carousel.small {
-  padding-top: 30px;
+  padding-top: 0px;
 }
 
 .carousel_header {
@@ -94,13 +113,39 @@
   }
   // back button
   .carousel div:nth-child(3) {
-    right: 0px !important;
-    left: 190px !important;
+    left: -33px !important;
     transform: none !important;
+    top: 20px !important;
+    transform: translateX(-50%);
   }
 
   // next button
   .carousel div:nth-child(4) {
-    right: 0px !important;
+    right: -14px !important;
+    top: 20px !important;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 360px) {
+  .carousel div:nth-child(3) {
+    left: -13px !important;
+    transform: none !important;
+    top: -50px !important;
+    transform: translateX(-50%);
+  }
+
+  // next button
+  .carousel div:nth-child(4) {
+    right: 20px !important;
+    top: -50px !important;
+    transform: translateX(-50%);
+  }
+  .carousel {
+    margin-left: -20px;
+  }
+
+  .carousel .small {
+    height: 30px;
   }
 }
