@@ -63,10 +63,20 @@ const Header = ({
                           <div />
                         </button>
                       </div>
-                      <nav>
-                        <span>Leita</span>
-                        <span>Áskrift</span>
-                        <span>Skrá inn</span>
+                      <nav className={styles.mobile_navigation}>
+                        <span>
+                          <Link href="/">Kontaktar</Link>
+                        </span>
+                        <span>
+                          <Link href="/search">Leita</Link>
+                        </span>
+                        <span>
+                          <Link href="/subscription">Áskrift</Link>
+                        </span>
+
+                        <span>
+                          <Link href="/login">Skrá inn</Link>
+                        </span>
                       </nav>
                     </div>
                   </Modal>

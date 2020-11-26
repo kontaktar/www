@@ -15,6 +15,7 @@
   .main_content {
     display: grid;
     place-items: center;
+    overflow: hidden;
     height: 100%;
     padding: 0px 96px;
   }
