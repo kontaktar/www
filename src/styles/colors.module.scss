@@ -7,6 +7,8 @@ $color-white: #ffffff;
 
 $color-grey: #c2c2c2;
 $color-grey-30: #b3b3b3;
+$color-grey-light: #767676;
+$color-grey-dark: #333333;
 
 $color-paper-white: #f3f3f3;
 
@@ -15,7 +17,9 @@ $paragraph-color: rgba(0, 0, 0, 0.9);
 $paragraph-inverted-color: $color-white;
 $primary-color: $color-red;
 $secondary-color: $color-brown;
+
 $background-color: $color-white;
+$color-background: $color-white; // use this
 
 $color-black: #000000;
 $color-black-20: rgba(0, 0, 0, 0.2);
@@ -28,4 +32,6 @@ $color-black-60: rgba(0, 0, 0, 0.3);
 :export {
   red: $color-red;
   black20: $color-black-20;
+  greyDark: $color-grey-dark;
+  greyLight: $color-grey-light;
 }

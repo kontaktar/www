@@ -70,6 +70,7 @@ export const AuthProvider = ({
         // TODO: get rid of Auth the store
         dispatchToStore(login(user.login));
       } else if (!user.isLoggedIn) {
+        // TODO: Error: Actions must be plain objects. Use custom middleware for async actions.
         dispatchToStore(logout());
       }
       dispatch({

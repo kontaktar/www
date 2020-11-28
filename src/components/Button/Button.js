@@ -51,7 +51,7 @@ Button.Navigation = ({ compact = false, title, url, icon, ...props }) => {
         {...props}
       >
         <Icon
-          color={colors.black20}
+          color={colors.greyLight}
           className={styles.navigation_icon}
           name={icon}
         />
