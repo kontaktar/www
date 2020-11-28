@@ -147,6 +147,7 @@ const ProfileContainer = ({ editMode, userName }) => {
   };
 
   const onEditUserInfoModal = () => {
+    // TODO: This is slow and sometimes failes on pushing 'breyta upplýsingum'
     setModalData({ ...store.users[store.auth.user.id] });
     setModalType({ userInformation: true });
     showModal(true);
