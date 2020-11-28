@@ -4,7 +4,7 @@
   :global {
     .MuiFormControl-root {
       width: 100%;
-      height: 100%;
+      // height: 100%;
       border: 1px solid $color-grey-30;
     }
 
@@ -30,7 +30,6 @@
     }
     .MuiInputBase-inputMultiline {
       padding: 20px;
-      height: 150px;
     }
   }
 }

@@ -6,6 +6,7 @@
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
+  height: 100%;
   overflow-y: scroll;
   justify-content: space-between;
 }
@@ -33,7 +34,7 @@
   align-items: stretch;
   flex-direction: row;
   flex-wrap: wrap;
-  @media only screen and (max-width: 765px) {
+  @media only screen and (max-width: $screen-tablet-portrait) {
     flex-direction: column;
   }
 }
@@ -54,7 +55,6 @@
 }
 
 .footer {
-  padding-top: 30px;
   position: relative;
   display: flex;
 
@@ -64,7 +64,7 @@
 }
 .textarea {
   flex-grow: 1;
-  padding: 40px 16px;
+  padding: 16px;
 }
 
 .error_message {
