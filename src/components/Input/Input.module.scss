@@ -3,6 +3,7 @@
 .input_wrapper {
   position: relative;
   padding: 25px 0;
+  align-self: flex-end;
   .label {
     margin-bottom: 20px; // this was 8px ?
     display: block;
