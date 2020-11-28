@@ -72,7 +72,7 @@ export const AuthProvider = ({
       } else if (!user.isLoggedIn) {
         // TODO: Error: Actions must be plain objects. Use custom middleware for async actions.
         // I need thunk?
-        dispatchToStore(logout());
+        logout();
       }
       dispatch({
         type: "AUTH/UPDATE_LOGIN_STATUS",
