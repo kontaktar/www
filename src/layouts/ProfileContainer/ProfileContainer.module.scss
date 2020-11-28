@@ -25,14 +25,25 @@
 .header_icon {
   margin-right: 20px;
 }
-.user_name {
+.user {
+  display: inline-flex;
+  align-items: center;
+  flex-basis: 450px;
+  flex-grow: 1;
+}
+.first_row {
   display: flex;
   width: 90%;
+  flex-wrap: wrap-reverse;
   h2 {
     font-size: 30px;
     width: 100%;
     font-family: "Berlingske Sans Bold";
     margin-right: 20px;
+  }
+  button {
+    margin-bottom: 20px;
+    margin-left: auto;
   }
 }
 
@@ -129,5 +140,27 @@
   .add_new_plus {
     font-size: 120px;
     color: white;
+  }
+}
+
+@media (max-width: $screen-desktop) {
+  .first_row {
+    button {
+      width: 100px;
+    }
+  }
+}
+
+@media (max-width: $screen-tablet-portrait) {
+  .header {
+    padding-top: 50px;
+  }
+  .first_row {
+    button {
+      // TODO: make this look nicer
+      margin-left: auto;
+      width: 100px;
+      margin-bottom: 20px;
+    }
   }
 }

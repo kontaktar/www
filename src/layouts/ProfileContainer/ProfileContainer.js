@@ -164,19 +164,22 @@ const ProfileContainer = ({ editMode, userName }) => {
         className={!editMode ? styles.wrapper : styles.edit_wrapper}
       >
         <div className={!editMode ? styles.title : styles.header}>
-          <div className={styles.user_name}>
-            <Icon
-              className={styles.header_icon}
-              color={colors.red}
-              height="32"
-              width="32"
-              name="user"
-            />
-            <h2>
-              {user.firstName} {user.lastName}
-            </h2>
+          <div className={styles.first_row}>
+            <div className={styles.user}>
+              <Icon
+                className={styles.header_icon}
+                color={colors.red}
+                height="32"
+                width="32"
+                name="user"
+              />
+              <h2>
+                {user.firstName} {user.lastName}
+              </h2>
+            </div>
             {editMode && <Button onClick={onEditUserInfoModal}>Breyta</Button>}
           </div>
+
           <div className={styles.user_information}>
             <Fragment>
               <span>

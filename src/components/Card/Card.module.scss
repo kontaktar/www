@@ -8,15 +8,6 @@
   overflow: visible !important;
   background-color: $color-paper-white;
   box-shadow: 0px 4px 23px rgba(0, 0, 0, 0.1) !important;
-
-  // tablet
-  @media only screen and (max-width: 1024px) {
-  }
-
-  // mobile
-  @media only screen and (max-width: 500px) {
-    width: 90%;
-  }
 }
 
 .card_content {
@@ -137,4 +128,22 @@
 }
 .publish_status.published::before {
   background-color: $color-green;
+}
+
+// mobile
+@media only screen and (max-width: $screen-smartphone-wide) {
+  .card {
+    width: 240px;
+  }
+  .buttons {
+    .left {
+      left: 120px;
+    }
+    .center {
+      left: 160px;
+    }
+    .right {
+      left: 200px;
+    }
+  }
 }

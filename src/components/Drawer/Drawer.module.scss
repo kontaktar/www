@@ -72,8 +72,19 @@
 
 @media (max-width: $screen-tablet-portrait) {
   .open {
-    width: 50%;
+    width: 40%;
     z-index: 500;
     background-color: $color-background;
+  }
+}
+@media (max-width: $screen-wide-smartphone) {
+  .open {
+    width: 60%;
+  }
+}
+
+@media (max-width: $screen-smartphone) {
+  .open {
+    width: 70%;
   }
 }
