@@ -1,6 +1,8 @@
 @import "../../styles/config";
 
 .select {
+  padding-left: 16px;
+  padding-right: 16px;
   padding-bottom: 25px;
   :global {
     .MuiFormControl-root {

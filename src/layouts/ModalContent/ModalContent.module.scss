@@ -7,6 +7,7 @@
   box-sizing: border-box;
   width: 100%;
   overflow-y: scroll;
+  justify-content: space-between;
 }
 .header {
   padding-bottom: 10px;
@@ -16,16 +17,15 @@
 
 .input_line,
 .input_rows {
-  :global(.input_wrapper) {
-    flex: 0 0 48%;
-    padding-top: 45px;
-  }
   display: flex;
   justify-content: space-between;
-  @media only screen and (max-width: 765px) {
+  @media only screen and (max-width: $screen-tablet-portrait) {
     flex-direction: column;
+
     .dropdown_line {
-      padding-top: 25px;
+      flex-basis: 100%;
+
+      padding-left: 0;
     }
   }
 }
@@ -46,26 +46,25 @@
   display: flex;
   align-items: flex-end;
   flex-direction: row;
-  justify-content: space-between;
-  flex: 0 0 48%;
-  padding-top: 45px;
+  flex: 0 0 300px;
 }
 
 .length_dropdown {
-  flex: 0 0 48%;
+  flex: 1 0 105px;
 }
 
 .footer {
   padding-top: 30px;
   position: relative;
   display: flex;
-  flex: 0 0 50%;
+
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 .textarea {
-  padding-top: 40px;
+  flex-grow: 1;
+  padding: 40px 16px;
 }
 
 .error_message {
