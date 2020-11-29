@@ -7,26 +7,16 @@
   flex-grow: 1;
   justify-content: space-between;
 
-  @media screen and (max-width: 1000px) {
-    flex-direction: column;
-    padding-top: 20px;
-
-    .description_container {
-      padding-bottom: 40px;
-
-      h1,
-      p {
-        max-width: unset;
-      }
-    }
-  }
+  width: 100%;
+  overflow: hidden;
+  max-width: 1000px;
 }
 
 .description_container {
   flex-direction: column;
-  min-width: 60%;
+  flex-basis: 60%;
   padding-top: 10px;
-  margin-right: 30px;
+  // margin-right: 30px;
 
   h1,
   p {
@@ -85,7 +75,7 @@
 
 .price_section {
   h3 {
-    color: $color-grey;
+    color: $color-grey-light;
     font-size: 14px;
     font-family: "Berlingske Sans Bold";
   }
@@ -134,8 +124,59 @@
   }
 }
 
-@media (max-width: 1440px) {
+// @media (max-width: 1440px) {
+//   .subscription_container {
+//     padding: 0px 0px;
+//   }
+// }
+
+@media screen and (max-width: $screen-tablet-landscape) {
   .subscription_container {
-    padding: 0px 0px;
+    flex-direction: column;
+    padding: 20px;
+
+    .description_container {
+      padding-bottom: 40px;
+
+      h1,
+      p {
+        max-width: unset;
+      }
+    }
+  }
+}
+
+@media (max-width: $screen-tablet-landscape) {
+  .subscription_container {
+    h1 {
+      font-size: 42px;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+}
+@media (max-width: $screen-tablet-portrait) {
+  .subscription_container {
+    h1 {
+      font-size: 36px;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
+  .subscription_card {
+    width: unset;
+  }
+}
+
+@media (max-width: $screen-smartphone-wide) {
+  .subscription_container {
+    h1 {
+      font-size: 32px;
+    }
+    p {
+      font-size: 16px;
+    }
   }
 }

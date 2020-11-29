@@ -49,7 +49,7 @@
   padding: 20px 0;
 }
 
-@media (max-width: $screen-wide-smartphone) {
+@media (max-width: $screen-smartphone-wide) {
   .searchbar input {
     &::placeholder {
       font-size: 20px;

@@ -12,10 +12,11 @@ const MainLayout = ({
   children,
   noDistraction = false
 }: Props): React.ReactElement => {
+  const maxWidth = useMaxWidth();
   return (
     <div className={styles.root}>
       <Header noDistraction={noDistraction} />
-      <div {...useMaxWidth()} className={styles.content}>
+      <div {...maxWidth} className={styles.content}>
         <div className={styles.main_content}>{children}</div>
       </div>
       <Footer />

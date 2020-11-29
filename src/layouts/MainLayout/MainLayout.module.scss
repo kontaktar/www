@@ -17,12 +17,12 @@
     place-items: center;
     overflow: hidden;
     height: 100%;
+
     padding: 0px 96px;
   }
 }
 
-@media (max-width: 1440px) {
+@media (max-width: $screen-tablet-portrait) {
   .main_content {
-    padding: 0px 0px !important;
-  }
+    padding: 0px 40px !important;
 }

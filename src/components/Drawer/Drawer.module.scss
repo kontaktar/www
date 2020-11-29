@@ -24,6 +24,7 @@
   flex-direction: column;
 
   background-color: $color-white;
+  z-index: 500;
 
   width: 50px;
   transition: width 0.3s ease-in;
@@ -80,7 +81,7 @@
     background-color: $color-background;
   }
 }
-@media (max-width: $screen-wide-smartphone) {
+@media (max-width: $screen-smartphone-wide) {
   .open {
     width: 200px;
   }

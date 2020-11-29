@@ -5,7 +5,7 @@
 }
 
 .wrapper {
-  margin-left: 90px;
+  // margin-left: 90px;
   width: 100%;
 }
 
@@ -13,13 +13,14 @@
   width: 100%;
 }
 
-.header {
-  padding-top: 100px;
-}
+// .header {
+//   padding-top: 100px;
+// }
 
 .title {
   padding-top: 20px;
   padding-bottom: 40px;
+  // padding-left: 40px;
 }
 
 .header_icon {
@@ -74,12 +75,13 @@
 }
 
 .active_experience_paper {
+  margin: auto;
   animation-duration: 0.2s;
   animation-name: ExpandIntoView;
   span,
   h5 {
     opacity: 0;
-    animation-duration: 0.8s;
+    animation-duration: 0.4s;
     animation-name: appear;
     animation-delay: 0.2s;
     animation-fill-mode: forwards;
@@ -120,10 +122,6 @@
   box-sizing: border-box;
 }
 
-.active_card_container {
-  padding: 50px 0;
-}
-
 .add_new_experience {
   background-color: #f0f0f0;
   cursor: pointer;
@@ -162,5 +160,12 @@
       width: 100px;
       margin-bottom: 20px;
     }
+  }
+}
+
+@media (max-width: $screen-smartphone-wide) {
+  .user {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

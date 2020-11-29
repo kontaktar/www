@@ -46,9 +46,11 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
       </div>
       <CardsContainer>
         {cards
-          ? Object.values(cards).map((card) => {
+          ? Object.values(cards).map((card, i) => {
               return (
                 <Card
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={i}
                   title={card.title}
                   description={card.description}
                   years={card.years}

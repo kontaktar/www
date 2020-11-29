@@ -87,7 +87,7 @@
 .carousel {
   place-items: center;
 }
-@media (max-width: $screen-wide-smartphone) {
+@media (max-width: $screen-smartphone-wide) {
   .search_section {
     h1,
     .highlight {
@@ -115,7 +115,7 @@
   }
 }
 
-@media (max-width: $screen-wide-smartphone) {
+@media (max-width: $screen-smartphone-wide) {
   .search_section {
     h1,
     .highlight {

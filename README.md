@@ -124,3 +124,21 @@ Putting a tsconfig in the `.storybook` folder that extends the root config didn'
 
 Zero typescript config and other migrations notes:
 https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-typescript
+
+# QA
+
+### Logged out
+
+- /
+- /search
+- /subscribe
+- /user/{userName}
+- /login
+- /register
+
+### Logged in
+
+- /
+- /search
+- /user/{userName}
+- /profile

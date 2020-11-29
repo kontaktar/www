@@ -98,7 +98,6 @@
   &:active {
     border: none;
     p {
-      // transition: color ease-in-out 0.1s;
       color: black;
     }
 
@@ -137,7 +136,6 @@
   color: $primary-color;
   border-color: $primary-color;
   border-image: none;
-  // border-bottom-color: $color-white;
   &:hover,
   &:active,
   &:focus {
@@ -178,9 +176,6 @@
       fill-opacity: 1;
     }
   }
-  // &:active {
-  //   border: none;
-  // }
 }
 
 .rectangle {

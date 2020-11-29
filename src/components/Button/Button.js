@@ -8,28 +8,27 @@ import { Icon } from "components";
 import styles from "./Button.module.scss";
 import colors from "styles/colors.module.scss";
 
-const Button = ({
-  children,
-  className = "",
-  disabled,
-  onClick,
-  modifier,
-  type
-}) => {
-  return (
-    // eslint-disable-next-line react/button-has-type
-    <button
-      className={`${className} ${styles.button} ${modifier.map(
-        (m) => ` ${styles[m]} `
-      )}`}
-      disabled={disabled}
-      onClick={onClick}
-      type={type}
-    >
-      {children}
-    </button>
-  );
-};
+const Button = React.forwardRef(
+  (
+    { children, className = "", disabled, onClick, modifier, type },
+    reference
+  ) => {
+    return (
+      // eslint-disable-next-line react/button-has-type
+      <button
+        ref={reference}
+        className={`${className} ${styles.button} ${modifier.map(
+          (m) => ` ${styles[m]} `
+        )}`}
+        disabled={disabled}
+        onClick={onClick}
+        type={type}
+      >
+        {children}
+      </button>
+    );
+  }
+);
 
 Button.Edit = ({ type, className, ...props }) => {
   return (

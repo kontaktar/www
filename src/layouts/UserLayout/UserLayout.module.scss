@@ -1,9 +1,6 @@
 @import "../../styles/config";
 
 .user_root {
-  // display: flex;
-  // flex-direction: row;
-  // width: 100%;
   overflow: hidden;
   .user_main_content {
     display: flex;
@@ -12,18 +9,14 @@
     flex-grow: 1;
     padding-right: 100px;
     padding-left: 245px;
+    padding-top: 50px;
     margin-bottom: 100px;
   }
 }
 
-@media (max-width: $screen-desktop) {
+@media (max-width: $screen-desktop-large) {
   .user_root .user_main_content {
-    padding-right: 0px;
-  }
-}
-
-@media (max-width: $screen-tablet-portrait) {
-  .user_root .user_main_content {
+    padding-right: 20px;
     padding-left: 70px;
   }
 }
