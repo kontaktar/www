@@ -16,7 +16,6 @@
   flex-direction: column;
   flex-basis: 60%;
   padding-top: 10px;
-  // margin-right: 30px;
 
   h1,
   p {
@@ -42,7 +41,6 @@
 }
 
 .subscription_card_container {
-  background-color: red;
   margin: auto;
 }
 
@@ -113,8 +111,6 @@
     font-family: "Berlingske Sans Bold";
   }
   ul {
-    //TODO replace list-style image
-    // list-style: none;
     list-style-position: inside;
   }
   li {
@@ -123,12 +119,6 @@
     margin-bottom: 10px;
   }
 }
-
-// @media (max-width: 1440px) {
-//   .subscription_container {
-//     padding: 0px 0px;
-//   }
-// }
 
 @media screen and (max-width: $screen-tablet-landscape) {
   .subscription_container {

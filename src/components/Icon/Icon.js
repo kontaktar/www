@@ -18,13 +18,12 @@ import SvgSearchLarge from "assets/icons/SvgSearchLarge";
 import SvgUser from "assets/icons/SvgUser";
 import SvgWebsite from "assets/icons/SvgWebsite";
 import PropTypes from "prop-types";
-import styles from "./Icon.module.scss";
 
 // TODO: This setup is disgusting... + add fill props for icons
 const Icon = ({ className, name, ...props }) => {
   // console.log(className);
   return (
-    <div className={`${className} ${styles.icon}`}>
+    <div className={className}>
       {name === "user" && <SvgUser {...props} />}
       {name === "search" && <SvgSearch {...props} />}
       {name === "search-large" && <SvgSearchLarge {...props} />}
