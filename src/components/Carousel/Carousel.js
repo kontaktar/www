@@ -86,7 +86,7 @@ const Carousel = () => {
   }, [carouselSize, slidesToShow, width]);
 
   return (
-    <>
+    <div className={styles.carousel_root}>
       <div
         className={`
           ${styles.carousel_header}
@@ -190,7 +190,7 @@ const Carousel = () => {
           6
         </Card>
       </NukaCarousel>
-    </>
+    </div>
   );
 };
 

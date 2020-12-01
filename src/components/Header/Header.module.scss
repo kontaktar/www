@@ -1,13 +1,12 @@
 @import "../../styles/config";
 
 .header {
-  padding: 50px 90px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   align-items: center;
   flex-wrap: nowrap;
   width: 100%;
+  position: relative;
 
   background-color: $color-white;
 
@@ -42,8 +41,17 @@
 }
 
 .modal_content {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
   background: white;
   height: 100vh;
+  @media (max-width: $screen-smartphone-small) {
+    padding: 10px;
+  }
+  @media (max-width: $screen-smartphone-wide) {
+    padding: 20px;
+  }
 }
 
 .close_button {
@@ -74,22 +82,13 @@
 .mobile_navigation {
   display: flex;
   flex-direction: column;
-  padding-left: 40px;
   line-height: 48px;
+  flex-grow: 1;
+  align-self: center;
+  margin-top: 50px;
   a {
     font-size: 32px;
     color: $color-red;
     text-decoration: none;
-  }
-}
-@media (max-width: $screen-tablet-portrait) {
-  .header {
-    padding: 50px 40px;
-  }
-}
-
-@media (max-width: $screen-smartphone-wide) {
-  .header {
-    padding: 30px 40px;
   }
 }

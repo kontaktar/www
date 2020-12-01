@@ -1,4 +1,5 @@
 import React from "react";
+import cx from "classnames";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Footer, Header } from "components";
 import styles from "./MainLayout.module.scss";
@@ -17,7 +18,7 @@ const MainLayout = ({
     <div className={styles.root}>
       <Header noDistraction={noDistraction} />
       <div {...maxWidth} className={styles.content}>
-        <div className={styles.main_content}>{children}</div>
+        {children}
       </div>
       <Footer />
     </div>

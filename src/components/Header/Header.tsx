@@ -25,7 +25,7 @@ const Header = ({
   const tabletPortrait = width < screensizes.tabletsPortrait;
 
   return (
-    <div className={styles.root} {...useMaxWidth()}>
+    <header className={styles.root} {...useMaxWidth()}>
       <div className={cx(styles.header, className)}>
         <div className={styles.logo_area}>
           {width < screensizes.default ? <Logo /> : <Logo withTitle />}
@@ -117,7 +117,7 @@ const Header = ({
           </>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 

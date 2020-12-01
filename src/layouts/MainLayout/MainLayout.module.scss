@@ -1,29 +1,61 @@
 @import "../../styles/config";
 
 .root {
-  height: 100vh;
+  position: relative;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+  overflow: hidden;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  position: relative;
+}
 
-  .main_content {
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    height: 100%;
-
-    padding: 0px 96px;
+.root {
+  .content {
+    padding: 0px 40px 40px 40px;
+  }
+  header,
+  footer {
+    padding: 40px;
+  }
+}
+@media (max-width: $screen-smartphone-small) {
+  .root {
+    .content,
+    header,
+    footer {
+      padding: 10px;
+    }
   }
 }
 
-@media (max-width: $screen-tablet-portrait) {
-  .main_content {
-    padding: 0px 40px !important;
+@media (max-width: $screen-smartphone-wide) {
+  .root {
+    .content {
+      padding: 0px 20px 20px 20px;
+    }
+    header,
+    footer {
+      padding: 20px;
+    }
   }
 }
+
+// @media (max-width: $screen-smartphone) {
+//   .root {
+//     .content {
+
+//     }
+//     header,
+//     footer {
+//       padding: 20px 20px 20px 20px;
+//     }
+//   }
+// }

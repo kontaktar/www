@@ -9,3 +9,9 @@
   column-gap: 16px;
   row-gap: 30px;
 }
+
+@media (max-width: $screen-smartphone) {
+  .cards_container {
+    grid-template-columns: repeat(auto-fill, 250px);
+  }
+}

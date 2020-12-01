@@ -4,13 +4,15 @@
   display: flex;
   flex-direction: row;
   padding-bottom: 16px;
+  flex-wrap: wrap;
   > * {
     margin-right: 15px;
+    flex-basis: 200px;
   }
 }
 
 .wrapper {
-  padding: 0px 120px 80px;
+  // padding: 0px 120px 80px;
 }
 
 .heading {

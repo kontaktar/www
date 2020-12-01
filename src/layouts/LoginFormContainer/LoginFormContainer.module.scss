@@ -1,9 +1,14 @@
 @import "../../styles/config";
 
 .form {
+  padding-top: 40px;
   padding-bottom: 60px;
-  min-width: 280px;
+  max-width: 350px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 300px;
+  margin: auto;
   > *:first-child {
     padding-bottom: 40px;
   }

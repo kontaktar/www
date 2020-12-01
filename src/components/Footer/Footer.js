@@ -12,9 +12,9 @@ const Footer = ({ className }) => {
   const { width } = useWindowDimensions();
   const maxWidth = useMaxWidth();
   return (
-    <footer className={styles.root}>
-      <div {...maxWidth} className={cx(styles.footer, className)}>
-        <div>
+    <div className={styles.root}>
+      <footer {...maxWidth} className={cx(styles.footer, className)}>
+        <div className={styles.logo_wrapper}>
           {width < screensizes.default ? (
             <>
               {width > screensizes.tabletsPortrait ? (
@@ -37,8 +37,8 @@ const Footer = ({ className }) => {
             <p>kontaktar@kontaktar.is</p>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </div>
   );
 };
 
