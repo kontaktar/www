@@ -101,7 +101,7 @@ const Card = (props) => {
           </div>
         )}
 
-        <CardActionArea onClick={onClick} className={styles.card_area}>
+        <CardActionArea onClick={onClick}>
           <CardContent className={styles.card_content}>
             {editMode && (
               <span

@@ -8,12 +8,18 @@
   overflow: visible !important;
   background-color: $color-paper-white;
   box-shadow: 0px 4px 23px rgba(0, 0, 0, 0.1) !important;
+
+  :global {
+    .MuiCardActionArea-root {
+      display: flex;
+      align-items: stretch;
+    }
+  }
 }
 
 .card_content {
   padding: 40px 16px 16px !important;
   position: relative;
-  height: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserExperiences, getUserByUserName } from "store/actions";
 import { Button, Card, Icon, Modal } from "components";
+import NewModal from "components/Modal/NewModal";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import styles from "./ProfileContainer.module.scss";
 import colors from "styles/colors.module.scss";
@@ -134,6 +135,7 @@ const ProfileContainer = ({ editMode, userName }) => {
     months,
     published
   ) => {
+    showModal(true);
     setModalData({
       id,
       title,
@@ -143,7 +145,6 @@ const ProfileContainer = ({ editMode, userName }) => {
       published
     });
     setModalType({ experience: true });
-    showModal(true);
   };
 
   const onEditUserInfoModal = () => {
@@ -282,15 +283,18 @@ const ProfileContainer = ({ editMode, userName }) => {
           )}
 
           {/* if innerWidth < 800 => width = 100% */}
-          <Modal
+          {/* <Modal
             open={openModal}
             onClose={onCloseModal}
             {...modalType}
             // height="600px"
             // width="800px"
           >
+            <ModalContent {...modalType} data={modalData} /> */}
+          {/* </Modal> */}
+          <NewModal open={openModal} onClose={onCloseModal}>
             <ModalContent {...modalType} data={modalData} />
-          </Modal>
+          </NewModal>
         </div>
       </div>
     );

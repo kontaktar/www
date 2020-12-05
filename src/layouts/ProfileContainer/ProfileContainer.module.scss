@@ -66,6 +66,7 @@
   }
 }
 .card_container {
+  padding-top: 40px;
   h4 {
     padding-bottom: 40px;
   }
@@ -110,7 +111,8 @@
   height: 100%;
   h5 {
     font-size: 22px;
-    line-height: 50px;
+    line-height: 32px;
+    margin-bottom: 16px;
   }
   span {
     line-height: 24px;

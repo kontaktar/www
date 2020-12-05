@@ -9,7 +9,7 @@ const SearchWithParams = async (request, response): Promise<void> => {
   } = request;
   if (method === "GET") {
     try {
-      const words = params.split(" ");
+      const words = params.toLowerCase().split(" ");
       const wordsRegex = `(${words.join("|")})`;
       const wordsLike = `%${words.join("% <-> %")}%`;
 

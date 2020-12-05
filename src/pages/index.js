@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { getBaseUrl } from "helpers/url";
-import { FrontPageContainer, MainLayout } from "layouts";
 // import useMaxWidth from "src/hooks/useMaxWidth";
+import { FrontPageContainer, MainLayout } from "layouts";
 import { fetchUserExperiences } from "../store/actions";
 
 const LandingPage = () => {
