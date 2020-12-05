@@ -17,6 +17,7 @@
   justify-content: space-around;
   flex-direction: column;
   align-self: center;
+  width: 100%;
   h1 {
     padding: 40px 0;
     max-width: 460px;
@@ -48,7 +49,7 @@
   position: absolute;
   z-index: -1;
   right: -160px;
-  @media (max-width: $screen-smartphone-wide) {
+  @media (max-width: $screen-tablet-landscape) {
     // right: -400px;
     // right: -110%;
     display: none;
@@ -83,6 +84,13 @@
   place-items: center;
 }
 
+@media (min-width: $screen-tablet-landscape) {
+  .hero {
+    h1 {
+      padding-left: 60px;
+    }
+  }
+}
 @media (max-width: $screen-tablet-landscape) {
   .highlight {
     display: block;

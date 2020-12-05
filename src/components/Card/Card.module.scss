@@ -130,11 +130,6 @@
   background-color: $color-green;
 }
 
-@media only screen and (max-width: $screen-smartphone) {
-  .card {
-    width: 240px;
-  }
-}
 // mobile
 @media only screen and (max-width: $screen-smartphone-wide) {
   .buttons {

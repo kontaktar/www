@@ -74,10 +74,11 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
     }
   }, [items]);
 
+  const SORTING_STARTS_IN_PIXELS = 10;
   return (
     <SortableContainer
       helperClass={styles.sortable_container}
-      distance={10} // needs to be dragged 10px for the sorting to start, allows the buttons on the cards to be clickable
+      distance={SORTING_STARTS_IN_PIXELS}
       hideSortableGhost
       axis="xy"
       onSortEnd={onChange}

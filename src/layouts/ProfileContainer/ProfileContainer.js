@@ -267,7 +267,7 @@ const ProfileContainer = ({ editMode, userName }) => {
                 >
                   <span className={styles.add_new_plus}>+</span>
                 </button>
-              </CardsContainer>
+              </CardsContainer> */}
             </>
           ) : (
             <CardsContainer className={styles.cards}>
