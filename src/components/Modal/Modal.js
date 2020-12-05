@@ -10,7 +10,13 @@ import { Button, Icon } from "components";
 import styles from "./Modal.module.scss";
 
 // eslint-disable-next-line react/prop-types
-const Modal = ({ children, experience, userInformation, open, onClose }) => {
+const Modal = ({
+  children,
+  experience = false,
+  userInformation = false,
+  open,
+  onClose
+}) => {
   return (
     <MUIModal
       aria-labelledby="simple-modal-title"

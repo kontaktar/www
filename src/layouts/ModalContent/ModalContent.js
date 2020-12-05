@@ -228,7 +228,11 @@ const LastChange = ({ className, timestamp }) => {
   );
 };
 
-const ModalContent = ({ data, experience, userInformation }) => {
+const ModalContent = ({
+  data,
+  experience = false,
+  userInformation = false
+}) => {
   return (
     <div
       className={cx(styles.modalcontent, {

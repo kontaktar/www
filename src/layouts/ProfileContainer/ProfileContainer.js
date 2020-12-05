@@ -259,15 +259,6 @@ const ProfileContainer = ({ editMode, userName }) => {
                   handleEdit={onOpenExperienceModal}
                 />
               )}
-              <CardsContainer className={styles.cards}>
-                <button
-                  type="button"
-                  className={styles.add_new_experience}
-                  onClick={onOpenNewExperienceModal}
-                >
-                  <span className={styles.add_new_plus}>+</span>
-                </button>
-              </CardsContainer> */}
             </>
           ) : (
             <CardsContainer className={styles.cards}>

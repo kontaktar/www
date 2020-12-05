@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import arrayMove from "array-move";
@@ -10,10 +11,18 @@ import { Card } from "components";
 import { CardsContainer } from "layouts";
 import styles from "./DragableCardContainer.module.scss";
 
-const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
+/* Dragable SortableItem is not working on mobile */
+// const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
+
+// bypassing it:
+const SortableItem = ({ cardContent, handleEdit }) => {
   return (
-    <div key={cardContent.id} className={cardContent.id}>
-      {/* This extra div is crucial for the dragging to work: https://github.com/clauderic/react-sortable-hoc/issues/367#issuecomment-380523336 */}
+    <li
+      key={cardContent.id + cardContent.title}
+      style={{ listStyle: " none" }}
+      className={`item_${cardContent.id}`}
+    >
+      {/* This wrapper is crucial for the dragging to work: https://github.com/clauderic/react-sortable-hoc/issues/367#issuecomment-380523336 */}
       <Card
         editMode
         experienceId={cardContent.id}
@@ -24,16 +33,12 @@ const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
         years={cardContent.years || "0"}
         onEdit={handleEdit}
       />
-    </div>
+    </li>
   );
-});
+};
 
 const SortableContainer = sortableContainer(({ children }) => {
-  return (
-    <>
-      <CardsContainer>{children}</CardsContainer>
-    </>
-  );
+  return <CardsContainer addNewItemButton>{children}</CardsContainer>;
 });
 // eslint-disable-next-line react/prop-types
 const DragableCardContainer = ({ userId, items, handleEdit }) => {
@@ -43,25 +48,22 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
 
   const [arrangement, setArrangement] = useState(items);
   async function updateOrder(rearrangeItems) {
-    dispatch(
-      editUserExperiences(
-        userId,
-        rearrangeItems.map((experience, index) => {
-          return {
-            id: experience.id,
-            title: experience.title,
-            description: experience.description,
-            years: experience.years,
-            months: experience.months,
-            published: experience.published,
-            order: index + 1
-          };
-        })
-      )
-    );
+    const itemsInNewOrder = rearrangeItems.map((experience, index) => {
+      return {
+        id: experience.id,
+        title: experience.title,
+        description: experience.description,
+        years: experience.years,
+        months: experience.months,
+        published: experience.published,
+        order: index + 1
+      };
+    });
+    dispatch(editUserExperiences(userId, itemsInNewOrder));
   }
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions
+    console.log(oldIndex !== newIndex && newIndex !== null);
     if (oldIndex !== newIndex && newIndex !== null) {
       setArrangement(arrayMove(arrangement, oldIndex, newIndex));
       updateOrder(arrayMove(items, oldIndex, newIndex));

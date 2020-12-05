@@ -1,0 +1,20 @@
+@import "../../../styles/config";
+
+.add_new_item {
+  background-color: #f0f0f0;
+  cursor: pointer;
+  height: 250px;
+  width: 300px;
+  border: none;
+  &:hover,
+  &:active,
+  &:focus {
+    .add_new_plus {
+      color: $color-red;
+    }
+  }
+  .add_new_plus {
+    font-size: 120px;
+    color: white;
+  }
+}
