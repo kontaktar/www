@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal } from "components";
 import { ModalContent } from "layouts";
-import styles from "./additem.module.scss";
+import styles from "./AddItem.module.scss";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const AddItem = () => {
