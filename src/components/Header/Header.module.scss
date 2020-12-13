@@ -44,8 +44,23 @@
   display: flex;
   flex-direction: column;
   padding: 40px;
-  background: white;
+  background: $color-red;
   height: 100vh;
+
+  .close_button,
+  .logo_area {
+    background: $color-red;
+    div::after {
+      color: $color-white;
+    }
+  }
+  nav span a {
+    color: $color-white;
+  }
+  .plusses {
+    //
+  }
+
   @media (max-width: $screen-smartphone-small) {
     padding: 10px;
   }
@@ -82,12 +97,12 @@
 .mobile_navigation {
   display: flex;
   flex-direction: column;
-  line-height: 48px;
+  line-height: 58px;
   flex-grow: 1;
   align-self: center;
   margin-top: 50px;
   a {
-    font-size: 32px;
+    font-size: 42px;
     color: $color-red;
     text-decoration: none;
   }

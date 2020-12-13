@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Link from "next/link";
 import cx from "classnames";
 import styles from "./Logo.module.scss";
 
@@ -12,10 +13,14 @@ const Logo = ({ className, inverted, withTitle }) => {
         className
       )}
     >
-      <div className={styles.letter}>
-        <h1>K</h1>
-      </div>
-      <>{withTitle ? <Logo.Title /> : null}</>
+      <>
+        <Link href="/">
+          <div className={styles.letter}>
+            <h1>K</h1>
+          </div>
+        </Link>
+        <>{withTitle ? <Logo.Title /> : null}</>
+      </>
     </div>
   );
 };
