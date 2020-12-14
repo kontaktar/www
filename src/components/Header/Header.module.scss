@@ -89,7 +89,7 @@
     color: $color-red;
     right: 0;
     content: "\D7";
-    font-size: 50px;
+    font-size: 48px;
     line-height: 50px;
     text-align: center;
   }
@@ -102,8 +102,19 @@
   align-self: center;
   margin-top: 50px;
   a {
+    font-family: "Berlingske Serif";
     font-size: 42px;
     color: $color-red;
     text-decoration: none;
+  }
+}
+
+.modal_container {
+  div[data-reach-dialog-content] {
+    border: none !important;
+    padding: 0;
+    > button {
+      display: none;
+    }
   }
 }

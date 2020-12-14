@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Modal from "@material-ui/core/Modal";
 import SvgPluses from "assets/background/SvgPluses";
 import screensizes from "data/screensizes";
 import Link from "next/link";
@@ -7,6 +6,7 @@ import cx from "classnames";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Logo } from "components";
+import NewModal from "components/Modal/NewModal";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 
@@ -45,9 +45,10 @@ const Header = ({
                     />
                   </>
                 ) : (
-                  <Modal
+                  <NewModal
                     open={openBurger}
-                    // onClose={() => setOpenBurger(false)}
+                    onClose={() => setOpenBurger(false)}
+                    className={styles.modal_container}
                     aria-labelledby="mobile-menu"
                     aria-describedby="mobile-dropdown-menu"
                   >
@@ -81,7 +82,7 @@ const Header = ({
                       </nav>
                       {/* <SvgPluses className={styles.plusses} /> */}
                     </div>
-                  </Modal>
+                  </NewModal>
                 )}
               </>
             ) : (
