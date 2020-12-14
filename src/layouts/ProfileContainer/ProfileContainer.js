@@ -187,29 +187,10 @@ const ProfileContainer = ({ editMode, userName }) => {
                 <Icon
                   className={styles.user_info_icons}
                   color={colors.red}
-                  name="location"
-                />
-                {[
-                  user.streetName,
-                  user.postalCode && user.postalCode !== "0"
-                    ? user.postalCode
-                    : "",
-                  user.city,
-                  user.country
-                ]
-                  .filter(Boolean)
-                  .join(", ")}
-              </span>
-              <span>
-                <Icon
-                  className={styles.user_info_icons}
-                  color={colors.red}
                   name="phone-profile"
                 />
                 {user.phoneNumber}
               </span>
-            </Fragment>
-            <Fragment>
               <span>
                 <Icon
                   className={styles.user_info_icons}
@@ -228,6 +209,25 @@ const ProfileContainer = ({ editMode, userName }) => {
                   {user.website}
                 </span>
               ) : null}
+            </Fragment>
+            <Fragment>
+              <span>
+                <Icon
+                  className={styles.user_info_icons}
+                  color={colors.red}
+                  name="location"
+                />
+                {[
+                  user.streetName,
+                  user.postalCode && user.postalCode !== "0"
+                    ? user.postalCode
+                    : "",
+                  user.city,
+                  user.country
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
+              </span>
             </Fragment>
           </div>
         </div>

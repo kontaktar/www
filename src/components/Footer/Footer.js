@@ -30,7 +30,7 @@ const Footer = ({ className }) => {
         <div className={styles.info}>
           <div className={styles.row}>
             <Icon className={styles.icons} name="phone" />
-            <p>444 4444</p>
+            <p>862-9580</p>
           </div>
           <div className={styles.row}>
             <Icon className={styles.icons} name="email" />

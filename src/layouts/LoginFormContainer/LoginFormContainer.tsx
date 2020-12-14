@@ -59,7 +59,7 @@ const LoginFormContainer = (): React.ReactElement => {
 
           <Link href="/register" as="/register">
             <Button className={styles.button} modifier={["inverted"]}>
-              Stofna aðgang
+              Stofna nýjan aðgang
             </Button>
           </Link>
 

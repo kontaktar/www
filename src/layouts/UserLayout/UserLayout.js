@@ -11,6 +11,7 @@ const UserLayout = ({ children }) => {
       {/* <div className={styles.profile_drawer}>
         <Drawer rightSide />
       </div> */}
+      {/* <Footer /> */}
     </div>
   );
 };
