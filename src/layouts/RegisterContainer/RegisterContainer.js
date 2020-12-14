@@ -139,7 +139,7 @@ const RegisterContainer = () => {
         type="button"
         onClick={registerNewUser}
       >
-        Register
+        Nýskrá
       </Button>
       {errorMessage && (
         <p style={{ color: "red" }}>{errorMessage.toString()}</p>
