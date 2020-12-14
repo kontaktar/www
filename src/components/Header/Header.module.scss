@@ -44,8 +44,23 @@
   display: flex;
   flex-direction: column;
   padding: 40px;
-  background: white;
+  background: $color-red;
   height: 100vh;
+
+  .close_button,
+  .logo_area {
+    background: $color-red;
+    div::after {
+      color: $color-white;
+    }
+  }
+  nav span a {
+    color: $color-white;
+  }
+  .plusses {
+    //
+  }
+
   @media (max-width: $screen-smartphone-small) {
     padding: 10px;
   }
@@ -74,7 +89,7 @@
     color: $color-red;
     right: 0;
     content: "\D7";
-    font-size: 50px;
+    font-size: 48px;
     line-height: 50px;
     text-align: center;
   }
@@ -82,13 +97,24 @@
 .mobile_navigation {
   display: flex;
   flex-direction: column;
-  line-height: 48px;
+  line-height: 58px;
   flex-grow: 1;
   align-self: center;
   margin-top: 50px;
   a {
-    font-size: 32px;
+    font-family: "Berlingske Serif";
+    font-size: 42px;
     color: $color-red;
     text-decoration: none;
+  }
+}
+
+.modal_container {
+  div[data-reach-dialog-content] {
+    border: none !important;
+    padding: 0;
+    > button {
+      display: none;
+    }
   }
 }

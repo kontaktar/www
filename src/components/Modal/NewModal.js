@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 import { DialogContent, DialogOverlay } from "@reach/dialog";
 import { animated, useTransition } from "react-spring";
+import cx from "classnames";
 import { Button, Icon } from "components";
 import "@reach/dialog/styles.css";
 import styles from "./Modal.module.scss";
 
 // eslint-disable-next-line react/prop-types
-const NewModal = ({ open = false, children, onClose }) => {
+const NewModal = ({ open = false, className, children, onClose }) => {
   const AnimatedDialogOverlay = animated(DialogOverlay);
   const AnimatedDialogContent = animated(DialogContent);
   const [showDialog, setShowDialog] = useState(open);
@@ -28,7 +29,7 @@ const NewModal = ({ open = false, children, onClose }) => {
         ({ item, key, props: _styles }) =>
           item && (
             <AnimatedDialogOverlay
-              className={styles.new_modal}
+              className={cx(styles.new_modal, className)}
               style={{ opacity: _styles.opacity }}
             >
               <AnimatedDialogContent
