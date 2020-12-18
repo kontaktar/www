@@ -4,11 +4,11 @@ import React from "react";
 import MuiCard from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import PropTypes from "prop-types";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import cx from "classnames";
 import { deleteUserExperience, editUserExperience } from "store/actions";
+import useAuth from "hooks/useAuth";
 import { Icon } from "components";
 import styles from "./Card.module.scss";
 
@@ -17,7 +17,7 @@ const Card = (props) => {
     experienceId,
     description,
     editMode = false,
-    linkToProfile = "",
+    linkToProfile = undefined,
     months = "0",
     onClick,
     onEdit,
@@ -30,7 +30,7 @@ const Card = (props) => {
 
   // TODO: This, onEditCard, onPublishToggleCard, onDeleteCard doesn't belong in the component.
   // Should be in a provider, this is breaking Storybook.
-  const store = useSelector((state) => state);
+  const { userData } = useAuth();
 
   const onEditCard = () => {
     onEdit(experienceId, title, description, years, months, published);
@@ -38,7 +38,7 @@ const Card = (props) => {
 
   const onPublishToggleCard = () => {
     dispatch(
-      editUserExperience(store.auth.user.id, {
+      editUserExperience(userData.id, {
         id: experienceId,
         title,
         description,
@@ -50,13 +50,16 @@ const Card = (props) => {
   };
 
   const onDeleteCard = () => {
-    dispatch(deleteUserExperience(store.auth.user.id, experienceId));
+    dispatch(deleteUserExperience(userData.id, experienceId));
   };
 
   const LinkToProfile = ({ children }) => {
     if (linkToProfile) {
       return (
-        <Link href="/user/[userName]" as={`/user/${linkToProfile}`}>
+        <Link
+          href="/user/[userName]"
+          as={`/user/${linkToProfile.userName}?experienceId=${linkToProfile.experienceId}`}
+        >
           {children}
         </Link>
       );
@@ -128,12 +131,6 @@ const Card = (props) => {
       </MuiCard>
     </LinkToProfile>
   );
-};
-
-Card.propTypes = {
-  // children: PropTypes.node.isRequired,
-  description: PropTypes.string,
-  linkToProfile: PropTypes.string
 };
 
 export default Card;

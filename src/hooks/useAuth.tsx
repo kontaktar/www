@@ -1,18 +1,22 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "store/actions";
 import useUser from "lib/useUser";
 import { get } from "helpers/methods";
+import { EditUser, GetUserByUserName } from "../pages/api/endpoints";
 
 type AuthContextProps = {
   status: string;
   isLoggedIn: boolean;
+  userData: any;
   logout?: () => void;
+  login?: (userName: string) => void;
+  editUser?: (userData: any) => void;
 };
 
 type AuthReducerState = {
   status: string;
   isLoggedIn: boolean;
+  userData: any;
 };
 
 type AuthReducerPayload = {
@@ -20,7 +24,11 @@ type AuthReducerPayload = {
   type: string;
 };
 
-const initialProps = { status: "INITIAL", isLoggedIn: false };
+const initialProps = {
+  status: "INITIAL",
+  isLoggedIn: false,
+  userData: undefined
+};
 const AuthContext = createContext<AuthContextProps>(initialProps);
 
 export const reducer = (
@@ -32,7 +40,20 @@ export const reducer = (
       return {
         ...state,
         status: action.payload.status,
-        isLoggedIn: action.payload.isLoggedIn
+        isLoggedIn: action.payload.isLoggedIn,
+        userData: action.payload.userData
+      };
+    case "AUTH/LOGIN":
+      return {
+        ...state,
+        status: action.payload.status,
+        isLoggedIn: action.payload.isLoggedIn,
+        userData: action.payload.userData
+      };
+    case "AUTH/EDIT_USER":
+      return {
+        ...state,
+        userData: action.payload.userData
       };
     default:
       return state;
@@ -40,8 +61,6 @@ export const reducer = (
 };
 
 const useAuth = (): AuthContextProps => useContext(AuthContext);
-
-// This provider is meant to be a connection between the redux store and the session storage.
 
 export const AuthProvider = ({
   children
@@ -58,29 +77,45 @@ export const AuthProvider = ({
       type: "AUTH/UPDATE_LOGIN_STATUS",
       payload: {
         status: "LOGGED_OUT",
-        isLoggedIn: false
+        isLoggedIn: false,
+        userData: undefined
       }
     });
-    // TODO: hreinsa auth store, dispatch(logout)
   };
 
+  const login = async (userName) => {
+    const result = await GetUserByUserName(userName);
+    dispatch({
+      type: "AUTH/LOGIN",
+      payload: {
+        status: "LOGGED_IN",
+        isLoggedIn: true,
+        userData: result
+      }
+    });
+  };
+
+  const editUser = async (userData) => {
+    await EditUser(userData.id, userData);
+    dispatch({
+      type: "AUTH/EDIT_USER",
+      payload: {
+        status: "LOGGED_IN",
+        isLoggedIn: true,
+        userData
+      }
+    });
+  };
   useEffect(() => {
+    // login from session-storage
     if (user && user?.isLoggedIn !== state?.isLoggedIn) {
       if (user.isLoggedIn) {
-        // TODO: get rid of Auth the store
-        dispatchToStore(login(user.login));
+        login(user.login);
       } else if (!user.isLoggedIn) {
         // TODO: Error: Actions must be plain objects. Use custom middleware for async actions.
         // I need thunk?
         logout();
       }
-      dispatch({
-        type: "AUTH/UPDATE_LOGIN_STATUS",
-        payload: {
-          status: "FETCHED_FROM_SESSION",
-          isLoggedIn: user.isLoggedIn
-        }
-      });
     }
   }, [dispatchToStore, state?.isLoggedIn, user]);
 
@@ -88,7 +123,9 @@ export const AuthProvider = ({
     <AuthContext.Provider
       value={{
         ...state,
-        logout: () => logout()
+        editUser: (userData) => editUser(userData),
+        logout: () => logout(),
+        login: (userName) => login(userName)
       }}
     >
       {children}

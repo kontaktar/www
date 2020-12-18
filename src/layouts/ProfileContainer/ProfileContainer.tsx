@@ -4,8 +4,11 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import orderBy from "lodash.orderby";
 import PropTypes from "prop-types";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserExperiences, getUserByUserName } from "store/actions";
+import useAuth from "hooks/useAuth";
 import { Button, Card, Icon, Modal } from "components";
 import NewModal from "components/Modal/NewModal";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
@@ -13,19 +16,29 @@ import styles from "./ProfileContainer.module.scss";
 import colors from "styles/colors.module.scss";
 
 const ProfileContainer = ({ editMode, userName }) => {
+  const { query } = useRouter();
+
+  const { userData } = useAuth();
   const wrapperElement = useRef(null);
   const [openModal, showModal] = useState(false);
   const [modalData, setModalData] = useState({});
-  const [modalType, setModalType] = useState();
-  const [user, setUserProfile] = useState({});
+  const [modalType, setModalType] = useState<any>();
+  const [user, setUserProfile] = useState<any>();
   const [showActiveSection, setShowActiveSection] = useState(false);
-  const [activeExperience, setActiveExperience] = useState(false);
+  const [activeExperience, setActiveExperience] = useState<any>();
   const [userExperiences, setUserExperiences] = useState([]);
 
   const [activeExperienceWidth, setActiveExperienceWidth] = useState(undefined);
 
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (editMode && userData?.id) {
+      dispatch(fetchUserExperiences(userData.id));
+      setUserProfile(userData);
+    }
+  }, [dispatch, editMode, userData]);
 
   useEffect(() => {
     function handleResize() {
@@ -54,12 +67,12 @@ const ProfileContainer = ({ editMode, userName }) => {
   useEffect(() => {
     if (!editMode && userName) {
       if (
-        Object.entries(user).length === 0 &&
+        !user &&
         Object.entries(store.users).length > 0 &&
         !store.users.isFetching
       ) {
-        const [currentUserProfile] = Object.values(store.users).filter(
-          (u) => u && u.userName && u.userName === userName
+        const [currentUserProfile]: any = Object.values(store.users).filter(
+          (u: any) => u && u?.userName && u?.userName === userName
         );
 
         if (currentUserProfile) {
@@ -68,64 +81,40 @@ const ProfileContainer = ({ editMode, userName }) => {
         }
       }
     }
-  }, [userName, store.users]);
-
-  // Fetch logged in user
-  useEffect(() => {
-    if (
-      editMode &&
-      store.auth &&
-      store.auth.user &&
-      store.auth.user.id &&
-      store.users &&
-      store.users[store.auth.user.id]
-    ) {
-      dispatch(fetchUserExperiences(store.auth.user.id));
-      setUserProfile(store.users[store.auth.user.id]);
-    }
-  }, [store.users && store.auth && store.auth.user]);
+  }, [userName, store.users, editMode, user, dispatch]);
 
   // Fetch profile for logged in user
   useEffect(() => {
-    if (
-      editMode &&
-      store.auth &&
-      store.auth.user &&
-      store.auth.user.id &&
-      store.users
-    ) {
-      setUserProfile(store.users[store.auth.user.id]);
+    if (editMode && userData && userData.id && store.users) {
+      setUserProfile(userData);
     }
-  }, [store.users]);
+  }, [editMode, store.users, userData]);
 
   useEffect(() => {
     if (
       store.users &&
-      user.id &&
+      user &&
+      user?.id &&
       store.experiences &&
       store.experiences.byUserId &&
-      store.experiences.byUserId[user.id] &&
+      store.experiences.byUserId[user?.id] &&
       !store.experiences.isFetching
     ) {
-      console.log(
-        "useEffect: ProfileContainer [store.experiences]",
-        store.experiences
-      );
       setUserExperiences(
-        orderBy(store.experiences.byUserId[user.id], ["order"], ["asc"])
+        orderBy(store.experiences.byUserId[user?.id], ["order"], ["asc"])
       );
     }
-  }, [store.experiences]);
+  }, [store.experiences, store.users, user]);
 
   const onCloseModal = () => {
     showModal(false);
   };
 
-  const onOpenNewExperienceModal = () => {
-    setModalData({});
-    setModalType({ experience: true });
-    showModal(true);
-  };
+  // const onOpenNewExperienceModal = () => {
+  //   setModalData({});
+  //   setModalType({ experience: true });
+  //   showModal(true);
+  // };
 
   const onOpenExperienceModal = (
     id,
@@ -149,15 +138,29 @@ const ProfileContainer = ({ editMode, userName }) => {
 
   const onEditUserInfoModal = () => {
     // TODO: This is slow and sometimes failes on pushing 'breyta upplýsingum'
-    setModalData({ ...store.users[store.auth.user.id] });
-    setModalType({ userInformation: true });
-    showModal(true);
+    if (userData && userData.id) {
+      setModalData({ ...userData });
+      setModalType({ userInformation: true });
+      showModal(true);
+    }
   };
 
   const showActiveExperienceOnTop = (experience) => {
     setShowActiveSection(true);
     setActiveExperience(experience);
   };
+
+  if (query?.experienceId && !showActiveSection) {
+    const experience = userExperiences.filter(
+      // eslint-disable-next-line radix
+      (ex) => ex.id === parseInt(query?.experienceId as string)
+    );
+    if (experience[0]) {
+      setShowActiveSection(true);
+      setActiveExperience(experience[0]);
+    }
+  }
+
   if (user) {
     return (
       <div
@@ -179,6 +182,11 @@ const ProfileContainer = ({ editMode, userName }) => {
               </h2>
             </div>
             {editMode && <Button onClick={onEditUserInfoModal}>Breyta</Button>}
+            {!editMode && userName === userData?.userName && (
+              <Link href="/profile">
+                <Button>Breyta</Button>
+              </Link>
+            )}
           </div>
 
           <div className={styles.user_information}>
@@ -241,7 +249,7 @@ const ProfileContainer = ({ editMode, userName }) => {
                   width: activeExperienceWidth
                 }}
               >
-                <h5>{`${activeExperience.title}`}</h5>
+                <h5>{`${activeExperience?.title}`}</h5>
                 <span
                   className={styles.full_description}
                 >{`${activeExperience.description}`}</span>
@@ -265,19 +273,22 @@ const ProfileContainer = ({ editMode, userName }) => {
             <CardsContainer className={styles.cards}>
               {userExperiences &&
                 userExperiences.map((experience) => {
-                  return (
-                    <Card
-                      description={experience.description}
-                      editMode={editMode}
-                      experienceId={experience.id}
-                      onEdit={onOpenExperienceModal}
-                      published={experience.published}
-                      title={experience.title}
-                      months={experience.month}
-                      years={experience.years}
-                      onClick={() => showActiveExperienceOnTop(experience)}
-                    />
-                  );
+                  if (experience.published) {
+                    return (
+                      <Card
+                        description={experience.description}
+                        editMode={!!editMode}
+                        experienceId={experience.id}
+                        onEdit={onOpenExperienceModal}
+                        published={experience.published}
+                        title={experience.title}
+                        months={experience.month}
+                        years={experience.years}
+                        onClick={() => showActiveExperienceOnTop(experience)}
+                      />
+                    );
+                  }
+                  return null;
                 })}
             </CardsContainer>
           )}

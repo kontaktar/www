@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "store/actions";
+import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
 import styles from "./RegisterContainer.module.scss";
@@ -12,6 +13,7 @@ const RegisterContainer = () => {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isBeingLoggedIn, setIsBeingLoggedIn] = useState(false);
   const store = useSelector((state) => state);
+  const { login } = useAuth();
   const { users } = store;
 
   const dispatch = useDispatch();
@@ -34,6 +36,7 @@ const RegisterContainer = () => {
       })
     );
     setHasRegistered(true);
+    await login(newUser.userName);
   };
 
   useEffect(() => {

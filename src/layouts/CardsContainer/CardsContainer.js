@@ -4,7 +4,7 @@ import styles from "./CardsContainer.module.scss";
 
 import AddItem from "./AddItem";
 
-const CardsContainer = ({ children, addNewItemButton, ...props }) => {
+const CardsContainer = ({ children, addNewItemButton = false, ...props }) => {
   return (
     <ul className={styles.cards_container}>
       {children}
@@ -17,5 +17,6 @@ export default CardsContainer;
 
 CardsContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  addNewItemButton: PropTypes.bool.isRequired
+  // eslint-disable-next-line react/require-default-props
+  addNewItemButton: PropTypes.bool
 };

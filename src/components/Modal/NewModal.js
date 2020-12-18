@@ -8,7 +8,7 @@ import "@reach/dialog/styles.css";
 import styles from "./Modal.module.scss";
 
 // eslint-disable-next-line react/prop-types
-const NewModal = ({ open = false, className, children, onClose }) => {
+const NewModal = ({ open = false, className = "", children, onClose }) => {
   const AnimatedDialogOverlay = animated(DialogOverlay);
   const AnimatedDialogContent = animated(DialogContent);
   const [showDialog, setShowDialog] = useState(open);
