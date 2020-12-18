@@ -21,13 +21,10 @@ const LoginFormContainer = (): React.ReactElement => {
     };
 
     try {
-      await post("/api/login", body).then(({ isLoggedIn }) => {
-        if (isLoggedIn) {
-          login(body.userName);
-          Router.push("/profile");
-        }
-      });
+      await login(body);
+      Router.push("/profile");
     } catch (error) {
+      // TODO: I don't think this errormessage will ever show
       setErrorMessage(`Something went wrong. ${error}`);
     }
   }

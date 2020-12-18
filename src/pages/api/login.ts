@@ -14,6 +14,7 @@ const Login = withSession(async (request, response) => {
       "SELECT u.id, u.password FROM users u WHERE u.user_name=$1",
       userName
     );
+
     const passwordMatches = await bcrypt.compare(password, data.password);
     if (passwordMatches) {
       const user: UserSessionStorage = {

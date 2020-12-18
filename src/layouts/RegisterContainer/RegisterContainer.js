@@ -36,6 +36,7 @@ const RegisterContainer = () => {
       })
     );
     setHasRegistered(true);
+    // TODO : FIX THIS; THIS IS NOT GOING TO WORK
     await login(newUser.userName);
   };
 

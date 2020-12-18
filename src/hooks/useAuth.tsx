@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useDispatch } from "react-redux";
 import useUser from "lib/useUser";
-import { get } from "helpers/methods";
+import { get, post } from "helpers/methods";
 import { EditUser, GetUserByUserName } from "../pages/api/endpoints";
 
 type AuthContextProps = {
@@ -9,7 +9,7 @@ type AuthContextProps = {
   isLoggedIn: boolean;
   userData: any;
   logout?: () => void;
-  login?: (userName: string) => void;
+  login?: (body: any) => void;
   editUser?: (userData: any) => void;
 };
 
@@ -83,7 +83,20 @@ export const AuthProvider = ({
     });
   };
 
-  const login = async (userName) => {
+  const login = async (body) => {
+    await post("/api/login", body).then(async ({ isLoggedIn }) => {
+      const result = await GetUserByUserName(body.userName);
+      dispatch({
+        type: "AUTH/LOGIN",
+        payload: {
+          status: "LOGGED_IN",
+          isLoggedIn,
+          userData: result
+        }
+      });
+    });
+  };
+  const loginFromSession = async (userName) => {
     const result = await GetUserByUserName(userName);
     dispatch({
       type: "AUTH/LOGIN",
@@ -110,11 +123,10 @@ export const AuthProvider = ({
     // login from session-storage
     if (user && user?.isLoggedIn !== state?.isLoggedIn) {
       if (user.isLoggedIn) {
-        login(user.login);
+        loginFromSession(user.login);
       } else if (!user.isLoggedIn) {
-        // TODO: Error: Actions must be plain objects. Use custom middleware for async actions.
-        // I need thunk?
-        logout();
+        // TODO: This does not work anymore
+        // logout();
       }
     }
   }, [dispatchToStore, state?.isLoggedIn, user]);
