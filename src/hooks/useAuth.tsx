@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { useDispatch } from "react-redux";
 import useUser from "lib/useUser";
 import { get, post } from "helpers/methods";
 import { EditUser, GetUserByUserName } from "../pages/api/endpoints";
@@ -122,14 +121,11 @@ export const AuthProvider = ({
   useEffect(() => {
     // login from session-storage
     if (user && user?.isLoggedIn !== state?.isLoggedIn) {
-      if (user.isLoggedIn) {
+      if (user.isLoggedIn === true && state?.status !== "LOGGED_OUT") {
         loginFromSession(user.login);
-      } else if (!user.isLoggedIn) {
-        // TODO: This does not work anymore
-        // logout();
       }
     }
-  }, [dispatchToStore, state?.isLoggedIn, user]);
+  }, [state?.isLoggedIn, state?.status, user]);
 
   return (
     <AuthContext.Provider
