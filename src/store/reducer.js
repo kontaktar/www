@@ -22,10 +22,6 @@ const rootReducer = (state = {}, action) => {
           ...state.users,
           ...action.payload.users
         },
-        auth: {
-          ...state.auth,
-          ...action.payload.auth
-        },
         searches: {
           inputs: {
             ...state.searches.inputs,

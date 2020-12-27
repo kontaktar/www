@@ -4,16 +4,14 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import cx from "classnames";
-import {
-  createUserExperience,
-  editUser,
-  editUserExperience
-} from "store/actions";
+import { createUserExperience, editUserExperience } from "store/actions";
+import useAuth from "hooks/useAuth";
 import { Button, Checkbox, Input, Select, TextArea } from "components";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
   const dispatch = useDispatch();
+  const { userData } = useAuth();
 
   const store = useSelector((state) => state);
   const [experience, setExperience] = useState(data);
@@ -40,9 +38,9 @@ const Experience = ({ data }) => {
   const saveExperience = () => {
     if (validateExperience()) {
       if (isNew) {
-        dispatch(createUserExperience(store.auth.user.id, experience));
+        dispatch(createUserExperience(userData.id, experience));
       } else {
-        dispatch(editUserExperience(store.auth.user.id, experience));
+        dispatch(editUserExperience(userData.id, experience));
       }
       setTimestamp(new Date());
     }
@@ -116,7 +114,8 @@ const Experience = ({ data }) => {
 };
 
 const UserInformation = ({ data }) => {
-  const [userInfo, setUserInfo] = useState(data);
+  const { userData, editUser } = useAuth();
+  const [userInfo, setUserInfo] = useState(userData);
   const [timestamp, setTimestamp] = useState(undefined);
   const dispatch = useDispatch();
 
@@ -124,7 +123,7 @@ const UserInformation = ({ data }) => {
 
   const saveUserInfo = () => {
     setTimestamp(new Date());
-    dispatch(editUser(store.auth.user.id, userInfo));
+    editUser(userInfo);
   };
 
   const handleChange = (event) => {

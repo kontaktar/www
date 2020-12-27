@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "store/actions";
 import { post } from "helpers/methods";
+import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Input } from "components";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = (): React.ReactElement => {
-  const dispatch = useDispatch();
-  const store = useSelector((state) => state);
+  const { login } = useAuth();
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -23,13 +21,10 @@ const LoginFormContainer = (): React.ReactElement => {
     };
 
     try {
-      await post("/api/login", body).then(({ isLoggedIn }) => {
-        if (isLoggedIn) {
-          dispatch(login(body.userName)); // Get rid of auth store.
-          Router.push("/profile");
-        }
-      });
+      await login(body);
+      Router.push("/profile");
     } catch (error) {
+      // TODO: I don't think this errormessage will ever show
       setErrorMessage(`Something went wrong. ${error}`);
     }
   }
@@ -62,8 +57,7 @@ const LoginFormContainer = (): React.ReactElement => {
               Stofna nýjan aðgang
             </Button>
           </Link>
-
-          {store.auth && store.auth.error && <p>Error {store.auth.error}</p>}
+          {/* TODO: ERRORS - previously: {store.auth && store.auth.error && <p>Error {store.auth.error}</p>} */}
         </form>
       </div>
     </div>

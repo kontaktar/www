@@ -131,7 +131,10 @@ const Carousel = () => {
       >
         <Card
           name={0}
-          linkToProfile={`${users[0].userName}`}
+          linkToProfile={{
+            userName: users[0].userName,
+            experienceId: users[0].experience[0].id
+          }}
           title={`${users[0].experience[0].title}`}
           description={`${users[0].experience[0].description}`}
           years={`${users[0].experience[0].length.years}`}
@@ -141,7 +144,10 @@ const Carousel = () => {
         </Card>
         <Card
           name={1}
-          linkToProfile={`${users[1].userName}`}
+          linkToProfile={{
+            userName: users[1].userName,
+            experienceId: users[1].experience[0].id
+          }}
           title={`${users[1].experience[0].title}`}
           description={`${users[1].experience[0].description}`}
           years={`${users[1].experience[0].length.years}`}
@@ -151,7 +157,10 @@ const Carousel = () => {
         </Card>
         <Card
           name={2}
-          linkToProfile={`${users[2].userName}`}
+          linkToProfile={{
+            userName: users[2].userName,
+            experienceId: users[2].experience[0].id
+          }}
           title={`${users[2].experience[0].title}`}
           description={`${users[2].experience[0].description}`}
           years={`${users[2].experience[0].length.years}`}

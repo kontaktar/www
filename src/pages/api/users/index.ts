@@ -61,7 +61,7 @@ const Users = async (request, response) => {
   }
 
   if (method === "POST") {
-    withUserAccess(request, response);
+    withMiddleware(request, response);
     const {
       ssn,
       userName,
