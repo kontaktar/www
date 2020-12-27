@@ -60,7 +60,6 @@ const Users = async (request, response) => {
     }
   }
 
-  // TODO: need to make UPDATE withUserAccess to change user
   if (method === "POST") {
     withMiddleware(request, response);
     const {

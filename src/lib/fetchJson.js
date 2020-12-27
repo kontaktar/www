@@ -5,7 +5,6 @@ const fetchJson = async (...arguments_) => {
     // if the server replies, there's always some data in json
     // if there's a network error, it will throw at the previous line
     const data = await response.json();
-    console.log("fetchJson", data);
 
     if (response.ok) {
       return data;

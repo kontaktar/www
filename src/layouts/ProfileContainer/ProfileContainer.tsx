@@ -110,12 +110,6 @@ const ProfileContainer = ({ editMode, userName }) => {
     showModal(false);
   };
 
-  // const onOpenNewExperienceModal = () => {
-  //   setModalData({});
-  //   setModalType({ experience: true });
-  //   showModal(true);
-  // };
-
   const onOpenExperienceModal = (
     id,
     title,
