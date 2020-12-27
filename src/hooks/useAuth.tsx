@@ -9,6 +9,7 @@ type AuthContextProps = {
   userData: any;
   logout?: () => void;
   login?: (body: any) => void;
+  register?: (userName: any) => void;
   editUser?: (userData: any) => void;
 };
 
@@ -106,6 +107,19 @@ export const AuthProvider = ({
     });
   };
 
+  const register = async (userName) => {
+    const result = await GetUserByUserName(userName);
+    await post("/api/register", userName);
+    dispatch({
+      type: "AUTH/LOGIN",
+      payload: {
+        status: "LOGGED_IN",
+        isLoggedIn: true,
+        userData: result
+      }
+    });
+  };
+
   const editUser = async (userData) => {
     await EditUser(userData.id, userData);
     dispatch({
@@ -132,7 +146,8 @@ export const AuthProvider = ({
         ...state,
         editUser: (userData) => editUser(userData),
         logout: () => logout(),
-        login: (userName) => login(userName)
+        login: (userName) => login(userName),
+        register: (userName) => register(userName)
       }}
     >
       {children}

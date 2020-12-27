@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import Router from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "store/actions";
 import useAuth from "hooks/useAuth";
@@ -13,7 +14,7 @@ const RegisterContainer = () => {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isBeingLoggedIn, setIsBeingLoggedIn] = useState(false);
   const store = useSelector((state) => state);
-  const { login } = useAuth();
+  const { register } = useAuth();
   const { users } = store;
 
   const dispatch = useDispatch();
@@ -36,8 +37,16 @@ const RegisterContainer = () => {
       })
     );
     setHasRegistered(true);
-    // TODO : FIX THIS; THIS IS NOT GOING TO WORK
-    await login(newUser.userName);
+    try {
+      // TODO: What happens if the connection is slow? Will this fail?
+      setTimeout(() => {
+        register(newUser.userName);
+      }, 1000);
+      Router.push("/profile");
+    } catch (error) {
+      // TODO: I don't think this errormessage will ever show
+      setErrorMessage(`Something went wrong. ${error}`);
+    }
   };
 
   useEffect(() => {
