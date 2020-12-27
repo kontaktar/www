@@ -66,7 +66,6 @@ export const AuthProvider = ({
 }: {
   children: React.ReactChild;
 }): React.ReactElement => {
-  const dispatchToStore = useDispatch();
   const [state, dispatch] = useReducer(reducer, initialProps);
   const { user } = useUser();
 

@@ -2,11 +2,10 @@ const fetchJson = async (...arguments_) => {
   try {
     const response = await fetch(...arguments_);
 
-    console.log("fetchJson", response);
-
     // if the server replies, there's always some data in json
     // if there's a network error, it will throw at the previous line
     const data = await response.json();
+    console.log("fetchJson", data);
 
     if (response.ok) {
       return data;

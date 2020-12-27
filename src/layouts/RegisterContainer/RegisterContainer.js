@@ -46,7 +46,7 @@ const RegisterContainer = () => {
       setIsBeingLoggedIn(true);
     } else if (users.error) {
       setIsBeingLoggedIn(false);
-      setErrorMessage(users.error);
+      setErrorMessage(users.error.response.error);
     }
   }, [hasRegistered, users, users.error]);
 

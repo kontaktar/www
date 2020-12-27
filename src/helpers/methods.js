@@ -26,11 +26,12 @@ export async function post(relativeUrl, body) {
       },
       body: JSON.stringify(body)
     });
+    const data = await response.json();
     if (response.ok) {
-      return response.json();
+      return data;
     }
-    const error = new Error(response.statusText);
-    error.response = response;
+    const error = new Error(data.message);
+    error.response = data;
     throw error;
   } catch (error) {
     if (!error.data) {
@@ -53,7 +54,7 @@ export async function put(relativeUrl, body) {
     if (response.ok) {
       return response.json();
     }
-    const error = new Error(response.statusText);
+    const error = new Error(response.message);
     error.response = response;
     throw error;
   } catch (error) {
