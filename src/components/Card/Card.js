@@ -57,7 +57,10 @@ const Card = (props) => {
     if (linkToProfile) {
       return (
         <Link
-          href="/user/[userName]"
+          href={{
+            pathname: "/user/[userName]",
+            query: { experienceId: linkToProfile.experienceId }
+          }}
           as={`/user/${linkToProfile.userName}?experienceId=${linkToProfile.experienceId}`}
         >
           {children}
