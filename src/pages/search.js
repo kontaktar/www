@@ -3,10 +3,11 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import PropTypes from "prop-types";
 import { END } from "redux-saga";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
+// import PropTypes from "prop-types";
+import { randomize } from "helpers/arrays";
 import useAuth from "hooks/useAuth.tsx";
 import { GetSearchResult } from "pages/api/endpoints";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
@@ -77,10 +78,15 @@ const Search = ({ searchInput }) => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store, query: { searchInput = "" } }) => {
-    const searchResult = await GetSearchResult(searchInput);
+    const searchResult = Object.values(await GetSearchResult(searchInput));
+
     store.dispatch(updateLatestSearch(searchInput));
+
     store.dispatch(
-      fetchSearchResultSuccess(searchInput, Object.values(searchResult))
+      fetchSearchResultSuccess(
+        searchInput,
+        searchInput === "" ? randomize(searchResult) : searchResult
+      )
     );
 
     return {

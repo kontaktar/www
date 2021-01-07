@@ -2,10 +2,19 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import wrapper from "store/configureStore";
+import withSession from "lib/sessions";
 import { getBaseUrl } from "helpers/url";
+import useAuth from "hooks/useAuth.tsx";
+import { GetSearchResult } from "pages/api/endpoints";
 // import useMaxWidth from "src/hooks/useMaxWidth";
 import { FrontPageContainer, MainLayout } from "layouts";
-import { fetchUserExperiences } from "../store/actions";
+import {
+  fetchSearchResult,
+  fetchSearchResultSuccess,
+  fetchUserExperiences,
+  updateLatestSearch
+} from "../store/actions";
 
 const LandingPage = () => {
   /* DEMO dispatch stuff */
@@ -15,7 +24,6 @@ const LandingPage = () => {
   // }, []);
 
   const store = useSelector((state) => state);
-  console.log("store", store);
 
   return (
     <MainLayout>
@@ -24,19 +32,13 @@ const LandingPage = () => {
   );
 };
 
-// LandingPage.getInitialProps = async (ctx) => {
-//   const { query, isServer, store } = ctx;
-
-//   /* DEMO */
-//   await store.dispatch(fetchUserExperiences("1"));
-
-//   if (query.id) {
-//     const response = await fetch(`${getBaseUrl(ctx)}/api/users/${query.id}`);
-//     const user = await response.json();
-//     return { user, status: response.status };
-//   }
-//   return { isServer };
-// };
+export const getServerSideProps = wrapper.getServerSideProps(
+  withSession(async ({ store }) => {
+    const searchResult = await GetSearchResult("");
+    store.dispatch(updateLatestSearch(""));
+    store.dispatch(fetchSearchResultSuccess("", Object.values(searchResult)));
+  })
+);
 
 LandingPage.propTypes = {
   user: PropTypes.object,

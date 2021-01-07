@@ -6,8 +6,9 @@ import mockUserData from "data/all-users-mock";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import NukaCarousel from "nuka-carousel";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { randomize } from "helpers/arrays";
 import { Button, Card } from "components";
-import usePrevious from "../../hooks/usePrevious";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Carousel.module.scss";
 
@@ -59,8 +60,13 @@ const Carousel = () => {
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [carouselSize, setCarouselSize] = useState(undefined);
   const [elementSize, setSize] = useState(undefined);
+  const store = useSelector((state) => state);
 
   const users = mockUserData;
+
+  const fiveRandomSpecialistCards = randomize(
+    Object.values(store.searches.inputs[""])
+  ).slice(0, 5);
 
   useEffect(() => {
     let breakpoint = 332;
@@ -93,7 +99,7 @@ const Carousel = () => {
           ${styles[elementSize]}
         `}
       >
-        <h3>Nýjustu sérfræðingarnir</h3>
+        <h3>Kontaktar af handahófi</h3>
       </div>
       <NukaCarousel
         className={`
@@ -129,75 +135,19 @@ const Carousel = () => {
         transitionMode="scroll"
         slidesToShow={slidesToShow}
       >
-        <Card
-          name={0}
-          linkToProfile={{
-            userName: users[0].userName,
-            experienceId: users[0].experience[0].id
-          }}
-          title={`${users[0].experience[0].title}`}
-          description={`${users[0].experience[0].description}`}
-          years={`${users[0].experience[0].length.years}`}
-          months={`${users[0].experience[0].length.months}`}
-        >
-          1
-        </Card>
-        <Card
-          name={1}
-          linkToProfile={{
-            userName: users[1].userName,
-            experienceId: users[1].experience[0].id
-          }}
-          title={`${users[1].experience[0].title}`}
-          description={`${users[1].experience[0].description}`}
-          years={`${users[1].experience[0].length.years}`}
-          months={`${users[1].experience[0].length.months}`}
-        >
-          2
-        </Card>
-        <Card
-          name={2}
-          linkToProfile={{
-            userName: users[2].userName,
-            experienceId: users[2].experience[0].id
-          }}
-          title={`${users[2].experience[0].title}`}
-          description={`${users[2].experience[0].description}`}
-          years={`${users[2].experience[0].length.years}`}
-          months={`${users[2].experience[0].length.months}`}
-        >
-          3
-        </Card>
-        <Card
-          name={3}
-          linkToProfile
-          title="Title"
-          description="Description"
-          years="1"
-          months="1"
-        >
-          4
-        </Card>
-        <Card
-          name={4}
-          linkToProfile
-          title="Title"
-          description="Description"
-          years="2"
-          months="2"
-        >
-          5
-        </Card>
-        <Card
-          name={5}
-          linkToProfile
-          title="Title"
-          description="Description"
-          years="3"
-          months="3"
-        >
-          6
-        </Card>
+        {fiveRandomSpecialistCards.map((card, i) => (
+          <Card
+            key={`${card.userId}${card.experienceId}`}
+            title={card.title}
+            description={card.description}
+            years={card.years}
+            months={card.months}
+            linkToProfile={{
+              userName: card.userName,
+              experienceId: card.experienceId
+            }}
+          />
+        ))}
       </NukaCarousel>
     </div>
   );
