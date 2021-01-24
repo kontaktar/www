@@ -64,9 +64,10 @@ const Carousel = () => {
 
   const users = mockUserData;
 
-  const fiveRandomSpecialistCards = randomize(
-    Object.values(store.searches.inputs[""])
-  ).slice(0, 5);
+  const fiveRandomSpecialistCards =
+    store.searches &&
+    store.searches.inputs &&
+    randomize(Object.values(store.searches.inputs[""])).slice(0, 5);
 
   useEffect(() => {
     let breakpoint = 332;

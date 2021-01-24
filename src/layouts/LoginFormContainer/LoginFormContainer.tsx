@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useFormik } from "formik";
 import Link from "next/link";
 import Router from "next/router";
+import { loginFormSchema } from "helpers/formValidationSchemas";
 import { post } from "helpers/methods";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
-import { Button, Input } from "components";
+import { Button } from "components";
+import { MUIInput } from "components/Input";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = (): React.ReactElement => {
@@ -12,37 +15,52 @@ const LoginFormContainer = (): React.ReactElement => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      userName: "",
+      password: ""
+    },
+    validationSchema: loginFormSchema,
+    onSubmit: async (values) => {
+      const body = {
+        userName: values.userName,
+        password: values.password
+      };
 
-    const body = {
-      userName: event.currentTarget.username.value,
-      password: event.currentTarget.password.value
-    };
-
-    try {
-      await login(body);
-      Router.push("/profile");
-    } catch (error) {
-      // TODO: I don't think this errormessage will ever show
-      setErrorMessage(`Something went wrong. ${error}`);
+      try {
+        await login(body);
+        Router.push("/profile");
+      } catch (error) {
+        setErrorMessage(error.message);
+      }
     }
-  }
+  });
+
   return (
     <div>
       <div {...useMaxWidth()}>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <Input
+        <form onSubmit={formik.handleSubmit} className={styles.form}>
+          <MUIInput
             type="text"
-            id="username"
-            name="username"
+            id="userName"
+            name="userName"
             placeholder="Notendanafn"
+            onChange={formik.handleChange}
+            onBlur={() => formik.setFieldTouched("userName", true, true)}
+            value={formik.values.userName}
+            error={formik.errors.userName}
+            isTouched={formik.touched.userName}
           />
-          <Input
+          <MUIInput
             type="password"
             id="password"
             name="password"
             placeholder="Lykilorð"
+            onChange={formik.handleChange}
+            onBlur={() => formik.setFieldTouched("password", true, true)}
+            value={formik.values.password}
+            error={formik.errors.password}
+            isTouched={formik.touched.password}
           />
           <p className={styles.error}>{errorMessage}</p>
           <Button className={styles.button} type="submit">
@@ -57,7 +75,6 @@ const LoginFormContainer = (): React.ReactElement => {
               Stofna nýjan aðgang
             </Button>
           </Link>
-          {/* TODO: ERRORS - previously: {store.auth && store.auth.error && <p>Error {store.auth.error}</p>} */}
         </form>
       </div>
     </div>

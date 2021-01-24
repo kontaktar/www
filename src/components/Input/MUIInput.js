@@ -1,11 +1,10 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
+import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
-import cx from "classnames";
 import styles from "./Input.module.scss";
 
-// todo add clicker on hover
-const Input = ({
+const MUIInput = ({
   error = undefined,
   id,
   label = undefined,
@@ -16,27 +15,23 @@ const Input = ({
   ...props
 }) => {
   return (
-    <div
-      className={`${styles.input_wrapper} input_wrapper ${wrapperClassName}`}
-    >
-      <label htmlFor={id} className={cx({ [styles.error]: error })}>
-        {label && <span className={label && styles.label}>{label}</span>}
-        <input
-          type="text"
-          id={id}
-          placeholder={placeholder}
-          value={value}
-          {...props}
-        />
-        {isTouched && <span className={styles.error_message}>{error}</span>}
-      </label>
+    <div className={styles.mui_wrapper}>
+      <TextField
+        id={id}
+        error={isTouched && !!error}
+        label={placeholder}
+        defaultValue={value}
+        helperText={"" || (isTouched && error)}
+        variant="outlined"
+        {...props}
+      />
     </div>
   );
 };
 
-export default Input;
+export default MUIInput;
 
-Input.propTypes = {
+MUIInput.propTypes = {
   className: PropTypes.string,
   error: PropTypes.string,
   id: PropTypes.string.isRequired,
@@ -46,7 +41,7 @@ Input.propTypes = {
   value: PropTypes.string,
   wrapperClassName: PropTypes.string
 };
-Input.defaultProps = {
+MUIInput.defaultProps = {
   className: "",
   isTouched: false,
   error: undefined,
