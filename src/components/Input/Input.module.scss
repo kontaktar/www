@@ -45,3 +45,12 @@
     left: 0px;
   }
 }
+
+.mui_wrapper {
+  display: contents;
+  :global {
+    .MuiTextField-root {
+      height: 100px;
+    }
+  }
+}

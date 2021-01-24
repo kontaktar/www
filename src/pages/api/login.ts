@@ -4,6 +4,7 @@ import { UserSessionStorage } from "types";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
+import { loginErrors } from "helpers/errorMessages";
 
 const Login = withSession(async (request, response) => {
   await withMiddleware(request, response);
@@ -32,11 +33,15 @@ const Login = withSession(async (request, response) => {
 
       response.json(user);
     } else {
-      response.status(404).json({ message: "Incorrect password" });
+      response.status(404).json({ message: loginErrors.NO_MATCH });
     }
   } catch (error) {
     if (error instanceof pgp.errors.QueryResultError) {
-      response.status(404).json({ message: error.message });
+      let message;
+      if (error.message === "No data returned from the query.") {
+        message = loginErrors.NO_MATCH;
+      }
+      response.status(404).json({ message });
       throw new Error(`LOGIN USER 404: ${error}`);
     } else {
       response.status(500).json({ message: error.message });
