@@ -1,1 +1,1 @@
-export { default } from "./RegisterContainer";
+export { default } from "./RegisterContainer.tsx";

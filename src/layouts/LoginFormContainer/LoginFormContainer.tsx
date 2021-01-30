@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import Link from "next/link";
 import Router from "next/router";
 import { loginFormSchema } from "helpers/formValidationSchemas";
-import { post } from "helpers/methods";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button } from "components";
