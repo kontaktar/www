@@ -15,7 +15,6 @@ type Props = {
   children: ReactNode;
   onClose: () => void;
 };
-// eslint-disable-next-line react/prop-types
 const NewModal = ({
   ariaLabel,
   open = false,
