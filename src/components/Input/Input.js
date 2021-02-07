@@ -39,7 +39,7 @@ export default Input;
 Input.propTypes = {
   className: PropTypes.string,
   error: PropTypes.string,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   isTouched: PropTypes.bool,
   label: PropTypes.string,
   placeholder: PropTypes.string,
@@ -47,6 +47,7 @@ Input.propTypes = {
   wrapperClassName: PropTypes.string
 };
 Input.defaultProps = {
+  id: "",
   className: "",
   isTouched: false,
   error: undefined,

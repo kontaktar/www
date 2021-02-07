@@ -45,6 +45,7 @@ const Header = ({
                   </>
                 ) : (
                   <NewModal
+                    ariaLabel="Valmynd"
                     open={openBurger}
                     onClose={() => setOpenBurger(false)}
                     className={styles.modal_container}

@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { DialogContent, DialogOverlay } from "@reach/dialog";
 import { animated, useTransition } from "react-spring";
 import cx from "classnames";
@@ -7,13 +6,30 @@ import { Button, Icon } from "components";
 import "@reach/dialog/styles.css";
 import styles from "./Modal.module.scss";
 
+type Props = {
+  ariaLabel: string;
+  modalKey?: string;
+  open: boolean;
+  className?: string;
+  overlayClassName?: string;
+  children: ReactNode;
+  onClose: () => void;
+};
 // eslint-disable-next-line react/prop-types
-const NewModal = ({ open = false, className = "", children, onClose }) => {
+const NewModal = ({
+  ariaLabel,
+  open = false,
+  className = "",
+  overlayClassName = "",
+  children,
+  onClose,
+  modalKey
+}: Props): ReactElement => {
   const AnimatedDialogOverlay = animated(DialogOverlay);
   const AnimatedDialogContent = animated(DialogContent);
   const [showDialog, setShowDialog] = useState(open);
 
-  const transitions = useTransition(showDialog, null, {
+  const transitions = useTransition<boolean, any>(showDialog, null, {
     from: { opacity: 0, y: -10 },
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: 10 }
@@ -24,16 +40,19 @@ const NewModal = ({ open = false, className = "", children, onClose }) => {
   }, [open]);
 
   return (
-    <div>
+    <div key={modalKey}>
       {transitions.map(
         ({ item, key, props: _styles }) =>
           item && (
             <AnimatedDialogOverlay
               className={cx(styles.new_modal, className)}
               style={{ opacity: _styles.opacity }}
+              key={modalKey}
             >
               <AnimatedDialogContent
+                aria-label={ariaLabel}
                 key={key}
+                className={overlayClassName}
                 style={{
                   transform: _styles.y.interpolate(
                     (value) => `translate3d(0px, ${value}px, 0px)`
@@ -50,7 +69,7 @@ const NewModal = ({ open = false, className = "", children, onClose }) => {
                   }}
                 >
                   <Icon
-                    // className={styles.close_icon}
+                    className=""
                     name="close"
                     // onClick={onClose}
                   />

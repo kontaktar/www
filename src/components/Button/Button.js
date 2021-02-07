@@ -107,7 +107,7 @@ Button.propTypes = {
   /**
    * This will be used to create a description for this props in a propTable in storybook
    */
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   /**
    * Modifiers available: '', 'pill', 'inverted'.
    */
@@ -118,6 +118,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  onClick: () => {},
   disabled: false,
   modifier: [""],
   type: "button"
