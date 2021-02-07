@@ -8,8 +8,6 @@
   width: 100%;
   position: relative;
 
-  background-color: $color-white;
-
   * {
     font-family: "Berlingske Sans Bold";
   }
@@ -56,9 +54,6 @@
   }
   nav span a {
     color: $color-white;
-  }
-  .plusses {
-    //
   }
 
   @media (max-width: $screen-smartphone-small) {

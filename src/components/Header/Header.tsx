@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import SvgPluses from "assets/background/SvgPluses";
 import screensizes from "data/screensizes";
 import Link from "next/link";
 import cx from "classnames";
@@ -46,6 +45,7 @@ const Header = ({
                   </>
                 ) : (
                   <NewModal
+                    ariaLabel="Valmynd"
                     open={openBurger}
                     onClose={() => setOpenBurger(false)}
                     className={styles.modal_container}
@@ -80,7 +80,6 @@ const Header = ({
                           <Link href="/login">Skrá inn</Link>
                         </span>
                       </nav>
-                      {/* <SvgPluses className={styles.plusses} /> */}
                     </div>
                   </NewModal>
                 )}

@@ -1,21 +1,28 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line no-unused-vars
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, {
+  Fragment,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import orderBy from "lodash.orderby";
-import PropTypes from "prop-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserExperiences, getUserByUserName } from "store/actions";
+import { fetchUserExperiences } from "store/actions";
 import useAuth from "hooks/useAuth";
-import { Button, Card, Icon, Modal } from "components";
+import { Button, Card, Icon } from "components";
 import NewModal from "components/Modal/NewModal";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import styles from "./ProfileContainer.module.scss";
 import colors from "styles/colors.module.scss";
 
-const ProfileContainer = ({ editMode, userName }) => {
+type Props = {
+  editMode: boolean;
+  userName: string;
+};
+
+const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
   const { query } = useRouter();
 
   const { userData } = useAuth();
@@ -28,8 +35,6 @@ const ProfileContainer = ({ editMode, userName }) => {
   const [activeExperience, setActiveExperience] = useState<any>();
   const [userExperiences, setUserExperiences] = useState([]);
 
-  const [activeExperienceWidth, setActiveExperienceWidth] = useState(undefined);
-
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -39,29 +44,6 @@ const ProfileContainer = ({ editMode, userName }) => {
       setUserProfile(userData);
     }
   }, [dispatch, editMode, userData]);
-
-  useEffect(() => {
-    function handleResize() {
-      const WHITE_SPACE_WIDTH = 20;
-      const CARD_WIDTH = 300;
-      const cardsToShow = Math.floor(
-        wrapperElement.current.clientWidth / (CARD_WIDTH + WHITE_SPACE_WIDTH)
-      );
-      setActiveExperienceWidth(
-        CARD_WIDTH * cardsToShow + (cardsToShow - 1) * WHITE_SPACE_WIDTH
-      );
-    }
-    if (wrapperElement.current) {
-      handleResize();
-    }
-
-    // eslint-disable-next-line no-unused-expressions
-    typeof window !== "undefined" &&
-      window.addEventListener("resize", handleResize);
-    return () =>
-      typeof window !== "undefined" &&
-      window.removeEventListener("resize", handleResize);
-  }, [activeExperienceWidth]);
 
   // Fetch user profile
   useEffect(() => {
@@ -144,7 +126,7 @@ const ProfileContainer = ({ editMode, userName }) => {
     setActiveExperience(experience);
   };
 
-  if (query?.experienceId && !showActiveSection) {
+  if (query?.experienceId && !showActiveSection && !activeExperience) {
     const experience = userExperiences.filter(
       // eslint-disable-next-line radix
       (ex) => ex.id === parseInt(query?.experienceId as string)
@@ -233,24 +215,6 @@ const ProfileContainer = ({ editMode, userName }) => {
             </Fragment>
           </div>
         </div>
-        <div className={styles.active_card_container}>
-          {showActiveSection && (
-            <div className={styles.active_experience_wrapper}>
-              <h3>Virkt verkspjald</h3>
-              <div
-                className={styles.active_experience_paper}
-                style={{
-                  width: activeExperienceWidth
-                }}
-              >
-                <h5>{`${activeExperience?.title}`}</h5>
-                <span
-                  className={styles.full_description}
-                >{`${activeExperience.description}`}</span>
-              </div>
-            </div>
-          )}
-        </div>
         <div className={styles.card_container}>
           <h4>Verkspjöld</h4>
           {editMode ? (
@@ -270,6 +234,7 @@ const ProfileContainer = ({ editMode, userName }) => {
                   if (experience.published) {
                     return (
                       <Card
+                        key={experience.id}
                         description={experience.description}
                         editMode={!!editMode}
                         experienceId={experience.id}
@@ -278,7 +243,9 @@ const ProfileContainer = ({ editMode, userName }) => {
                         title={experience.title}
                         months={experience.month}
                         years={experience.years}
-                        onClick={() => showActiveExperienceOnTop(experience)}
+                        onClick={() => {
+                          showActiveExperienceOnTop(experience);
+                        }}
                       />
                     );
                   }
@@ -286,18 +253,39 @@ const ProfileContainer = ({ editMode, userName }) => {
                 })}
             </CardsContainer>
           )}
-
-          {/* if innerWidth < 800 => width = 100% */}
-          {/* <Modal
+          {activeExperience && showActiveSection && (
+            <NewModal
+              ariaLabel="Valið verkpsjald"
+              modalKey={activeExperience?.id}
+              open={showActiveSection}
+              onClose={() => {
+                setShowActiveSection(false);
+              }}
+              overlayClassName={styles.active_experience_modal}
+            >
+              <div
+                key={activeExperience?.id}
+                className={styles.active_experience_wrapper}
+              >
+                <h3>Valið verkspjald</h3>
+                <div className={styles.active_experience_paper}>
+                  <h5>{`${activeExperience?.title}`}</h5>
+                  <span
+                    className={styles.full_description}
+                  >{`${activeExperience?.description}`}</span>
+                </div>
+              </div>
+            </NewModal>
+          )}
+          <NewModal
+            ariaLabel={
+              modalType?.experience
+                ? "Breyta verkspjaldi"
+                : "Breyta persónulegum upplýsingum"
+            }
             open={openModal}
             onClose={onCloseModal}
-            {...modalType}
-            // height="600px"
-            // width="800px"
           >
-            <ModalContent {...modalType} data={modalData} /> */}
-          {/* </Modal> */}
-          <NewModal open={openModal} onClose={onCloseModal}>
             <ModalContent {...modalType} data={modalData} />
           </NewModal>
         </div>
@@ -308,12 +296,3 @@ const ProfileContainer = ({ editMode, userName }) => {
 };
 
 export default ProfileContainer;
-
-ProfileContainer.propTypes = {
-  className: PropTypes.string,
-  userName: PropTypes.string
-};
-ProfileContainer.defaultProps = {
-  className: "",
-  userName: undefined
-};

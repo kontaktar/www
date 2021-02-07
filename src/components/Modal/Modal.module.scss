@@ -75,9 +75,15 @@
 .new_modal {
   z-index: 1000;
   div[data-reach-dialog-content] {
-    width: unset;
-    margin: 0;
-    border: none;
-    background: $color-white;
+    margin: 10vh auto;
+    position: relative;
+    border: 0 !important;
+    @media screen and (max-width: $screen-tablet-landscape) {
+      width: 80%;
+    }
+    @media screen and (max-width: $screen-tablet-portrait) {
+      width: 100%;
+      margin: 2vh auto;
+    }
   }
 }
