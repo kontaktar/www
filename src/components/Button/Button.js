@@ -24,7 +24,7 @@ const Button = ({
       )}`}
       disabled={disabled}
       onClick={onClick}
-      type={type}
+      type={type === "submit" ? "submit" : "button"}
     >
       {children}
     </button>
