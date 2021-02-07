@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import SvgPluses from "assets/background/SvgPluses";
 import screensizes from "data/screensizes";
 import Link from "next/link";
 import cx from "classnames";
@@ -80,7 +79,6 @@ const Header = ({
                           <Link href="/login">Skrá inn</Link>
                         </span>
                       </nav>
-                      {/* <SvgPluses className={styles.plusses} /> */}
                     </div>
                   </NewModal>
                 )}
