@@ -27,8 +27,12 @@ const UserProfile = ({ userName }) => {
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store, query: { userName } }) => {
-    const userResult = await GetUserByUserName(userName);
-    store.dispatch(getUserByUserNameSuccess(userResult));
+    try {
+      const userResult = await GetUserByUserName(userName);
+      store.dispatch(getUserByUserNameSuccess(userResult));
+    } catch (error) {
+      console.error("No user ", userName);
+    }
 
     return {
       props: { userName }

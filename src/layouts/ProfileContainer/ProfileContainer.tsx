@@ -40,7 +40,11 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
 
   useEffect(() => {
     if (editMode && userData?.id) {
-      dispatch(fetchUserExperiences(userData.id));
+      try {
+        dispatch(fetchUserExperiences(userData.id));
+      } catch (error) {
+        console.error(error);
+      }
       setUserProfile(userData);
     }
   }, [dispatch, editMode, userData]);
@@ -59,7 +63,11 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
 
         if (currentUserProfile) {
           setUserProfile(currentUserProfile);
-          dispatch(fetchUserExperiences(currentUserProfile.id));
+          try {
+            dispatch(fetchUserExperiences(currentUserProfile.id));
+          } catch (error) {
+            console.error(error);
+          }
         }
       }
     }

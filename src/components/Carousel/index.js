@@ -1,1 +1,1 @@
-export { default } from "./Carousel.tsx";
+export { default } from "./Carousel";
