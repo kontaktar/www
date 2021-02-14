@@ -21,7 +21,6 @@ import PropTypes from "prop-types";
 
 // TODO: This setup is disgusting... + add fill props for icons
 const Icon = ({ className, name, ...props }) => {
-  // console.log(className);
   return (
     <div className={className}>
       {name === "user" && <SvgUser {...props} />}

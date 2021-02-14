@@ -106,6 +106,7 @@
 
 .modal_container {
   div[data-reach-dialog-content] {
+    margin: 0;
     border: none !important;
     padding: 0;
     > button {

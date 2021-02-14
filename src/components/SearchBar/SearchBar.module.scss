@@ -5,41 +5,31 @@
   height: 46px;
   line-height: 0px;
 
+  :global {
+    .MuiInput-underline:after {
+      border-bottom: 2px solid $color-red;
+    }
+    .MuiInputAdornment-root {
+      min-width: 48px;
+    }
+  }
+
   input {
     border: none;
-    border-bottom: 1px solid black;
-    padding-left: 50px;
     font-size: 32px;
   }
   input::placeholder {
     font-size: 32px;
   }
+}
 
-  .input_wrapper {
-    position: initial;
-    padding: 0px;
-    margin-top: -6px;
-  }
-
-  .search_icon {
-    position: absolute;
-    border: none;
-    margin-top: 5px;
-    margin-left: 4px;
-    top: 0;
-    box-sizing: content-box;
-    background-color: white;
-    path {
-      fill: $primary-color;
-      fill-opacity: 1;
-    }
-
-    .clear_icon {
-      display: flex;
-      align-content: center;
-      justify-content: center;
-      height: 100%;
-      align-items: center;
+.search_icon {
+  :global {
+    .MuiSvgIcon-root {
+      fill: $color-red;
+      svg {
+        fill: $color-red;
+      }
     }
   }
 }
@@ -57,15 +47,11 @@
 
 @media (max-width: $screen-smartphone-wide) {
   .searchbar input {
-    // padding-left: 0px;
     &::placeholder {
       text-align: left;
       font-size: 20px;
     }
   }
-  // .search_icon {
-  //   display: none;
-  // }
 }
 
 @media (max-width: $screen-smartphone) {
@@ -75,7 +61,4 @@
       font-size: 18px;
     }
   }
-  // .search_icon {
-  //   display: none;
-  // }
 }

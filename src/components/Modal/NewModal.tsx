@@ -68,7 +68,7 @@ const NewModal = ({
                   }}
                 >
                   <Icon
-                    className=""
+                    className={styles.close_icon}
                     name="close"
                     // onClick={onClose}
                   />

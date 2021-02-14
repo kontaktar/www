@@ -1,8 +1,12 @@
 import React from "react";
+import IconButton from "@material-ui/core/IconButton";
+import MuiInput from "@material-ui/core/Input";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import CloseIcon from "@material-ui/icons/Close";
+import SearchIcon from "@material-ui/icons/Search";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSearchResult, updateLatestSearch } from "store/actions";
-import { Button, Icon, Input } from "components";
 import styles from "./SearchBar.module.scss";
 
 const SearchBar = ({
@@ -25,21 +29,33 @@ const SearchBar = ({
 
   return (
     <div className={`${className} ${styles.searchbar}`}>
-      <Icon className={styles.search_icon} name="search-large" />
-      <Input
-        id="searchbar"
-        label={undefined}
+      <MuiInput
+        fullWidth
+        id="search-bar"
+        type="text"
+        aria-label="search"
         placeholder={placeholder}
-        className={styles.input}
-        wrapperClassName={styles.input_wrapper}
         value={value}
+        startAdornment={
+          <InputAdornment position="start" className={styles.search_icon}>
+            <SearchIcon fontSize="large" />
+          </InputAdornment>
+        }
+        endAdornment={
+          <InputAdornment position="end" variant="filled">
+            {value && (
+              <IconButton
+                type="submit"
+                aria-label="clear-search"
+                onClick={onClear}
+              >
+                <CloseIcon />
+              </IconButton>
+            )}
+          </InputAdornment>
+        }
         {...props}
       />
-      {value && (
-        <Button modifier={["search"]} onClick={onClear}>
-          <Icon className={styles.clear_icon} name="close" />
-        </Button>
-      )}
     </div>
   );
 };
