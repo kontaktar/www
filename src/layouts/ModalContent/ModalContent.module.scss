@@ -1,13 +1,11 @@
 @import "../../styles/config";
 
 .modalcontent {
-  padding: 40px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
   background-color: $color-white;
-  // height: 100%;
   overflow-y: scroll;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -38,6 +36,7 @@
   }
 }
 .input_line {
+  flex-wrap: wrap;
   align-items: stretch;
   flex-direction: row;
 }
@@ -79,7 +78,7 @@
   display: flex;
   align-items: flex-end;
   flex-direction: row;
-  flex: 0 0 300px;
+  min-width: 300px;
 }
 
 .length_dropdown {
@@ -124,4 +123,10 @@
 
 .button_line {
   margin: 32px 0;
+}
+
+.title_input {
+  display: flex;
+  flex: 0 0 400px;
+  min-width: 400px;
 }

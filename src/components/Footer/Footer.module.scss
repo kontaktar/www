@@ -12,6 +12,10 @@
   flex-wrap: wrap-reverse;
   z-index: 2;
   bottom: 0;
+  display: flex;
+  min-height: 50px;
+
+  align-items: center;
 
   .row:first-child {
     margin-right: 40px;

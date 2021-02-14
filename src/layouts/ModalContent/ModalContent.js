@@ -61,6 +61,8 @@ const Experience = ({ data }) => {
       </div>
       <div className={styles.input_line}>
         <Input
+          className={styles.title_input}
+          id={experience.id}
           name="title"
           label="Heiti verks"
           onChange={handleChange}

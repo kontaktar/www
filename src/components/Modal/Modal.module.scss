@@ -37,6 +37,8 @@
 .new_modal {
   z-index: 1000;
   div[data-reach-dialog-content] {
+    width: 70vw;
+    max-width: 1080px;
     border-radius: 5px;
     margin: 10vh auto;
     position: relative;

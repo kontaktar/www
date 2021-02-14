@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Drawer } from "components";
+import { Drawer, Footer } from "components";
 import styles from "./UserLayout.module.scss";
 
 const UserLayout = ({ children }) => {
@@ -11,7 +11,7 @@ const UserLayout = ({ children }) => {
       {/* <div className={styles.profile_drawer}>
         <Drawer rightSide />
       </div> */}
-      {/* <Footer /> */}
+      <Footer userLayout />
     </div>
   );
 };
