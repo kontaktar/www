@@ -95,8 +95,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   })
 );
 
-// Search.propTypes = {
-//   data: PropTypes.object.isRequired
-// };
-
 export default Search;

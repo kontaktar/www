@@ -1,5 +1,4 @@
 import React from "react";
-import cx from "classnames";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Footer, Header } from "components";
 import styles from "./MainLayout.module.scss";

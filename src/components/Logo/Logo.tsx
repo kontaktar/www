@@ -1,10 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Link from "next/link";
+import React, { ReactElement } from "react";
 import cx from "classnames";
+import Link from "components/LinkWrap";
 import styles from "./Logo.module.scss";
 
-const Logo = ({ className, inverted, withTitle }) => {
+type Props = {
+  className?: string;
+  inverted?: boolean;
+  withTitle?: boolean;
+};
+
+const Logo = ({
+  className,
+  inverted = false,
+  withTitle = false
+}: Props): ReactElement => {
   return (
     <div
       className={cx(
@@ -33,15 +42,4 @@ Logo.Title = () => {
       <h2>Kontaktar.</h2>
     </div>
   );
-};
-
-Logo.propTypes = {
-  className: PropTypes.string,
-  inverted: PropTypes.bool,
-  withTitle: PropTypes.bool
-};
-Logo.defaultProps = {
-  className: "",
-  inverted: false,
-  withTitle: false
 };

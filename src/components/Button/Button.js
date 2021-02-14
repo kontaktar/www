@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import PropTypes from "prop-types";
-import Link from "next/link";
 import cx from "classnames";
 // import { style } from "@material-ui/system";
 import { Icon } from "components";
+import Link from "components/LinkWrap";
 import styles from "./Button.module.scss";
 import colors from "styles/colors.module.scss";
 

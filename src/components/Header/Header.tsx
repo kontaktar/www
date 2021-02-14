@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import screensizes from "data/screensizes";
-import Link from "next/link";
 import cx from "classnames";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Logo } from "components";
+import Link from "components/LinkWrap";
 import NewModal from "components/Modal/NewModal";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";

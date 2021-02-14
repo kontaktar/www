@@ -1,21 +1,32 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import MuiInput from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSearchResult, updateLatestSearch } from "store/actions";
 import styles from "./SearchBar.module.scss";
 
+type Props = {
+  className?: string;
+  placeholder?: string;
+  onChange?: (event: any) => void;
+  onClearClicked?: () => void;
+  value?: string;
+  onKeyDown?: (event: any) => void;
+};
+
+type ResultProps = {
+  number: string;
+};
 const SearchBar = ({
   className,
   placeholder,
   onClearClicked,
   value,
   ...props
-}) => {
+}: Props): ReactElement => {
   const store = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -43,7 +54,7 @@ const SearchBar = ({
         }
         endAdornment={
           <InputAdornment position="end" variant="filled">
-            {value && (
+            {value ? (
               <IconButton
                 type="submit"
                 aria-label="clear-search"
@@ -51,6 +62,8 @@ const SearchBar = ({
               >
                 <CloseIcon />
               </IconButton>
+            ) : (
+              <></>
             )}
           </InputAdornment>
         }
@@ -62,26 +75,6 @@ const SearchBar = ({
 
 export default SearchBar;
 
-SearchBar.Results = ({ number = "0" }) => {
+SearchBar.Results = ({ number = "0" }: ResultProps): ReactElement => {
   return <div className={styles.results}>{number} niðurstöður</div>;
-};
-
-SearchBar.propTypes = {
-  className: PropTypes.string,
-  placeholder: PropTypes.string,
-  onClearClicked: PropTypes.func,
-  value: PropTypes.string
-};
-SearchBar.defaultProps = {
-  className: "",
-  placeholder: "",
-  onClearClicked: () => {},
-  value: ""
-};
-
-SearchBar.Results.propTypes = {
-  number: PropTypes.string
-};
-SearchBar.Results.defaultProps = {
-  number: "0"
 };

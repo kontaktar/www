@@ -3,3 +3,12 @@ export type UserSessionStorage = {
   isLoggedIn: boolean;
   id: string;
 };
+
+export type Card = {
+  title: string;
+  description: string;
+  years: string;
+  months: string;
+  userName: string;
+  experienceId: string;
+};

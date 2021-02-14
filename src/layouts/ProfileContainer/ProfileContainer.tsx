@@ -6,12 +6,12 @@ import React, {
   useState
 } from "react";
 import orderBy from "lodash.orderby";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserExperiences } from "store/actions";
 import useAuth from "hooks/useAuth";
 import { Button, Card, Icon } from "components";
+import Link from "components/LinkWrap";
 import NewModal from "components/Modal/NewModal";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import styles from "./ProfileContainer.module.scss";
@@ -43,6 +43,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
       try {
         dispatch(fetchUserExperiences(userData.id));
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
       setUserProfile(userData);
@@ -66,6 +67,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
           try {
             dispatch(fetchUserExperiences(currentUserProfile.id));
           } catch (error) {
+            // eslint-disable-next-line no-console
             console.error(error);
           }
         }

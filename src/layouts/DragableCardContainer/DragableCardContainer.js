@@ -63,7 +63,6 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
   }
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions
-    console.log(oldIndex !== newIndex && newIndex !== null);
     if (oldIndex !== newIndex && newIndex !== null) {
       setArrangement(arrayMove(arrangement, oldIndex, newIndex));
       updateOrder(arrayMove(items, oldIndex, newIndex));
@@ -74,7 +73,7 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
     if (!isEqual(items, arrangement)) {
       setArrangement(items);
     }
-  }, [items]);
+  }, [items, arrangement]);
 
   const SORTING_STARTS_IN_PIXELS = 10;
   return (

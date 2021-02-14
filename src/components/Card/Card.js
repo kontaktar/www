@@ -4,12 +4,12 @@ import React from "react";
 import MuiCard from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import Link from "next/link";
 import { useDispatch } from "react-redux";
 import cx from "classnames";
 import { deleteUserExperience, editUserExperience } from "store/actions";
 import useAuth from "hooks/useAuth";
 import { Icon } from "components";
+import Link from "components/LinkWrap";
 import styles from "./Card.module.scss";
 
 const Card = (props) => {

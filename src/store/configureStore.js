@@ -12,6 +12,7 @@ const bindMiddleware = (middleware) => {
     const developmentMiddleware = [];
     if (isServer) {
       developmentMiddleware.push((_store) => (next) => (action) => {
+        // eslint-disable-next-line no-console
         console.log("REDUX action type: ", action.type);
         next(action);
       });

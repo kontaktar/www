@@ -1,11 +1,21 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import type { Card as CardType } from "types";
 import { Card, SearchBar } from "components";
 import { CardsContainer } from "layouts";
 import styles from "./SearchContainer.module.scss";
 
-const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
+type Props = {
+  cardsToDisplay: any; // TODO: [key: number]; User
+  onSearch: (event: any) => void;
+  searchInput: string;
+};
+
+const SearchContainer = ({
+  cardsToDisplay,
+  searchInput,
+  onSearch
+}: Props): ReactElement => {
   const [searchValue, setSearchValue] = useState(searchInput);
   const [cards, setCards] = useState(cardsToDisplay);
   const store = useSelector((state) => state);
@@ -46,7 +56,7 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
       </div>
       <CardsContainer>
         {cards
-          ? Object.values(cards).map((card, i) => {
+          ? Object.values(cards).map((card: CardType, i) => {
               return (
                 <Card
                   // eslint-disable-next-line react/no-array-index-key
@@ -69,14 +79,3 @@ const SearchContainer = ({ cardsToDisplay, searchInput, onSearch }) => {
 };
 
 export default SearchContainer;
-
-SearchContainer.propTypes = {
-  cardsToDisplay: PropTypes.array,
-  onSearch: PropTypes.func.isRequired,
-  searchInput: PropTypes.string
-};
-
-SearchContainer.defaultProps = {
-  cardsToDisplay: [],
-  searchInput: null
-};
