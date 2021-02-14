@@ -136,18 +136,21 @@ const UserInformation = ({ data }) => {
       <div className={styles.input_rows}>
         <div className={styles.input_line}>
           <Input
+            id={userInfo.id + userInfo.firstName}
             label="Fornafn"
             name="firstName"
             value={userInfo.firstName}
             onChange={handleChange}
           />
           <Input
+            id={userInfo.id + userInfo.lastName}
             label="Eftirnafn"
             name="lastName"
             value={userInfo.lastName}
             onChange={handleChange}
           />
           <Input
+            id={userInfo.id + userInfo.userName}
             label="Notendanafn"
             name="userName"
             value={userInfo.userName}
@@ -156,30 +159,35 @@ const UserInformation = ({ data }) => {
         </div>
         <div className={styles.input_line}>
           <Input
+            id={userInfo.id + userInfo.streetName}
             label="Heimilisfang"
             name="streetName"
             value={userInfo.streetName}
             onChange={handleChange}
           />
           <Input
+            id={userInfo.id + userInfo.city}
             name="city"
             label="Bær"
             value={userInfo.city}
             onChange={handleChange}
           />
           <Input
+            id={userInfo.id + userInfo.postalCode}
             label="Póstfang"
             name="postalCode"
             value={userInfo.postalCode}
             onChange={handleChange}
           />
           <Input
+            id={userInfo.id + userInfo.country}
             label="Land"
             name="country"
             value={userInfo.country}
             onChange={handleChange}
           />
           <Input
+            id={userInfo.id + userInfo.phoneNumber}
             label="Símanúmer"
             name="phoneNumber"
             value={userInfo.phoneNumber}
@@ -188,12 +196,14 @@ const UserInformation = ({ data }) => {
         </div>
         <div className={styles.input_line}>
           <Input
+            id={userInfo.id + userInfo.email}
             label="Netfang"
             name="email"
             value={userInfo.email}
             onChange={handleChange}
           />
           <Input
+            id={userInfo.id + userInfo.website}
             label="Vefsíða"
             name="website"
             value={userInfo.website}

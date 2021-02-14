@@ -1,8 +1,9 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import { DialogContent, DialogOverlay } from "@reach/dialog";
 import { animated, useTransition } from "react-spring";
 import cx from "classnames";
-import { Button, Icon } from "components";
 import "@reach/dialog/styles.css";
 import styles from "./Modal.module.scss";
 
@@ -30,9 +31,9 @@ const NewModal = ({
   const transitions = useTransition(showDialog, {
     // eslint-disable-next-line unicorn/prevent-abbreviations
     ref: null,
-    from: { opacity: 0, y: -10 },
+    from: { opacity: 0, y: -1000 },
     enter: { opacity: 1, y: 0 },
-    leave: { opacity: 0, y: 10 }
+    leave: { opacity: 0, y: 2000 }
   });
 
   useEffect(() => {
@@ -44,14 +45,14 @@ const NewModal = ({
       {transitions(
         (style, item, t, i) =>
           item && (
-            <animated.div style={style}>
+            <animated.div style={style} key={modalKey}>
               <DialogOverlay
                 className={cx(styles.new_modal, className)}
                 key={modalKey}
               >
                 <animated.div
                   style={{
-                    transform: style?.y?.interpolate(
+                    transform: style?.y?.to(
                       (value) => `translate3d(0px, ${value}px, 0px)`
                     ),
                     border: "none",
@@ -60,22 +61,21 @@ const NewModal = ({
                 >
                   <DialogContent
                     aria-label={ariaLabel}
-                    key={i}
+                    key={modalKey + i}
                     className={overlayClassName}
                   >
-                    <Button
+                    <IconButton
+                      disableFocusRipple
                       className={styles.button_clear}
+                      type="submit"
+                      aria-label="clear-search"
                       onClick={() => {
-                        setShowDialog(false);
                         onClose();
+                        setShowDialog(false);
                       }}
                     >
-                      <Icon
-                        className={styles.close_icon}
-                        name="close"
-                        // onClick={onClose}
-                      />
-                    </Button>
+                      <CloseIcon />
+                    </IconButton>
                     {children}
                   </DialogContent>
                 </animated.div>
