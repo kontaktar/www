@@ -15,6 +15,7 @@ type Props = {
   children: ReactNode;
   onClose: () => void;
 };
+
 const NewModal = ({
   ariaLabel,
   open = false,
@@ -24,11 +25,11 @@ const NewModal = ({
   onClose,
   modalKey
 }: Props): ReactElement => {
-  const AnimatedDialogOverlay = animated(DialogOverlay);
-  const AnimatedDialogContent = animated(DialogContent);
   const [showDialog, setShowDialog] = useState(open);
 
-  const transitions = useTransition<boolean, any>(showDialog, null, {
+  const transitions = useTransition(showDialog, {
+    // eslint-disable-next-line unicorn/prevent-abbreviations
+    ref: null,
     from: { opacity: 0, y: -10 },
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: 10 }
@@ -40,42 +41,46 @@ const NewModal = ({
 
   return (
     <div key={modalKey}>
-      {transitions.map(
-        ({ item, key, props: _styles }) =>
+      {transitions(
+        (style, item, t, i) =>
           item && (
-            <AnimatedDialogOverlay
-              className={cx(styles.new_modal, className)}
-              style={{ opacity: _styles.opacity }}
-              key={modalKey}
-            >
-              <AnimatedDialogContent
-                aria-label={ariaLabel}
-                key={key}
-                className={overlayClassName}
-                style={{
-                  transform: _styles.y.interpolate(
-                    (value) => `translate3d(0px, ${value}px, 0px)`
-                  ),
-                  border: "4px solid hsla(0, 0%, 0%, 0.5)",
-                  borderRadius: 10
-                }}
+            <animated.div style={style}>
+              <DialogOverlay
+                className={cx(styles.new_modal, className)}
+                key={modalKey}
               >
-                <Button
-                  className={styles.button_clear}
-                  onClick={() => {
-                    setShowDialog(false);
-                    onClose();
+                <animated.div
+                  style={{
+                    transform: style?.y?.interpolate(
+                      (value) => `translate3d(0px, ${value}px, 0px)`
+                    ),
+                    border: "none",
+                    borderRadius: 10
                   }}
                 >
-                  <Icon
-                    className={styles.close_icon}
-                    name="close"
-                    // onClick={onClose}
-                  />
-                </Button>
-                {children}
-              </AnimatedDialogContent>
-            </AnimatedDialogOverlay>
+                  <DialogContent
+                    aria-label={ariaLabel}
+                    key={i}
+                    className={overlayClassName}
+                  >
+                    <Button
+                      className={styles.button_clear}
+                      onClick={() => {
+                        setShowDialog(false);
+                        onClose();
+                      }}
+                    >
+                      <Icon
+                        className={styles.close_icon}
+                        name="close"
+                        // onClick={onClose}
+                      />
+                    </Button>
+                    {children}
+                  </DialogContent>
+                </animated.div>
+              </DialogOverlay>
+            </animated.div>
           )
       )}
     </div>
