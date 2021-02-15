@@ -1,14 +1,17 @@
 import React, { ReactElement, useState } from "react";
 import SvgPluses from "assets/background/SvgPluses";
 import SvgSolidRing from "assets/background/SvgSolidRing";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { Button, Carousel, SearchBar } from "components";
+import { Button, /* Carousel,*/ SearchBar } from "components";
 import Link from "components/LinkWrap";
 import styles from "./FrontPageContainer.module.scss";
 
 const FrontPageContainer = (): ReactElement => {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState(undefined);
+
+  const DynamicCarousel = dynamic(() => import("components/Carousel"));
 
   const onSearchBarInput = (event) => {
     setSearchInput(event.target.value);
@@ -50,7 +53,7 @@ const FrontPageContainer = (): ReactElement => {
             <Button className={styles.search_button}>Leita</Button>
           </Link>
         </div>
-        <Carousel />
+        <DynamicCarousel />
       </div>
 
       <SvgSolidRing className={styles.solid_ring} />

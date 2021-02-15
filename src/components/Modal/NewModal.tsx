@@ -51,16 +51,15 @@ const NewModal = ({
                 style={{ opacity: style.opacity as any }}
                 key={modalKey}
               >
-                <animated.div
-                  style={{
-                    transform: style?.y?.to(
-                      (value) => `translate3d(0px, ${value}px, 0px)`
-                    ),
-                    border: "none",
-                    borderRadius: 10
-                  }}
-                >
+                <animated.div>
                   <DialogContent
+                    // style={{
+                    //   transform: style?.y?.to(
+                    //     (value) => `translate3d(0px, ${value}px, 0px)`
+                    //   ),
+                    //   border: "none",
+                    //   borderRadius: 10
+                    // }}
                     aria-label={ariaLabel}
                     key={modalKey + i}
                     className={overlayClassName}

@@ -128,7 +128,7 @@ $carousel-mobile-breakpoint: 664px;
   flex-direction: row;
   margin-bottom: 16px;
 
-  h3 {
+  h2 {
     flex-grow: 1;
     font-size: 40px;
     font-family: "Berlingske Serif";
@@ -137,13 +137,13 @@ $carousel-mobile-breakpoint: 664px;
 }
 
 .carousel_header.medium {
-  h3 {
+  h2 {
     font-size: 28px;
   }
 }
 
 .carousel_header.small {
-  h3 {
+  h2 {
     font-size: 28px;
   }
 }
