@@ -1,15 +1,27 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import SvgPluses from "assets/background/SvgPluses";
 import SvgSolidRing from "assets/background/SvgSolidRing";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { randomize } from "helpers/arrays";
 import { Button, /* Carousel,*/ SearchBar } from "components";
 import Link from "components/LinkWrap";
 import styles from "./FrontPageContainer.module.scss";
 
 const FrontPageContainer = (): ReactElement => {
   const router = useRouter();
+
   const [searchInput, setSearchInput] = useState(undefined);
+  const searchState = useSelector((state) => state.searches);
+  const [fiveRandomCards, setFiveRandomCards] = useState();
+  useEffect(() => {
+    if (searchState?.inputs?.[""]) {
+      setFiveRandomCards(
+        randomize(Object.values(searchState?.inputs?.[""])).slice(0, 5)
+      );
+    }
+  }, [searchState?.inputs]);
 
   const DynamicCarousel = dynamic(() => import("components/Carousel"));
 
@@ -53,7 +65,7 @@ const FrontPageContainer = (): ReactElement => {
             <Button className={styles.search_button}>Leita</Button>
           </Link>
         </div>
-        <DynamicCarousel />
+        <DynamicCarousel cards={fiveRandomCards} />
       </div>
 
       <SvgSolidRing className={styles.solid_ring} />

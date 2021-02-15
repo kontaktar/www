@@ -1,7 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
 import NukaCarousel from "nuka-carousel";
-import { useSelector } from "react-redux";
-import { randomize } from "helpers/arrays";
 import { Button, Card } from "components";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Carousel.module.scss";
@@ -49,21 +47,11 @@ export const breakPointSettingsSecond = [
 ];
 
 // TODO: laga að wraparoun er ekki smooth með custom buttons, virkar fínt með lyklaborði!
-const Carousel = (): ReactElement => {
+const Carousel = ({ cards }: { cards: any }): ReactElement => {
   const { width } = useWindowDimensions();
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [carouselSize, setCarouselSize] = useState(undefined);
   const [elementSize, setSize] = useState(undefined);
-  const [fiveRandomCards, setFiveRandomCards] = useState([]);
-  const searchState = useSelector((state) => state.searches);
-
-  useEffect(() => {
-    if (searchState?.inputs?.[""]) {
-      setFiveRandomCards(
-        randomize(Object.values(searchState?.inputs[""])).slice(0, 5)
-      );
-    }
-  }, [searchState?.inputs]);
   useEffect(() => {
     let breakpoint = 332;
     let slides = 1;
@@ -124,15 +112,15 @@ const Carousel = (): ReactElement => {
         // cellSpacing={20}
         cellAlign="left"
         width={carouselSize?.toString()}
-        enableKeyboardControls
+        enableKeyboardControls={false}
         pauseOnHover={false}
         dragging={false}
         swiping
         transitionMode="scroll"
         slidesToShow={slidesToShow}
       >
-        {fiveRandomCards.length > 0 ? (
-          fiveRandomCards.map((card, i) => (
+        {cards.length > 0 ? (
+          cards.map((card, i) => (
             <Card
               id={i}
               key={`${card.userId}${card.experienceId}`}
