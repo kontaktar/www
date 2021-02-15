@@ -1,0 +1,13 @@
+{
+  "region": "us-east-1",
+  "privateZone": false,
+  "domain": "kontaktar.is",
+  "subdomains": [
+    {
+      "domain": "www.kontaktar.is",
+      "distributionId": "E2DKA3K6JRUR5N",
+      "url": "https://d33g7jadaxa2v.cloudfront.net",
+      "type": "awsCloudFront"
+    }
+  ]
+}
