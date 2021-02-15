@@ -45,12 +45,10 @@ const NewModal = ({
       {transitions(
         (style, item, t, i) =>
           item && (
-            <animated.div
-              style={{ opacity: style.opacity as any }}
-              key={modalKey}
-            >
+            <animated.div key={modalKey}>
               <DialogOverlay
                 className={cx(styles.new_modal, className)}
+                style={{ opacity: style.opacity as any }}
                 key={modalKey}
               >
                 <animated.div

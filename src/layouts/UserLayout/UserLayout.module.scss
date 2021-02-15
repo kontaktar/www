@@ -1,7 +1,9 @@
 @import "../../styles/config";
 
 .user_root {
-  // overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   .user_main_content {
     display: flex;
     flex-direction: row;

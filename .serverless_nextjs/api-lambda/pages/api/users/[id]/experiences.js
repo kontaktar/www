@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "Xaju");
+/******/ 	return __webpack_require__(__webpack_require__.s = "7Po2");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -7143,6 +7143,196 @@ internals.shallow = function (a, b) {
     return a === b;
 };
 
+
+/***/ }),
+
+/***/ "7Po2":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GX0O");
+/* harmony import */ var next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("KqAr");
+/* harmony import */ var next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("fkL1");
+/* harmony import */ var next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2__);
+
+      
+      
+      
+
+      
+    const { processEnv } = __webpack_require__("fXeI")
+    processEnv([{"path":".env","contents":"NODE_ENV=development\nTEST=lol\n\nAWS_ACCESS_KEY_ID=AKIARNNH43NB5YNGDK7V\nAWS_SECRET_ACCESS_KEY=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"}])
+  
+      
+      const runtimeConfig = {}
+      
+    const { getRouteMatcher } = __webpack_require__("gguc");
+      const { getRouteRegex } = __webpack_require__("YTqd");
+  
+      const { parse: parseUrl } = __webpack_require__("bzos")
+      const { apiResolver } = __webpack_require__("PCLx")
+      const { normalizeLocalePath } = __webpack_require__("3wub")
+      const i18n = {}
+
+      
+    const { rewrites } = __webpack_require__("Skye")
+    const { pathToRegexp, default: pathMatch } = __webpack_require__("N6Fi")
+  
+
+      
+    const dynamicRouteMatcher = getRouteMatcher(getRouteRegex("/api/users/[id]/experiences"))
+    const defaultRouteMatches = dynamicRouteMatcher("/api/users/[id]/experiences")
+  
+
+      
+      const defaultRouteRegex = getRouteRegex("/api/users/[id]/experiences")
+    
+
+      
+    const getCustomRouteMatcher = pathMatch(true)
+    const prepareDestination = __webpack_require__("6mnf").default
+
+    function handleRewrites(parsedUrl) {
+      for (const rewrite of rewrites) {
+        const matcher = getCustomRouteMatcher(rewrite.source)
+        const params = matcher(parsedUrl.pathname)
+
+        if (params) {
+          const { parsedDestination } = prepareDestination(
+            rewrite.destination,
+            params,
+            parsedUrl.query,
+            true
+          )
+
+          Object.assign(parsedUrl.query, parsedDestination.query)
+          delete parsedDestination.query
+
+          Object.assign(parsedUrl, parsedDestination)
+
+          let fsPathname = parsedUrl.pathname
+
+          
+
+          
+
+          if (fsPathname === '/api/users/[id]/experiences'){
+            break
+          }
+          
+            const dynamicParams = dynamicRouteMatcher(fsPathname);            if (dynamicParams) {
+              parsedUrl.query = {
+                ...parsedUrl.query,
+                ...dynamicParams
+              }
+              break
+            }
+          
+        }
+      }
+
+      return parsedUrl
+    }
+  
+
+      /* harmony default export */ __webpack_exports__["default"] = (async (req, res) => {
+        try {
+          await Object(next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_0__["default"])()
+
+          // We need to trust the dynamic route params from the proxy
+          // to ensure we are using the correct values
+          const trustQuery = req.headers['x-vercel-id']
+          const parsedUrl = handleRewrites(parseUrl(req.url, true))
+
+          if (parsedUrl.query.nextInternalLocale) {
+            detectedLocale = parsedUrl.query.nextInternalLocale
+            delete parsedUrl.query.nextInternalLocale
+          }
+
+          let hasValidParams = true
+
+          
+      function normalizeDynamicRouteParams(query) {
+        return Object.keys(defaultRouteRegex.groups)
+          .reduce((prev, key) => {
+            let value = query[key]
+
+            // if the value matches the default value we can't rely
+            // on the parsed params, this is used to signal if we need
+            // to parse x-now-route-matches or not
+            const isDefaultValue = Array.isArray(value)
+              ? value.every((val, idx) => val === defaultRouteMatches[key][idx])
+              : value === defaultRouteMatches[key]
+
+            if (isDefaultValue || typeof value === 'undefined') {
+              hasValidParams = false
+            }
+
+            
+            if(
+              defaultRouteRegex.groups[key].optional &&
+              (!value || (
+                Array.isArray(value) &&
+                value.length === 1 &&
+                
+                (value[0] === 'index' || value[0] === `[[...${key}]]`)
+              ))
+            ) {
+              value = undefined
+              delete query[key]
+            }
+            
+            if (
+              value &&
+              typeof value === 'string' &&
+              defaultRouteRegex.groups[key].repeat
+            ) {
+              value = value.split('/')
+            }
+
+            if (value) {
+              prev[key] = value
+            }
+            return prev
+          }, {})
+      }
+    
+          
+
+          const params = 
+              normalizeDynamicRouteParams(
+                trustQuery
+                  ? parsedUrl.query
+                  : dynamicRouteMatcher(parsedUrl.pathname)
+              )
+              
+
+          const resolver = await __webpack_require__("dhT0")
+          await apiResolver(
+            req,
+            res,
+            Object.assign({}, parsedUrl.query, params ),
+            resolver,
+            {previewModeId:"b3047f5eba74635847aa83054a813041",previewModeSigningKey:"ee517972cfbd027f6e696d6df839de21d03fc06c5b876283622150e6a2ecf269",previewModeEncryptionKey:"941201d93598e1981acec1e5a8af102dc4669f5e25e33990f6c61b9939a94142"},
+            true,
+            next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__["default"]
+          )
+        } catch (err) {
+          console.error(err)
+          await Object(next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__["default"])(err)
+
+          // TODO: better error for DECODE_FAILED?
+          if (err.code === 'DECODE_FAILED') {
+            res.statusCode = 400
+            res.end('Bad Request')
+          } else {
+            // Throw the error to crash the serverless function
+            throw err
+          }
+        }
+      });
+    
 
 /***/ }),
 
@@ -20241,196 +20431,6 @@ module.exports = $main;
  * @see https://github.com/vitaly-t/spex
  */
 
-
-/***/ }),
-
-/***/ "Xaju":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("GX0O");
-/* harmony import */ var next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("KqAr");
-/* harmony import */ var next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("fkL1");
-/* harmony import */ var next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_dist_next_server_server_node_polyfill_fetch__WEBPACK_IMPORTED_MODULE_2__);
-
-      
-      
-      
-
-      
-    const { processEnv } = __webpack_require__("fXeI")
-    processEnv([{"path":".env","contents":"NODE_ENV=development\nTEST=lol\n\nAWS_ACCESS_KEY_ID=AKIARNNH43NB5YNGDK7V\nAWS_SECRET_ACCESS_KEY=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"}])
-  
-      
-      const runtimeConfig = {}
-      
-    const { getRouteMatcher } = __webpack_require__("gguc");
-      const { getRouteRegex } = __webpack_require__("YTqd");
-  
-      const { parse: parseUrl } = __webpack_require__("bzos")
-      const { apiResolver } = __webpack_require__("PCLx")
-      const { normalizeLocalePath } = __webpack_require__("3wub")
-      const i18n = {}
-
-      
-    const { rewrites } = __webpack_require__("Skye")
-    const { pathToRegexp, default: pathMatch } = __webpack_require__("N6Fi")
-  
-
-      
-    const dynamicRouteMatcher = getRouteMatcher(getRouteRegex("/api/users/[id]/experiences"))
-    const defaultRouteMatches = dynamicRouteMatcher("/api/users/[id]/experiences")
-  
-
-      
-      const defaultRouteRegex = getRouteRegex("/api/users/[id]/experiences")
-    
-
-      
-    const getCustomRouteMatcher = pathMatch(true)
-    const prepareDestination = __webpack_require__("6mnf").default
-
-    function handleRewrites(parsedUrl) {
-      for (const rewrite of rewrites) {
-        const matcher = getCustomRouteMatcher(rewrite.source)
-        const params = matcher(parsedUrl.pathname)
-
-        if (params) {
-          const { parsedDestination } = prepareDestination(
-            rewrite.destination,
-            params,
-            parsedUrl.query,
-            true
-          )
-
-          Object.assign(parsedUrl.query, parsedDestination.query)
-          delete parsedDestination.query
-
-          Object.assign(parsedUrl, parsedDestination)
-
-          let fsPathname = parsedUrl.pathname
-
-          
-
-          
-
-          if (fsPathname === '/api/users/[id]/experiences'){
-            break
-          }
-          
-            const dynamicParams = dynamicRouteMatcher(fsPathname);            if (dynamicParams) {
-              parsedUrl.query = {
-                ...parsedUrl.query,
-                ...dynamicParams
-              }
-              break
-            }
-          
-        }
-      }
-
-      return parsedUrl
-    }
-  
-
-      /* harmony default export */ __webpack_exports__["default"] = (async (req, res) => {
-        try {
-          await Object(next_plugin_loader_middleware_on_init_server___WEBPACK_IMPORTED_MODULE_0__["default"])()
-
-          // We need to trust the dynamic route params from the proxy
-          // to ensure we are using the correct values
-          const trustQuery = req.headers['x-vercel-id']
-          const parsedUrl = handleRewrites(parseUrl(req.url, true))
-
-          if (parsedUrl.query.nextInternalLocale) {
-            detectedLocale = parsedUrl.query.nextInternalLocale
-            delete parsedUrl.query.nextInternalLocale
-          }
-
-          let hasValidParams = true
-
-          
-      function normalizeDynamicRouteParams(query) {
-        return Object.keys(defaultRouteRegex.groups)
-          .reduce((prev, key) => {
-            let value = query[key]
-
-            // if the value matches the default value we can't rely
-            // on the parsed params, this is used to signal if we need
-            // to parse x-now-route-matches or not
-            const isDefaultValue = Array.isArray(value)
-              ? value.every((val, idx) => val === defaultRouteMatches[key][idx])
-              : value === defaultRouteMatches[key]
-
-            if (isDefaultValue || typeof value === 'undefined') {
-              hasValidParams = false
-            }
-
-            
-            if(
-              defaultRouteRegex.groups[key].optional &&
-              (!value || (
-                Array.isArray(value) &&
-                value.length === 1 &&
-                
-                (value[0] === 'index' || value[0] === `[[...${key}]]`)
-              ))
-            ) {
-              value = undefined
-              delete query[key]
-            }
-            
-            if (
-              value &&
-              typeof value === 'string' &&
-              defaultRouteRegex.groups[key].repeat
-            ) {
-              value = value.split('/')
-            }
-
-            if (value) {
-              prev[key] = value
-            }
-            return prev
-          }, {})
-      }
-    
-          
-
-          const params = 
-              normalizeDynamicRouteParams(
-                trustQuery
-                  ? parsedUrl.query
-                  : dynamicRouteMatcher(parsedUrl.pathname)
-              )
-              
-
-          const resolver = await __webpack_require__("dhT0")
-          await apiResolver(
-            req,
-            res,
-            Object.assign({}, parsedUrl.query, params ),
-            resolver,
-            {previewModeId:"2d8882da2e4b99e7e8a3a04bfa467863",previewModeSigningKey:"2538565d5fda77a90335b4e8904d02dc5b29caaeceb0a63cda9d4b64ac0d1c9e",previewModeEncryptionKey:"aa8420e9a18c279c290977f2d99c419284dd1fdbfd0c75626822635abf5b35a4"},
-            true,
-            next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__["default"]
-          )
-        } catch (err) {
-          console.error(err)
-          await Object(next_plugin_loader_middleware_on_error_server___WEBPACK_IMPORTED_MODULE_1__["default"])(err)
-
-          // TODO: better error for DECODE_FAILED?
-          if (err.code === 'DECODE_FAILED') {
-            res.statusCode = 400
-            res.end('Bad Request')
-          } else {
-            // Throw the error to crash the serverless function
-            throw err
-          }
-        }
-      });
-    
 
 /***/ }),
 

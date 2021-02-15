@@ -95,7 +95,7 @@ const Carousel = (): ReactElement => {
           ${styles[elementSize]}
         `}
       >
-        <h3>Kontaktar af handahófi</h3>
+        <h2>Kontaktar af handahófi</h2>
       </div>
       <NukaCarousel
         className={`
