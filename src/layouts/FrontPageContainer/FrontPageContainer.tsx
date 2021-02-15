@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import SvgPluses from "assets/background/SvgPluses";
 import SvgSolidRing from "assets/background/SvgSolidRing";
 import dynamic from "next/dynamic";
@@ -12,9 +13,10 @@ import styles from "./FrontPageContainer.module.scss";
 const FrontPageContainer = (): ReactElement => {
   const router = useRouter();
 
-  const [searchInput, setSearchInput] = useState(undefined);
+  const [searchInput, setSearchInput] = useState("");
   const searchState = useSelector((state) => state.searches);
   const [fiveRandomCards, setFiveRandomCards] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (searchState?.inputs?.[""]) {
       setFiveRandomCards(
@@ -23,7 +25,9 @@ const FrontPageContainer = (): ReactElement => {
     }
   }, [searchState?.inputs]);
 
-  const DynamicCarousel = dynamic(() => import("components/Carousel"));
+  const DynamicCarousel = dynamic(() => import("components/Carousel"), {
+    loading: () => <div style={{ height: "362px" }}>...</div>
+  });
 
   const onSearchBarInput = (event) => {
     setSearchInput(event.target.value);
@@ -31,6 +35,7 @@ const FrontPageContainer = (): ReactElement => {
   const onSearchBarSubmit = (event) => {
     if (event.key === "Enter") {
       setSearchInput(event.target.value);
+      setIsLoading(true);
       router.push({
         pathname: "/search",
         query: { searchInput }
@@ -61,8 +66,11 @@ const FrontPageContainer = (): ReactElement => {
               pathname: "/search",
               query: { searchInput }
             }}
+            onClick={() => setIsLoading(true)}
           >
-            <Button className={styles.search_button}>Leita</Button>
+            <Button type="button" className={styles.search_button}>
+              {isLoading ? <CircularProgress /> : "Leita"}
+            </Button>
           </Link>
         </div>
         <DynamicCarousel cards={fiveRandomCards} />

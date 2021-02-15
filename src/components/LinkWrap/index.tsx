@@ -21,12 +21,15 @@ type Props = {
   referenceAs?: any;
   href?: any;
   as?: string;
+  onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void;
 };
 function Link({ referenceAs, children, ...props }: Props): ReactElement {
-  const { href } = props;
+  const { href, onClick } = props;
   return (
     <NextLink href={href} {...props}>
-      <LinkWrapper referenceAs={referenceAs}>{children}</LinkWrapper>
+      <LinkWrapper onClick={onClick} referenceAs={referenceAs}>
+        {children}
+      </LinkWrapper>
     </NextLink>
   );
 }
