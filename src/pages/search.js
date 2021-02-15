@@ -78,17 +78,20 @@ const Search = ({ searchInput }) => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store, query: { searchInput = "" } }) => {
-    const searchResult = Object.values(await GetSearchResult(searchInput));
+    try {
+      const searchResult = Object.values(await GetSearchResult(searchInput));
 
-    store.dispatch(updateLatestSearch(searchInput));
+      store.dispatch(updateLatestSearch(searchInput));
 
-    store.dispatch(
-      fetchSearchResultSuccess(
-        searchInput,
-        searchInput === "" ? randomize(searchResult) : searchResult
-      )
-    );
-
+      store.dispatch(
+        fetchSearchResultSuccess(
+          searchInput,
+          searchInput === "" ? randomize(searchResult) : searchResult
+        )
+      );
+    } catch (error) {
+      console.error("error fetching search results", error);
+    }
     return {
       props: { searchInput }
     };
