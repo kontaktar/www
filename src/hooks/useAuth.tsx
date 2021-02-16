@@ -3,6 +3,8 @@ import useUser from "lib/useUser";
 import { get, post } from "helpers/methods";
 import { EditUser, GetUserByUserName } from "../pages/api/endpoints";
 
+import useLogger from "./useLogger";
+
 type AuthContextProps = {
   status: string;
   isLoggedIn: boolean;
@@ -67,18 +69,19 @@ export const AuthProvider = ({
 }: {
   children: React.ReactChild;
 }): React.ReactElement => {
-  const [state, dispatch] = useReducer(reducer, initialProps);
+  const [state, dispatch] = useReducer(useLogger(reducer), initialProps);
   const { user } = useUser();
 
   const logout = async () => {
-    await get("/api/logout");
-    dispatch({
-      type: "AUTH/UPDATE_LOGIN_STATUS",
-      payload: {
-        status: "LOGGED_OUT",
-        isLoggedIn: false,
-        userData: undefined
-      }
+    await get("/api/logout").then(() => {
+      dispatch({
+        type: "AUTH/UPDATE_LOGIN_STATUS",
+        payload: {
+          status: "LOGGED_OUT",
+          isLoggedIn: false,
+          userData: undefined
+        }
+      });
     });
   };
 

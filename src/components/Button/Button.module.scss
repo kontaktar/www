@@ -4,6 +4,7 @@
   height: 50px;
   width: 202px;
   cursor: pointer;
+  overflow: hidden;
 
   background-color: $primary-color;
   border-color: $primary-color;
@@ -26,6 +27,30 @@
     color: $primary-color;
 
     transition: all 0.5s ease;
+  }
+
+  :global {
+    .MuiCircularProgress-circle {
+      stroke: $color-white;
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+  &:active,
+  &:hover,
+  &:focus-visible,
+  &:focus-within,
+  &:visited,
+  &:focus {
+    :global {
+      .MuiCircularProgress-circle {
+        stroke: $color-red;
+        &:focus {
+          outline: 0;
+        }
+      }
+    }
   }
 
   &:disabled {
@@ -142,6 +167,24 @@
     cursor: pointer;
     background-color: $primary-color;
     color: $color-white;
+  }
+
+  :global {
+    .MuiCircularProgress-circle {
+      stroke: $color-red;
+    }
+  }
+  &:active,
+  &:hover,
+  &:focus-visible,
+  &:focus-within,
+  &:visited,
+  &:focus {
+    :global {
+      .MuiCircularProgress-circle {
+        stroke: $color-white;
+      }
+    }
   }
 }
 .borderless {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { loginFormSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
@@ -11,6 +11,8 @@ import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = (): React.ReactElement => {
   const { login } = useAuth();
+  const router = useRouter();
+  const [isLoginLoading, setLoginLoader] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -27,10 +29,14 @@ const LoginFormContainer = (): React.ReactElement => {
       };
 
       try {
+        setLoginLoader(true);
         await login(body);
-        Router.push("/profile");
+        router.push("/profile");
       } catch (error) {
         setErrorMessage(error.message);
+        // eslint-disable-next-line no-console
+        console.error(error);
+        setLoginLoader(false);
       }
     }
   });
@@ -62,7 +68,11 @@ const LoginFormContainer = (): React.ReactElement => {
             isTouched={formik.touched.password}
           />
           <p className={styles.error}>{errorMessage}</p>
-          <Button className={styles.button} type="submit">
+          <Button
+            className={styles.button}
+            type="submit"
+            isLoading={isLoginLoading}
+          >
             Innskrá
           </Button>
           <span className={styles.or}>

@@ -30,7 +30,6 @@ const Login = withSession(async (request, response) => {
         response.status(500).json(error);
         throw new Error(`Failed to save to session storage`);
       }
-
       response.json(user);
     } else {
       response.status(404).json({ message: loginErrors.NO_MATCH });
@@ -42,10 +41,10 @@ const Login = withSession(async (request, response) => {
         message = loginErrors.NO_MATCH;
       }
       response.status(404).json({ message });
-      throw new Error(`LOGIN USER 404: ${error}`);
+      // throw new Error(`LOGIN USER 404: ${error}`);
     } else {
       response.status(500).json({ message: error.message });
-      throw new Error(`LOGIN USER 500: ${error}`);
+      // throw new Error(`LOGIN USER 500: ${error}`);
     }
   }
 });

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import cx from "classnames";
-// import { style } from "@material-ui/system";
 import { Icon } from "components";
 import Link from "components/LinkWrap";
 import styles from "./Button.module.scss";
@@ -14,6 +14,7 @@ const Button = ({
   disabled,
   onClick,
   modifier,
+  isLoading,
   type
 }) => {
   return (
@@ -26,7 +27,7 @@ const Button = ({
       onClick={onClick}
       type={type === "submit" ? "submit" : "button"}
     >
-      {children}
+      {isLoading ? <CircularProgress /> : <>{children}</>}
     </button>
   );
 };
@@ -43,9 +44,16 @@ Button.Edit = ({ type, className, ...props }) => {
   );
 };
 
-Button.Navigation = ({ compact = false, title, url, icon, ...props }) => {
+Button.Navigation = ({
+  compact = false,
+  title,
+  url,
+  icon,
+  onClick,
+  ...props
+}) => {
   return (
-    <Link href={url}>
+    <Link href={url} onClick={onClick}>
       <Button
         className={`${styles.navigation} ${compact && styles.compact}`}
         {...props}
@@ -108,6 +116,7 @@ Button.propTypes = {
    * This will be used to create a description for this props in a propTable in storybook
    */
   onClick: PropTypes.func,
+  isLoading: PropTypes.bool,
   /**
    * Modifiers available: '', 'pill', 'inverted'.
    */
@@ -118,6 +127,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
+  isLoading: false,
   onClick: () => {},
   disabled: false,
   modifier: [""],

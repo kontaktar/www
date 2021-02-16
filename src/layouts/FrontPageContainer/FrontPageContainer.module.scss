@@ -41,25 +41,6 @@
   .search_button {
     width: 140px;
     margin-left: 20px;
-
-    :global {
-      .MuiCircularProgress-circle {
-        stroke: $color-white;
-      }
-    }
-    &:active,
-    &:hover,
-    &:focus-visible,
-    &:focus-within,
-    &:visited,
-    &:focus {
-      // background-color: black;
-      :global {
-        .MuiCircularProgress-circle {
-          stroke: $color-red;
-        }
-      }
-    }
   }
 }
 

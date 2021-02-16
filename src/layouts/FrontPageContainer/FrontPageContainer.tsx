@@ -68,7 +68,11 @@ const FrontPageContainer = (): ReactElement => {
             }}
             onClick={() => setIsLoading(true)}
           >
-            <Button type="button" className={styles.search_button}>
+            <Button
+              type="button"
+              className={styles.search_button}
+              isLoading={isLoading}
+            >
               {isLoading ? <CircularProgress /> : "Leita"}
             </Button>
           </Link>
