@@ -16,6 +16,11 @@
     }
   }
 }
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .card_content {
   height: 100%;

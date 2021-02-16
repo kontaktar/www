@@ -4,6 +4,7 @@ import React from "react";
 import MuiCard from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch } from "react-redux";
 import cx from "classnames";
 import { deleteUserExperience, editUserExperience } from "store/actions";
@@ -133,6 +134,16 @@ const Card = (props) => {
         </CardActionArea>
       </MuiCard>
     </LinkToProfile>
+  );
+};
+
+Card.Loader = () => {
+  return (
+    <MuiCard className={cx(styles.card, styles.loader)}>
+      {/* <CardContent className={styles.card_content}> */}
+      <CircularProgress />
+      {/* </CardContent> */}
+    </MuiCard>
   );
 };
 

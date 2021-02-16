@@ -73,7 +73,7 @@ export const AuthProvider = ({
   const { user } = useUser();
 
   const logout = async () => {
-    await get("/api/logout").then(() => {
+    await post("/api/logout").then(() => {
       dispatch({
         type: "AUTH/UPDATE_LOGIN_STATUS",
         payload: {

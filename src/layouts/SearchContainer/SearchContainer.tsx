@@ -31,7 +31,9 @@ const SearchContainer = ({
 
   const cardsPlaceholder = () => {
     return store.searches.isFetching ? (
-      <p>LOADING</p>
+      <>
+        <Card.Loader />
+      </>
     ) : (
       <p>Engar niðurstöður</p>
     );
