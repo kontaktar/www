@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState
 } from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import orderBy from "lodash.orderby";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -229,17 +230,24 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
           <h4>Verkspjöld</h4>
           {editMode ? (
             <>
-              {userExperiences && (
+              {userExperiences.length > 0 ? (
                 <DragableCardContainer
                   userId={user.id}
                   items={userExperiences}
                   handleEdit={onOpenExperienceModal}
                 />
+              ) : (
+                <CardsContainer className={styles.cards}>
+                  <Card.Loader />
+                  <Card.Loader />
+                  <Card.Loader />
+                  <Card.Loader />
+                </CardsContainer>
               )}
             </>
           ) : (
             <CardsContainer className={styles.cards}>
-              {userExperiences &&
+              {userExperiences.length > 0 ? (
                 userExperiences.map((experience) => {
                   if (experience.published) {
                     return (
@@ -260,7 +268,15 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                     );
                   }
                   return null;
-                })}
+                })
+              ) : (
+                <>
+                  <Card.Loader />
+                  <Card.Loader />
+                  <Card.Loader />
+                  <Card.Loader />
+                </>
+              )}
             </CardsContainer>
           )}
           {activeExperience && showActiveSection && (
@@ -302,7 +318,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
       </div>
     );
   }
-  return <p>No user?</p>;
+  return <CircularProgress />;
 };
 
 export default ProfileContainer;
