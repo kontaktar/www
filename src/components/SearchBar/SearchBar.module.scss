@@ -17,9 +17,12 @@
   input {
     border: none;
     font-size: 32px;
+    font-family: "Berlingske Sans";
   }
   input::placeholder {
+    color: $color-grey-light;
     font-size: 32px;
+    font-family: "Berlingske Sans";
   }
 }
 

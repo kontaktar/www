@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import screensizes from "data/screensizes";
+import { useRouter } from "next/router";
 import cx from "classnames";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
@@ -20,6 +21,7 @@ const Header = ({
   const { width } = useWindowDimensions();
   const { isLoggedIn, logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
+  const router = useRouter();
 
   const mobileView = width < screensizes.tabletsPortrait;
   const tabletPortrait = width < screensizes.tabletsPortrait;
@@ -103,17 +105,15 @@ const Header = ({
                     Áskrift
                   </Button>
                 </Link>
-                {!isLoggedIn ? (
-                  <Link href="/login">
-                    <Button className={styles.login} modifier={["inverted"]}>
-                      Innskráning
-                    </Button>
-                  </Link>
-                ) : (
-                  <Button className={styles.login} onClick={() => logout()}>
-                    Útskrá
-                  </Button>
-                )}
+                <Button
+                  className={styles.login}
+                  onClick={
+                    !isLoggedIn ? () => router.push("/login") : () => logout()
+                  }
+                  modifier={!isLoggedIn ? ["inverted"] : []}
+                >
+                  {!isLoggedIn ? "Innskráning" : "Útskrá"}
+                </Button>
               </div>
             )}
           </>

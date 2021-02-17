@@ -28,6 +28,10 @@
 }
 
 .login {
+  opacity: 0;
+  transition: background-color 1s;
+  animation: opacity 1s ease-out 1.5s;
+  animation-fill-mode: forwards;
   width: 166px;
   margin-left: 40px;
   @media (max-width: 782px) {

@@ -12,3 +12,24 @@ $screen-tablet-portrait: 768px;
 $screen-tablet-landscape: 992px;
 $screen-desktop: 1024px;
 $screen-desktop-large: 1280px;
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0);
+    opacity: 1;
+  }
+}
+
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

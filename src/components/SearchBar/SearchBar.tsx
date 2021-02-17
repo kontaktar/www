@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import { NoSsr } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import MuiInput from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -20,6 +21,7 @@ type Props = {
 type ResultProps = {
   number: string;
 };
+
 const SearchBar = ({
   className,
   placeholder,
@@ -40,35 +42,37 @@ const SearchBar = ({
 
   return (
     <div className={`${className} ${styles.searchbar}`}>
-      <MuiInput
-        fullWidth
-        id="search-bar"
-        type="text"
-        aria-label="search"
-        placeholder={placeholder}
-        value={value}
-        startAdornment={
-          <InputAdornment position="start" className={styles.search_icon}>
-            <SearchIcon fontSize="large" />
-          </InputAdornment>
-        }
-        endAdornment={
-          <InputAdornment position="end" variant="filled">
-            {value ? (
-              <IconButton
-                type="submit"
-                aria-label="clear-search"
-                onClick={onClear}
-              >
-                <CloseIcon />
-              </IconButton>
-            ) : (
-              <></>
-            )}
-          </InputAdornment>
-        }
-        {...props}
-      />
+      <NoSsr>
+        <MuiInput
+          fullWidth
+          id="search-bar"
+          type="text"
+          aria-label="search"
+          placeholder={placeholder}
+          value={value}
+          startAdornment={
+            <InputAdornment position="start" className={styles.search_icon}>
+              <SearchIcon fontSize="large" />
+            </InputAdornment>
+          }
+          endAdornment={
+            <InputAdornment position="end" variant="filled">
+              {value ? (
+                <IconButton
+                  type="submit"
+                  aria-label="clear-search"
+                  onClick={onClear}
+                >
+                  <CloseIcon />
+                </IconButton>
+              ) : (
+                <></>
+              )}
+            </InputAdornment>
+          }
+          {...props}
+        />{" "}
+      </NoSsr>
     </div>
   );
 };
