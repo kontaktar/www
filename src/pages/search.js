@@ -78,16 +78,15 @@ const Search = ({ searchInput }) => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store, query: { searchInput = "" } }) => {
+    const searchDecoded = decodeURIComponent(searchInput);
     try {
-      const searchResult = Object.values(
-        await GetSearchResult(decodeURIComponent(searchInput))
-      );
+      const searchResult = Object.values(await GetSearchResult(searchDecoded));
 
-      store.dispatch(updateLatestSearch(decodeURIComponent(searchInput)));
+      store.dispatch(updateLatestSearch(searchDecoded));
 
       store.dispatch(
         fetchSearchResultSuccess(
-          decodeURIComponent(searchInput),
+          searchDecoded,
           searchInput === "" ? randomize(searchResult) : searchResult
         )
       );
@@ -95,7 +94,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       console.error("error fetching search results", error);
     }
     return {
-      props: { searchInput: decodeURIComponent(searchInput) }
+      props: { searchInput: searchDecoded }
     };
   })
 );

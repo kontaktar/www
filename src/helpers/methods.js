@@ -6,11 +6,18 @@ export async function get(relativeUrl) {
     const response = await fetch(url).catch((error) => {
       throw new Error(error, url);
     });
+    const data = await response.json();
+
     if (response.ok) {
-      return await response.json();
+      return data;
     }
-    throw new Error(`${response.status} ${response.statusText}`);
+    const error = new Error(data.message);
+    error.response = data;
+    throw error;
   } catch (error) {
+    if (!error.data) {
+      error.data = { message: error.message };
+    }
     throw error;
   }
 }

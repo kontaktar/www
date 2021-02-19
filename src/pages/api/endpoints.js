@@ -7,7 +7,9 @@ export async function GetExperiencesByUserId(userId) {
 }
 
 export async function GetSearchResult(input = "") {
-  return input === "" ? get(`/api/search`) : get(`/api/search/${input}`);
+  return input === ""
+    ? get(`/api/search`)
+    : get(`/api/search/${encodeURIComponent(input)}`);
 }
 
 export async function CreateUser(userInfo) {
