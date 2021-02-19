@@ -1,14 +1,9 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
-import React, { useEffect } from "react";
+import React, { ReactElement } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { END } from "redux-saga";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
-// import PropTypes from "prop-types";
 import { randomize } from "helpers/arrays";
-import useAuth from "hooks/useAuth.tsx";
+import useAuth from "hooks/useAuth";
 import { GetSearchResult } from "pages/api/endpoints";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 import {
@@ -17,13 +12,17 @@ import {
   updateLatestSearch
 } from "../store/actions";
 
-const Search = ({ searchInput }) => {
+type Props = {
+  // From getServerSideProps
+  searchInput?: string;
+};
+const Search = ({ searchInput }: Props): ReactElement => {
   const { isLoggedIn } = useAuth();
-  const store = useSelector((state) => state);
+  const storeSearches = useSelector((state) => state.searches);
   const dispatch = useDispatch();
 
   const onSearch = async (params) => {
-    if (params && store.searches.inputs && store.searches.inputs[params]) {
+    if (params && storeSearches.inputs && storeSearches.inputs[params]) {
       // Already in store, just update 'lastSearched'
       dispatch(updateLatestSearch(params));
     } else if (!params) {
@@ -34,11 +33,6 @@ const Search = ({ searchInput }) => {
     }
   };
 
-  const onClearSearch = () => {
-    // TODO: Same as above
-    dispatch(fetchSearchResult(""));
-  };
-
   return (
     <div>
       {!isLoggedIn ? (
@@ -46,13 +40,11 @@ const Search = ({ searchInput }) => {
           <MainLayout>
             <SearchContainer
               cardsToDisplay={
-                !store.searches.isFetching &&
-                store.searches.inputs &&
-                store.searches.inputs[store.searches.latestInput]
+                !storeSearches.isFetching &&
+                storeSearches?.inputs?.[storeSearches?.latestInput]
               }
               searchInput={searchInput}
               onSearch={onSearch}
-              onClearSearch={onClearSearch}
             />
           </MainLayout>
         </div>
@@ -61,13 +53,11 @@ const Search = ({ searchInput }) => {
           <UserLayout>
             <SearchContainer
               cardsToDisplay={
-                !store.searches.isFetching &&
-                store.searches.inputs &&
-                store.searches.inputs[store.searches.latestInput]
+                !storeSearches.isFetching &&
+                storeSearches?.inputs?.[storeSearches?.latestInput]
               }
               searchInput={searchInput}
               onSearch={onSearch}
-              onClearSearch={onClearSearch}
             />
           </UserLayout>
         </div>
