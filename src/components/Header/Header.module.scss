@@ -118,3 +118,22 @@
     }
   }
 }
+
+.ripple {
+  background-position: center;
+  transition: background 2s;
+
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+.ripple:hover {
+  background: $color-white
+    radial-gradient(circle, transparent 1%, $color-red 1%) center/70000%;
+}
+.ripple:active {
+  background-color: $color-red;
+  background-size: 100%;
+  transition: background 0.1s;
+  color: $color-white;
+}

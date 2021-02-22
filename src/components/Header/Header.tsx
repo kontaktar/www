@@ -91,18 +91,27 @@ const Header = ({
               <div role="navigation" className={styles.navigation}>
                 {!tabletPortrait && (
                   <Link href="/">
-                    <Button className={styles.tab} modifier={["borderless"]}>
+                    <Button
+                      className={cx(styles.tab, styles.ripple)}
+                      modifier={["borderless"]}
+                    >
                       Kontaktar
                     </Button>
                   </Link>
                 )}
                 <Link href="/search">
-                  <Button className={styles.tab} modifier={["borderless"]}>
+                  <Button
+                    className={cx(styles.tab, styles.ripple)}
+                    modifier={["borderless"]}
+                  >
                     Leita
                   </Button>
                 </Link>
                 <Link href="/subscription">
-                  <Button className={styles.tab} modifier={["borderless"]}>
+                  <Button
+                    className={cx(styles.tab, styles.ripple)}
+                    modifier={["borderless"]}
+                  >
                     Áskrift
                   </Button>
                 </Link>
