@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import screensizes from "data/screensizes";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import cx from "classnames";
 import useAuth from "hooks/useAuth";
@@ -69,17 +70,17 @@ const Header = ({
                       </div>
                       <nav className={styles.mobile_navigation}>
                         <span>
-                          <Link href="/">Kontaktar</Link>
+                          <NextLink href="/">Kontaktar</NextLink>
                         </span>
                         <span>
-                          <Link href="/search">Leita</Link>
+                          <NextLink href="/search">Leita</NextLink>
                         </span>
                         <span>
-                          <Link href="/subscription">Áskrift</Link>
+                          <NextLink href="/subscription">Áskrift</NextLink>
                         </span>
 
                         <span>
-                          <Link href="/login">Skrá inn</Link>
+                          <NextLink href="/login">Skrá inn</NextLink>
                         </span>
                       </nav>
                     </div>
