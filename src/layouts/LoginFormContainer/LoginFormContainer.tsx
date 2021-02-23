@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { loginFormSchema } from "helpers/formValidationSchemas";
@@ -9,7 +9,7 @@ import { MUIInput } from "components/Input";
 import Link from "components/LinkWrap";
 import styles from "./LoginFormContainer.module.scss";
 
-const LoginFormContainer = (): React.ReactElement => {
+const LoginFormContainer = (): ReactElement => {
   const { login } = useAuth();
   const router = useRouter();
   const [isLoginLoading, setLoginLoader] = useState(false);
@@ -45,6 +45,7 @@ const LoginFormContainer = (): React.ReactElement => {
     <div>
       <div {...useMaxWidth()}>
         <form onSubmit={formik.handleSubmit} className={styles.form}>
+          <span className={styles.heading}>Innskráning</span>
           <MUIInput
             type="text"
             id="userName"

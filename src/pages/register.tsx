@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
 import { MainLayout, RegisterContainer } from "layouts";
 
-const Register = () => {
+const Register = ({ reroute }) => {
+  const router = useRouter();
+  useEffect(() => {
+    if (reroute) {
+      router.push("/profile");
+    }
+  });
   return (
     <MainLayout>
       <RegisterContainer />
@@ -16,10 +23,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const user = req.session.get("user");
 
     if (user !== undefined) {
-      res.setHeader("location", "/profile");
-      res.statusCode = 302;
-      res.end();
-      return { props: {} };
+      return { props: { reroute: true } };
     }
     return {
       props: {}

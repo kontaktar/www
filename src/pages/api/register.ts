@@ -4,6 +4,7 @@ import { UserSessionStorage } from "types";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
+import { registerErrors } from "helpers/errorMessages";
 
 const Register = withSession(async (request, response) => {
   await withMiddleware(request, response);
@@ -13,11 +14,6 @@ const Register = withSession(async (request, response) => {
       "SELECT u.id FROM users u WHERE u.user_name=$1",
       userName
     );
-
-    console.log("data", data);
-    console.log("data", data);
-    console.log("data", data);
-    console.log("data", data);
     const user: UserSessionStorage = {
       id: data.id,
       isLoggedIn: true,
@@ -33,11 +29,18 @@ const Register = withSession(async (request, response) => {
     response.json(data.id);
   } catch (error) {
     if (error instanceof pgp.errors.QueryResultError) {
-      response.status(404).json({ message: error.message });
-      throw new Error(`REGISTER USER 404: ${error}`);
+      let message;
+      if (error.message === "No data returned from the query.") {
+        message = registerErrors.NO_MATCH;
+      }
+      // if (error.message.includes("users_user_name_key")) {
+      //   message = registerErrors.EXISTS_USER_NAME;
+      // }
+      response.status(404).json({ message });
+      throw new Error(`LOGIN USER 404: ${error}`);
     } else {
       response.status(500).json({ message: error.message });
-      throw new Error(`REGISTER USER 500: ${error}`);
+      // throw new Error(`LOGIN USER 500: ${error}`);
     }
   }
 });

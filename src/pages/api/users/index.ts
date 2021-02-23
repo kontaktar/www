@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
+import pgp from "pg-promise";
 import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
 import database from "utils/database";
+import { registerErrors } from "helpers/errorMessages";
 
 const Users = async (request, response) => {
   await withMiddleware(request, response);
@@ -56,7 +58,7 @@ const Users = async (request, response) => {
       }
     } catch (error) {
       response.status(500).end();
-      throw new Error(`GET USER: ${error}`);
+      console.error(`GET USER: ${error}`);
     }
   }
 
@@ -98,11 +100,23 @@ const Users = async (request, response) => {
         "INSERT INTO addresses(user_id, postal_code, street_name, city, country) VALUES($1, $2, $3, $4, $5)",
         [userId, postalCode, streetName, city, country]
       );
-      response.status(200).json({ userId });
+      response.json({ userId });
     } catch (error) {
-      response.status(500).send({ error: error.message });
-      // console.log(error, error.name, error.message);
-      throw new Error(`POST USER: ${error}`);
+      if (error instanceof pgp.errors.QueryResultError) {
+        let message;
+        if (error.message === "No data returned from the query.") {
+          message = registerErrors.NO_MATCH;
+        }
+
+        // if (error.message.includes("users_user_name_key")) {
+        //   message = registerErrors.EXISTS_USER_NAME;
+        // }
+        response.status(404).json({ message });
+        // throw new Error(`LOGIN USER 404: ${error}`);
+      } else {
+        response.status(500).json({ message: error.message });
+        // throw new Error(`LOGIN USER 500: ${error}`);
+      }
     }
   } else {
     response.status(400).end();

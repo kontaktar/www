@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
+import { useDispatch } from "react-redux";
+import { createUserSuccess } from "store/actions";
 import useUser from "lib/useUser";
-import { get, post } from "helpers/methods";
-import { EditUser, GetUserByUserName } from "../pages/api/endpoints";
+import { post } from "helpers/methods";
+import {
+  CreateUser,
+  EditUser,
+  GetUserByUserName
+} from "../pages/api/endpoints";
 
 import useLogger from "./useLogger";
 
@@ -72,6 +78,8 @@ export const AuthProvider = ({
   const [state, dispatch] = useReducer(useLogger(reducer), initialProps);
   const { user } = useUser();
 
+  const dispatchToStore = useDispatch();
+
   const logout = async () => {
     await post("/api/logout").then(() => {
       dispatch({
@@ -110,16 +118,23 @@ export const AuthProvider = ({
     });
   };
 
-  const register = async (userName) => {
-    const result = await GetUserByUserName(userName);
-    await post("/api/register", userName);
-    dispatch({
-      type: "AUTH/LOGIN",
-      payload: {
-        status: "LOGGED_IN",
-        isLoggedIn: true,
-        userData: result
-      }
+  const register = async (body) => {
+    // const result = await GetUserByUserName(userName);
+    // TODO: cleanup register - user store and all that.
+    await CreateUser(body).then(async (result) => {
+      await post("/api/register", body.userName);
+      dispatchToStore(createUserSuccess(result.userId, body));
+      dispatch({
+        type: "AUTH/LOGIN",
+        payload: {
+          status: "LOGGED_IN",
+          isLoggedIn: true,
+          userData: {
+            id: result.userId,
+            ...body
+          }
+        }
+      });
     });
   };
 

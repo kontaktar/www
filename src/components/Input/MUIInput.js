@@ -15,9 +15,8 @@ const MUIInput = ({
   ...props
 }) => {
   return (
-    <div className={styles.mui_wrapper}>
+    <div id={id} className={styles.mui_wrapper}>
       <TextField
-        id={id}
         error={isTouched && !!error}
         label={placeholder}
         defaultValue={value}

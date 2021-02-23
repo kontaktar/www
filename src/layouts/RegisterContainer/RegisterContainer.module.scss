@@ -1,19 +1,127 @@
 @import "../../styles/config";
 
-.row {
-  display: flex;
-  flex-direction: row;
-  padding-bottom: 16px;
-  flex-wrap: wrap;
-  > * {
-    margin-right: 15px;
-    flex-basis: 200px;
-  }
-}
-
 .heading {
   font-size: 24px;
   font-family: "Berlingske Sans Bold";
   display: block;
   margin-bottom: 30px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: unset;
+  justify-content: space-between;
+
+  > *#ssn {
+    flex-grow: 0;
+  }
+}
+.form {
+  padding-top: 40px;
+  align-items: center;
+  padding-bottom: 60px;
+  max-width: 700px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 300px;
+  margin: auto;
+
+  > *:first-child {
+    padding-bottom: 40px;
+  }
+  > * {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  // Remove the keypad/up-and-down-arrows on number inputs
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &_ssn {
+    max-width: 15 * $unit;
+    flex-shrink: 1;
+    flex-grow: 0;
+  }
+  &_firstName {
+    flex-grow: 1;
+    min-width: 30 * $unit;
+    // margin: 20px;
+  }
+  &_lastName {
+    min-width: 45 * $unit;
+    flex-grow: 1;
+  }
+  &_userName {
+    min-width: 60 * $unit;
+    flex-grow: 1;
+  }
+  &_email {
+    min-width: 45 * $unit;
+    flex-grow: 1;
+  }
+  &_password {
+    flex-grow: 1;
+    min-width: 45 * $unit;
+  }
+}
+.inner_form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  > * {
+    flex: 1 1 320px;
+    padding: $unit * 2;
+  }
+}
+
+.display_username_card {
+  display: flex;
+  flex-direction: column;
+  // flex-grow: 1;
+  min-width: 300px;
+  margin: $unit;
+
+  align-items: flex-start;
+  justify-content: space-around;
+
+  height: 56px;
+  span {
+    color: black;
+  }
+  .info {
+    font-size: 12px;
+    color: $color-grey-dark;
+  }
+  .url {
+    margin-left: $unit * 2;
+    font-size: 16px;
+  }
+}
+
+.button {
+  margin: $unit * 2;
+  max-width: 40 * $unit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error {
+  padding: 0;
+  margin-bottom: 25px;
+  height: 20px;
+  color: $color-error-red;
 }
