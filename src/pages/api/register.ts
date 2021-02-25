@@ -33,6 +33,7 @@ const Register = withSession(async (request, response) => {
       if (error.message === "No data returned from the query.") {
         message = registerErrors.NO_MATCH;
       }
+      console.log("WTF IS THIS AND AM I USING IT?");
       // if (error.message.includes("users_user_name_key")) {
       //   message = registerErrors.EXISTS_USER_NAME;
       // }
