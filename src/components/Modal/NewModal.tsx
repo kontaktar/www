@@ -68,7 +68,7 @@ const NewModal = ({
                       disableFocusRipple
                       className={styles.button_clear}
                       type="submit"
-                      aria-label="clear-search"
+                      aria-label="Close dialog"
                       onClick={() => {
                         onClose();
                         setShowDialog(false);
