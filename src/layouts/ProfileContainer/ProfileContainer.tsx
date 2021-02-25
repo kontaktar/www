@@ -168,7 +168,15 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                 {user.firstName} {user.lastName}
               </h2>
             </div>
-            {editMode && <Button onClick={onEditUserInfoModal}>Breyta</Button>}
+
+            {editMode && (
+              <Button
+                className={styles.change_user_btn}
+                onClick={onEditUserInfoModal}
+              >
+                Breyta
+              </Button>
+            )}
             {!editMode && userName === userData?.userName && (
               <Link href="/profile">
                 <Button>Breyta</Button>
