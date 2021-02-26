@@ -95,6 +95,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .error_message {
@@ -117,7 +118,7 @@
 }
 
 .user_info_timestamp {
-  margin-left: auto;
+  float: left;
 }
 
 .experience_timestamp {
@@ -126,6 +127,9 @@
 
 .button_line {
   margin: 32px 0;
+  > button {
+    float: right;
+  }
 }
 
 .title_input {
@@ -133,6 +137,13 @@
   flex: 0 0 400px;
 }
 
+@media (max-width: $screen-tablet-portrait) {
+  .experience_timestamp {
+    width: 100%;
+    margin-top: $unit;
+    order: 3;
+  }
+}
 @media (max-width: $screen-smartphone-wide) {
   .title_input {
     min-width: 100%;
