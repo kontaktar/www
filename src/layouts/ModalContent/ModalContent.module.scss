@@ -79,6 +79,9 @@
   align-items: flex-end;
   flex-direction: row;
   min-width: 300px;
+  @media (max-width: $screen-smartphone-small + 30) {
+    min-width: unset;
+  }
 }
 
 .length_dropdown {
@@ -128,7 +131,6 @@
 .title_input {
   display: flex;
   flex: 0 0 400px;
-  min-width: 400px;
 }
 
 @media (max-width: $screen-smartphone-wide) {
