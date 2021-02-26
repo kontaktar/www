@@ -80,7 +80,7 @@ const Header = ({
                         </span>
 
                         <span>
-                          <NextLink href="/login">Skrá inn</NextLink>
+                          <NextLink href="/login">Innskráning</NextLink>
                         </span>
                       </nav>
                     </div>

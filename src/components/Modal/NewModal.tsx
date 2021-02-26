@@ -30,7 +30,7 @@ const NewModal = ({
 
   const transitions = useTransition(showDialog, {
     // eslint-disable-next-line unicorn/prevent-abbreviations
-    ref: null,
+    // ref: null,
     from: { opacity: 0, y: -1000 },
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: 2000 }
@@ -38,7 +38,7 @@ const NewModal = ({
 
   useEffect(() => {
     setShowDialog(open);
-  }, [open]);
+  }, [open, onClose]);
 
   return (
     <div key={modalKey}>

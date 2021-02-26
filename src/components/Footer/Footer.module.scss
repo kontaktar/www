@@ -58,6 +58,10 @@
   flex-grow: 1;
 }
 
+.user_layout {
+  padding-left: 50px;
+}
+
 @media (max-width: $screen-tablet-landscape) {
   .footer {
     .logo {

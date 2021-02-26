@@ -130,3 +130,9 @@
   flex: 0 0 400px;
   min-width: 400px;
 }
+
+@media (max-width: $screen-smartphone-wide) {
+  .title_input {
+    min-width: 100%;
+  }
+}

@@ -28,7 +28,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
 
   const { userData } = useAuth();
   const wrapperElement = useRef(null);
-  const [openModal, showModal] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [modalType, setModalType] = useState<any>();
   const [user, setUserProfile] = useState<any>();
@@ -99,10 +99,6 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
     }
   }, [store.experiences, store.users, user]);
 
-  const onCloseModal = () => {
-    showModal(false);
-  };
-
   const onOpenExperienceModal = (
     id,
     title,
@@ -111,7 +107,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
     months,
     published
   ) => {
-    showModal(true);
+    setOpenModal(true);
     setModalData({
       id,
       title,
@@ -128,7 +124,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
     if (userData && userData.id) {
       setModalData({ ...userData });
       setModalType({ userInformation: true });
-      showModal(true);
+      setOpenModal(true);
     }
   };
 
@@ -311,17 +307,19 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
               </div>
             </NewModal>
           )}
-          <NewModal
-            ariaLabel={
-              modalType?.experience
-                ? "Breyta verkspjaldi"
-                : "Breyta persónulegum upplýsingum"
-            }
-            open={openModal}
-            onClose={onCloseModal}
-          >
-            <ModalContent {...modalType} data={modalData} />
-          </NewModal>
+          {openModal && (
+            <NewModal
+              ariaLabel={
+                modalType?.experience
+                  ? "Breyta verkspjaldi"
+                  : "Breyta persónulegum upplýsingum"
+              }
+              open={openModal}
+              onClose={() => setOpenModal(false)}
+            >
+              <ModalContent {...modalType} data={modalData} />
+            </NewModal>
+          )}
         </div>
       </div>
     );
