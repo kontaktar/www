@@ -33,7 +33,7 @@ const Register = withSession(async (request, response) => {
       if (error.message === "No data returned from the query.") {
         message = registerErrors.NO_MATCH;
       }
-      console.log("WTF IS THIS AND AM I USING IT?");
+      // TODO: I should handle this here:
       // if (error.message.includes("users_user_name_key")) {
       //   message = registerErrors.EXISTS_USER_NAME;
       // }
@@ -41,7 +41,6 @@ const Register = withSession(async (request, response) => {
       throw new Error(`LOGIN USER 404: ${error}`);
     } else {
       response.status(500).json({ message: error.message });
-      // throw new Error(`LOGIN USER 500: ${error}`);
     }
   }
 });
