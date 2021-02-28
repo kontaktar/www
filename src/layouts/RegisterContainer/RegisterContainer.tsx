@@ -21,20 +21,19 @@ const RegisterContainer = (): ReactElement => {
 
   const formik = useFormik({
     initialValues: {
-      userName: "aa",
-      password: "123",
-      confirmPassword: "123",
-      ssn: "130982119",
-      email: "a@1b1.is",
-      firstName: "TEST",
-      lastName: "TESTERSON"
+      userName: "",
+      password: "",
+      confirmPassword: "",
+      ssn: "",
+      email: "",
+      firstName: "",
+      lastName: ""
     },
     validationSchema: registerFormSchema,
     onSubmit: async (values) => {
       const body = {
         userName: values.userName,
         password: values.password,
-        // confirmPassword: values.confirmPassword, // TODO:
         ssn: values.ssn,
         email: values.email,
         firstName: values.firstName,
@@ -68,7 +67,6 @@ const RegisterContainer = (): ReactElement => {
 
   useEffect(() => {
     if (users && !users.error && hasRegistered) {
-      // TODO: Waiting to be logged in, show a spinner?
       setIsBeingLoggedIn(true);
     } else if (users.error) {
       setIsBeingLoggedIn(false);
