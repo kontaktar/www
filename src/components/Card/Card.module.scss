@@ -5,6 +5,10 @@
   height: 250px;
   width: 300px;
 
+  @media (max-width: $screen-smartphone) {
+    width: unset;
+  }
+
   overflow: visible !important;
   background-color: $color-paper-white;
   box-shadow: 0px 4px 23px rgba(0, 0, 0, 0.1) !important;

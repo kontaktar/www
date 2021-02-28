@@ -160,9 +160,6 @@
 }
 
 @media (max-width: $screen-tablet-portrait) {
-  .header {
-    padding-top: 50px;
-  }
   .first_row {
     button {
       // TODO: make this look nicer
@@ -171,11 +168,21 @@
       margin-bottom: 20px;
     }
   }
+  .change_user_btn {
+    position: absolute;
+    top: 0;
+    right: 2 * $unit;
+  }
 }
 
 @media (max-width: $screen-smartphone-wide) {
   .user {
     flex-direction: column;
     align-items: flex-start;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+  }
+  .header {
+    padding-top: 0;
   }
 }

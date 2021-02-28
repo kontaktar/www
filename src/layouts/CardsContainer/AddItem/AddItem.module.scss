@@ -5,6 +5,10 @@
   cursor: pointer;
   height: 250px;
   width: 300px;
+
+  @media (max-width: $screen-smartphone) {
+    width: unset;
+  }
   border: none;
   &:hover,
   &:active,

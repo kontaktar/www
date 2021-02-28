@@ -4,6 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   .user_main_content {
     display: flex;
     flex-direction: row;
