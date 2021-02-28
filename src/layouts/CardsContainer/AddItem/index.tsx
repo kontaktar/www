@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NewModal from "components/Modal/NewModal";
+import Modal from "components/Modal";
 import { ModalContent } from "layouts";
 import styles from "./AddItem.module.scss";
 
@@ -13,13 +13,13 @@ const AddItem = () => {
       <button type="button" className={styles.add_new_item} onClick={onClick}>
         <span className={styles.add_new_plus}>+</span>
       </button>
-      <NewModal
+      <Modal
         ariaLabel="Nýtt verkspjald"
         open={openModal}
         onClose={onCloseModal}
       >
         <ModalContent experience data={{}} />
-      </NewModal>
+      </Modal>
     </>
   );
 };

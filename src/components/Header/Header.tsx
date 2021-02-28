@@ -7,7 +7,7 @@ import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Logo } from "components";
 import Link from "components/LinkWrap";
-import NewModal from "components/Modal/NewModal";
+import Modal from "components/Modal";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import styles from "./Header.module.scss";
 
@@ -47,7 +47,7 @@ const Header = ({
                     />
                   </>
                 ) : (
-                  <NewModal
+                  <Modal
                     ariaLabel="Valmynd"
                     open={openBurger}
                     onClose={() => setOpenBurger(false)}
@@ -84,7 +84,7 @@ const Header = ({
                         </span>
                       </nav>
                     </div>
-                  </NewModal>
+                  </Modal>
                 )}
               </>
             ) : (

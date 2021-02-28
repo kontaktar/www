@@ -13,7 +13,7 @@ import { fetchUserExperiences } from "store/actions";
 import useAuth from "hooks/useAuth";
 import { Button, Card, Icon } from "components";
 import Link from "components/LinkWrap";
-import NewModal from "components/Modal/NewModal";
+import Modal from "components/Modal";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import styles from "./ProfileContainer.module.scss";
 import colors from "styles/colors.module.scss";
@@ -282,7 +282,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
             </CardsContainer>
           )}
           {activeExperience && showActiveSection && (
-            <NewModal
+            <Modal
               ariaLabel="Valið verkpsjald"
               modalKey={activeExperience?.id}
               open={showActiveSection}
@@ -303,9 +303,9 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                   >{`${activeExperience?.description}`}</span>
                 </div>
               </div>
-            </NewModal>
+            </Modal>
           )}
-          <NewModal
+          <Modal
             ariaLabel={
               modalType?.experience
                 ? "Breyta verkspjaldi"
@@ -315,7 +315,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
             onClose={onCloseModal}
           >
             <ModalContent {...modalType} data={modalData} />
-          </NewModal>
+          </Modal>
         </div>
       </div>
     );
