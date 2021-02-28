@@ -139,7 +139,7 @@ const RegisterContainer = (): ReactElement => {
             </span>
             <span className={styles.url}>
               kontaktar.is/serfraedingur/
-              <strong>{formik.values.userName || "einar"}</strong>
+              <strong>{formik.values.userName || "notandi"}</strong>
             </span>
           </div>
 
