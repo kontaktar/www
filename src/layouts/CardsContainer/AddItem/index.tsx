@@ -13,7 +13,11 @@ const AddItem = () => {
       <button type="button" className={styles.add_new_item} onClick={onClick}>
         <span className={styles.add_new_plus}>+</span>
       </button>
-      <NewModal open={openModal} onClose={onCloseModal} experience>
+      <NewModal
+        ariaLabel="Nýtt verkspjald"
+        open={openModal}
+        onClose={onCloseModal}
+      >
         <ModalContent experience data={{}} />
       </NewModal>
     </>
