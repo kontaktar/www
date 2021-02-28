@@ -17,7 +17,7 @@ type Props = {
   onClose: () => void;
 };
 
-const NewModal = ({
+const Modal = ({
   ariaLabel,
   open = false,
   className = "",
@@ -86,4 +86,4 @@ const NewModal = ({
     </div>
   );
 };
-export default NewModal;
+export default Modal;
