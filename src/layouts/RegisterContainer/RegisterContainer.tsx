@@ -7,6 +7,7 @@ import { registerErrors } from "helpers/errorMessages";
 import { registerFormSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
+import { GetUserByUserName } from "pages/api/endpoints";
 import { Button } from "components";
 import { MUIInput } from "components/Input";
 import styles from "./RegisterContainer.module.scss";
@@ -16,6 +17,7 @@ const RegisterContainer = (): ReactElement => {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isBeingLoggedIn, setIsBeingLoggedIn] = useState(false);
   const [isLoading, setLoader] = useState(false);
+  const [isUserNameTaken, setUserNameIsTaken] = useState(false);
   const users = useSelector((state) => state.users);
   const { register } = useAuth();
 
@@ -73,6 +75,17 @@ const RegisterContainer = (): ReactElement => {
       setErrorMessage(users.error.response.error);
     }
   }, [hasRegistered, users, users.error]);
+
+  const checkIfUserNameIsTaken = async (userName: string) => {
+    try {
+      const userResult = await GetUserByUserName(userName);
+      if (userResult) {
+        setUserNameIsTaken(true);
+      }
+    } catch (error) {
+      setUserNameIsTaken(false);
+    }
+  };
 
   return (
     <div {...useMaxWidth()}>
@@ -137,6 +150,7 @@ const RegisterContainer = (): ReactElement => {
             <span className={styles.info}>
               Svona mun slóðin á þinn prófil líta út.
             </span>
+            {isUserNameTaken ? "ekki laust" : "laust"}
             <span className={styles.url}>
               kontaktar.is/serfraedingur/
               <strong>{formik.values.userName || "notandi"}</strong>
@@ -150,7 +164,10 @@ const RegisterContainer = (): ReactElement => {
             name="userName"
             placeholder="Notendanafn / slóð"
             onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("userName", true, true)}
+            onBlur={(event) => {
+              formik.setFieldTouched("userName", true, true);
+              checkIfUserNameIsTaken(event.target.value);
+            }}
             value={formik.values.userName}
             error={formik.errors.userName}
             isTouched={formik.touched.userName}

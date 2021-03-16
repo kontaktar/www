@@ -57,8 +57,13 @@ const Users = async (request, response) => {
         );
       }
     } catch (error) {
-      response.status(500).end();
-      console.error(`GET USER: ${error}`);
+      if (error instanceof pgp.errors.QueryResultError) {
+        response.status(404).json({ message: error.message });
+        throw new Error(`GET USERNAME 404: ${error}`);
+      } else {
+        response.status(500).json({ message: error.message });
+        throw new Error(`GET USERNAME 505: ${error}`);
+      }
     }
   }
 
