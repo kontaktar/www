@@ -7,7 +7,6 @@ export async function get(relativeUrl) {
       throw new Error(error, url);
     });
     const data = await response.json();
-
     if (response.ok) {
       return data;
     }

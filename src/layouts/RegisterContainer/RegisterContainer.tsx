@@ -1,4 +1,8 @@
+/* eslint-disable no-nested-ternary */
 import { ReactElement, useEffect, useState } from "react";
+import AvailableIcon from "@material-ui/icons/CheckCircleOutline";
+import NotAvailableIcon from "@material-ui/icons/HighlightOff";
+import CircleIcon from "@material-ui/icons/RadioButtonUnchecked";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
 import Router from "next/router";
@@ -18,6 +22,7 @@ const RegisterContainer = (): ReactElement => {
   const [isBeingLoggedIn, setIsBeingLoggedIn] = useState(false);
   const [isLoading, setLoader] = useState(false);
   const [isUserNameTaken, setUserNameIsTaken] = useState(false);
+  const [isUserNameCheckEmpty, setUserNameCheckEmpty] = useState(true);
   const users = useSelector((state) => state.users);
   const { register } = useAuth();
 
@@ -78,12 +83,18 @@ const RegisterContainer = (): ReactElement => {
 
   const checkIfUserNameIsTaken = async (userName: string) => {
     try {
+      // TODO: Search in store ? and store results in store?
+      // TODO: Do not fetch the whole user object.
       const userResult = await GetUserByUserName(userName);
       if (userResult) {
         setUserNameIsTaken(true);
+      } else {
+        setUserNameIsTaken(false);
       }
     } catch (error) {
       setUserNameIsTaken(false);
+    } finally {
+      setUserNameCheckEmpty(false);
     }
   };
 
@@ -150,7 +161,13 @@ const RegisterContainer = (): ReactElement => {
             <span className={styles.info}>
               Svona mun slóðin á þinn prófil líta út.
             </span>
-            {isUserNameTaken ? "ekki laust" : "laust"}
+            {isUserNameCheckEmpty ? (
+              <CircleIcon />
+            ) : isUserNameTaken ? (
+              <NotAvailableIcon />
+            ) : (
+              <AvailableIcon />
+            )}
             <span className={styles.url}>
               kontaktar.is/serfraedingur/
               <strong>{formik.values.userName || "notandi"}</strong>
@@ -163,7 +180,10 @@ const RegisterContainer = (): ReactElement => {
             id="userName"
             name="userName"
             placeholder="Notendanafn / slóð"
-            onChange={formik.handleChange}
+            onChange={(event) => {
+              formik.handleChange(event);
+              setUserNameCheckEmpty(true);
+            }}
             onBlur={(event) => {
               formik.setFieldTouched("userName", true, true);
               checkIfUserNameIsTaken(event.target.value);
