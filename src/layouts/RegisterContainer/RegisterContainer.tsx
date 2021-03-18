@@ -164,9 +164,9 @@ const RegisterContainer = (): ReactElement => {
             {isUserNameCheckEmpty ? (
               <CircleIcon />
             ) : isUserNameTaken ? (
-              <NotAvailableIcon />
+              <NotAvailableIcon className={styles.icon_not_available} />
             ) : (
-              <AvailableIcon />
+              <AvailableIcon className={styles.icon_is_checked} />
             )}
             <span className={styles.url}>
               kontaktar.is/serfraedingur/

@@ -125,3 +125,16 @@
   height: 20px;
   color: $color-error-red;
 }
+
+.icon {
+  &_not_available {
+    path {
+      color: $color-error-red;
+    }
+  }
+  &_is_checked {
+    path {
+      color: green;
+    }
+  }
+}
