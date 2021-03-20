@@ -4,7 +4,10 @@ import { UserSessionStorage } from "types";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
+import { registerErrors } from "helpers/errorMessages";
 
+// User has already been created with CreateUser
+// Verify by fetching by userName, then add details to session storage
 const Register = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body: userName } = request;
@@ -13,11 +16,6 @@ const Register = withSession(async (request, response) => {
       "SELECT u.id FROM users u WHERE u.user_name=$1",
       userName
     );
-
-    console.log("data", data);
-    console.log("data", data);
-    console.log("data", data);
-    console.log("data", data);
     const user: UserSessionStorage = {
       id: data.id,
       isLoggedIn: true,
@@ -33,11 +31,15 @@ const Register = withSession(async (request, response) => {
     response.json(data.id);
   } catch (error) {
     if (error instanceof pgp.errors.QueryResultError) {
-      response.status(404).json({ message: error.message });
-      throw new Error(`REGISTER USER 404: ${error}`);
+      let message;
+
+      if (error.message === "No data returned from the query.") {
+        message = registerErrors.NO_MATCH;
+      }
+
+      response.status(404).json({ message });
     } else {
       response.status(500).json({ message: error.message });
-      throw new Error(`REGISTER USER 500: ${error}`);
     }
   }
 });

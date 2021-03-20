@@ -182,14 +182,16 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
 
           <div className={styles.user_information}>
             <Fragment>
-              <span>
-                <Icon
-                  className={styles.user_info_icons}
-                  color={colors.red}
-                  name="phone-profile"
-                />
-                {user.phoneNumber}
-              </span>
+              {user.phoneNumber && (
+                <span>
+                  <Icon
+                    className={styles.user_info_icons}
+                    color={colors.red}
+                    name="phone-profile"
+                  />
+                  {user.phoneNumber}
+                </span>
+              )}
               <span>
                 <Icon
                   className={styles.user_info_icons}
@@ -209,25 +211,30 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                 </span>
               ) : null}
             </Fragment>
-            <Fragment>
-              <span>
-                <Icon
-                  className={styles.user_info_icons}
-                  color={colors.red}
-                  name="location"
-                />
-                {[
-                  user.streetName,
-                  user.postalCode && user.postalCode !== "0"
-                    ? user.postalCode
-                    : "",
-                  user.city,
-                  user.country
-                ]
-                  .filter(Boolean)
-                  .join(", ")}
-              </span>
-            </Fragment>
+            {user.streetName ||
+              user.postalCpde ||
+              user.city ||
+              (user.country && (
+                <Fragment>
+                  <span>
+                    <Icon
+                      className={styles.user_info_icons}
+                      color={colors.red}
+                      name="location"
+                    />
+                    {[
+                      user.streetName,
+                      user.postalCode && user.postalCode !== "0"
+                        ? user.postalCode
+                        : "",
+                      user.city,
+                      user.country
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
+                  </span>
+                </Fragment>
+              ))}
           </div>
         </div>
         <div className={styles.card_container}>
@@ -241,12 +248,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                   handleEdit={onOpenExperienceModal}
                 />
               ) : (
-                <CardsContainer className={styles.cards}>
-                  <Card.Loader />
-                  <Card.Loader />
-                  <Card.Loader />
-                  <Card.Loader />
-                </CardsContainer>
+                <CardsContainer addNewItemButton className={styles.cards} />
               )}
             </>
           ) : (

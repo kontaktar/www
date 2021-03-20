@@ -4,7 +4,10 @@ const messages = {
   TOO_LONG: "Of langt",
   MINIMUM_3: "Lágmark 3 stafir.",
   MINIMUM_8: "Lágmark 8 stafir.",
-  REQUIRED: "Nauðsynlegt."
+  REQUIRED: "Nauðsynlegt.",
+  PASSWORD_DONT_MATCH: "Lykilorð eru ekki eins.",
+  INCORRECT_SSN_LONG: "Kennitala of löng.",
+  INCORRECT_SSN_SHORT: "Kennitala of stutt."
 };
 
 const validate = {
@@ -14,15 +17,28 @@ const validate = {
     .required(messages.REQUIRED),
   password: Yup.string()
     // .min(8, messages.MINIMUM_8) // TODO:
+    .required(messages.REQUIRED),
+  email: Yup.string().email("Invalid email format").required(messages.REQUIRED),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], messages.PASSWORD_DONT_MATCH)
+    .required(messages.REQUIRED),
+  ssn: Yup.string()
+    .max(10, messages.INCORRECT_SSN_LONG)
+    // TOOD: actually validate kennitala
+    .min(10, messages.INCORRECT_SSN_SHORT)
     .required(messages.REQUIRED)
-  //   email: Yup.string().email("Invalid email format").required("Required!"),
-  //   confirm_password: Yup.string()
-  //     .oneOf([Yup.ref("password")], "Password's not match")
-  //     .required("Required!")
 };
 
 // eslint-disable-next-line import/prefer-default-export
 export const loginFormSchema = Yup.object().shape({
   userName: validate.userName,
   password: validate.password
+});
+
+export const registerFormSchema = Yup.object().shape({
+  userName: validate.userName,
+  password: validate.password,
+  confirmPassword: validate.confirmPassword,
+  email: validate.email,
+  ssn: validate.ssn
 });

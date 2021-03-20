@@ -47,10 +47,15 @@
 }
 
 .mui_wrapper {
-  display: contents;
+  display: flex;
+  flex-grow: 1;
+
   :global {
     .MuiTextField-root {
       height: 100px;
+      width: 100%;
+      margin-left: $unit;
+      margin-right: $unit;
     }
   }
 }
