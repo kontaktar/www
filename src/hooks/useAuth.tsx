@@ -119,8 +119,6 @@ export const AuthProvider = ({
   };
 
   const register = async (body) => {
-    // const result = await GetUserByUserName(userName);
-    // TODO: cleanup register - user store and all that.
     await CreateUser(body).then(async (result) => {
       await post("/api/register", body.userName);
       dispatchToStore(createUserSuccess(result.userId, body));
