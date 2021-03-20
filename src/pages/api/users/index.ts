@@ -113,18 +113,22 @@ const Users = async (request, response) => {
           message = registerErrors.NO_MATCH;
         }
 
-        // if (error.message.includes("users_user_name_key")) {
-        //   message = registerErrors.EXISTS_USER_NAME;
-        // }
         response.status(404).json({ message });
-        // throw new Error(`LOGIN USER 404: ${error}`);
       } else {
-        response.status(500).json({ message: error.message });
-        // throw new Error(`LOGIN USER 500: ${error}`);
+        if (error.message.includes("users_ssn_key")) {
+          error.message = registerErrors.EXISTS_SSN;
+        }
+        if (error.message.includes("users_email_key")) {
+          error.message = registerErrors.EXISTS_EMAIL;
+        }
+        if (error.message.includes("users_user_name_key")) {
+          error.message = registerErrors.EXISTS_USER_NAME;
+        }
+        response.status(404).json({ message: error.message });
       }
     }
   } else {
-    response.status(400).end();
+    response.status(505).end();
   }
 };
 

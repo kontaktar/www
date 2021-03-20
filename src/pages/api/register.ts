@@ -6,6 +6,8 @@ import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
 import { registerErrors } from "helpers/errorMessages";
 
+// User has already been created with CreateUser
+// Verify by fetching by userName, then add details to session storage
 const Register = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body: userName } = request;
@@ -30,15 +32,12 @@ const Register = withSession(async (request, response) => {
   } catch (error) {
     if (error instanceof pgp.errors.QueryResultError) {
       let message;
+
       if (error.message === "No data returned from the query.") {
         message = registerErrors.NO_MATCH;
       }
-      // TODO: I should handle this here:
-      // if (error.message.includes("users_user_name_key")) {
-      //   message = registerErrors.EXISTS_USER_NAME;
-      // }
+
       response.status(404).json({ message });
-      throw new Error(`LOGIN USER 404: ${error}`);
     } else {
       response.status(500).json({ message: error.message });
     }

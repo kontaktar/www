@@ -119,6 +119,8 @@ export const AuthProvider = ({
   };
 
   const register = async (body) => {
+    // TODO: Instead of doing two API calls here, do one to register
+    // that also createsUser and handle the rerouting after reguster here.
     await CreateUser(body).then(async (result) => {
       await post("/api/register", body.userName);
       dispatchToStore(createUserSuccess(result.userId, body));

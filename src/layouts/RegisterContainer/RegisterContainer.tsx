@@ -55,15 +55,6 @@ const RegisterContainer = (): ReactElement => {
 
         Router.push("/profile");
       } catch (error) {
-        if (error.message.includes("users_ssn_key")) {
-          error.message = registerErrors.EXISTS_SSN;
-        }
-        if (error.message.includes("users_user_name_key")) {
-          error.message = registerErrors.EXISTS_USER_NAME;
-        }
-        if (error.message.includes("users_email_key")) {
-          error.message = registerErrors.EXISTS_EMAIL;
-        }
         setErrorMessage(error.message);
         // eslint-disable-next-line no-console
         console.error(error, error.message);

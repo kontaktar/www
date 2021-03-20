@@ -19,7 +19,7 @@ const Register = ({ reroute }) => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ req, res }) => {
+  withSession(async ({ req }) => {
     const user = req.session.get("user");
 
     if (user !== undefined) {
