@@ -111,6 +111,11 @@
   }
 }
 
+.username_icon {
+  height: 56px;
+  align-self: center;
+  margin-bottom: 16px;
+}
 .button {
   margin: $unit * 2;
   max-width: 40 * $unit;
@@ -135,6 +140,11 @@
   &_is_checked {
     path {
       color: green;
+    }
+  }
+  &_inactive {
+    path {
+      color: rgb(196, 196, 196);
     }
   }
 }

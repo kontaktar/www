@@ -81,11 +81,23 @@ const RegisterContainer = (): ReactElement => {
     }
   }, [hasRegistered, users, users.error]);
 
+  useEffect(() => {
+    if (
+      isUserNameTaken &&
+      formik.errors.userName !== registerErrors.EXISTS_USER_NAME
+    ) {
+      formik.setFieldError("userName", registerErrors.EXISTS_USER_NAME);
+    }
+  }, [isUserNameTaken, formik]);
+
   const checkIfUserNameIsTaken = async (userName: string) => {
     try {
       // TODO: Search in store ? and store results in store?
       // TODO: Do not fetch the whole user object.
-      const userResult = await GetUserByUserName(userName);
+      let userResult;
+      if (userName && userName.length > 2) {
+        userResult = await GetUserByUserName(userName);
+      }
       if (userResult) {
         setUserNameIsTaken(true);
       } else {
@@ -161,17 +173,19 @@ const RegisterContainer = (): ReactElement => {
             <span className={styles.info}>
               Svona mun slóðin á þinn prófil líta út.
             </span>
+            <span className={styles.url}>
+              kontaktar.is/serfraedingur/
+              <strong>{formik.values.userName || "notandi"}</strong>
+            </span>
+          </div>
+          <div className={styles.username_icon}>
             {isUserNameCheckEmpty ? (
-              <CircleIcon />
+              <CircleIcon className={styles.icon_inactive} />
             ) : isUserNameTaken ? (
               <NotAvailableIcon className={styles.icon_not_available} />
             ) : (
               <AvailableIcon className={styles.icon_is_checked} />
             )}
-            <span className={styles.url}>
-              kontaktar.is/serfraedingur/
-              <strong>{formik.values.userName || "notandi"}</strong>
-            </span>
           </div>
 
           <MUIInput
