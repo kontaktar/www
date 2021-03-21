@@ -8,7 +8,7 @@ const otherReducers = combineReducers(reducers);
 const rootReducer = (state = {}, action) => {
   switch (action.type) {
     case HYDRATE:
-      // Because server overwrites client, some of it we wan't to keep.
+      // Because server overwrites client, some of it we want to keep.
       return {
         experiences: {
           byUserId: {

@@ -52,3 +52,6 @@ export async function GetUserByUserName(userName) {
 export async function GetAllUsers() {
   return get(`/api/users`);
 }
+export async function GetAllUserNames() {
+  return get(`/api/users/all-usernames`);
+}

@@ -3,6 +3,7 @@ import { ReactElement, useEffect, useState } from "react";
 import AvailableIcon from "@material-ui/icons/CheckCircleOutline";
 import NotAvailableIcon from "@material-ui/icons/HighlightOff";
 import CircleIcon from "@material-ui/icons/RadioButtonUnchecked";
+import listOfReservedUserNames from "data/reservedUserNames";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
 import Router from "next/router";
@@ -11,7 +12,7 @@ import { registerErrors } from "helpers/errorMessages";
 import { registerFormSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
-import { GetUserByUserName } from "pages/api/endpoints";
+import { GetAllUserNames } from "pages/api/endpoints";
 import { Button } from "components";
 import { MUIInput } from "components/Input";
 import styles from "./RegisterContainer.module.scss";
@@ -23,6 +24,7 @@ const RegisterContainer = (): ReactElement => {
   const [isLoading, setLoader] = useState(false);
   const [isUserNameTaken, setUserNameIsTaken] = useState(false);
   const [isUserNameCheckEmpty, setUserNameCheckEmpty] = useState(true);
+  const [allUserNames, setAllUserNames] = useState([]);
   const users = useSelector((state) => state.users);
   const { register } = useAuth();
 
@@ -74,6 +76,7 @@ const RegisterContainer = (): ReactElement => {
 
   useEffect(() => {
     if (
+      formik.values.userName.length > 2 && // we want to show the minmum userName length error if under 3 letters.
       isUserNameTaken &&
       formik.errors.userName !== registerErrors.EXISTS_USER_NAME
     ) {
@@ -81,23 +84,25 @@ const RegisterContainer = (): ReactElement => {
     }
   }, [isUserNameTaken, formik]);
 
+  useEffect(() => {
+    if (allUserNames.length === 0) {
+      const fetchAllUserNames = async () => {
+        setAllUserNames(await GetAllUserNames());
+      };
+      fetchAllUserNames();
+    }
+  });
   const checkIfUserNameIsTaken = async (userName: string) => {
-    try {
-      // TODO: Search in store ? and store results in store?
-      // TODO: Do not fetch the whole user object.
-      let userResult;
-      if (userName && userName.length > 2) {
-        userResult = await GetUserByUserName(userName);
-      }
-      if (userResult) {
-        setUserNameIsTaken(true);
-      } else {
-        setUserNameIsTaken(false);
-      }
-    } catch (error) {
+    setUserNameCheckEmpty(false);
+    const isUserNameValid =
+      userName.length > 2 && !listOfReservedUserNames.includes(userName);
+    if (
+      !isUserNameValid ||
+      (allUserNames.length > 0 && allUserNames.includes(userName))
+    ) {
+      setUserNameIsTaken(true);
+    } else {
       setUserNameIsTaken(false);
-    } finally {
-      setUserNameCheckEmpty(false);
     }
   };
 
@@ -165,7 +170,7 @@ const RegisterContainer = (): ReactElement => {
               Svona mun slóðin á þinn prófil líta út.
             </span>
             <span className={styles.url}>
-              kontaktar.is/serfraedingur/
+              kontaktar.is/
               <strong>{formik.values.userName || "notandi"}</strong>
             </span>
           </div>
@@ -188,6 +193,7 @@ const RegisterContainer = (): ReactElement => {
             onChange={(event) => {
               formik.handleChange(event);
               setUserNameCheckEmpty(true);
+              checkIfUserNameIsTaken(event.target.value);
             }}
             onBlur={(event) => {
               formik.setFieldTouched("userName", true, true);

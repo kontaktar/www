@@ -25,7 +25,6 @@ const Register: NextPage<Props> = ({ reroute }) => {
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ req }) => {
     const user = req.session.get("user");
-
     if (user !== undefined) {
       return { props: { reroute: true } };
     }
