@@ -59,10 +59,10 @@ const Card = (props) => {
       return (
         <Link
           href={{
-            pathname: "/user/[userName]",
+            pathname: "/[userName]",
             query: { experienceId: linkToProfile.experienceId }
           }}
-          as={`/user/${linkToProfile.userName}?experienceId=${linkToProfile.experienceId}`}
+          as={`/${linkToProfile.userName}?experienceId=${linkToProfile.experienceId}`}
         >
           {children}
         </Link>
