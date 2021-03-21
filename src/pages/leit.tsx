@@ -1,4 +1,5 @@
-import React, { ReactElement } from "react";
+import React from "react";
+import { NextPage } from "next";
 import { useDispatch, useSelector } from "react-redux";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
@@ -16,7 +17,7 @@ type Props = {
   // From getServerSideProps
   searchInput?: string;
 };
-const Search = ({ searchInput }: Props): ReactElement => {
+const Search: NextPage<Props> = ({ searchInput }) => {
   const { isLoggedIn } = useAuth();
   const storeSearches = useSelector((state) => state.searches);
   const dispatch = useDispatch();

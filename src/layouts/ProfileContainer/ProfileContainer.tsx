@@ -174,7 +174,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
               </Button>
             )}
             {!editMode && userName === userData?.userName && (
-              <Link href="/profile">
+              <Link href="/profill">
                 <Button>Breyta</Button>
               </Link>
             )}
@@ -210,31 +210,29 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                   {user.website}
                 </span>
               ) : null}
+              {(user.streetName ||
+                user.postalCode ||
+                user.city ||
+                user.country) && (
+                <span>
+                  <Icon
+                    className={styles.user_info_icons}
+                    color={colors.red}
+                    name="location"
+                  />
+                  {[
+                    user.streetName,
+                    user.postalCode && user.postalCode !== "0"
+                      ? user.postalCode
+                      : "",
+                    user.city,
+                    user.country
+                  ]
+                    .filter(Boolean)
+                    .join(", ")}
+                </span>
+              )}
             </Fragment>
-            {user.streetName ||
-              user.postalCpde ||
-              user.city ||
-              (user.country && (
-                <Fragment>
-                  <span>
-                    <Icon
-                      className={styles.user_info_icons}
-                      color={colors.red}
-                      name="location"
-                    />
-                    {[
-                      user.streetName,
-                      user.postalCode && user.postalCode !== "0"
-                        ? user.postalCode
-                        : "",
-                      user.city,
-                      user.country
-                    ]
-                      .filter(Boolean)
-                      .join(", ")}
-                  </span>
-                </Fragment>
-              ))}
           </div>
         </div>
         <div className={styles.card_container}>
@@ -248,11 +246,11 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                   handleEdit={onOpenExperienceModal}
                 />
               ) : (
-                <CardsContainer addNewItemButton className={styles.cards} />
+                <CardsContainer addNewItemButton />
               )}
             </>
           ) : (
-            <CardsContainer className={styles.cards}>
+            <CardsContainer>
               {userExperiences.length > 0 ? (
                 userExperiences.map((experience) => {
                   if (experience.published) {

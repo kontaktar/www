@@ -1,13 +1,13 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import { NextPage } from "next";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
 import { GetSearchResult } from "pages/api/endpoints";
 import { FrontPageContainer, MainLayout } from "layouts";
 import { fetchSearchResultSuccess, updateLatestSearch } from "../store/actions";
 
-const LandingPage = () => {
+const LandingPage: NextPage = () => {
   return (
     <MainLayout>
       <FrontPageContainer />

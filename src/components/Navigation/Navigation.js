@@ -6,12 +6,12 @@ import styles from "./Navigation.module.scss";
 
 const routes = [
   {
-    url: "/profile",
+    url: "/profill",
     title: "Þinn prófíll",
     icon: "user"
   },
   {
-    url: "/search",
+    url: "/leit",
     title: "Leit",
     icon: "search"
   },

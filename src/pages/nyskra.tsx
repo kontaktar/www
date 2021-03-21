@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
 import { MainLayout, RegisterContainer } from "layouts";
 
-const Register = ({ reroute }) => {
+type Props = {
+  reroute?: boolean;
+};
+const Register: NextPage<Props> = ({ reroute }) => {
   const router = useRouter();
   useEffect(() => {
     if (reroute) {
-      router.push("/profile");
+      router.push("/profill");
     }
   });
   return (

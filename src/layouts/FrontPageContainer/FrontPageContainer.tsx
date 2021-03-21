@@ -37,7 +37,7 @@ const FrontPageContainer = (): ReactElement => {
       setSearchInput(event.target.value);
       setIsLoading(true);
       router.push({
-        pathname: "/search",
+        pathname: "/leit",
         query: { searchInput }
       });
     }
@@ -63,7 +63,7 @@ const FrontPageContainer = (): ReactElement => {
           />
           <Link
             href={{
-              pathname: "/search",
+              pathname: "/leit",
               query: { searchInput }
             }}
             onClick={() => setIsLoading(true)}

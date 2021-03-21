@@ -130,15 +130,15 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 ### Logged out
 
 - /
-- /search
-- /subscribe
-- /user/{userName}
-- /login
-- /register
+- /leit
+- /askrift
+- /{userName}
+- /innskra
+- /nyskra
 
 ### Logged in
 
 - /
-- /search
-- /user/{userName}
-- /profile
+- /leit
+- /{userName}
+- /profill

@@ -73,14 +73,14 @@ const Header = ({
                           <NextLink href="/">Kontaktar</NextLink>
                         </span>
                         <span>
-                          <NextLink href="/search">Leita</NextLink>
+                          <NextLink href="/leit">Leita</NextLink>
                         </span>
                         <span>
-                          <NextLink href="/subscription">Áskrift</NextLink>
+                          <NextLink href="/askrift">Áskrift</NextLink>
                         </span>
 
                         <span>
-                          <NextLink href="/login">Innskráning</NextLink>
+                          <NextLink href="/innskra">Innskráning</NextLink>
                         </span>
                       </nav>
                     </div>
@@ -99,7 +99,7 @@ const Header = ({
                     </Button>
                   </Link>
                 )}
-                <Link href="/search">
+                <Link href="/leit">
                   <Button
                     className={cx(styles.tab, styles.ripple)}
                     modifier={["borderless"]}
@@ -107,7 +107,7 @@ const Header = ({
                     Leita
                   </Button>
                 </Link>
-                <Link href="/subscription">
+                <Link href="/askrift">
                   <Button
                     className={cx(styles.tab, styles.ripple)}
                     modifier={["borderless"]}
@@ -118,7 +118,7 @@ const Header = ({
                 <Button
                   className={styles.login}
                   onClick={
-                    !isLoggedIn ? () => router.push("/login") : () => logout()
+                    !isLoggedIn ? () => router.push("/innskra") : () => logout()
                   }
                   modifier={!isLoggedIn ? ["inverted"] : []}
                 >

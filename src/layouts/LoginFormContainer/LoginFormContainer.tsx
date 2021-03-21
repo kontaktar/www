@@ -31,7 +31,7 @@ const LoginFormContainer = (): ReactElement => {
       try {
         setLoginLoader(true);
         await login(body);
-        router.push("/profile");
+        router.push("/profill");
       } catch (error) {
         setErrorMessage(error.message);
         // eslint-disable-next-line no-console
@@ -80,7 +80,7 @@ const LoginFormContainer = (): ReactElement => {
             <span>eða</span>
           </span>
 
-          <Link href="/register" as="/register">
+          <Link href="/nyskra" as="/nyskra">
             <Button className={styles.button} modifier={["inverted"]}>
               Stofna nýjan aðgang
             </Button>

@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { UserSessionStorage } from "types";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
 import { ProfileContainer, UserLayout } from "layouts";
 
-const Profile = ({ reroute }): any => {
+type Props = {
+  reroute?: boolean;
+};
+const Profile: NextPage<Props> = ({ reroute }) => {
   const router = useRouter();
   useEffect(() => {
     if (reroute) {
-      router.push("/login");
+      router.push("/innskra");
     }
   });
   return (
@@ -21,7 +24,7 @@ const Profile = ({ reroute }): any => {
 };
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ req, res }) => {
+  withSession(async ({ req }) => {
     const user: UserSessionStorage = req?.session?.get("user");
 
     if (user === undefined) {

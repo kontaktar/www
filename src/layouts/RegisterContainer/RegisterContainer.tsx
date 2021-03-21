@@ -53,7 +53,7 @@ const RegisterContainer = (): ReactElement => {
 
         setHasRegistered(true);
 
-        Router.push("/profile");
+        Router.push("/profill");
       } catch (error) {
         setErrorMessage(error.message);
         // eslint-disable-next-line no-console
