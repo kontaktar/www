@@ -59,10 +59,10 @@ const Users = async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).json({ message: error.message });
-        throw new Error(`GET USERNAME 404: ${error}`);
+        console.error(`GET USERNAME 404: ${error}`);
       } else {
         response.status(500).json({ message: error.message });
-        throw new Error(`GET USERNAME 505: ${error}`);
+        console.error(`GET USERNAME 505: ${error}`);
       }
     }
   }
