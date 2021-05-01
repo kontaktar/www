@@ -28,6 +28,11 @@ const UserProfile = ({ userName }: Props): ReactElement => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store, query: { userName } }) => {
+    if (userName === "favicon.ico") {
+      // Because usernames can be on root level, favicon.ico is being picked up. Bypass it,
+      // no need to do a failed database lookup on every rerender.
+      return {};
+    }
     try {
       const userResult = await GetUserByUserName(userName);
       store.dispatch(getUserByUserNameSuccess(userResult));

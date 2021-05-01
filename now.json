@@ -6,10 +6,10 @@
       "use": "@now/next"
     }
   ],
-  "routes": [
+  "redirects": [
     {
-      "src": "/storybook",
-      "dest": "public/storybook/"
+      "destination": "/storybook",
+      "source": "public/storybook/"
     }
   ],
   "alias": ["kontaktar"],

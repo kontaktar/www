@@ -24,7 +24,6 @@ const routes = [
 
 const Navigation = ({ isOpen }) => {
   const { logout } = useAuth();
-
   return (
     <div className={styles.navigation_bar} id="navi">
       {routes.map((route) => (
