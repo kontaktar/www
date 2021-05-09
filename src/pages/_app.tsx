@@ -5,7 +5,10 @@ import { SWRConfig } from "swr";
 import wrapper from "store/configureStore";
 import fetch from "lib/fetchJson";
 import { AuthProvider } from "hooks/useAuth";
+import initAuth from "../lib/initAuth";
 import "../styles/index.scss";
+
+initAuth();
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

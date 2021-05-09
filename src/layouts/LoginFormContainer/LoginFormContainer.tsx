@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { useFormik } from "formik";
+import { getFirebaseClient } from "next-firebase-auth";
 import { useRouter } from "next/router";
 import { loginFormSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
@@ -10,6 +11,8 @@ import Link from "components/LinkWrap";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = (): ReactElement => {
+  const firebase = getFirebaseClient();
+  console.log("firebase", firebase);
   const { login } = useAuth();
   const router = useRouter();
   const [isLoginLoading, setLoginLoader] = useState(false);
