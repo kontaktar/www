@@ -8,22 +8,22 @@ const initAuth = () => {
     logoutAPIEndpoint: "/api/logout", // required
     // firebaseAuthEmulatorHost: "localhost:9099",
     // Required in most cases.
+    firebaseClientInitConfig: {
+      apiKey: process.env.FIREBASE_CLIENT_API_KEY,
+      authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
+      databaseURL: process.env.FIREBASE_DATABASE_URL,
+      projectId: process.env.FIREBASE_PROJECT_ID
+    },
     firebaseAdminInitConfig: {
       credential: {
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: `firebase-adminsdk-ubein@${process.env.FIREBASE_PROJECT_ID}.iam.gserviceaccount.com`,
         // The private key must not be accesssible on the client side.
         privateKey: process.env.FIREBASE_PRIVATE_KEY
-          ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
-          : undefined
+        // ? JSON.parse(process.env.FIREBASE_PRIVATE_KEY)
+        // : undefined
       },
       databaseURL: process.env.FIREBASE_DATABASE_URL
-    },
-    firebaseClientInitConfig: {
-      apiKey: process.env.FIREBASE_CLIENT_API_KEY,
-      authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
-      databaseURL: process.env.FIREBASE_DATABASE_URL,
-      projectId: process.env.FIREBASE_PROJECT_ID
     },
     // TODO: signed should be true and research the cookie secrets
     cookies: {

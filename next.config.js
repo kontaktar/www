@@ -8,7 +8,10 @@ module.exports = {
   ssr: true,
   env: {
     BASE_URL: process.env.VERCEL_URL || "localhost:3000",
-    SECRET_COOKIE_PASSWORD: "THIS_HAS_TO_BE_AT_LEAST_32_LETTER_LONG" // TODO: host at VERCEL (and change ofcourse)
+    SECRET_COOKIE_PASSWORD: "THIS_HAS_TO_BE_AT_LEAST_32_LETTER_LONG", // TODO: host at VERCEL (and change ofcourse)
+    FIREBASE_CLIENT_API_KEY: process.env.FIREBASE_CLIENT_API_KEY,
+    FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
+    FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL
   },
   enableSvg: true,
   webpack(config, { dev, isServer, webpack }) {

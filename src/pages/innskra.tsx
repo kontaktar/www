@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import "firebase/auth";
-import useAuth from "hooks/useAuth";
+import useAuth, { preRegisterUser, updateAuthState } from "hooks/useAuth";
 import { LoginFormContainer, MainLayout } from "layouts";
 
 const firebaseAuthConfig = {
@@ -34,17 +34,52 @@ const Login: NextPage = () => {
       setRenderAuth(true);
     }
   }, []);
+
+  useEffect(() => {
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        const isNewUser =
+          user.metadata.creationTime === user.metadata.lastSignInTime;
+
+        // TODO: FIGURE OUT THE EMAIL VERIFICATION
+        if (isNewUser) {
+          preRegisterUser(user.uid);
+          // TODO: Reroute to /nyskra
+        } else {
+          updateAuthState({
+            status: "PRE_LOGIN",
+            isLoggedIn: true,
+            userData: {
+              id: user.uid,
+              email: user.email
+              // TODO: then pick up more info on the user.
+            }
+          });
+        }
+      });
+    return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+  }, []);
+
   const { isLoggedIn } = useAuth();
   const router = useRouter();
   if (isLoggedIn) {
     router.push("/profill");
   }
+
   return (
     <MainLayout noDistraction>
+      <button
+        type="button"
+        onClick={() => console.log(firebase.auth().currentUser.uid)}
+      >
+        btn
+      </button>
       {renderAuth ? (
         <StyledFirebaseAuth
           uiConfig={firebaseAuthConfig}
           firebaseAuth={firebase.auth()}
+          uiCallback={(callback) => console.log("callback", callback)}
         />
       ) : null}
     </MainLayout>
