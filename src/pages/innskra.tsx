@@ -3,7 +3,6 @@ import firebase from "firebase/app";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import "firebase/auth";
 import useAuth, { preRegisterUser, updateAuthState } from "hooks/useAuth";
 import { LoginFormContainer, MainLayout } from "layouts";
 
@@ -29,22 +28,52 @@ const firebaseAuthConfig = {
 };
 const Login: NextPage = () => {
   const [renderAuth, setRenderAuth] = useState(false);
+  const [isEmailSent, setEmailSent] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
       setRenderAuth(true);
     }
   }, []);
 
+  const actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be in the authorized domains list in the Firebase Console.
+    // url: "http://www.kontaktar.is/innskra",
+    url:
+      process.env.NODE_ENV !== "production"
+        ? "http://localhost:3000/innskra"
+        : "http://www.kontaktar.is/innskra",
+    // This must be true.
+    handleCodeInApp: true
+    // dynamicLinkDomain: "example.page.link"
+  };
+
   useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged((user) => {
         const isNewUser =
-          user.metadata.creationTime === user.metadata.lastSignInTime;
+          user?.metadata?.creationTime === user?.metadata?.lastSignInTime;
 
         // TODO: FIGURE OUT THE EMAIL VERIFICATION
-        if (isNewUser) {
-          preRegisterUser(user.uid);
+        console.log("user", user);
+        if (isNewUser && user?.email) {
+          firebase
+            .auth()
+            .sendSignInLinkToEmail(user?.email, actionCodeSettings)
+            .then(() => {
+              setEmailSent(true);
+              // The link was successfully sent. Inform the user.
+              // Save the email locally so you don't need to ask the user for it again
+              // if they open the link on the same device.
+              window.localStorage.setItem("emailForSignIn", user?.email);
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              // ...
+            });
+          preRegisterUser(user?.uid);
           // TODO: Reroute to /nyskra
         } else {
           updateAuthState({
@@ -69,12 +98,7 @@ const Login: NextPage = () => {
 
   return (
     <MainLayout noDistraction>
-      <button
-        type="button"
-        onClick={() => console.log(firebase.auth().currentUser.uid)}
-      >
-        btn
-      </button>
+      <LoginFormContainer />
       {renderAuth ? (
         <StyledFirebaseAuth
           uiConfig={firebaseAuthConfig}
@@ -82,6 +106,7 @@ const Login: NextPage = () => {
           uiCallback={(callback) => console.log("callback", callback)}
         />
       ) : null}
+      {isEmailSent && <p>Email er á leiðinni</p>}
     </MainLayout>
   );
 };

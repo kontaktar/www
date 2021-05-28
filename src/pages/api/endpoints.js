@@ -49,6 +49,10 @@ export async function GetUserByUserName(userName) {
   return get(`/api/users?userName=${userName}`);
 }
 
+export async function GetUserByEmail(email) {
+  return get(`/api/users?email=${email}`);
+}
+
 export async function GetAllUsers() {
   return get(`/api/users`);
 }

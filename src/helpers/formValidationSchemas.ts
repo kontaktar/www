@@ -31,7 +31,7 @@ const validate = {
 
 // eslint-disable-next-line import/prefer-default-export
 export const loginFormSchema = Yup.object().shape({
-  userName: validate.userName,
+  email: validate.email,
   password: validate.password
 });
 
