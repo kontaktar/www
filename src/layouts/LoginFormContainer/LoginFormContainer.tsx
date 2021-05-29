@@ -3,7 +3,10 @@ import firebase from "firebase/app";
 import { useFormik } from "formik";
 import { getFirebaseClient } from "next-firebase-auth";
 import { useRouter } from "next/router";
-import { loginFormSchema } from "helpers/formValidationSchemas";
+import {
+  emailConfirmationSchema,
+  loginFormSchema
+} from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { GetUserByEmail } from "pages/api/endpoints";
@@ -29,23 +32,52 @@ const LoginFormContainer = (): ReactElement => {
   // console.log("firebase", firebase);
   const { login } = useAuth();
   const router = useRouter();
+  const [isEmailSent, setEmailSent] = useState(false);
+  const [isUserNew, setIsNewUser] = useState(false);
+  const [
+    isWaitingForEmailConfirmation,
+    setWaitingForEmailConfirmation
+  ] = useState(false);
+  const [
+    isMissingEmailForEmailLinkLogin,
+    setIsMissingEmailForEmailLinkLogin
+  ] = useState(false);
   const [isLoginLoading, setLoginLoader] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged((user) => {
+        if (/* USER IS NEW && */ user.emailVerified) {
+          router.push("/nyskra");
+          console.log("USER IS REGISTERED");
+          // go on to register!
+        }
+      });
+    return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+  }, []);
+  useEffect(() => {
     if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+      setEmailSent(false);
       const email = window.localStorage.getItem("emailForSignIn");
+
       // TODO: IF EMAIL IS NOT IN LOCALSTOREAGE, show form: "Confirm your email to sign in":
       // TODO: auto focus á form.
+      window.sessionStorage.setItem("loginHref", window.location.href);
       if (email) {
         firebase
           .auth()
           .signInWithEmailLink(email, window.location.href)
           .then((result) => {
             // Clear email from storage.
+            window.sessionStorage.sessionStorage.removeItem("loginHref");
             window.localStorage.removeItem("emailForSignIn");
-            // You can access the new user via result.user
+
+            // user has been verified
+            console.log("result.user", result.user);
+            // firebase.auth().currentUser.updatePassword()
             // Additional user info profile not available via:
             // result.additionalUserInfo.profile == null
             // You can check if the user is new or existing:
@@ -55,6 +87,8 @@ const LoginFormContainer = (): ReactElement => {
             // Some error occurred, you can inspect the code: error.code
             // Common errors could be invalid email and invalid or expired OTPs.
           });
+      } else {
+        setIsMissingEmailForEmailLinkLogin(true);
       }
     }
   }, []);
@@ -64,74 +98,69 @@ const LoginFormContainer = (): ReactElement => {
       email: "",
       password: ""
     },
-    validationSchema: loginFormSchema,
+    validationSchema: isMissingEmailForEmailLinkLogin
+      ? emailConfirmationSchema
+      : loginFormSchema,
     onSubmit: async (values) => {
-      let user;
-      try {
-        user = await GetUserByEmail(values.email);
-      } catch (error) {
-        console.log(`No user found with email ${values.email}`, error);
-      }
-
-      if (!user) {
+      if (isMissingEmailForEmailLinkLogin) {
+        const loginHref = sessionStorage.getItem("loginHref");
         firebase
           .auth()
-          .sendSignInLinkToEmail(values.email, actionCodeSettings)
-          .then(() => {
-            // The link was successfully sent. Inform the user.
-            // Save the email locally so you don't need to ask the user for it again
-            // if they open the link on the same device.
-            window.localStorage.setItem("emailForSignIn", values.email);
-            // ...
-          })
-          .catch((error) => {
-            console.log(error.code);
-            console.log(error.message);
-            // ...
-          });
-      } else {
-        firebase
-          .auth()
-          .signInWithEmailLink(values.email, values.password)
+          .signInWithEmailLink(values.email, loginHref)
           .then((result) => {
+            window.sessionStorage.sessionStorage.removeItem("loginHref");
+
+            console.log("YAAAA LOGIN EMAIL LINK", result);
+            // result.user.sendEmailVerification();
             // You can check if the user is new or existing:
             // result.additionalUserInfo.isNewUser
           })
           .catch((error) => {
+            console.log("err", error);
             // Some error occurred, you can inspect the code: error.code
             // Common errors could be invalid email and invalid or expired OTPs.
           });
+      } else {
+        let user;
+        try {
+          user = await GetUserByEmail(values.email);
+        } catch (error) {
+          console.log(`No user found with email ${values.email}`, error);
+        }
+
+        if (!user) {
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(values.email, values.password)
+            .then((result) => {
+              setWaitingForEmailConfirmation(true);
+              // setIsNewUser(true);
+              console.log("reulst", result);
+              result.user.sendEmailVerification(actionCodeSettings);
+              // You can check if the user is new or existing:
+              // result.additionalUserInfo.isNewUser
+            })
+            .catch((error) => {
+              // Some error occurred, you can inspect the code: error.code
+              // Common errors could be invalid email and invalid or expired OTPs.
+            });
+        } else {
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(values.email, values.password)
+            .then((result) => {
+              console.log("reulst", result);
+              // result.user.sendEmailVerification();
+              // You can check if the user is new or existing:
+              // result.additionalUserInfo.isNewUser
+            })
+            .catch((error) => {
+              // Some error occurred, you can inspect the code: error.code
+              // Common errors could be invalid email and invalid or expired OTPs.
+            });
+        }
       }
 
-      // TODO: if email does not exist in database, then sendSignInLinkToEmail
-      // firebase
-      //   .auth()
-      //   .sendSignInLinkToEmail(values.email, actionCodeSettings)
-      //   .then(() => {
-      //     // The link was successfully sent. Inform the user.
-      //     // Save the email locally so you don't need to ask the user for it again
-      //     // if they open the link on the same device.
-      //     window.localStorage.setItem("emailForSignIn", values.email);
-      //     // ...
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.code);
-      //     console.log(error.message);
-      //     // ...
-      //   });
-      // firebase
-      //   .auth()
-      //   .signInWithEmailAndPassword(values.userName, values.password)
-      //   .then((userCredential) => {
-      //     // Signed in
-      //     const { user } = userCredential;
-      //     console.log("user", user);
-      //     // ...
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.code);
-      //     console.log(error.message);
-      //   });
       // const body = {
       //   userName: values.userName,
       //   password: values.password
@@ -152,48 +181,55 @@ const LoginFormContainer = (): ReactElement => {
   return (
     <div>
       <div {...useMaxWidth()}>
-        <form onSubmit={formik.handleSubmit} className={styles.form}>
-          <span className={styles.heading}>Innskráning</span>
-          <MUIInput
-            type="text"
-            id="email"
-            name="email"
-            placeholder="Notendanafn"
-            onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("email", true, true)}
-            value={formik.values.email}
-            error={formik.errors.email}
-            isTouched={formik.touched.email}
-          />
-          <MUIInput
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Lykilorð"
-            onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("password", true, true)}
-            value={formik.values.password}
-            error={formik.errors.password}
-            isTouched={formik.touched.password}
-          />
-          <p className={styles.error}>{errorMessage}</p>
-          <Button
-            className={styles.button}
-            type="submit"
-            isLoading={isLoginLoading}
-          >
-            Innskrá
-          </Button>
-          <span className={styles.or}>
-            <span>eða</span>
-          </span>
-
-          <Link href="/nyskra" as="/nyskra">
-            <Button className={styles.button} modifier={["inverted"]}>
-              Stofna nýjan aðgang
+        {/* {isEmailSent && <p>Email er á leiðinni</p>} */}
+        {isWaitingForEmailConfirmation ? (
+          <p>Vinsamlegast skoðaðu póstinn þinn til að staðfesta innskráningu</p>
+        ) : (
+          <form onSubmit={formik.handleSubmit} className={styles.form}>
+            <span className={styles.heading}>Innskráning</span>
+            <MUIInput
+              type="text"
+              id="email"
+              name="email"
+              placeholder="Notendanafn"
+              onChange={formik.handleChange}
+              onBlur={() => formik.setFieldTouched("email", true, true)}
+              value={formik.values.email}
+              error={formik.errors.email}
+              isTouched={formik.touched.email}
+            />
+            {isMissingEmailForEmailLinkLogin || (
+              <MUIInput
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Lykilorð"
+                onChange={formik.handleChange}
+                onBlur={() => formik.setFieldTouched("password", true, true)}
+                value={formik.values.password}
+                error={formik.errors.password}
+                isTouched={formik.touched.password}
+              />
+            )}
+            <p className={styles.error}>{errorMessage}</p>
+            <Button
+              className={styles.button}
+              type="submit"
+              isLoading={isLoginLoading}
+            >
+              Innskrá
             </Button>
-          </Link>
-        </form>
+            <span className={styles.or}>
+              <span>eða</span>
+            </span>
+
+            <Link href="/nyskra" as="/nyskra">
+              <Button className={styles.button} modifier={["inverted"]}>
+                Stofna nýjan aðgang
+              </Button>
+            </Link>
+          </form>
+        )}
       </div>
     </div>
   );

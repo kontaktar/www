@@ -35,6 +35,10 @@ export const loginFormSchema = Yup.object().shape({
   password: validate.password
 });
 
+export const emailConfirmationSchema = Yup.object().shape({
+  email: validate.email
+});
+
 export const registerFormSchema = Yup.object().shape({
   userName: validate.userName,
   password: validate.password,

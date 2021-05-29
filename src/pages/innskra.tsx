@@ -58,21 +58,21 @@ const Login: NextPage = () => {
         // TODO: FIGURE OUT THE EMAIL VERIFICATION
         console.log("user", user);
         if (isNewUser && user?.email) {
-          firebase
-            .auth()
-            .sendSignInLinkToEmail(user?.email, actionCodeSettings)
-            .then(() => {
-              setEmailSent(true);
-              // The link was successfully sent. Inform the user.
-              // Save the email locally so you don't need to ask the user for it again
-              // if they open the link on the same device.
-              window.localStorage.setItem("emailForSignIn", user?.email);
-            })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              // ...
-            });
+          // firebase
+          //   .auth()
+          //   .sendSignInLinkToEmail(user?.email, actionCodeSettings)
+          //   .then(() => {
+          //     setEmailSent(true);
+          //     // The link was successfully sent. Inform the user.
+          //     // Save the email locally so you don't need to ask the user for it again
+          //     // if they open the link on the same device.
+          //     window.localStorage.setItem("emailForSignIn", user?.email);
+          //   })
+          //   .catch((error) => {
+          //     const errorCode = error.code;
+          //     const errorMessage = error.message;
+          //     // ...
+          //   });
           preRegisterUser(user?.uid);
           // TODO: Reroute to /nyskra
         } else {
@@ -99,14 +99,13 @@ const Login: NextPage = () => {
   return (
     <MainLayout noDistraction>
       <LoginFormContainer />
-      {renderAuth ? (
+      {/* {renderAuth ? (
         <StyledFirebaseAuth
           uiConfig={firebaseAuthConfig}
           firebaseAuth={firebase.auth()}
           uiCallback={(callback) => console.log("callback", callback)}
         />
-      ) : null}
-      {isEmailSent && <p>Email er á leiðinni</p>}
+      ) : null} */}
     </MainLayout>
   );
 };
