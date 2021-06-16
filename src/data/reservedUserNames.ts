@@ -2,6 +2,7 @@
 
 const reservedRoutes = ["nyskra", "innskra", "askrift", "profill", "leit"];
 const possibleFutureRoutes = [
+  "about",
   "admin",
   "audkenna",
   "borga",
