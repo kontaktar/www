@@ -14,7 +14,7 @@ export type UserDB = {
 
 export type User = {
   ssn: string;
-  userMame: string;
+  userName: string;
   password: string;
   firstName: string;
   lastName: string;

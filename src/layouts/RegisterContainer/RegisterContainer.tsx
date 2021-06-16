@@ -4,10 +4,12 @@ import AvailableIcon from "@material-ui/icons/CheckCircleOutline";
 import NotAvailableIcon from "@material-ui/icons/HighlightOff";
 import CircleIcon from "@material-ui/icons/RadioButtonUnchecked";
 import listOfReservedUserNames from "data/reservedUserNames";
+import firebase from "firebase/app";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
-import Router from "next/router";
-import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+// import Router from "next/router";
+import { useSelector, useStore } from "react-redux";
 import { registerErrors } from "helpers/errorMessages";
 import { registerFormSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
@@ -26,36 +28,55 @@ const RegisterContainer = (): ReactElement => {
   const [isUserNameCheckEmpty, setUserNameCheckEmpty] = useState(true);
   const [allUserNames, setAllUserNames] = useState([]);
   const users = useSelector((state) => state.users);
-  const { register } = useAuth();
+  const { status, register } = useAuth();
+  const router = useRouter();
+  const [userPhoneNumber, setUserPhoneNumber] = useState(undefined);
+
+  const store = useStore();
+
+  console.log("store", store.getState());
+
+  useEffect(() => {
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged(async (user) => {
+        if (user) {
+          setUserPhoneNumber(user.phoneNumber);
+        } else {
+          router.push("/nyskra");
+        }
+      });
+    return () => unregisterAuthObserver(); // un-register observers on unmounts.
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       userName: "",
-      password: "",
-      confirmPassword: "",
       ssn: "",
-      email: "",
       firstName: "",
-      lastName: ""
+      lastName: "",
+      email: ""
     },
     validationSchema: registerFormSchema,
     onSubmit: async (values) => {
       const body = {
         userName: values.userName,
-        password: values.password,
         ssn: values.ssn,
-        email: values.email,
         firstName: values.firstName,
-        lastName: values.lastName
+        lastName: values.lastName,
+        email: values.email
       };
 
       try {
         setLoader(true);
+
+        // body.phon;
+        body.phoneNumber = userPhoneNumber;
         await register(body);
 
         setHasRegistered(true);
 
-        Router.push("/profill");
+        router.push("/profill");
       } catch (error) {
         setErrorMessage(error.message);
         // eslint-disable-next-line no-console
@@ -151,11 +172,11 @@ const RegisterContainer = (): ReactElement => {
             isTouched={formik.touched.ssn}
           />
           <MUIInput
-            type="text"
+            type="number"
+            id={styles.email}
             className={styles.form_email}
-            id="email"
             name="email"
-            placeholder="Email"
+            placeholder="Netfang"
             onChange={formik.handleChange}
             onBlur={() => formik.setFieldTouched("email", true, true)}
             value={formik.values.email}
@@ -202,32 +223,6 @@ const RegisterContainer = (): ReactElement => {
             value={formik.values.userName}
             error={formik.errors.userName}
             isTouched={formik.touched.userName}
-          />
-        </div>
-        <div className={styles.row}>
-          <MUIInput
-            type="password"
-            className={styles.form_password}
-            id="password"
-            name="password"
-            placeholder="Lykilorð"
-            onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("password", true, true)}
-            value={formik.values.password}
-            error={formik.errors.password}
-            isTouched={formik.touched.password}
-          />
-          <MUIInput
-            type="password"
-            className={styles.form_password}
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="Staðfesta lykilorð"
-            onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("confirmPassword", true, true)}
-            value={formik.values.confirmPassword}
-            error={formik.errors.confirmPassword}
-            isTouched={formik.touched.confirmPassword}
           />
         </div>
         <p className={styles.error}>{errorMessage}</p>

@@ -1,14 +1,16 @@
 const pgp = require("pg-promise")();
+// require("dotenv").config({ path: ".env" });
 
 // Singleton connection contract for Postgresql from:
 // https://www.codeoftheprogrammer.com/2020/01/16/postgresql-from-nextjs-api-route/
 
 // Get these values from configuration
-const user = "admin";
-const password = "password";
-const host = "kontaktardb.crpycooyf4pt.eu-west-2.rds.amazonaws.com";
-const port = "5432";
-const database = "kontaktar";
+console.log("user", process.env.POSTGRES_USER);
+const user = process.env.POSTGRES_USER;
+const password = process.env.POSTGRES_PASS;
+const host = process.env.POSTGRES_HOST; // TODO: set env
+const port = process.env.POSTGRES_PORT;
+const database = process.env.POSTGRES_DB;
 
 // Use a symbol to store a global instance of a connection, and to access it from the singleton.
 const DB_KEY = Symbol.for("Kontaktar.db");

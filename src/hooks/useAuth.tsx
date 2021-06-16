@@ -2,10 +2,12 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import { User } from "types";
 import { createUserSuccess } from "store/actions";
 import useUser from "lib/useUser";
 import { post } from "helpers/methods";
 import {
+  CreateFirebaseConnection,
   CreateUser,
   EditUser,
   GetUserByUserName
@@ -21,6 +23,11 @@ type AuthContextProps = {
   login?: (body: any) => void;
   register?: (userName: any) => void;
   editUser?: (userData: any) => void;
+  connectFirebaseUser?: (
+    email: string,
+    firebaseId: string,
+    createdAt: string
+  ) => void;
 };
 
 type AuthReducerState = {
@@ -40,20 +47,25 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    preRegisterUser: (state, action) => {
-      // TODO: not used
-      state.status = "PRE_REGISTER";
-      state.userData.id = action.payload;
-    },
+    // preRegisterUser: (state, action) => {
+    //   // TODO: not used
+    //   state.status = "PRE_REGISTER";
+    //   state.userData.id = action.payload;
+    // },
     updateAuthState: (state, action: PayloadAction<AuthReducerState>) => {
       state.status = action.payload.status;
       state.isLoggedIn = action.payload.isLoggedIn;
       state.userData = action.payload.userData;
+    },
+    addFirebaseConnection: (state, action) => {
+      state.userData.id = action.payload.userId;
+      state.userData.phoneNumber = action.payload.phoneNumber;
+      state.userData.firebaseId = action.payload.firebaseId;
     }
   }
 });
 
-export const { updateAuthState, preRegisterUser } = authSlice.actions;
+export const { addFirebaseConnection, updateAuthState } = authSlice.actions;
 
 const useAuth = (): AuthContextProps => useContext(AuthContext);
 
@@ -82,7 +94,7 @@ export const AuthProvider = ({
     });
   };
 
-  const login = async (body) => {
+  const login = async (body: User) => {
     await post("/api/login", body).then(async ({ isLoggedIn }) => {
       const result = await GetUserByUserName(body.userName);
       dispatch(
@@ -105,10 +117,29 @@ export const AuthProvider = ({
     );
   };
 
+  const connectFirebaseUser = async (phoneNumber, firebaseId, createdAt) => {
+    try {
+      const { userId } = await CreateUser({ phoneNumber, createdAt });
+      console.log("userId created:", userId);
+      await CreateFirebaseConnection({ id: userId, firebaseId });
+      dispatch(
+        addFirebaseConnection({
+          userId,
+          phoneNumber,
+          firebaseId
+        })
+      );
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
+  };
+
   const register = async (body) => {
     // TODO: Instead of doing two API calls here, do one to register
     // that also createsUser and handle the rerouting after reguster here.
-    await CreateUser(body).then(async (result) => {
+    await EditUser(body.id, body).then(async (result) => {
+      console.log("result", result);
       await post("/api/register", body.userName);
       dispatchToStore(createUserSuccess(result.userId, body));
       dispatch(
@@ -150,7 +181,9 @@ export const AuthProvider = ({
         editUser: (userData) => editUser(userData),
         logout: () => logout(),
         login: (userName) => login(userName),
-        register: (userName) => register(userName)
+        register: (userName) => register(userName),
+        connectFirebaseUser: (email, firebaseId, createdAt) =>
+          connectFirebaseUser(email, firebaseId, createdAt)
       }}
     >
       {children}
