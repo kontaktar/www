@@ -5,17 +5,26 @@ const possibleFutureRoutes = [
   "admin",
   "audkenna",
   "borga",
+  "company",
   "dashboard",
+  "disclaimer",
   "einstaklingur",
   "fyrirtaeki",
+  "fyrirvari",
   "greida",
+  "group",
   "hafa-samband",
+  "hopur",
   "kontakt",
   "kontaktar",
-  "um-okkur",
+  "payment",
   "serfraedingar",
   "serfraedingur",
-  "skilmalar"
+  "skilmalar",
+  "subscription",
+  "terms",
+  "um-okkur",
+  "user"
 ];
 
 export default [...reservedRoutes, ...possibleFutureRoutes];
