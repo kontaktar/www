@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { Routes, SessionStorage } from "types";
 import { createUserSuccess } from "store/actions";
 import { CreateUser, GetUserByPhoneNumber } from "lib/endpoints";
-import { debug, debugError, debugError, debugWarn } from "helpers/debug";
+import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
 import { verificationCodeSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
