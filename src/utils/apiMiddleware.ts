@@ -1,4 +1,5 @@
 import Cors from "cors";
+import { IronSession } from "types";
 
 const cors = Cors({
   methods: ["GET", "POST", "PUT", "DELETE", "HEAD"]
@@ -22,16 +23,17 @@ export const withMiddleware = (request, response) => {
 
 export const withUserAccess = (request, response) => {
   if (
-    request.session.get("user")?.id.toString() !== request.query.id.toString()
+    request.session.get(IronSession.Name)?.id.toString() !==
+    request.query.id.toString()
   ) {
     response.status(403).end("Forbidden");
 
-    if (request.session.get("user") === undefined) {
+    if (request.session.get(IronSession.Name) === undefined) {
       throw new Error(`User is not logged in`);
     } else {
       throw new Error(
         `User ${request.body.id} doesn't have access to ${
-          request.session.get("user").id
+          request.session.get(IronSession.Name).id
         }`
       );
     }

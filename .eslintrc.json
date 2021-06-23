@@ -41,6 +41,8 @@
     }
   },
   "rules": {
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
     "react/react-in-jsx-scope": "off",
     "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [
@@ -251,6 +253,7 @@
   "overrides": [
     {
       "files": ["**/*.ts", "**/*.tsx"],
+      "plugins": ["@typescript-eslint"],
       "parser": "@typescript-eslint/parser",
       "extends": ["plugin:@typescript-eslint/recommended"],
       "rules": {

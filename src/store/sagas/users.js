@@ -1,7 +1,7 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import {
-  createUserFailure,
-  createUserSuccess,
+  // createUserFailure,
+  // createUserSuccess,
   editUserFailure,
   editUserSuccess,
   getUserByUserNameFailure,
@@ -11,20 +11,20 @@ import {
 } from "store/actions";
 import * as actionTypes from "store/actionTypes";
 import {
-  CreateUser,
+  // CreateUser,
   EditUser,
   GetUser,
   GetUserByUserName
-} from "../../pages/api/endpoints";
+} from "lib/endpoints";
 
-function* createUser(action) {
-  try {
-    const { userId } = yield call(CreateUser, action.payload.userInfo);
-    yield put(createUserSuccess(userId, action.payload.userInfo));
-  } catch (error) {
-    yield put(createUserFailure(error));
-  }
-}
+// function* createUser(action) {
+//   try {
+//     const { userId } = yield call(CreateUser, action.payload.userInfo);
+//     yield put(createUserSuccess(userId, action.payload.userInfo));
+//   } catch (error) {
+//     yield put(createUserFailure(error));
+//   }
+// }
 
 function* editUser(action) {
   try {
@@ -55,7 +55,7 @@ function* getUserByUserName(action) {
 
 function* users() {
   yield all([
-    takeEvery(actionTypes.CREATE_USER_REQUEST, createUser),
+    // takeEvery(actionTypes.CREATE_USER_REQUEST, createUser),
     takeEvery(actionTypes.EDIT_USER_REQUEST, editUser),
     takeEvery(actionTypes.FETCH_USER_REQUEST, getUser),
     takeEvery(actionTypes.FETCH_USER_BY_USER_NAME_REQUEST, getUserByUserName)

@@ -2,16 +2,16 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import { User } from "types";
+import { Endpoint, User, UserAddress } from "types";
 import { createUserSuccess } from "store/actions";
-import useUser from "lib/useUser";
-import { post } from "helpers/methods";
 import {
   CreateFirebaseConnection,
-  CreateUser,
   EditUser,
   GetUserByUserName
-} from "../pages/api/endpoints";
+} from "lib/endpoints";
+import useUser from "lib/useUser";
+import { debug, debugError } from "helpers/debug";
+import { post } from "helpers/methods";
 
 import useLogger from "./useLogger";
 
@@ -24,16 +24,22 @@ type AuthContextProps = {
   register?: (userName: any) => void;
   editUser?: (userData: any) => void;
   connectFirebaseUser?: (
-    email: string,
-    firebaseId: string,
-    createdAt: string
+    userId: number,
+    phoneNumber: string,
+    firebaseId: string
   ) => void;
+};
+
+type UserData = {
+  id: number;
+  phoneNumber: string;
+  firebaseId?: string;
 };
 
 type AuthReducerState = {
   status: string;
   isLoggedIn: boolean;
-  userData: any;
+  userData: UserData | undefined;
 };
 
 const initialState = {
@@ -47,20 +53,22 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    // preRegisterUser: (state, action) => {
-    //   // TODO: not used
-    //   state.status = "PRE_REGISTER";
-    //   state.userData.id = action.payload;
-    // },
     updateAuthState: (state, action: PayloadAction<AuthReducerState>) => {
       state.status = action.payload.status;
       state.isLoggedIn = action.payload.isLoggedIn;
-      state.userData = action.payload.userData;
+      state.userData = {
+        ...state.userData,
+        ...action.payload.userData
+      };
     },
     addFirebaseConnection: (state, action) => {
-      state.userData.id = action.payload.userId;
-      state.userData.phoneNumber = action.payload.phoneNumber;
-      state.userData.firebaseId = action.payload.firebaseId;
+      state.status = "ADDED_FIREBASE_CONNECTION";
+
+      state.userData = {
+        id: action.payload.userId,
+        phoneNumber: action.payload.phoneNumber,
+        firebaseId: action.payload.firebaseId
+      };
     }
   }
 });
@@ -83,7 +91,7 @@ export const AuthProvider = ({
   const dispatchToStore = useDispatch();
 
   const logout = async () => {
-    await post("/api/logout").then(() => {
+    await post(Endpoint.Logout).then(() => {
       dispatch(
         updateAuthState({
           status: "LOGGED_OUT",
@@ -95,8 +103,9 @@ export const AuthProvider = ({
   };
 
   const login = async (body: User) => {
-    await post("/api/login", body).then(async ({ isLoggedIn }) => {
+    await post(Endpoint.Login, body).then(async ({ isLoggedIn }) => {
       const result = await GetUserByUserName(body.userName);
+
       dispatch(
         updateAuthState({
           status: "LOGGED_IN",
@@ -105,23 +114,41 @@ export const AuthProvider = ({
         })
       );
     });
+    try {
+      await EditUser(body.id, { lastLogin: new Date() });
+    } catch (error) {
+      debugError(`useAuth:login: ${error}`);
+    }
   };
   const loginFromSession = async (userName) => {
-    const result = await GetUserByUserName(userName);
-    dispatch(
-      updateAuthState({
-        status: "LOGGED_IN",
-        isLoggedIn: true,
-        userData: result
-      })
-    );
+    try {
+      const result = await GetUserByUserName(userName);
+      dispatch(
+        updateAuthState({
+          status: "LOGGED_IN",
+          isLoggedIn: true,
+          userData: result
+        })
+      );
+    } catch (error) {
+      dispatch(
+        updateAuthState({
+          status: "LOGGED_OUT",
+          isLoggedIn: false,
+          userData: undefined
+        })
+      );
+    }
   };
 
-  const connectFirebaseUser = async (phoneNumber, firebaseId, createdAt) => {
+  const connectFirebaseUser = async (
+    userId,
+    phoneNumber,
+    firebaseId
+  ): Promise<void> => {
     try {
-      const { userId } = await CreateUser({ phoneNumber, createdAt });
-      console.log("userId created:", userId);
       await CreateFirebaseConnection({ id: userId, firebaseId });
+      debug(`Connecting ${userId} to ${firebaseId}`);
       dispatch(
         addFirebaseConnection({
           userId,
@@ -130,32 +157,31 @@ export const AuthProvider = ({
         })
       );
     } catch (error) {
-      alert(error);
-      console.error(error);
+      debugError(`useAuth:connectFirebaseUser: ${error}`);
     }
   };
 
-  const register = async (body) => {
-    // TODO: Instead of doing two API calls here, do one to register
-    // that also createsUser and handle the rerouting after reguster here.
-    await EditUser(body.id, body).then(async (result) => {
-      console.log("result", result);
-      await post("/api/register", body.userName);
-      dispatchToStore(createUserSuccess(result.userId, body));
-      dispatch(
-        updateAuthState({
-          status: "LOGGED_IN",
-          isLoggedIn: true,
-          userData: {
-            id: result.userId,
-            ...body
-          }
-        })
-      );
-    });
+  const register = async (body: User): Promise<void> => {
+    try {
+      await EditUser(body.id, body).then(async (result) => {
+        dispatchToStore(createUserSuccess(result.userId, body));
+        dispatch(
+          updateAuthState({
+            status: "LOGGED_IN",
+            isLoggedIn: true,
+            userData: {
+              id: result.userId,
+              ...body
+            }
+          })
+        );
+      });
+    } catch (error) {
+      debugError(`Could not register user: ${error}`);
+    }
   };
 
-  const editUser = async (userData) => {
+  const editUser = async (userData: User & UserAddress): Promise<void> => {
     await EditUser(userData.id, userData);
     dispatch(
       updateAuthState({
@@ -181,9 +207,9 @@ export const AuthProvider = ({
         editUser: (userData) => editUser(userData),
         logout: () => logout(),
         login: (userName) => login(userName),
-        register: (userName) => register(userName),
-        connectFirebaseUser: (email, firebaseId, createdAt) =>
-          connectFirebaseUser(email, firebaseId, createdAt)
+        register: (userData) => register(userData),
+        connectFirebaseUser: (userId, email, firebaseId) =>
+          connectFirebaseUser(userId, email, firebaseId)
       }}
     >
       {children}

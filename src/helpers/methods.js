@@ -1,3 +1,4 @@
+import { debugWarn } from "helpers/debug";
 import { getBaseUrl } from "helpers/url";
 
 export async function get(relativeUrl) {
@@ -32,7 +33,14 @@ export async function post(relativeUrl, body) {
       },
       body: JSON.stringify(body)
     });
-    const data = await response.json();
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (error) {
+      data = text;
+      debugWarn("Response from POST not parseble JSON", error);
+    }
     if (response.ok) {
       return data;
     }

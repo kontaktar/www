@@ -1,11 +1,9 @@
 const pgp = require("pg-promise")();
-// require("dotenv").config({ path: ".env" });
 
 // Singleton connection contract for Postgresql from:
 // https://www.codeoftheprogrammer.com/2020/01/16/postgresql-from-nextjs-api-route/
 
 // Get these values from configuration
-console.log("user", process.env.POSTGRES_USER);
 const user = process.env.POSTGRES_USER;
 const password = process.env.POSTGRES_PASS;
 const host = process.env.POSTGRES_HOST; // TODO: set env

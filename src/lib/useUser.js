@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Router from "next/router";
 import useSWR from "swr";
 
+// TODO: document this because I never remeber what this does
 export default function useUser({
   redirectTo = false,
   redirectIfFound = false

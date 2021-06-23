@@ -1,6 +1,7 @@
 @import "../../styles/config";
 
 .button {
+  padding-top: 2px;
   height: 50px;
   width: 202px;
   cursor: pointer;
@@ -31,6 +32,7 @@
 
   :global {
     .MuiCircularProgress-circle {
+      r: 18;
       stroke: $color-white;
       &:focus {
         outline: 0;

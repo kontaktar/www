@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
 import { getUserByUserNameSuccess } from "store/actions";
 import wrapper from "store/configureStore";
+import { GetUserByUserName } from "lib/endpoints";
 import withSession from "lib/sessions";
+import { debugError } from "helpers/debug";
 import useAuth from "hooks/useAuth";
-import { GetUserByUserName } from "pages/api/endpoints";
 import { MainLayout, ProfileContainer, UserLayout } from "layouts";
 
 type Props = {
@@ -37,8 +38,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       const userResult = await GetUserByUserName(userName);
       store.dispatch(getUserByUserNameSuccess(userResult));
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error("No user ", userName);
+      debugError(`No user named: ${userName}`);
     }
 
     return {

@@ -6,15 +6,15 @@ import CircleIcon from "@material-ui/icons/RadioButtonUnchecked";
 import listOfReservedUserNames from "data/reservedUserNames";
 import firebase from "firebase/app";
 import { useFormik } from "formik";
-import PropTypes from "prop-types";
 import { useRouter } from "next/router";
-// import Router from "next/router";
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
+import { Routes, SessionStorage, UserData } from "types";
+import { GetAllUserNames } from "lib/endpoints";
+import { debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
 import { registerFormSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
-import { GetAllUserNames } from "pages/api/endpoints";
 import { Button } from "components";
 import { MUIInput } from "components/Input";
 import styles from "./RegisterContainer.module.scss";
@@ -28,26 +28,29 @@ const RegisterContainer = (): ReactElement => {
   const [isUserNameCheckEmpty, setUserNameCheckEmpty] = useState(true);
   const [allUserNames, setAllUserNames] = useState([]);
   const users = useSelector((state) => state.users);
-  const { status, register } = useAuth();
+  const { register, userData } = useAuth();
   const router = useRouter();
   const [userPhoneNumber, setUserPhoneNumber] = useState(undefined);
-
-  const store = useStore();
-
-  console.log("store", store.getState());
 
   useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged(async (user) => {
-        if (user) {
+        const userId = window.sessionStorage.getItem(SessionStorage.UserId);
+        if (
+          process.env.NODE_ENV === "development" &&
+          process.env.NEXT_PUBLIC_BYPASS_FIREBASE === "1"
+        ) {
+          // 3/3 step in bypassing firebase on localhost
+          setUserPhoneNumber(userData?.phoneNumber);
+        } else if (user && userId) {
           setUserPhoneNumber(user.phoneNumber);
         } else {
-          router.push("/nyskra");
+          router.push(Routes.Login);
         }
       });
     return () => unregisterAuthObserver(); // un-register observers on unmounts.
-  }, []);
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -60,27 +63,27 @@ const RegisterContainer = (): ReactElement => {
     validationSchema: registerFormSchema,
     onSubmit: async (values) => {
       const body = {
+        id:
+          userData?.id || window.sessionStorage.getItem(SessionStorage.UserId),
         userName: values.userName,
         ssn: values.ssn,
         firstName: values.firstName,
         lastName: values.lastName,
-        email: values.email
+        email: values.email,
+        phoneNumber: userData?.phoneNumber || userPhoneNumber
       };
 
       try {
         setLoader(true);
 
-        // body.phon;
-        body.phoneNumber = userPhoneNumber;
         await register(body);
 
         setHasRegistered(true);
 
-        router.push("/profill");
+        router.push(Routes.Profile);
       } catch (error) {
         setErrorMessage(error.message);
-        // eslint-disable-next-line no-console
-        console.error(error, error.message);
+        debugError(`RegisterContainer: ${error.message}`);
         setLoader(false);
       }
     }
@@ -101,7 +104,7 @@ const RegisterContainer = (): ReactElement => {
       isUserNameTaken &&
       formik.errors.userName !== registerErrors.EXISTS_USER_NAME
     ) {
-      formik.setFieldError("userName", registerErrors.EXISTS_USER_NAME);
+      formik.setFieldError(UserData.UserName, registerErrors.EXISTS_USER_NAME);
     }
   }, [isUserNameTaken, formik]);
 
@@ -136,11 +139,13 @@ const RegisterContainer = (): ReactElement => {
           <MUIInput
             type="text"
             className={styles.form_firstName}
-            id={styles.firstName}
-            name="firstName"
+            id={UserData.FirstName}
+            name={UserData.FirstName}
             placeholder="Fornafn"
             onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("firstName", true, true)}
+            onBlur={() =>
+              formik.setFieldTouched(UserData.FirstName, true, true)
+            }
             value={formik.values.firstName}
             error={formik.errors.firstName}
             isTouched={formik.touched.firstName}
@@ -148,11 +153,11 @@ const RegisterContainer = (): ReactElement => {
           <MUIInput
             type="text"
             className={styles.form_lastName}
-            id="lastName"
-            name="lastName"
+            id={UserData.LastName}
+            name={UserData.LastName}
             placeholder="Eftirnafn"
             onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("lastName", true, true)}
+            onBlur={() => formik.setFieldTouched(UserData.LastName, true, true)}
             value={formik.values.lastName}
             error={formik.errors.lastName}
             isTouched={formik.touched.lastName}
@@ -161,24 +166,26 @@ const RegisterContainer = (): ReactElement => {
         <div className={styles.row}>
           <MUIInput
             type="number"
-            id={styles.ssn}
+            id={UserData.Kennitala}
+            name={UserData.Kennitala}
             className={styles.form_ssn}
-            name="ssn"
             placeholder="Kennitala"
             onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("ssn", true, true)}
+            onBlur={() =>
+              formik.setFieldTouched(UserData.Kennitala, true, true)
+            }
             value={formik.values.ssn}
             error={formik.errors.ssn}
             isTouched={formik.touched.ssn}
           />
           <MUIInput
-            type="number"
-            id={styles.email}
+            type="text"
+            id={UserData.Email}
+            name={UserData.Email}
             className={styles.form_email}
-            name="email"
             placeholder="Netfang"
             onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("email", true, true)}
+            onBlur={() => formik.setFieldTouched(UserData.Email, true, true)}
             value={formik.values.email}
             error={formik.errors.email}
             isTouched={formik.touched.email}
@@ -208,8 +215,8 @@ const RegisterContainer = (): ReactElement => {
           <MUIInput
             type="text"
             className={styles.form_userName}
-            id="userName"
-            name="userName"
+            id={UserData.UserName}
+            name={UserData.UserName}
             placeholder="Notendanafn / slóð"
             onChange={(event) => {
               formik.handleChange(event);
@@ -217,7 +224,7 @@ const RegisterContainer = (): ReactElement => {
               checkIfUserNameIsTaken(event.target.value);
             }}
             onBlur={(event) => {
-              formik.setFieldTouched("userName", true, true);
+              formik.setFieldTouched(UserData.UserName, true, true);
               checkIfUserNameIsTaken(event.target.value);
             }}
             value={formik.values.userName}
@@ -240,10 +247,3 @@ const RegisterContainer = (): ReactElement => {
 };
 
 export default RegisterContainer;
-
-RegisterContainer.propTypes = {
-  className: PropTypes.string
-};
-RegisterContainer.defaultProps = {
-  className: ""
-};

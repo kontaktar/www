@@ -51,6 +51,11 @@ Test instance running on AWS RDS:
 
 Prevent string injections. Never user ES6 literals for database queries.
 
+## Auth
+
+Mixture of firebase and iron-session.
+Bypass firebase on localhost by setting `NEXT_PUBLIC_BYPASS_FIREBASE=1` in `.env.local`
+
 ## API
 
 ### GET:

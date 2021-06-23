@@ -2,10 +2,11 @@ import React from "react";
 import { NextPage } from "next";
 import { useDispatch, useSelector } from "react-redux";
 import wrapper from "store/configureStore";
+import { GetSearchResult } from "lib/endpoints";
 import withSession from "lib/sessions";
 import { randomize } from "helpers/arrays";
+import { debugError } from "helpers/debug";
 import useAuth from "hooks/useAuth";
-import { GetSearchResult } from "pages/api/endpoints";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 import {
   fetchSearchResult,
@@ -82,7 +83,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         )
       );
     } catch (error) {
-      console.error("error fetching search results", error);
+      debugError(`Error fetching search results: ${error}`);
     }
     return {
       props: { searchInput: searchDecoded }

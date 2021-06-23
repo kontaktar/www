@@ -1,15 +1,17 @@
 import { unsetAuthCookies } from "next-firebase-auth";
+import withSession from "lib/sessions";
 import initAuth from "../../lib/initAuth"; // the module you created above
 
 initAuth();
 
-const handler = async (req, res) => {
+const Logout = withSession(async (request, response) => {
   try {
-    await unsetAuthCookies(req, res);
+    await request.session.destroy();
+    await unsetAuthCookies(request, response);
   } catch (error) {
-    return res.status(500).json({ error: "Unexpected error." });
+    return response.status(500).json({ error: error.message });
   }
-  return res.status(200).json({ success: true });
-};
+  return response.status(200).json({ isLoggedIn: false });
+});
 
-export default handler;
+export default Logout;

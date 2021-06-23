@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/prevent-abbreviations */
 import { applyMiddleware, createStore } from "redux";
 import { createWrapper } from "next-redux-wrapper";
 import createSagaMiddleware from "redux-saga";

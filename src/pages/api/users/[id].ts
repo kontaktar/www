@@ -1,4 +1,5 @@
 import pgp from "pg-promise";
+import { IronSession, UserSessionStorage } from "types";
 import withSession from "lib/sessions";
 import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
 import database from "utils/database";
@@ -61,8 +62,26 @@ const UserById = withSession(async (request, response) => {
       }
     }
   }
+  // This handles both "register"
+  // and last_login update
   if (method === "PUT") {
-    // withUserAccess(request, response);
+    if (body && body.id && body.userName) {
+      // Add to iron-session.
+      const user: UserSessionStorage = {
+        id: body.id,
+        isLoggedIn: true,
+        login: body.userName
+      };
+      try {
+        request.session.set(IronSession.Name, user);
+        await request.session.save();
+      } catch (error) {
+        response.status(500).json(error);
+      }
+    }
+
+    withUserAccess(request, response);
+
     const {
       ssn = null,
       userName: user_name = null,
@@ -74,7 +93,8 @@ const UserById = withSession(async (request, response) => {
       postalCode: postal_code = null,
       streetName: street_name = null,
       city = null,
-      country = null
+      country = null,
+      lastLogin: last_login = null
     } = body;
 
     const userVariablesToUpdate = removeEmpty({
@@ -84,7 +104,8 @@ const UserById = withSession(async (request, response) => {
       last_name,
       email,
       website,
-      phone_number
+      phone_number,
+      last_login
     });
     const addressVariablesToUpdate = removeEmpty({
       postal_code,
@@ -94,20 +115,31 @@ const UserById = withSession(async (request, response) => {
     });
 
     try {
-      const userQuery = pgpHelpers.update(userVariablesToUpdate, null, "users");
-      const addressQuery = pgpHelpers.update(
-        addressVariablesToUpdate,
-        null,
-        "addresses"
-      );
-      const userCondition = pgp.as.format(" WHERE id = $1 RETURNING *", userId);
-      const addressCondition = pgp.as.format(
-        " WHERE user_id = $1 RETURNING *",
-        userId
-      );
-      await database.one(userQuery + userCondition);
-      await database.one(addressQuery + addressCondition);
+      if (Object.keys(userVariablesToUpdate).length > 0) {
+        const userQuery = pgpHelpers.update(
+          userVariablesToUpdate,
+          null,
+          "users"
+        );
+        const userCondition = pgp.as.format(
+          " WHERE id = $1 RETURNING *",
+          userId
+        );
 
+        await database.one(userQuery + userCondition);
+      }
+      if (Object.keys(addressVariablesToUpdate).length > 0) {
+        const addressQuery = pgpHelpers.update(
+          addressVariablesToUpdate,
+          null,
+          "addresses"
+        );
+        const addressCondition = pgp.as.format(
+          " WHERE user_id = $1 RETURNING *",
+          userId
+        );
+        await database.one(addressQuery + addressCondition);
+      }
       response.status(200).json({ userId });
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {

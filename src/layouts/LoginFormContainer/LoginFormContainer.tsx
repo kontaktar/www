@@ -1,5 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
+import { debug, debugError } from "helpers/debug";
 import useMaxWidth from "hooks/useMaxWidth";
 import PhoneNumberForm from "components/Login/PhoneNumberForm";
 import VerificationCodeForm from "components/Login/VerificationCodeForm";
@@ -7,8 +8,8 @@ import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = (): ReactElement => {
   const [isVerificationCodeSent, setVerificationCodeSent] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState("");
+  const [userPhoneNumber, setUserPhoneNumber] = useState("");
 
   useEffect(() => {
     try {
@@ -17,21 +18,15 @@ const LoginFormContainer = (): ReactElement => {
         {
           size: "invisible",
           callback: (response) => {
-            console.log("recatpcha callback", response);
-            // reCAPTCHA solved, allow signInWithPhoneNumber.
+            debug(`Recatpcha callback: ${response}`);
           }
         }
       );
     } catch (error) {
-      console.log("eeee", error);
+      setErrorMessage(error.message);
+      debugError(`RecaptchaError: ${error}`);
     }
   }, []);
-
-  /// ////////
-  ///
-  /// Phone number has to have a country code with a +
-  /// +3546952489 is valid
-  //
 
   return (
     <div>
@@ -43,16 +38,16 @@ const LoginFormContainer = (): ReactElement => {
             <PhoneNumberForm
               setVerificationCodeSent={setVerificationCodeSent}
               setErrorMessage={setErrorMessage}
+              setUserPhoneNumber={setUserPhoneNumber}
             />
           ) : (
-            <VerificationCodeForm setErrorMessage={setErrorMessage} />
+            <VerificationCodeForm
+              userPhoneNumber={userPhoneNumber}
+              setVerificationCodeSent={setVerificationCodeSent}
+              setErrorMessage={setErrorMessage}
+            />
           )}
         </>
-        {/* ) : (
-          <span className={styles.error}>
-            Eitthvað mistókst að auðkenna þig, vinsamlegast reyndu aftur síðar
-          </span>
-        )} */}
       </div>
       <span className={styles.error}>{errorMessage}</span>
     </div>

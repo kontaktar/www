@@ -1,4 +1,6 @@
+export * from "./endpoints";
 export * from "./users";
+export * from "./routes";
 
 export type UserSessionStorage = {
   login: string;
@@ -14,3 +16,11 @@ export type Card = {
   userName: string;
   experienceId: string;
 };
+
+export enum IronSession {
+  Name = "userSession"
+}
+
+export enum SessionStorage {
+  UserId = "userId"
+}

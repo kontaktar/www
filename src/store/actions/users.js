@@ -3,33 +3,31 @@ import * as actionType from "store/actionTypes";
 // TODO:
 // DeleteUser
 
-export function createUser(userInfo) {
+// export function createUser(userInfo) {
+//   return {
+//     type: actionType.CREATE_USER_REQUEST,
+//     payload: {
+//       userInfo
+//     }
+//   };
+// }
+
+export function createUserSuccess(userId, userInfo) {
   return {
-    type: actionType.CREATE_USER_REQUEST,
+    type: actionType.CREATE_USER_SUCCESS,
     payload: {
+      userId,
       userInfo
     }
   };
 }
 
-export function createUserSuccess(userId, userInfo) {
-  // eslint-disable-next-line no-unused-vars
-  const { password, ...restOfUserInfo } = userInfo; // removing password from store
-  return {
-    type: actionType.CREATE_USER_SUCCESS,
-    payload: {
-      userId,
-      userInfo: restOfUserInfo
-    }
-  };
-}
-
-export function createUserFailure(error) {
-  return {
-    type: actionType.CREATE_USER_FAILURE,
-    error
-  };
-}
+// export function createUserFailure(error) {
+//   return {
+//     type: actionType.CREATE_USER_FAILURE,
+//     error
+//   };
+// }
 
 export function editUser(userId, userInfo) {
   return {

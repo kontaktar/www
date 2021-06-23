@@ -1,16 +1,41 @@
 // ./pages/api/login
 import { setAuthCookies } from "next-firebase-auth";
-import initAuth from "../../lib/initAuth"; // the module you created above
+import { IronSession, UserSessionStorage } from "types";
+import withSession from "lib/sessions";
+import { withMiddleware } from "utils/apiMiddleware";
+import initAuth from "../../lib/initAuth";
 
 initAuth();
 
-const handler = async (req, res) => {
+const Login = withSession(async (request, response) => {
+  await withMiddleware(request, response);
+  const { body } = request;
   try {
-    await setAuthCookies(req, res);
-  } catch (error) {
-    return res.status(500).json({ error: "Unexpected error." });
-  }
-  return res.status(200).json({ success: true });
-};
+    if (
+      process.env.NEXT_PUBLIC_BYPASS_FIREBASE !== "1" &&
+      process.env.NODE_ENV !== "development"
+    ) {
+      // bypass firebase on localhost
+      await setAuthCookies(request, response);
+    }
 
-export default handler;
+    const user: UserSessionStorage = {
+      id: body.id,
+      isLoggedIn: true,
+      login: body.userName
+    };
+
+    try {
+      request.session.set(IronSession.Name, user);
+      await request.session.save();
+    } catch (error) {
+      response.status(500).json(error);
+      throw new Error(`Failed to save to session storage`);
+    }
+  } catch (error) {
+    return response.status(500).json({ error: error.message });
+  }
+  return response.status(200).json(body);
+});
+
+export default Login;

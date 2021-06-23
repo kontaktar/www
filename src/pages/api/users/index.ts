@@ -1,6 +1,5 @@
-import bcrypt from "bcryptjs";
 import pgp from "pg-promise";
-import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import { withMiddleware /* , withUserAccess*/ } from "utils/apiMiddleware";
 import database from "utils/database";
 import { registerErrors } from "helpers/errorMessages";
 
@@ -61,9 +60,11 @@ const Users = async (request, response) => {
           userId: data?.user_id
         });
       } else if (query && query.phoneNumber) {
+        // the plus is stripped when used as a query param
+        const phoneNumberWithPlus = `+${query.phoneNumber}`.replace(" ", "");
         data = await database.one(
           "SELECT u.id, u.user_name, u.first_name, u.last_name, u.email, u.website, u.phone_number, u.created_at, u.last_login, u.ssn, a.postal_code, a.street_name, a.city, a.country FROM users u LEFT JOIN addresses a ON a.user_id = u.id WHERE u.phone_number = $1;",
-          query.phoneNumber
+          phoneNumberWithPlus
         );
         response.status(200).json({
           id: data.id,
@@ -119,7 +120,7 @@ const Users = async (request, response) => {
 
   if (method === "POST") {
     withMiddleware(request, response);
-    if (body.firebaseId) {
+    if (body.firebaseId && body.id) {
       try {
         await database.none(
           "INSERT INTO firebase_user_map(user_id, firebase_id) VALUES($1, $2)",
@@ -172,25 +173,16 @@ const Users = async (request, response) => {
         );
         response.json({ userId });
       } catch (error) {
-        if (error instanceof pgp.errors.QueryResultError) {
-          let message;
-          if (error.message === "No data returned from the query.") {
-            message = registerErrors.NO_MATCH;
-          }
-
-          response.status(404).json({ message });
-        } else {
-          if (error.message.includes("users_ssn_key")) {
-            error.message = registerErrors.EXISTS_SSN;
-          }
-          if (error.message.includes("users_email_key")) {
-            error.message = registerErrors.EXISTS_EMAIL;
-          }
-          if (error.message.includes("users_user_name_key")) {
-            error.message = registerErrors.EXISTS_USER_NAME;
-          }
-          response.status(404).json({ message: error.message });
+        if (error.message.includes("users_ssn_key")) {
+          error.message = registerErrors.EXISTS_SSN;
         }
+        if (error.message.includes("users_email_key")) {
+          error.message = registerErrors.EXISTS_EMAIL;
+        }
+        if (error.message.includes("users_user_name_key")) {
+          error.message = registerErrors.EXISTS_USER_NAME;
+        }
+        response.status(404).json({ message: error.message });
       }
     }
   } else {
