@@ -3,5 +3,6 @@ export enum Endpoint {
   Login = "/api/login",
   Logout = "/api/logout",
   Users = "/api/users",
+  User = "/api/user",
   Search = "/api/search"
 }
