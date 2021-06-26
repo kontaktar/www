@@ -3,6 +3,7 @@ import { setAuthCookies } from "next-firebase-auth";
 import { IronSession, UserSessionStorage } from "types";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
+import { debugError } from "helpers/debug";
 import initAuth from "../../lib/initAuth";
 
 initAuth();
@@ -16,7 +17,12 @@ const Login = withSession(async (request, response) => {
       process.env.NODE_ENV !== "development"
     ) {
       // bypass firebase on localhost
-      await setAuthCookies(request, response);
+      try {
+        await setAuthCookies(request, response);
+      } catch (error) {
+        debugError(`setAuthCokkies: ${error.message}`);
+        return response.status(500).json({ error: "Unexpected error." });
+      }
     }
 
     const user: UserSessionStorage = {
