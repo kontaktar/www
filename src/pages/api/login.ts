@@ -20,8 +20,10 @@ const Login = withSession(async (request, response) => {
       try {
         await setAuthCookies(request, response);
       } catch (error) {
-        debugError(`setAuthCokkies: ${error.message}`);
-        return response.status(500).json({ error: "Unexpected error." });
+        debugError(`setAuthCookies: ${error.message}`);
+        return response
+          .status(500)
+          .json({ error: `setAuthCookies: ${error.message}` });
       }
     }
 
@@ -36,6 +38,7 @@ const Login = withSession(async (request, response) => {
       await request.session.save();
     } catch (error) {
       response.status(500).json(error);
+      debugError(`setting to iron: ${error.message}`);
       throw new Error(`Failed to save to session storage`);
     }
   } catch (error) {

@@ -108,7 +108,9 @@ const VerificationCodeForm = ({
               userData = await GetUserByPhoneNumber(user.phoneNumber);
             } catch (error) {
               setLoading(false);
-              setErrorMessage("Enginn notandi með þetta símanúmer");
+              setErrorMessage(
+                "Enginn notandi með þetta símanúmer.Vinsamlegast reyndu aftur"
+              );
 
               // delete the firebase user because it's not connected to a user.
               user.delete();

@@ -11,7 +11,8 @@ module.exports = {
     SECRET_COOKIE_PASSWORD: process.env.SECRET_COOKIE_PASSWORD,
     FIREBASE_CLIENT_API_KEY: process.env.FIREBASE_CLIENT_API_KEY,
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
-    FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL
+    FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
+    FIREBASE_DATABASE_URL: `${process.env.FIREBASE_PROJECT_ID}.firebase.io`
   },
   enableSvg: true,
   webpack(config, { dev, isServer, webpack }) {

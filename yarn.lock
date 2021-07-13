@@ -10828,10 +10828,10 @@ next-cookies@^1.1.2:
     component-cookie "1.1.3"
     cookie "^0.3.1"
 
-next-firebase-auth@^0.13.1-alpha.1:
-  version "0.13.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/next-firebase-auth/-/next-firebase-auth-0.13.1-alpha.1.tgz#5e71858f9b7415eab59572d6117cb33496150d6d"
-  integrity sha512-Em2UFp1/jOJQbeBjS9oAyt0rA7l0mIDvuV9dq5iIAKoEXi9zXhyzEC7/youbzYjZfv9LC5Rp50FffppL3qv+Cw==
+next-firebase-auth@^0.13.2:
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/next-firebase-auth/-/next-firebase-auth-0.13.2.tgz#ee2947ce2f1c4f80f88e39a3bffd0eef8f61711f"
+  integrity sha512-dDjjIT7EKITseqoyCcQobZvUpfajP+TR7KYnQzd/gmHNVX9rvah9DUUOeW2R3ee7MVcb22KI4pqa2/1ta84btA==
   dependencies:
     cookies "^0.8.0"
 

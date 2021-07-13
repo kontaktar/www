@@ -11,10 +11,10 @@ const initAuth = () => {
     firebaseClientInitConfig: {
       apiKey: process.env.FIREBASE_CLIENT_API_KEY,
       authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
-      databaseURL: process.env.FIREBASE_DATABASE_URL,
+      databaseURL: `${process.env.FIREBASE_PROJECT_ID}.firebase.io`,
       projectId: process.env.FIREBASE_PROJECT_ID,
       appId: process.env.FIREBASE_APP_ID,
-      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+      storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
       messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
       measurementId: process.env.FIREBASE_MEASUREMENT_ID
     },
@@ -23,13 +23,13 @@ const initAuth = () => {
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: `firebase-adminsdk-ubein@${process.env.FIREBASE_PROJECT_ID}.iam.gserviceaccount.com`,
         // The private key must not be accesssible on the client side.
-        privateKey: process.env.FIREBASE_PRIVATE_KEY // ?.replace(/\\n/g, "\n")
+        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n")
       },
-      databaseURL: process.env.FIREBASE_DATABASE_URL
+      databaseURL: `${process.env.FIREBASE_PROJECT_ID}.firebase.io`
     },
     // TODO: signed should be true and research the cookie secrets
     cookies: {
-      name: "ExampleApp", // required
+      name: "Kontaktar", // required
       // Keys are required unless you set `signed` to `false`.
       // The keys cannot be accessible on the client side.
       keys: [
@@ -41,7 +41,8 @@ const initAuth = () => {
       overwrite: true,
       path: "/",
       sameSite: "strict",
-      secure: true, // set this to false in local (non-HTTPS) development
+      secure: false,
+      // secure: process.env.NODE_ENV === "production", // set this to false in local (non-HTTPS) development
       signed: false // signed: true
     }
   });
