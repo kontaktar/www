@@ -120,7 +120,8 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
   };
 
   const onEditUserInfoModal = () => {
-    // TODO: This is slow and sometimes failes on pushing 'breyta upplýsingum'
+    // TODO: This is slow and sometimes failes on pushing 'breyta upplýsingum'.
+    // - maybe non issue ? [2021 - 21 - 10]
     if (userData && userData.id) {
       setModalData({ ...userData });
       setModalType({ userInformation: true });
