@@ -2,11 +2,12 @@ import { init } from "next-firebase-auth";
 
 const initAuth = () => {
   init({
-    authPageURL: "/innskra",
-    appPageURL: "/",
+    debug: true,
+    // authPageURL: "/innskra", //  Optional unless using the AuthAction.REDIRECT_TO_LOGIN auth action.
+    // appPageURL: "/", //  Optional unless using the AuthAction.REDIRECT_TO_APP auth action.
     loginAPIEndpoint: "/api/login", // required
     logoutAPIEndpoint: "/api/logout", // required
-    // firebaseAuthEmulatorHost: "localhost:9099",
+    firebaseAuthEmulatorHost: process.env.FIREBASE_AUTH_EMULATOR_HOST,
     // Required in most cases.
     firebaseClientInitConfig: {
       apiKey: process.env.FIREBASE_CLIENT_API_KEY,
@@ -41,9 +42,8 @@ const initAuth = () => {
       overwrite: true,
       path: "/",
       sameSite: "strict",
-      secure: false,
-      // secure: process.env.NODE_ENV === "production", // set this to false in local (non-HTTPS) development
-      signed: false // signed: true
+      secure: process.env.NODE_ENV === "production", // set this to false in local (non-HTTPS) development
+      signed: true
     }
   });
 };

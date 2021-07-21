@@ -147,3 +147,15 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 - /leit
 - /{userName}
 - /profill
+
+#### Firebase authentication emulator
+
+https://firebase.google.com/docs/cli#sign-in-test-cli
+
+curl -sL https://firebase.tools | bash
+
+firebase login
+
+firebase init
+
+firebase emulators:start
