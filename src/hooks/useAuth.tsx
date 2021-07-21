@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import firebase from "firebase";
 import { useDispatch } from "react-redux";
 import { Endpoint, User, UserAddress } from "types";
 import { createUserSuccess } from "store/actions";
@@ -20,7 +21,7 @@ type AuthContextProps = {
   isLoggedIn: boolean;
   userData: any;
   logout?: () => void;
-  login?: (body: any) => void;
+  login?: (body: any, headers: any) => void;
   register?: (userName: any) => void;
   editUser?: (userData: any) => void;
   connectFirebaseUser?: (
@@ -92,6 +93,7 @@ export const AuthProvider = ({
 
   const logout = async () => {
     await post(Endpoint.Logout).then(() => {
+      firebase.auth().signOut();
       dispatch(
         updateAuthState({
           status: "LOGGED_OUT",
@@ -102,18 +104,22 @@ export const AuthProvider = ({
     });
   };
 
-  const login = async (body: User) => {
-    await post(Endpoint.Login, body).then(async ({ isLoggedIn }) => {
-      const result = await GetUserByUserName(body.userName);
+  // TODO: I saw /api/login called twice on prod.
+  // Make sure it's only called once.
+  const login = async (body: User, token: string) => {
+    await post(Endpoint.Login, body, { Authorization: token }).then(
+      async ({ isLoggedIn }) => {
+        const result = await GetUserByUserName(body.userName);
 
-      dispatch(
-        updateAuthState({
-          status: "LOGGED_IN",
-          isLoggedIn,
-          userData: result
-        })
-      );
-    });
+        dispatch(
+          updateAuthState({
+            status: "LOGGED_IN",
+            isLoggedIn,
+            userData: result
+          })
+        );
+      }
+    );
     try {
       await EditUser(body.id, { lastLogin: new Date() });
     } catch (error) {
@@ -206,7 +212,7 @@ export const AuthProvider = ({
         ...state,
         editUser: (userData) => editUser(userData),
         logout: () => logout(),
-        login: (userName) => login(userName),
+        login: (userName, token) => login(userName, token),
         register: (userData) => register(userData),
         connectFirebaseUser: (userId, email, firebaseId) =>
           connectFirebaseUser(userId, email, firebaseId)

@@ -18,7 +18,9 @@ const Login = withSession(async (request, response) => {
     ) {
       // bypass firebase on localhost
       try {
-        await setAuthCookies(request, response);
+        // Haven't gotten this to work, not sure I need it. next-iron-session should take care of this.
+        // Also decouples a bit from firebase if we wan't to switch it out for Auðkenni.
+        // await setAuthCookies(request, response);
       } catch (error) {
         debugError(`setAuthCookies: ${error.message}`);
         return response
@@ -30,7 +32,10 @@ const Login = withSession(async (request, response) => {
     const user: UserSessionStorage = {
       id: body.id,
       isLoggedIn: true,
-      login: body.userName
+      login: body.userName,
+      firebase: {
+        token: request.headers.authorization
+      }
     };
 
     try {

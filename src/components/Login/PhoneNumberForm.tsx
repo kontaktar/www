@@ -35,7 +35,7 @@ const PhoneNumberForm = ({
       ) {
         // 1/3 step in bypassing firebase on localhost
         setVerificationCodeSent(true);
-
+        setErrorMessage(`WARNING! BYPASSING FIREBASE`);
         return;
       }
 

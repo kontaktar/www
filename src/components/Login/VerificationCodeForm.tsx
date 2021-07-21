@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useFormik } from "formik";
 import { v4 as uuid } from "uuid";
+import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Routes, SessionStorage } from "types";
@@ -27,6 +28,8 @@ const VerificationCodeForm = ({
 }: Props): ReactElement => {
   const router = useRouter();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const AuthUser = useAuthUser();
+  console.log("AuthUser", AuthUser);
   const dispatchToStore = useDispatch();
 
   const { login } = useAuth();
@@ -52,7 +55,7 @@ const VerificationCodeForm = ({
           debugError(error);
         }
         if (userData) {
-          await login(userData);
+          await login(userData, await AuthUser.getIdToken());
         } else {
           const mockFirebaseId = uuid();
           const { userId } = await CreateUser({
@@ -122,7 +125,7 @@ const VerificationCodeForm = ({
             if (userData?.userName) {
               // user exists, log him/her in
               try {
-                await login(userData);
+                await login(userData, await AuthUser.getIdToken());
                 router.push(Routes.Profile);
               } catch (error) {
                 setLoading(false);

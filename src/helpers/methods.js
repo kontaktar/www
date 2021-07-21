@@ -22,14 +22,15 @@ export async function get(relativeUrl) {
   }
 }
 
-export async function post(relativeUrl, body) {
+export async function post(relativeUrl, body, headers) {
   const url = `${getBaseUrl()}${relativeUrl}`;
 
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        ...headers
       },
       body: JSON.stringify(body)
     });

@@ -159,3 +159,8 @@ firebase login
 firebase init
 
 firebase emulators:start
+
+### TODO verify firebaseUser:
+
+- [x] Add AuthUser.getTokenId() to next-iron-session
+- [ ]Verify token https://firebase.google.com/docs/auth/admin/verify-id-tokens#web and get the firebase uid to match to the user to login.
