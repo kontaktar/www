@@ -181,7 +181,7 @@
     "unicorn/prefer-text-content": "error",
     "unicorn/prefer-type-error": "error",
     "unicorn/prevent-abbreviations": [
-      "error",
+      "warn",
       {
         "replacements": {
           "props": {
