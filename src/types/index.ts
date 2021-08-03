@@ -1,13 +1,15 @@
+import { User } from "types";
+
 export * from "./endpoints";
 export * from "./users";
 export * from "./routes";
 
 export type UserSessionStorage = {
-  login: string;
+  details?: User;
   isLoggedIn: boolean;
-  id: string;
   firebase?: {
-    token: string;
+    token?: string;
+    id?: string;
   };
 };
 
@@ -21,7 +23,7 @@ export type Card = {
 };
 
 export enum IronSession {
-  Name = "userSession"
+  UserSession = "userSession"
 }
 
 export enum SessionStorage {

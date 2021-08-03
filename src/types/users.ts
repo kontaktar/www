@@ -14,11 +14,11 @@ export type UserDB = {
 
 export type User = {
   id: number;
-  ssn: string;
-  userName: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+  ssn?: string;
+  userName?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
   website?: string;
   phoneNumber: string;
   firebaseId?: string;

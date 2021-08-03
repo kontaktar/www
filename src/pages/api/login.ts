@@ -1,45 +1,55 @@
 // ./pages/api/login
-import { setAuthCookies } from "next-firebase-auth";
+import * as admin from "firebase-admin";
 import { IronSession, UserSessionStorage } from "types";
+import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
 import { debugError } from "helpers/debug";
-import initAuth from "../../lib/initAuth";
+import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 
-initAuth();
+if (!admin.apps.length) {
+  admin.initializeApp({
+    ...firebaseAdminInitConfig,
+    credential: admin.credential.cert({
+      ...firebaseAdminInitConfig.credential
+    })
+  });
+}
 
 const Login = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body } = request;
   try {
-    if (
-      process.env.NEXT_PUBLIC_BYPASS_FIREBASE !== "1" &&
-      process.env.NODE_ENV !== "development"
-    ) {
-      // bypass firebase on localhost
-      try {
-        // Haven't gotten this to work, not sure I need it. next-iron-session should take care of this.
-        // Also decouples a bit from firebase if we wan't to switch it out for Auðkenni.
-        // await setAuthCookies(request, response);
-      } catch (error) {
-        debugError(`setAuthCookies: ${error.message}`);
-        return response
-          .status(500)
-          .json({ error: `setAuthCookies: ${error.message}` });
+    // bypass firebase on localhost
+    if (!shouldBypassFirebaseOnDevelopment) {
+      if (!request?.headers?.authorization) {
+        throw new Error(`Failed to login user`);
       }
+
+      admin
+        .auth()
+        .verifyIdToken(request?.headers?.authorization)
+        .then((decodedToken) => {
+          const { uid } = decodedToken;
+          // do something here?
+          console.log("uid", uid);
+          // ...
+        })
+        .catch((error) => {
+          debugError(error);
+        });
     }
 
     const user: UserSessionStorage = {
-      id: body.id,
+      details: body,
       isLoggedIn: true,
-      login: body.userName,
       firebase: {
         token: request.headers.authorization
       }
     };
 
     try {
-      request.session.set(IronSession.Name, user);
+      request.session.set(IronSession.UserSession, user);
       await request.session.save();
     } catch (error) {
       response.status(500).json(error);

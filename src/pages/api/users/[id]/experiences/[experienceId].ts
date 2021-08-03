@@ -2,6 +2,7 @@ import pgp from "pg-promise";
 import withSession from "lib/sessions";
 import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
 import database from "utils/database";
+import { debugError } from "helpers/debug";
 import { removeEmpty } from "helpers/objects";
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
@@ -25,7 +26,7 @@ export default withSession(async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
-        throw new Error(`DELETE EXPERIENCE 404: ${error}`);
+        debugError(`DELETE EXPERIENCE 404: ${error}`);
       } else {
         response.status(500).end();
         throw new Error(`DELETE EXPERIENCE 500: ${error}`);

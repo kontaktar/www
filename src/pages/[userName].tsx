@@ -3,18 +3,18 @@ import { getUserByUserNameSuccess } from "store/actions";
 import wrapper from "store/configureStore";
 import { GetUserByUserName } from "lib/endpoints";
 import withSession from "lib/sessions";
+import useUser from "lib/useUser";
 import { debugError } from "helpers/debug";
-import useAuth from "hooks/useAuth";
 import { MainLayout, ProfileContainer, UserLayout } from "layouts";
 
 type Props = {
   userName: string;
 };
 const UserProfile = ({ userName }: Props): ReactElement => {
-  const { isLoggedIn } = useAuth();
+  const { user } = useUser();
   return (
     <>
-      {!isLoggedIn ? (
+      {!user.isLoggedIn ? (
         <MainLayout>
           <ProfileContainer userName={userName} />
         </MainLayout>

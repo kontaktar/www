@@ -1,9 +1,12 @@
 import pgp from "pg-promise";
+import { IronSession, UserSessionStorage } from "types";
+import withSession from "lib/sessions";
 import { withMiddleware /* , withUserAccess*/ } from "utils/apiMiddleware";
 import database from "utils/database";
+import { debug, debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
 
-const Users = async (request, response) => {
+const Users = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body, method, query } = request;
   if (method === "GET") {
@@ -119,75 +122,102 @@ const Users = async (request, response) => {
   }
 
   if (method === "POST") {
+    let newUserId;
     withMiddleware(request, response);
-    if (body.firebaseId && body.id) {
+
+    const {
+      ssn,
+      userName,
+      firstName,
+      lastName,
+      email,
+      website,
+      phoneNumber,
+      postalCode,
+      streetName,
+      city,
+      country,
+      createdAt
+    } = body;
+    if (!phoneNumber) {
+      console.error("Phonenumber missing");
+      response.status(500).end();
+    }
+
+    try {
+      const {
+        id: userId
+      } = await database.one(
+        "INSERT INTO users(ssn, user_name, first_name, last_name, email, website, phone_number, created_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
+        [
+          ssn,
+          userName,
+          firstName,
+          lastName,
+          email,
+          website,
+          phoneNumber,
+          createdAt
+        ]
+      );
+      database.none(
+        "INSERT INTO addresses(user_id, postal_code, street_name, city, country) VALUES($1, $2, $3, $4, $5)",
+        [userId, postalCode, streetName, city, country]
+      );
+      newUserId = userId;
+    } catch (error) {
+      if (error.message.includes("users_ssn_key")) {
+        error.message = registerErrors.EXISTS_SSN;
+      }
+      if (error.message.includes("users_email_key")) {
+        error.message = registerErrors.EXISTS_EMAIL;
+      }
+      if (error.message.includes("users_user_name_key")) {
+        error.message = registerErrors.EXISTS_USER_NAME;
+      }
+      response.status(404).json({ message: error.message });
+    }
+
+    // Connect firebaseUser
+    debug("POST:/api/users:new userId", newUserId);
+    if (body.firebaseId && newUserId) {
       try {
         await database.none(
           "INSERT INTO firebase_user_map(user_id, firebase_id) VALUES($1, $2)",
-          [body.id, body.firebaseId]
+          [newUserId, body.firebaseId]
         );
-        response.json();
+
+        const userData = request.session.get(IronSession.UserSession);
+        console.log("userData from UserStorage", userData);
+        const updatedUserData: UserSessionStorage = {
+          ...userData,
+          details: {
+            id: newUserId,
+            ...userData?.details,
+            ...body
+          },
+          firebase: {
+            ...userData?.firebase,
+            id: body.firebaseId
+          }
+        };
+
+        try {
+          request.session.set(IronSession.UserSession, updatedUserData);
+          await request.session.save();
+        } catch (error) {
+          response.status(500).json(error);
+          debugError(`setting to iron: ${error.message}`);
+          throw new Error(`Failed to save to session storage`);
+        }
+        response.json({ userId: newUserId });
       } catch (error) {
         console.error("FIREBASE_USER_MAP ERROR", error);
         response.status(500).end();
-      }
-    } else {
-      const {
-        ssn,
-        userName,
-        firstName,
-        lastName,
-        email,
-        website,
-        phoneNumber,
-        postalCode,
-        streetName,
-        city,
-        country,
-        createdAt
-      } = body;
-      if (!phoneNumber) {
-        console.error("Phonenumber missing");
-        response.status(500).end();
-      }
-
-      try {
-        const {
-          id: userId
-        } = await database.one(
-          "INSERT INTO users(ssn, user_name, first_name, last_name, email, website, phone_number, created_at) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
-          [
-            ssn,
-            userName,
-            firstName,
-            lastName,
-            email,
-            website,
-            phoneNumber,
-            createdAt
-          ]
-        );
-        database.none(
-          "INSERT INTO addresses(user_id, postal_code, street_name, city, country) VALUES($1, $2, $3, $4, $5)",
-          [userId, postalCode, streetName, city, country]
-        );
-        response.json({ userId });
-      } catch (error) {
-        if (error.message.includes("users_ssn_key")) {
-          error.message = registerErrors.EXISTS_SSN;
-        }
-        if (error.message.includes("users_email_key")) {
-          error.message = registerErrors.EXISTS_EMAIL;
-        }
-        if (error.message.includes("users_user_name_key")) {
-          error.message = registerErrors.EXISTS_USER_NAME;
-        }
-        response.status(404).json({ message: error.message });
       }
     }
   } else {
     response.status(505).end();
   }
-};
-
+});
 export default Users;

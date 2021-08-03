@@ -101,7 +101,7 @@
 .error_message {
   position: absolute;
   color: red; // TODO:
-  top: 15px;
+  top: 30px;
 }
 
 .footer_upper_line {
@@ -130,6 +130,10 @@
   > button {
     float: right;
   }
+}
+
+.button_save {
+  width: 120px;
 }
 
 .title_input {

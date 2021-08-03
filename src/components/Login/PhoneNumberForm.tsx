@@ -1,9 +1,11 @@
 import React, { ReactElement, useState } from "react";
-import firebase from "firebase/app";
 import { useFormik } from "formik";
 import { UserData } from "types";
-import { debugError } from "helpers/debug";
-import { verificationErrors } from "helpers/errorMessages";
+import {
+  bypassWarningMessage,
+  shouldBypassFirebaseOnDevelopment,
+  signInToFirebaseWithPhoneNumber
+} from "helpers/firebase";
 import { phoneNumberSchema } from "helpers/formValidationSchemas";
 import { Button } from "components";
 import { MUIInput } from "components/Input";
@@ -13,11 +15,13 @@ type Props = {
   setVerificationCodeSent: (b: boolean) => void;
   setErrorMessage: (m: string) => void;
   setUserPhoneNumber: (pN: string) => void;
+  disabled: boolean;
 };
 const PhoneNumberForm = ({
   setVerificationCodeSent,
   setErrorMessage,
-  setUserPhoneNumber
+  setUserPhoneNumber,
+  disabled
 }: Props): ReactElement => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
@@ -28,39 +32,21 @@ const PhoneNumberForm = ({
     onSubmit: async (values) => {
       setUserPhoneNumber(values.phoneNumber);
       setLoading(true);
-      setErrorMessage("");
-      if (
-        process.env.NODE_ENV === "development" &&
-        process.env.NEXT_PUBLIC_BYPASS_FIREBASE === "1"
-      ) {
-        // 1/3 step in bypassing firebase on localhost
+
+      // 1/3 STEPS IN BYPASSING FIREBASE
+      if (shouldBypassFirebaseOnDevelopment) {
         setVerificationCodeSent(true);
-        setErrorMessage(`WARNING! BYPASSING FIREBASE`);
-        return;
+        setErrorMessage(bypassWarningMessage);
+      } else {
+        setErrorMessage("");
       }
 
-      const appVerifier = (window as any).recaptchaVerifier;
-      firebase
-        .auth()
-        .signInWithPhoneNumber(values.phoneNumber, appVerifier)
-        .then((confirmationResult) => {
-          (window as any).confirmationResult = confirmationResult;
-          setVerificationCodeSent(true);
-        })
-        .catch((error) => {
-          if (error.code === "auth/invalid-phone-number") {
-            // TODO: Move this validation to formik/yup
-            setErrorMessage(
-              `Villa, sláið inn símanúmer á þessu formi: +3545554444`
-            );
-          }
-          if (error.code === "auth/too-many-requests") {
-            setErrorMessage(verificationErrors.TOO_MANY_REQUESTS);
-          }
-          setErrorMessage(`Villa kom upp, skilaboð ekki send. ${error}`);
-          setLoading(false);
-          debugError(`PhoneNumberForm Error: ${error}`);
-        });
+      signInToFirebaseWithPhoneNumber(
+        values.phoneNumber,
+        setVerificationCodeSent,
+        setErrorMessage,
+        setLoading
+      );
     }
   });
 
@@ -76,8 +62,14 @@ const PhoneNumberForm = ({
         value={formik.values.phoneNumber}
         error={formik.errors.phoneNumber}
         isTouched={formik.touched.phoneNumber}
+        disabled={disabled}
       />
-      <Button className={styles.button} type="submit" isLoading={isLoading}>
+      <Button
+        className={styles.button}
+        type="submit"
+        disabled={isLoading}
+        isLoading={isLoading}
+      >
         Innskrá
       </Button>
     </form>

@@ -1,52 +1,34 @@
 /* eslint-disable no-param-reassign */
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useMemo, useReducer } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import firebase from "firebase";
-import { useDispatch } from "react-redux";
 import { Endpoint, User, UserAddress } from "types";
-import { createUserSuccess } from "store/actions";
-import {
-  CreateFirebaseConnection,
-  EditUser,
-  GetUserByUserName
-} from "lib/endpoints";
+import { EditUser } from "lib/endpoints";
 import useUser from "lib/useUser";
-import { debug, debugError } from "helpers/debug";
+import { debugError, time, timeEnd } from "helpers/debug";
 import { post } from "helpers/methods";
 
 import useLogger from "./useLogger";
 
+// TODO: probably just remove the whole usereducer, not using the isLoggedIn
+
 type AuthContextProps = {
   status: string;
   isLoggedIn: boolean;
-  userData: any;
   logout?: () => void;
   login?: (body: any, headers: any) => void;
   register?: (userName: any) => void;
   editUser?: (userData: any) => void;
-  connectFirebaseUser?: (
-    userId: number,
-    phoneNumber: string,
-    firebaseId: string
-  ) => void;
-};
-
-type UserData = {
-  id: number;
-  phoneNumber: string;
-  firebaseId?: string;
 };
 
 type AuthReducerState = {
   status: string;
   isLoggedIn: boolean;
-  userData: UserData | undefined;
 };
 
 const initialState = {
   status: "INITIAL",
-  isLoggedIn: false,
-  userData: undefined
+  isLoggedIn: false
 };
 const AuthContext = createContext<AuthContextProps>(initialState);
 
@@ -54,27 +36,16 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    updateAuthState: (state, action: PayloadAction<AuthReducerState>) => {
-      state.status = action.payload.status;
-      state.isLoggedIn = action.payload.isLoggedIn;
-      state.userData = {
-        ...state.userData,
-        ...action.payload.userData
-      };
+    setLoggedIn: (state: AuthReducerState, action: PayloadAction<boolean>) => {
+      state.isLoggedIn = action.payload;
     },
-    addFirebaseConnection: (state, action) => {
-      state.status = "ADDED_FIREBASE_CONNECTION";
-
-      state.userData = {
-        id: action.payload.userId,
-        phoneNumber: action.payload.phoneNumber,
-        firebaseId: action.payload.firebaseId
-      };
+    setStatus: (state: AuthReducerState, action: PayloadAction<string>) => {
+      state.status = action.payload;
     }
   }
 });
 
-export const { addFirebaseConnection, updateAuthState } = authSlice.actions;
+export const { setLoggedIn, setStatus } = authSlice.actions;
 
 const useAuth = (): AuthContextProps => useContext(AuthContext);
 
@@ -87,21 +58,15 @@ export const AuthProvider = ({
     useLogger(authSlice.reducer),
     initialState
   );
-  const { user } = useUser();
-
-  const dispatchToStore = useDispatch();
+  const { user, mutateUser } = useUser();
 
   const logout = async () => {
     await post(Endpoint.Logout).then(() => {
       firebase.auth().signOut();
-      dispatch(
-        updateAuthState({
-          status: "LOGGED_OUT",
-          isLoggedIn: false,
-          userData: undefined
-        })
-      );
+      dispatch(setLoggedIn(false));
+      dispatch(setStatus("LOGGED_OUT"));
     });
+    await mutateUser({ isLoggedIn: false }, true);
   };
 
   // TODO: I saw /api/login called twice on prod.
@@ -109,115 +74,58 @@ export const AuthProvider = ({
   const login = async (body: User, token: string) => {
     await post(Endpoint.Login, body, { Authorization: token }).then(
       async ({ isLoggedIn }) => {
-        const result = await GetUserByUserName(body.userName);
-
-        dispatch(
-          updateAuthState({
-            status: "LOGGED_IN",
-            isLoggedIn,
-            userData: result
-          })
-        );
+        dispatch(setLoggedIn(isLoggedIn));
       }
     );
     try {
       await EditUser(body.id, { lastLogin: new Date() });
     } catch (error) {
       debugError(`useAuth:login: ${error}`);
-    }
-  };
-  const loginFromSession = async (userName) => {
-    try {
-      const result = await GetUserByUserName(userName);
-      dispatch(
-        updateAuthState({
-          status: "LOGGED_IN",
-          isLoggedIn: true,
-          userData: result
-        })
-      );
-    } catch (error) {
-      dispatch(
-        updateAuthState({
-          status: "LOGGED_OUT",
-          isLoggedIn: false,
-          userData: undefined
-        })
-      );
-    }
-  };
-
-  const connectFirebaseUser = async (
-    userId,
-    phoneNumber,
-    firebaseId
-  ): Promise<void> => {
-    try {
-      await CreateFirebaseConnection({ id: userId, firebaseId });
-      debug(`Connecting ${userId} to ${firebaseId}`);
-      dispatch(
-        addFirebaseConnection({
-          userId,
-          phoneNumber,
-          firebaseId
-        })
-      );
-    } catch (error) {
-      debugError(`useAuth:connectFirebaseUser: ${error}`);
+    } finally {
+      await mutateUser({ details: body, isLoggedIn: true }, true);
     }
   };
 
   const register = async (body: User): Promise<void> => {
     try {
-      await EditUser(body.id, body).then(async (result) => {
-        dispatchToStore(createUserSuccess(result.userId, body));
-        dispatch(
-          updateAuthState({
-            status: "LOGGED_IN",
-            isLoggedIn: true,
-            userData: {
-              id: result.userId,
-              ...body
-            }
-          })
-        );
-      });
+      // TODO: create /register endpoint instead
+      await EditUser(body.id, body);
+      dispatch(setStatus("REGISTERED"));
+      dispatch(setLoggedIn(true));
+      await mutateUser({ details: body, isLoggedIn: true }, true);
     } catch (error) {
-      debugError(`Could not register user: ${error}`);
+      debugError("Register:Could not register user:", error.message);
+      debugError(`Register:Could not register user: ${error}`);
     }
   };
 
   const editUser = async (userData: User & UserAddress): Promise<void> => {
+    dispatch(setStatus("USER_EDIT_REQUEST"));
+
+    time("useAuth:editUser: ");
     await EditUser(userData.id, userData);
-    dispatch(
-      updateAuthState({
-        status: "LOGGED_IN",
-        isLoggedIn: true,
-        userData
-      })
-    );
+    timeEnd("useAuth:editUser: ");
+
+    time("useAuth:editUser:mutate: ");
+    await mutateUser({ details: userData, isLoggedIn: true }, true);
+    timeEnd("useAuth:editUser:mutate: ");
+
+    dispatch(setStatus("USER_EDIT_SUCCESS"));
   };
-  useEffect(() => {
-    // login from session-storage
-    if (user && user?.isLoggedIn !== state?.isLoggedIn) {
-      if (user.isLoggedIn === true && state?.status !== "LOGGED_OUT") {
-        loginFromSession(user.login);
-      }
-    }
-  }, [state?.isLoggedIn, state?.status, user]);
+
+  const contextValues = useMemo(
+    () => ({
+      ...state,
+      editUser: (userData) => editUser(userData),
+      logout: () => logout(),
+      login: (userName, token) => login(userName, token),
+      register: (userData) => register(userData)
+    }),
+    [editUser, register, state, user]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        ...state,
-        editUser: (userData) => editUser(userData),
-        logout: () => logout(),
-        login: (userName, token) => login(userName, token),
-        register: (userData) => register(userData),
-        connectFirebaseUser: (userId, email, firebaseId) =>
-          connectFirebaseUser(userId, email, firebaseId)
-      }}
-    >
+    <AuthContext.Provider value={contextValues}>
       {children}
     </AuthContext.Provider>
   );

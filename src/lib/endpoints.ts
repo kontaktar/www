@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Endpoint } from "types";
+import { debugError } from "helpers/debug";
 import { get, post, put, remove } from "helpers/methods";
 
 export async function GetExperiencesByUserId(userId) {
@@ -14,10 +15,6 @@ export async function GetSearchResult(input = "") {
 
 export async function CreateUser(userInfo) {
   return post(Endpoint.Users, userInfo);
-}
-
-export async function CreateFirebaseConnection(userIds) {
-  return post(Endpoint.Users, userIds);
 }
 
 export async function GetFireBaseId(uid: string) {
@@ -57,7 +54,10 @@ export async function GetUser(userId) {
 }
 
 export async function GetUserByUserName(userName) {
-  return get(`${Endpoint.Users}?userName=${userName}`);
+  if (userName) {
+    return get(`${Endpoint.Users}?userName=${userName}`);
+  }
+  throw new Error("GetUserByUserName: No userName");
 }
 
 export async function GetUserByEmail(email) {

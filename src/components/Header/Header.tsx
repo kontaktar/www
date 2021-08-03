@@ -4,6 +4,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import cx from "classnames";
 import { Routes } from "types";
+import useUser from "lib/useUser";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Logo } from "components";
@@ -21,7 +22,8 @@ const Header = ({
   noDistraction = false
 }: Props): React.ReactElement => {
   const { width } = useWindowDimensions();
-  const { isLoggedIn, logout } = useAuth();
+  const { user } = useUser();
+  const { logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
   const router = useRouter();
 
@@ -119,13 +121,13 @@ const Header = ({
                 <Button
                   className={styles.login}
                   onClick={
-                    !isLoggedIn
+                    !user.isLoggedIn
                       ? () => router.push(Routes.Login)
                       : () => logout()
                   }
-                  modifier={!isLoggedIn ? ["inverted"] : []}
+                  modifier={!user.isLoggedIn ? ["inverted"] : []}
                 >
-                  {!isLoggedIn ? "Innskráning" : "Útskrá"}
+                  {!user.isLoggedIn ? "Innskráning" : "Útskrá"}
                 </Button>
               </div>
             )}

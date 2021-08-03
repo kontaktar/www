@@ -10,7 +10,8 @@ import orderBy from "lodash.orderby";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserExperiences } from "store/actions";
-import useAuth from "hooks/useAuth";
+import useUser from "lib/useUser";
+import { debugError } from "helpers/debug";
 import { Button, Card, Icon } from "components";
 import Link from "components/LinkWrap";
 import Modal from "components/Modal";
@@ -26,39 +27,45 @@ type Props = {
 const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
   const { query } = useRouter();
 
-  const { userData } = useAuth();
+  const { user } = useUser();
   const wrapperElement = useRef(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState({});
   const [modalType, setModalType] = useState<any>();
-  const [user, setUserProfile] = useState<any>();
+  const [userProfile, setUserProfile] = useState<any>();
   const [showActiveSection, setShowActiveSection] = useState(false);
   const [activeExperience, setActiveExperience] = useState<any>();
   const [userExperiences, setUserExperiences] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const store = useSelector((state) => state);
+  const experiences = useSelector((state) => state.experiences);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (editMode && userData?.id) {
+    setLoading(experiences.isFetching);
+  }, [experiences]);
+
+  useEffect(() => {
+    if (editMode && user?.details?.id) {
       try {
-        dispatch(fetchUserExperiences(userData.id));
+        dispatch(fetchUserExperiences(user?.details.id));
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error);
+        debugError(error);
       }
-      setUserProfile(userData);
+      setUserProfile(user?.details);
     }
-  }, [dispatch, editMode, userData]);
+  }, [dispatch, editMode, user, user?.details]);
 
   // Fetch user profile
   useEffect(() => {
     if (!editMode && userName) {
       if (
-        !user &&
+        !userProfile &&
         Object.entries(store.users).length > 0 &&
         !store.users.isFetching
       ) {
+        // TODO: type
         const [currentUserProfile]: any = Object.values(store.users).filter(
           (u: any) => u && u?.userName && u?.userName === userName
         );
@@ -68,36 +75,28 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
           try {
             dispatch(fetchUserExperiences(currentUserProfile.id));
           } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error(error);
+            debugError(error);
           }
         }
       }
     }
-  }, [userName, store.users, editMode, user, dispatch]);
-
-  // Fetch profile for logged in user
-  useEffect(() => {
-    if (editMode && userData && userData.id && store.users) {
-      setUserProfile(userData);
-    }
-  }, [editMode, store.users, userData]);
+  }, [userName, store.users, editMode, userProfile, dispatch]);
 
   useEffect(() => {
     if (
       store.users &&
-      user &&
-      user?.id &&
+      userProfile &&
+      userProfile?.id &&
       store.experiences &&
       store.experiences.byUserId &&
-      store.experiences.byUserId[user?.id] &&
+      store.experiences.byUserId[userProfile?.id] &&
       !store.experiences.isFetching
     ) {
       setUserExperiences(
-        orderBy(store.experiences.byUserId[user?.id], ["order"], ["asc"])
+        orderBy(store.experiences.byUserId[userProfile?.id], ["order"], ["asc"])
       );
     }
-  }, [store.experiences, store.users, user]);
+  }, [store.experiences, store.users, userProfile]);
 
   const onOpenExperienceModal = (
     id,
@@ -122,8 +121,8 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
   const onEditUserInfoModal = () => {
     // TODO: This is slow and sometimes failes on pushing 'breyta upplýsingum'.
     // - maybe non issue ? [2021 - 21 - 10]
-    if (userData && userData.id) {
-      setModalData({ ...userData });
+    if (user?.details && user?.details.id) {
+      setModalData({ ...user?.details });
       setModalType({ userInformation: true });
       setOpenModal(true);
     }
@@ -145,7 +144,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
     }
   }
 
-  if (user) {
+  if (userProfile) {
     return (
       <div
         ref={wrapperElement}
@@ -162,7 +161,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                 name="user"
               />
               <h2>
-                {user.firstName} {user.lastName}
+                {userProfile.firstName} {userProfile.lastName}
               </h2>
             </div>
 
@@ -174,7 +173,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                 Breyta
               </Button>
             )}
-            {!editMode && userName === userData?.userName && (
+            {!editMode && userName === user?.details?.userName && (
               <Link href="/profill">
                 <Button>Breyta</Button>
               </Link>
@@ -183,14 +182,14 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
 
           <div className={styles.user_information}>
             <Fragment>
-              {user.phoneNumber && (
+              {userProfile.phoneNumber && (
                 <span>
                   <Icon
                     className={styles.user_info_icons}
                     color={colors.red}
                     name="phone-profile"
                   />
-                  {user.phoneNumber}
+                  {userProfile.phoneNumber}
                 </span>
               )}
               <span>
@@ -199,22 +198,22 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                   color={colors.red}
                   name="email-profile"
                 />
-                {user.email}
+                {userProfile.email}
               </span>
-              {user.website ? (
+              {userProfile.website ? (
                 <span>
                   <Icon
                     className={styles.user_info_icons}
                     color={colors.red}
                     name="website"
                   />
-                  {user.website}
+                  {userProfile.website}
                 </span>
               ) : null}
-              {(user.streetName ||
-                user.postalCode ||
-                user.city ||
-                user.country) && (
+              {(userProfile.streetName ||
+                userProfile.postalCode ||
+                userProfile.city ||
+                userProfile.country) && (
                 <span>
                   <Icon
                     className={styles.user_info_icons}
@@ -222,12 +221,12 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                     name="location"
                   />
                   {[
-                    user.streetName,
-                    user.postalCode && user.postalCode !== "0"
-                      ? user.postalCode
+                    userProfile.streetName,
+                    userProfile.postalCode && userProfile.postalCode !== "0"
+                      ? userProfile.postalCode
                       : "",
-                    user.city,
-                    user.country
+                    userProfile.city,
+                    userProfile.country
                   ]
                     .filter(Boolean)
                     .join(", ")}
@@ -238,11 +237,12 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
         </div>
         <div className={styles.card_container}>
           <h4>Verkspjöld</h4>
-          {editMode ? (
+          {isLoading && <CardsContainer isLoading />}
+          {editMode && !isLoading ? (
             <>
               {userExperiences.length > 0 ? (
                 <DragableCardContainer
-                  userId={user.id}
+                  userId={userProfile.id}
                   items={userExperiences}
                   handleEdit={onOpenExperienceModal}
                 />
@@ -252,7 +252,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
             </>
           ) : (
             <CardsContainer>
-              {userExperiences.length > 0 ? (
+              {userExperiences.length > 0 &&
                 userExperiences.map((experience) => {
                   if (experience.published) {
                     return (
@@ -273,15 +273,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                     );
                   }
                   return null;
-                })
-              ) : (
-                <>
-                  <Card.Loader />
-                  <Card.Loader />
-                  <Card.Loader />
-                  <Card.Loader />
-                </>
-              )}
+                })}
             </CardsContainer>
           )}
           {activeExperience && showActiveSection && (

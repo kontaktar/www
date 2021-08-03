@@ -2,12 +2,14 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
+import cx from "classnames";
 import styles from "./Input.module.scss";
 
 const MUIInput = ({
   error = undefined,
   id,
   label = undefined,
+  className = "",
   placeholder,
   value = undefined,
   wrapperClassName = "",
@@ -15,7 +17,7 @@ const MUIInput = ({
   ...props
 }) => {
   return (
-    <div id={id} className={styles.mui_wrapper}>
+    <div id={id} className={cx(className, styles.mui_wrapper)}>
       <TextField
         error={isTouched && !!error}
         label={placeholder}

@@ -8,7 +8,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch } from "react-redux";
 import cx from "classnames";
 import { deleteUserExperience, editUserExperience } from "store/actions";
-import useAuth from "hooks/useAuth";
+import useUser from "lib/useUser";
 import { Icon } from "components";
 import Link from "components/LinkWrap";
 import styles from "./Card.module.scss";
@@ -31,7 +31,7 @@ const Card = (props) => {
 
   // TODO: This, onEditCard, onPublishToggleCard, onDeleteCard doesn't belong in the component.
   // Should be in a provider, this is breaking Storybook.
-  const { userData } = useAuth();
+  const { user } = useUser();
 
   const onEditCard = () => {
     onEdit(experienceId, title, description, years, months, published);
@@ -39,7 +39,7 @@ const Card = (props) => {
 
   const onPublishToggleCard = () => {
     dispatch(
-      editUserExperience(userData.id, {
+      editUserExperience(user.details.id, {
         id: experienceId,
         title,
         description,
@@ -51,7 +51,7 @@ const Card = (props) => {
   };
 
   const onDeleteCard = () => {
-    dispatch(deleteUserExperience(userData.id, experienceId));
+    dispatch(deleteUserExperience(user.details.id, experienceId));
   };
 
   const LinkToProfile = ({ children }) => {
@@ -140,9 +140,7 @@ const Card = (props) => {
 Card.Loader = () => {
   return (
     <MuiCard className={cx(styles.card, styles.loader)}>
-      {/* <CardContent className={styles.card_content}> */}
       <CircularProgress />
-      {/* </CardContent> */}
     </MuiCard>
   );
 };

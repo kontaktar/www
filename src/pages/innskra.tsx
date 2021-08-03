@@ -1,16 +1,15 @@
 import React from "react";
 import { NextPage } from "next";
-import { withAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
 import { Routes } from "types";
-import useAuth from "hooks/useAuth";
+import useUser from "lib/useUser";
 import { LoginFormContainer, MainLayout } from "layouts";
 
 const Login: NextPage = () => {
   const router = useRouter();
 
-  const { isLoggedIn } = useAuth();
-  if (isLoggedIn) {
+  const { user } = useUser();
+  if (user.isLoggedIn) {
     router.push(Routes.Profile);
   }
 
@@ -21,4 +20,4 @@ const Login: NextPage = () => {
   );
 };
 
-export default withAuthUser()(Login);
+export default Login;

@@ -26,8 +26,9 @@ const Register: NextPage<Props> = ({ reroute }) => {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ req }) => {
-    const user = req.session.get(IronSession.Name);
-    if (user !== undefined && user.id) {
+    const user = req.session.get(IronSession.UserSession);
+    console.log("user from session", user);
+    if (user !== undefined && user?.details?.userName) {
       return { props: { reroute: true } };
     }
     return {

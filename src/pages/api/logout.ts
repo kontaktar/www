@@ -1,13 +1,19 @@
-import { unsetAuthCookies } from "next-firebase-auth";
+import * as admin from "firebase-admin";
+import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
-import initAuth from "../../lib/initAuth"; // the module you created above
 
-initAuth();
+if (!admin.apps.length) {
+  admin.initializeApp({
+    ...firebaseAdminInitConfig,
+    credential: admin.credential.cert({
+      ...firebaseAdminInitConfig.credential
+    })
+  });
+}
 
 const Logout = withSession(async (request, response) => {
   try {
     await request.session.destroy();
-    await unsetAuthCookies(request, response);
   } catch (error) {
     return response.status(500).json({ error: error.message });
   }

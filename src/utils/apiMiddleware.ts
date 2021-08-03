@@ -23,17 +23,17 @@ export const withMiddleware = (request, response) => {
 
 export const withUserAccess = (request, response) => {
   if (
-    request.session.get(IronSession.Name)?.id.toString() !==
+    request.session.get(IronSession.UserSession)?.details?.id.toString() !==
     request.query.id.toString()
   ) {
     response.status(403).end("Forbidden");
 
-    if (request.session.get(IronSession.Name) === undefined) {
+    if (request.session.get(IronSession.UserSession) === undefined) {
       throw new Error(`User is not logged in`);
     } else {
       throw new Error(
         `User ${request.body.id} doesn't have access to ${
-          request.session.get(IronSession.Name).id
+          request.session.get(IronSession.UserSession).details.id
         }`
       );
     }

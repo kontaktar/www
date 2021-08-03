@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { debug, debugError } from "helpers/debug";
+import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 import useMaxWidth from "hooks/useMaxWidth";
 import PhoneNumberForm from "components/Login/PhoneNumberForm";
 import VerificationCodeForm from "components/Login/VerificationCodeForm";
@@ -10,6 +11,7 @@ const LoginFormContainer = (): ReactElement => {
   const [isVerificationCodeSent, setVerificationCodeSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
+  const [recaptchaFailed, setRecaptchaFailed] = useState(false);
 
   useEffect(() => {
     try {
@@ -23,7 +25,13 @@ const LoginFormContainer = (): ReactElement => {
         }
       );
     } catch (error) {
+      if (shouldBypassFirebaseOnDevelopment) {
+        setRecaptchaFailed(false);
+        setVerificationCodeSent(true);
+      }
       setErrorMessage(error.message);
+      setVerificationCodeSent(false);
+      setRecaptchaFailed(true);
       debugError(`RecaptchaError: ${error}`);
     }
   }, []);
@@ -32,10 +40,10 @@ const LoginFormContainer = (): ReactElement => {
     <div>
       <div id="recaptcha-container" />
       <div {...useMaxWidth()}>
-        {/* {signInAllowed ? ( */}
         <>
           {!isVerificationCodeSent ? (
             <PhoneNumberForm
+              disabled={recaptchaFailed}
               setVerificationCodeSent={setVerificationCodeSent}
               setErrorMessage={setErrorMessage}
               setUserPhoneNumber={setUserPhoneNumber}

@@ -3,6 +3,7 @@ import { IronSession, UserSessionStorage } from "types";
 import withSession from "lib/sessions";
 import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
 import database from "utils/database";
+import { debug, debugError } from "helpers/debug";
 import { removeEmpty } from "helpers/objects";
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
@@ -47,9 +48,6 @@ const UserById = withSession(async (request, response) => {
       await database.one(
         "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
         [userId]
-        // (row) => {
-        //   user = row;
-        // }
       );
       response.status(200).json({ userId });
     } catch (error) {
@@ -67,20 +65,32 @@ const UserById = withSession(async (request, response) => {
   if (method === "PUT") {
     if (body && body.id && body.userName) {
       // Add to iron-session.
-      const user: UserSessionStorage = {
-        id: body.id,
-        isLoggedIn: true,
-        login: body.userName
-      };
+      let userData;
+      let userSessionStorage: UserSessionStorage;
       try {
-        request.session.set(IronSession.Name, user);
-        await request.session.save();
+        userData = request.session.get(IronSession.UserSession);
+        userSessionStorage = {
+          ...userData,
+          details: {
+            ...userData?.details,
+            ...body
+          },
+          isLoggedIn: true
+        };
       } catch (error) {
+        debugError("EditUser: Can't get user data", error);
+      }
+      debug("EditUser:User:", userSessionStorage);
+      try {
+        debug("EditUser:Added to iron-session");
+        request.session.set(IronSession.UserSession, userSessionStorage);
+        await request.session.save();
+        response.status(200);
+      } catch (error) {
+        debugError("EditUser:Failed to set iron session", error);
         response.status(500).json(error);
       }
     }
-
-    withUserAccess(request, response);
 
     const {
       ssn = null,

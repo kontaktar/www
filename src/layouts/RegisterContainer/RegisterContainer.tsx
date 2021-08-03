@@ -10,8 +10,10 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { Routes, SessionStorage, UserData } from "types";
 import { GetAllUserNames } from "lib/endpoints";
-import { debugError } from "helpers/debug";
+import useUser from "lib/useUser";
+import { debug, debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
+import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 import { registerFormSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
@@ -28,29 +30,10 @@ const RegisterContainer = (): ReactElement => {
   const [isUserNameCheckEmpty, setUserNameCheckEmpty] = useState(true);
   const [allUserNames, setAllUserNames] = useState([]);
   const users = useSelector((state) => state.users);
-  const { register, userData } = useAuth();
+  const { register } = useAuth();
+  const { user } = useUser();
   const router = useRouter();
   const [userPhoneNumber, setUserPhoneNumber] = useState(undefined);
-
-  useEffect(() => {
-    const unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged(async (user) => {
-        const userId = window.sessionStorage.getItem(SessionStorage.UserId);
-        if (
-          process.env.NODE_ENV === "development" &&
-          process.env.NEXT_PUBLIC_BYPASS_FIREBASE === "1"
-        ) {
-          // 3/3 step in bypassing firebase on localhost
-          setUserPhoneNumber(userData?.phoneNumber);
-        } else if (user && userId) {
-          setUserPhoneNumber(user.phoneNumber);
-        } else {
-          router.push(Routes.Login);
-        }
-      });
-    return () => unregisterAuthObserver(); // un-register observers on unmounts.
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -64,14 +47,18 @@ const RegisterContainer = (): ReactElement => {
     onSubmit: async (values) => {
       const body = {
         id:
-          userData?.id || window.sessionStorage.getItem(SessionStorage.UserId),
+          user?.details?.id ||
+          window.sessionStorage.getItem(SessionStorage.UserId),
         userName: values.userName,
         ssn: values.ssn,
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
-        phoneNumber: userData?.phoneNumber || userPhoneNumber
+        phoneNumber: user?.details?.phoneNumber || userPhoneNumber
       };
+      debug("RegisterContainer:onSubmit", body);
+      debug("RegisterContainer:phoneNumber", user?.details?.phoneNumber);
+      debug("RegisterContainer:userPhoneNumber backup", userPhoneNumber);
 
       try {
         setLoader(true);
@@ -88,6 +75,38 @@ const RegisterContainer = (): ReactElement => {
       }
     }
   });
+  useEffect(() => {
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged(async (firebaseUser) => {
+        const userId = window.sessionStorage.getItem(SessionStorage.UserId);
+
+        if (shouldBypassFirebaseOnDevelopment) {
+          // 3/3 step in bypassing firebase on localhost
+          setUserPhoneNumber(user?.details?.phoneNumber);
+        } else if (
+          firebaseUser.phoneNumber === user?.details?.phoneNumber &&
+          firebaseUser.uid === user?.firebase?.id &&
+          user?.details?.id.toString() === userId
+        ) {
+          setUserPhoneNumber(firebaseUser.phoneNumber);
+        } else {
+          debugError("user.uid !== user?.details?.firebase");
+          debugError("firebaseUser.uid", firebaseUser.uid);
+          debugError("user?.firebase.id", user?.firebase?.id);
+          debugError("firebaseUser.phoneNumber", firebaseUser.phoneNumber);
+          debugError("user?.details?.phoneNumber", user?.details?.phoneNumber);
+
+          debugError(
+            "user?.details?.id.toString()",
+            user?.details?.id.toString()
+          );
+          debugError("userId", userId);
+          router.push(Routes.Login);
+        }
+      });
+    return () => unregisterAuthObserver(); // un-register observers on unmounts.
+  });
 
   useEffect(() => {
     if (users && !users.error && hasRegistered) {
@@ -100,7 +119,7 @@ const RegisterContainer = (): ReactElement => {
 
   useEffect(() => {
     if (
-      formik.values.userName.length > 2 && // we want to show the minmum userName length error if under 3 letters.
+      formik.values.userName.length > 2 && // TODO: we want to show the minmum userName length error if under 3 letters.
       isUserNameTaken &&
       formik.errors.userName !== registerErrors.EXISTS_USER_NAME
     ) {
@@ -191,46 +210,49 @@ const RegisterContainer = (): ReactElement => {
             isTouched={formik.touched.email}
           />
         </div>
-
         <div className={styles.row}>
-          <div className={styles.display_username_card}>
-            <span className={styles.info}>
-              Svona mun slóðin á þinn prófil líta út.
-            </span>
-            <span className={styles.url}>
-              kontaktar.is/
-              <strong>{formik.values.userName || "notandi"}</strong>
-            </span>
+          <div className={styles.row}>
+            <div className={styles.display_username_card}>
+              <span className={styles.info}>
+                Svona mun slóðin á þinn prófil líta út.
+              </span>
+              <span className={styles.url}>
+                kontaktar.is/
+                <strong>{formik.values.userName || "notandi"}</strong>
+              </span>
+            </div>
           </div>
-          <div className={styles.username_icon}>
-            {isUserNameCheckEmpty ? (
-              <CircleIcon className={styles.icon_inactive} />
-            ) : isUserNameTaken ? (
-              <NotAvailableIcon className={styles.icon_not_available} />
-            ) : (
-              <AvailableIcon className={styles.icon_is_checked} />
-            )}
-          </div>
+          <div className={styles.row}>
+            <div className={styles.username_icon}>
+              {isUserNameCheckEmpty ? (
+                <CircleIcon className={styles.icon_inactive} />
+              ) : isUserNameTaken ? (
+                <NotAvailableIcon className={styles.icon_not_available} />
+              ) : (
+                <AvailableIcon className={styles.icon_is_checked} />
+              )}
+            </div>
 
-          <MUIInput
-            type="text"
-            className={styles.form_userName}
-            id={UserData.UserName}
-            name={UserData.UserName}
-            placeholder="Notendanafn / slóð"
-            onChange={(event) => {
-              formik.handleChange(event);
-              setUserNameCheckEmpty(true);
-              checkIfUserNameIsTaken(event.target.value);
-            }}
-            onBlur={(event) => {
-              formik.setFieldTouched(UserData.UserName, true, true);
-              checkIfUserNameIsTaken(event.target.value);
-            }}
-            value={formik.values.userName}
-            error={formik.errors.userName}
-            isTouched={formik.touched.userName}
-          />
+            <MUIInput
+              type="text"
+              className={styles.form_userName}
+              id={UserData.UserName}
+              name={UserData.UserName}
+              placeholder="Notendanafn / slóð"
+              onChange={(event) => {
+                formik.handleChange(event);
+                setUserNameCheckEmpty(true);
+                checkIfUserNameIsTaken(event.target.value);
+              }}
+              onBlur={(event) => {
+                formik.setFieldTouched(UserData.UserName, true, true);
+                checkIfUserNameIsTaken(event.target.value);
+              }}
+              value={formik.values.userName}
+              error={formik.errors.userName}
+              isTouched={formik.touched.userName}
+            />
+          </div>
         </div>
         <p className={styles.error}>{errorMessage}</p>
         <Button

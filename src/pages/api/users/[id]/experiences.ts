@@ -29,7 +29,9 @@ export default withSession(async (request, response) => {
   if (method === "GET") {
     try {
       let get: Experiences;
-      if (session.get(IronSession.Name)?.id?.toString() === userId) {
+      if (
+        session.get(IronSession.UserSession)?.details?.id?.toString() === userId
+      ) {
         get = await database.any(
           "SELECT e.id, e.title, e.description, e.years, e.months, e.published, e.order FROM experiences e WHERE e.user_id = $1",
           userId

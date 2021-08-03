@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import wrapper from "store/configureStore";
 import { GetSearchResult } from "lib/endpoints";
 import withSession from "lib/sessions";
+import useUser from "lib/useUser";
 import { randomize } from "helpers/arrays";
 import { debugError } from "helpers/debug";
-import useAuth from "hooks/useAuth";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 import {
   fetchSearchResult,
@@ -19,7 +19,7 @@ type Props = {
   searchInput?: string;
 };
 const Search: NextPage<Props> = ({ searchInput }) => {
-  const { isLoggedIn } = useAuth();
+  const { user } = useUser();
   const storeSearches = useSelector((state) => state.searches);
   const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ const Search: NextPage<Props> = ({ searchInput }) => {
 
   return (
     <div>
-      {!isLoggedIn ? (
+      {!user.isLoggedIn ? (
         <div>
           <MainLayout>
             <SearchContainer

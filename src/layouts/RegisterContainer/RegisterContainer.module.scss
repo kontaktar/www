@@ -11,6 +11,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: unset;
+  flex-grow: 1;
   justify-content: space-between;
 
   > *#ssn {
@@ -50,21 +51,20 @@
   }
 
   &_ssn {
-    max-width: 15 * $unit;
+    width: 136px;
     flex-shrink: 1;
     flex-grow: 0;
   }
   &_firstName {
     flex-grow: 1;
     min-width: 30 * $unit;
-    // margin: 20px;
   }
   &_lastName {
     min-width: 45 * $unit;
     flex-grow: 1;
   }
   &_userName {
-    min-width: 60 * $unit;
+    min-width: 40 * $unit;
     flex-grow: 1;
   }
   &_email {

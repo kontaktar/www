@@ -1,14 +1,18 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
+import firebase from "firebase/app";
 import { useFormik } from "formik";
-import { v4 as uuid } from "uuid";
-import { useAuthUser } from "next-firebase-auth";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Routes, SessionStorage } from "types";
 import { createUserSuccess } from "store/actions";
 import { CreateUser, GetUserByPhoneNumber } from "lib/endpoints";
+import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
+import {
+  loginOrRegisterBypassingFirebase,
+  shouldBypassFirebaseOnDevelopment
+} from "helpers/firebase";
 import { verificationCodeSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import { Button } from "components";
@@ -28,12 +32,25 @@ const VerificationCodeForm = ({
 }: Props): ReactElement => {
   const router = useRouter();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const AuthUser = useAuthUser();
-  console.log("AuthUser", AuthUser);
+  const [firebaseIdToken, setFirebaseIdToken] = useState("");
+
   const dispatchToStore = useDispatch();
 
+  const { mutateUser } = useUser();
   const { login } = useAuth();
-  const { connectFirebaseUser } = useAuth();
+
+  useEffect(() => {
+    const unregisterAuthObserver = firebase
+      .auth()
+      .onAuthStateChanged(async (firebaseUser) => {
+        if (firebaseUser) {
+          firebaseUser.getIdToken().then((idToken) => {
+            setFirebaseIdToken(idToken);
+          });
+        }
+      });
+    return () => unregisterAuthObserver(); // un-register observers on unmounts.
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -42,59 +59,56 @@ const VerificationCodeForm = ({
     validationSchema: verificationCodeSchema,
     onSubmit: async (values) => {
       setLoading(true);
-      if (
-        process.env.NODE_ENV === "development" &&
-        process.env.NEXT_PUBLIC_BYPASS_FIREBASE === "1"
-      ) {
-        // 2/3 step in bypassing firebase on localhost
-        let userData;
-        try {
-          userData = await GetUserByPhoneNumber(userPhoneNumber);
-        } catch (error) {
-          setLoading(false);
-          debugError(error);
-        }
-        if (userData) {
-          await login(userData, await AuthUser.getIdToken());
-        } else {
-          const mockFirebaseId = uuid();
-          const { userId } = await CreateUser({
-            phoneNumber: userPhoneNumber,
-            createdAt: new Date()
-          });
-          if (userId) {
-            window.sessionStorage.setItem(SessionStorage.UserId, userId);
-            dispatchToStore(
-              createUserSuccess(userId, { phoneNumber: userPhoneNumber })
-            );
-            connectFirebaseUser(userId, userPhoneNumber, mockFirebaseId);
-            router.push("/nyskra");
-          }
-        }
-        return;
+
+      // 2/3 step in bypassing firebase
+      if (shouldBypassFirebaseOnDevelopment) {
+        await loginOrRegisterBypassingFirebase(
+          userPhoneNumber,
+          login,
+          firebaseIdToken,
+          setLoading,
+          dispatchToStore,
+          createUserSuccess,
+          router
+        );
       }
-      // TODO: clean this up
-      setLoading(true);
       (window as any).confirmationResult
         .confirm(values.verificationCode)
         .then(async (response) => {
-          // TODO: DO STUFF HERE TO SIGN IN USER
-          console.log("response", response);
           const { user, additionalUserInfo } = response;
-          console.log("additionalUserInfo", additionalUserInfo);
+
+          debug(`confirmationResult: response`, response);
 
           if (additionalUserInfo?.isNewUser) {
             try {
               const { userId } = await CreateUser({
                 phoneNumber: user.phoneNumber,
-                createdAt: user.metadata.creationTime
+                createdAt: user.metadata.creationTime,
+                firebaseId: user?.uid
               });
-              debug(`CreateUser: ${userId}`);
+
+              await mutateUser(
+                {
+                  details: {
+                    id: userId,
+                    createdAt: user.metadata.creationTime,
+                    phoneNumber: user.phoneNumber
+                  },
+                  firebase: {
+                    id: user?.uid
+                  },
+                  isLoggedIn: false
+                },
+                true
+              );
+
+              debug(`VerificationCodeForm:CreateUser: ${userId}`);
+
               window.sessionStorage.setItem(SessionStorage.UserId, userId);
               dispatchToStore(
                 createUserSuccess(userId, { phoneNumber: user?.phoneNumber })
               );
-              connectFirebaseUser(userId, user?.phoneNumber, user?.uid);
+
               router.push("/nyskra");
             } catch (error) {
               setLoading(false);
@@ -104,7 +118,6 @@ const VerificationCodeForm = ({
               setErrorMessage(error.message);
               debugError(`Create New User: ${error}`);
             }
-            // TODO: make sure in nyskra to check for firebase user
           } else {
             let userData;
             try {
@@ -114,7 +127,6 @@ const VerificationCodeForm = ({
               setErrorMessage(
                 "Enginn notandi með þetta símanúmer.Vinsamlegast reyndu aftur"
               );
-
               // delete the firebase user because it's not connected to a user.
               user.delete();
 
@@ -122,10 +134,13 @@ const VerificationCodeForm = ({
                 `Deleting firebase user. No user found with phonenumber ${user.phoneNumber}: ${error}`
               );
             }
-            if (userData?.userName) {
+            if (userData?.phoneNumber && userData?.userName) {
               // user exists, log him/her in
+              debug("Will login existing user");
               try {
-                await login(userData, await AuthUser.getIdToken());
+                user.getIdToken().then(async (idToken) => {
+                  await login(userData, idToken);
+                });
                 router.push(Routes.Profile);
               } catch (error) {
                 setLoading(false);
@@ -140,7 +155,7 @@ const VerificationCodeForm = ({
             setErrorMessage(verificationErrors.SMS_EXPIRED);
             setVerificationCodeSent(false);
           }
-          setErrorMessage(error.message);
+          setErrorMessage("Óvænt villa kom, reyndu að staðfesta aftur.");
           debugError(`Verification code failure: ${error}`);
         });
     }
@@ -160,7 +175,7 @@ const VerificationCodeForm = ({
         error={formik.errors.verificationCode}
         isTouched={formik.touched.verificationCode}
       />
-      <Button type="submit" isLoading={isLoading}>
+      <Button type="submit" disabled={isLoading} isLoading={isLoading}>
         Staðfesta kóða
       </Button>
     </form>

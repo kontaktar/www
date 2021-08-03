@@ -7,7 +7,7 @@ import { IronSession } from "types";
 const withSession = (handler) => {
   return withIronSession(handler, {
     password: process.env.SECRET_COOKIE_PASSWORD,
-    cookieName: IronSession.Name,
+    cookieName: IronSession.UserSession,
     cookieOptions: {
       secure: process.env.NODE_ENV === "production"
     }

@@ -20,6 +20,9 @@
   letter-spacing: 0.01em;
   font-style: bold;
 
+  &:disabled {
+    background-color: $primary-color !important;
+  }
   &:hover,
   &:active,
   &:focus {
