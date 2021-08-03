@@ -54,7 +54,14 @@ Prevent string injections. Never user ES6 literals for database queries.
 ## Auth
 
 Mixture of firebase and iron-session.
-Bypass firebase on localhost by setting `NEXT_PUBLIC_BYPASS_FIREBASE=1` in `.env.local`
+Bypass firebase on localhost by setting `BYPASS_FIREBASE=1` in `.env.local`
+
+### Firebase authentication emulator
+
+Setup: https://firebase.google.com/docs/cli#sign-in-test-cli
+
+Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
+Start: `firebase emulators:start`
 
 ## API
 
@@ -148,19 +155,68 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 - /{userName}
 - /profill
 
-#### Firebase authentication emulator
+## Auth process documentation
 
-https://firebase.google.com/docs/cli#sign-in-test-cli
+`LoginFormContainer`:
 
-curl -sL https://firebase.tools | bash
+- There is a recaptcha hooked up to Firebase.
+  `recaptchaVerifier` is stored in `window`
+  `PhoneNumberForm`:
+- User enters phonenumber
+- User enters verification code they got from their phone.
+- `window.recaptchaVerifier` used to `firebase.auth().signInWithPhoneNumber` then
+  `confirmationResult` is added to `window`
 
-firebase login
+  `VerificationCodeForm`:
 
-firebase init
+- Phonenumber is checked in Firebase Authentication database.
+- If phonenumber exists:
+  [GO TO LOGIN](#login)
+- Else:
+- `CreateUser` endpoint called
+- `mutateUser` for useSwr with instant revalidation.
+- `userId` added to session storage.
+- route pushed to REGISTER:`/nyskra`
 
-firebase emulators:start
+### REGISTER
 
-### TODO verify firebaseUser:
+`onAuthStateChanged`:
 
-- [x] Add AuthUser.getTokenId() to next-iron-session
-- [ ]Verify token https://firebase.google.com/docs/auth/admin/verify-id-tokens#web and get the firebase uid to match to the user to login.
+- If errors: send to `/innskra`
+
+`onSubmit`:
+
+- Call `useAuth:register`, which calls `EditUser` endpoint.
+- Push to `/profill`
+
+### LOGIN
+
+- Fetch `userData` from db with `GetUserByPhoneNumber`
+- TODO: Limit callability : `GetUserByPhoneNumber` should make sure that `AuthUser`, `window.confirmationResult`and/or `additionalUserInfo` is matching the user calling the endpoint. (Verify token, see TODO section above).
+  (The token is also in `UserSessionStorage`)
+- use `userData` to call `login` endpoint called with firebase token Authorization header
+- iron-session set.
+  - `updateAuthState` with `isLoggedIn` flag and `userData` object.
+- endpoint adds to iron-session info about the user + db set.
+- route pushed to `profile`
+
+### LOGOUT
+
+Destroy iron-session and firebase session.
+
+TODO:
+-[] Create cleanup function that cleans up window stuff after succesful login / register
+
+-[] Firebase local testing:
+firebase.auth().settings.appVerificationDisabledForTesting = true;
+https://firebase.google.com/docs/auth/web/phone-auth?hl=en#integration-testing
+
+-[] What happens if I reach the register screen - clear the session storage and then refresh and try again.
+
+-[] VERIFY FIREBASE BYPASS
+
+####
+
+NEEDS FIXING:
+
+Logout feedback is really slow
