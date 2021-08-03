@@ -63,6 +63,7 @@ const Users = withSession(async (request, response) => {
           userId: data?.user_id
         });
       } else if (query && query.phoneNumber) {
+        // TODO: do withUserAccess
         // the plus is stripped when used as a query param
         const phoneNumberWithPlus = `+${query.phoneNumber}`.replace(" ", "");
         data = await database.one(
