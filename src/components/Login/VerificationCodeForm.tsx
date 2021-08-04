@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Routes, SessionStorage } from "types";
 import { createUserSuccess } from "store/actions";
-import { CreateUser, GetUserByPhoneNumber } from "lib/endpoints";
+import { CreateUser, GetUserByPhoneNumber, UpdateUser } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
@@ -109,7 +109,7 @@ const VerificationCodeForm = ({
                 createUserSuccess(userId, { phoneNumber: user?.phoneNumber })
               );
 
-              router.push("/nyskra");
+              router.push(Routes.Register);
             } catch (error) {
               setLoading(false);
               if (error?.includes("duplicate")) {
@@ -146,6 +146,27 @@ const VerificationCodeForm = ({
                 setLoading(false);
                 setErrorMessage(error.message);
               }
+            }
+            if (userData?.phoneNumber && !userData?.userName) {
+              // somehow user started the registration but never finished.
+              window.sessionStorage.setItem(
+                SessionStorage.UserId,
+                userData?.id
+              );
+              const userSession = await UpdateUser({
+                details: {
+                  id: userData?.id,
+                  phoneNumber: userData?.phoneNumber
+                },
+                firebase: {
+                  id: user?.uid,
+                  token: firebaseIdToken
+                },
+                isLoggedIn: false
+              });
+
+              await mutateUser(userSession, true);
+              router.push(Routes.Register);
             }
           }
         })

@@ -82,7 +82,7 @@ export const AuthProvider = ({
     } catch (error) {
       debugError(`useAuth:login: ${error}`);
     } finally {
-      await mutateUser({ details: body, isLoggedIn: true }, true);
+      await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
     }
   };
 
@@ -92,7 +92,7 @@ export const AuthProvider = ({
       await EditUser(body.id, body);
       dispatch(setStatus("REGISTERED"));
       dispatch(setLoggedIn(true));
-      await mutateUser({ details: body, isLoggedIn: true }, true);
+      await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
     } catch (error) {
       debugError("Register:Could not register user:", error.message);
       debugError(`Register:Could not register user: ${error}`);
@@ -107,7 +107,7 @@ export const AuthProvider = ({
     timeEnd("useAuth:editUser: ");
 
     time("useAuth:editUser:mutate: ");
-    await mutateUser({ details: userData, isLoggedIn: true }, true);
+    await mutateUser({ ...user, details: userData, isLoggedIn: true }, true);
     timeEnd("useAuth:editUser:mutate: ");
 
     dispatch(setStatus("USER_EDIT_SUCCESS"));

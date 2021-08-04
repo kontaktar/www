@@ -4,6 +4,8 @@ import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
 
 const User = withSession(async (request, response) => {
   await withMiddleware(request, response);
+  // TODO: RESTRICT ACCESS, but how??
+  // should check for firebase data and compare it to request.session.get(IronSession.UserSession).firebase.token
   const userData = request.session.get(IronSession.UserSession);
   if (userData) {
     // do we need to fetch any information about the user?

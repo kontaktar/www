@@ -92,6 +92,7 @@ const RegisterContainer = (): ReactElement => {
           setUserPhoneNumber(firebaseUser.phoneNumber);
         } else {
           debugError("user.uid !== user?.details?.firebase");
+          debugError("user session", user);
           debugError("firebaseUser.uid", firebaseUser.uid);
           debugError("user?.firebase.id", user?.firebase?.id);
           debugError("firebaseUser.phoneNumber", firebaseUser.phoneNumber);

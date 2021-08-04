@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Endpoint } from "types";
-import { debugError } from "helpers/debug";
+import { Endpoint, UserSessionStorage } from "types";
 import { get, post, put, remove } from "helpers/methods";
 
 export async function GetExperiencesByUserId(userId) {
@@ -15,6 +14,11 @@ export async function GetSearchResult(input = "") {
 
 export async function CreateUser(userInfo) {
   return post(Endpoint.Users, userInfo);
+}
+export async function UpdateUser(userInfo: UserSessionStorage) {
+  return post(`${Endpoint.User}/update`, userInfo, {
+    Authorization: userInfo.firebase.token
+  });
 }
 
 export async function GetFireBaseId(uid: string) {

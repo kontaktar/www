@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import { v4 as uuid } from "uuid";
-import { SessionStorage } from "types";
+import { Routes, SessionStorage } from "types";
 import { CreateUser, GetUserByPhoneNumber } from "lib/endpoints";
 import { debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
@@ -16,6 +16,9 @@ export const signInToFirebaseWithPhoneNumber = (
   setErrorMessage: (m: string) => void,
   setLoading: (b: boolean) => void
 ): void => {
+  firebase.auth().settings.appVerificationDisabledForTesting =
+    process.env.FIREBASE_EMULATOR === "1";
+
   const appVerifier = (window as any).recaptchaVerifier;
   firebase
     .auth()
@@ -67,10 +70,11 @@ export const loginOrRegisterBypassingFirebase = async (
     });
     if (userId) {
       window.sessionStorage.setItem(SessionStorage.UserId, userId);
+      // TODO: is this needed?
       dispatchToStore(
         createUserSuccess(userId, { phoneNumber: userPhoneNumber })
       );
-      router.push("/nyskra");
+      router.push(Routes.Register);
     }
   }
 };

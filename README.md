@@ -61,7 +61,7 @@ Bypass firebase on localhost by setting `BYPASS_FIREBASE=1` in `.env.local`
 Setup: https://firebase.google.com/docs/cli#sign-in-test-cli
 
 Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
-Start: `firebase emulators:start`
+Start: `yarn emulator`
 
 ## API
 
@@ -220,3 +220,7 @@ https://firebase.google.com/docs/auth/web/phone-auth?hl=en#integration-testing
 NEEDS FIXING:
 
 Logout feedback is really slow
+
+all-usernames called multiple times
+
+fix button loading state, onhover

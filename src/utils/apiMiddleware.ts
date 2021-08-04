@@ -33,7 +33,7 @@ export const withUserAccess = (request, response) => {
     } else {
       throw new Error(
         `User ${request.body.id} doesn't have access to ${
-          request.session.get(IronSession.UserSession).details.id
+          request.session.get(IronSession.UserSession)?.details?.id
         }`
       );
     }
