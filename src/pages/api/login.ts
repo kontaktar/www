@@ -62,9 +62,9 @@ const Login = withSession(async (request, response) => {
       throw new Error(`Failed to save to session storage`);
     }
   } catch (error) {
-    return response.status(500).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
-  return response.status(200).json(body);
+  response.status(200).json(body);
 });
 
 export default Login;

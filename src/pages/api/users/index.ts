@@ -153,7 +153,7 @@ const Users = withSession(async (request, response) => {
     } = body;
 
     if (!request?.headers?.authorization) {
-      response.status(401).json({ message: "No Authorization header" });
+      response.status(401).json({ message: "Missing Authorization header" });
       return;
     }
     admin

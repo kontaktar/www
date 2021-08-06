@@ -224,3 +224,7 @@ Logout feedback is really slow
 all-usernames called multiple times
 
 fix button loading state, onhover
+
+passa að loka á /nyskra
+
+withUserAccess

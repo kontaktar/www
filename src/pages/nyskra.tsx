@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { IronSession, Routes } from "types";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
+import { debug } from "helpers/debug";
 import { MainLayout, RegisterContainer } from "layouts";
 
 type Props = {
@@ -28,7 +29,7 @@ const Register: NextPage<Props> = ({ href, reroute }) => {
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ req }) => {
     const user = req.session.get(IronSession.UserSession);
-    console.log("user from session", user);
+    debug("user from session", user);
     if (user !== undefined && user?.details?.userName) {
       return { props: { reroute: true, href: Routes.Profile } };
     }

@@ -92,6 +92,8 @@ const UserById = withSession(async (request, response) => {
       }
     }
 
+    // withUserAccess(request, response);
+
     const {
       ssn = null,
       userName: user_name = null,
