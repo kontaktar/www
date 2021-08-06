@@ -15,7 +15,8 @@ const Button = ({
   onClick,
   modifier,
   isLoading,
-  type
+  type,
+  "data-test": dataTest
 }) => {
   return (
     // eslint-disable-next-line react/button-has-type
@@ -26,6 +27,8 @@ const Button = ({
       disabled={disabled}
       onClick={onClick}
       type={type === "submit" ? "submit" : "button"}
+      // eslint-disable-next-line react/destructuring-assignment
+      data-test={dataTest}
     >
       {isLoading ? <CircularProgress /> : <>{children}</>}
     </button>
@@ -123,7 +126,8 @@ Button.propTypes = {
   modifier: PropTypes.arrayOf(
     PropTypes.oneOf(["", "pill", "inverted", "borderless", "rectangle"])
   ),
-  type: PropTypes.string
+  type: PropTypes.string,
+  "data-test": PropTypes.string
 };
 
 Button.defaultProps = {
@@ -131,5 +135,6 @@ Button.defaultProps = {
   onClick: () => {},
   disabled: false,
   modifier: [""],
-  type: "button"
+  type: "button",
+  "data-test": "" // TODO: just spread this to ...props when I change this to typescript
 };

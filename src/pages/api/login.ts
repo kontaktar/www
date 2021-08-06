@@ -32,6 +32,7 @@ const Login = withSession(async (request, response) => {
         .then((decodedToken) => {
           const { uid } = decodedToken;
           // do something here?
+          // TODO: this is the firebase?.id, maybe compare
           console.log("uid", uid);
           // ...
         })

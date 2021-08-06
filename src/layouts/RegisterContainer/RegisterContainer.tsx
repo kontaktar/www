@@ -75,35 +75,31 @@ const RegisterContainer = (): ReactElement => {
       }
     }
   });
+
+  useEffect(() => {
+    console.log("user", user);
+  }, [user]);
   useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged(async (firebaseUser) => {
         const userId = window.sessionStorage.getItem(SessionStorage.UserId);
-
+        console.log("firebaseUser", firebaseUser);
         if (shouldBypassFirebaseOnDevelopment) {
           // 3/3 step in bypassing firebase on localhost
           setUserPhoneNumber(user?.details?.phoneNumber);
         } else if (
-          firebaseUser.phoneNumber === user?.details?.phoneNumber &&
-          firebaseUser.uid === user?.firebase?.id &&
+          firebaseUser?.phoneNumber === user?.details?.phoneNumber &&
+          firebaseUser?.uid === user?.firebase?.id &&
           user?.details?.id.toString() === userId
         ) {
           setUserPhoneNumber(firebaseUser.phoneNumber);
         } else {
           debugError("user.uid !== user?.details?.firebase");
           debugError("user session", user);
-          debugError("firebaseUser.uid", firebaseUser.uid);
-          debugError("user?.firebase.id", user?.firebase?.id);
-          debugError("firebaseUser.phoneNumber", firebaseUser.phoneNumber);
-          debugError("user?.details?.phoneNumber", user?.details?.phoneNumber);
-
-          debugError(
-            "user?.details?.id.toString()",
-            user?.details?.id.toString()
-          );
+          debugError("firebaseUser", firebaseUser);
           debugError("userId", userId);
-          router.push(Routes.Login);
+          // router.push(Routes.Login);
         }
       });
     return () => unregisterAuthObserver(); // un-register observers on unmounts.
@@ -135,7 +131,7 @@ const RegisterContainer = (): ReactElement => {
       };
       fetchAllUserNames();
     }
-  });
+  }, []);
   const checkIfUserNameIsTaken = async (userName: string) => {
     setUserNameCheckEmpty(false);
     const isUserNameValid =
@@ -153,7 +149,9 @@ const RegisterContainer = (): ReactElement => {
   return (
     <div {...useMaxWidth()}>
       <form onSubmit={formik.handleSubmit} className={styles.form}>
-        <span className={styles.heading}>Nýskráning</span>
+        <span data-test="RegistrationHeading" className={styles.heading}>
+          Nýskráning
+        </span>
 
         <div className={styles.row}>
           <MUIInput

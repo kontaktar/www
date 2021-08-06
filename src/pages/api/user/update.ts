@@ -21,7 +21,7 @@ const UserUpdate = withSession(async (request, response) => {
 
   const userSession = request.session.get(IronSession.UserSession);
   const user: UserSessionStorage = {
-    isLoggedIn: true,
+    isLoggedIn: false,
     ...userSession,
     details: {
       ...userSession?.details,
@@ -33,6 +33,7 @@ const UserUpdate = withSession(async (request, response) => {
       token: request.headers.authorization
     }
   };
+  console.log("UpdateUser", user);
 
   admin
     .auth()
@@ -43,7 +44,7 @@ const UserUpdate = withSession(async (request, response) => {
       // do something here?
       if (user?.firebase?.id) {
         console.log("uid", uid);
-        if (user.firebase.id !== uid) {
+        if (body.firebase.id !== uid) {
           response.status(400).json({ message: "User doesnt match" });
         }
       }
@@ -53,7 +54,7 @@ const UserUpdate = withSession(async (request, response) => {
     });
 
   try {
-    request.session.set(IronSession.UserSession, user);
+    await request.session.set(IronSession.UserSession, user);
     await request.session.save();
   } catch (error) {
     response.status(500).json(error);

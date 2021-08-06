@@ -37,7 +37,7 @@ const VerificationCodeForm = ({
   const dispatchToStore = useDispatch();
 
   const { mutateUser } = useUser();
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
 
   useEffect(() => {
     const unregisterAuthObserver = firebase
@@ -105,9 +105,9 @@ const VerificationCodeForm = ({
               debug(`VerificationCodeForm:CreateUser: ${userId}`);
 
               window.sessionStorage.setItem(SessionStorage.UserId, userId);
-              dispatchToStore(
-                createUserSuccess(userId, { phoneNumber: user?.phoneNumber })
-              );
+              // dispatchToStore(
+              //   createUserSuccess(userId, { phoneNumber: user?.phoneNumber })
+              // );
 
               router.push(Routes.Register);
             } catch (error) {
@@ -122,6 +122,7 @@ const VerificationCodeForm = ({
             let userData;
             try {
               userData = await GetUserByPhoneNumber(user.phoneNumber);
+              debug("userData from GetUserByPhoneNumber", userData);
             } catch (error) {
               setLoading(false);
               setErrorMessage(
@@ -134,6 +135,7 @@ const VerificationCodeForm = ({
                 `Deleting firebase user. No user found with phonenumber ${user.phoneNumber}: ${error}`
               );
             }
+            debug("userData?.userName", userData?.userName);
             if (userData?.phoneNumber && userData?.userName) {
               // user exists, log him/her in
               debug("Will login existing user");
@@ -153,31 +155,40 @@ const VerificationCodeForm = ({
                 SessionStorage.UserId,
                 userData?.id
               );
-              const userSession = await UpdateUser({
-                details: {
-                  id: userData?.id,
-                  phoneNumber: userData?.phoneNumber
-                },
-                firebase: {
-                  id: user?.uid,
-                  token: firebaseIdToken
-                },
-                isLoggedIn: false
-              });
-
-              await mutateUser(userSession, true);
+              try {
+                user.getIdToken().then(async (idToken) => {
+                  const userSession = await UpdateUser({
+                    details: {
+                      id: userData?.id,
+                      phoneNumber: userData?.phoneNumber
+                    },
+                    firebase: {
+                      id: user?.uid,
+                      token: idToken
+                    },
+                    isLoggedIn: false
+                  });
+                  console.log("will mutate", userSession);
+                  await mutateUser(userSession, true);
+                });
+              } catch (error) {
+                debugError("UpdateUser", error);
+              }
               router.push(Routes.Register);
             }
           }
         })
         .catch((error) => {
           setLoading(false);
+
+          logout();
+
           if (error.code === "auth/code-expired") {
             setErrorMessage(verificationErrors.SMS_EXPIRED);
             setVerificationCodeSent(false);
           }
           setErrorMessage("Óvænt villa kom, reyndu að staðfesta aftur.");
-          debugError(`Verification code failure: ${error}`);
+          debugError("Verification code failure", error);
         });
     }
   });
@@ -195,8 +206,14 @@ const VerificationCodeForm = ({
         value={formik.values.verificationCode}
         error={formik.errors.verificationCode}
         isTouched={formik.touched.verificationCode}
+        data-test="VerificationCodeInput"
       />
-      <Button type="submit" disabled={isLoading} isLoading={isLoading}>
+      <Button
+        type="submit"
+        disabled={isLoading}
+        isLoading={isLoading}
+        data-test="VerificationCodeButton"
+      >
         Staðfesta kóða
       </Button>
     </form>
