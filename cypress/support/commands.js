@@ -31,7 +31,18 @@ Cypress.Commands.add("doLogin", (phoneNumber) => {
   cy.getFirebaseVerificationCode().then((code) => {
     cy.get("[data-test=VerificationCodeInput]").type(code);
   });
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.get("[data-test=VerificationCodeButton]").click();
-  cy.window().its("sessionStorage").invoke("getItem", "userId").should("exist");
+});
+
+Cypress.Commands.add("doRegistration", () => {
+  const randomNumber = Math.floor(100000 + Math.random() * 9000000);
+  cy.doLogin(`+666${randomNumber}`);
+  cy.location("pathname", { timeout: 10000 }).should("eq", "/nyskra");
+  cy.get("[data-test=FirstNameInput]").type("_TESTER");
+  cy.get("[data-test=LastNameInput]").type("_TESTERSON");
+  cy.get("[data-test=KennitalaInput]").type(`123${randomNumber}`);
+  cy.get("[data-test=UserNameInput]").type(`TESTER${randomNumber}`);
+  cy.get("[data-test=EmailInput]").type(`TESTER${randomNumber}@test.is`);
+  cy.get("[data-test=RegisterNewUserButton]").click();
+  cy.location("pathname", { timeout: 10000 }).should("eq", "/profill");
 });

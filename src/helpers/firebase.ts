@@ -52,6 +52,7 @@ export const loginOrRegisterBypassingFirebase = async (
   createUserSuccess,
   router
 ): Promise<void> => {
+  // DEPRECATED
   let userData;
   try {
     userData = await GetUserByPhoneNumber(userPhoneNumber);

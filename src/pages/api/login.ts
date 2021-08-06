@@ -23,7 +23,11 @@ const Login = withSession(async (request, response) => {
     // bypass firebase on localhost
     if (!shouldBypassFirebaseOnDevelopment) {
       if (!request?.headers?.authorization) {
-        throw new Error(`Failed to login user`);
+        response
+          .status(401)
+          .json({ messsage: "Missing Authorization header" })
+          .end();
+        return;
       }
 
       admin

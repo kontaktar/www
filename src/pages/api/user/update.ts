@@ -35,6 +35,11 @@ const UserUpdate = withSession(async (request, response) => {
   };
   console.log("UpdateUser", user);
 
+  if (!request?.headers?.authorization) {
+    response.status(401).json({ message: "Missing Authorization header" });
+    return;
+  }
+
   admin
     .auth()
     .verifyIdToken(request?.headers?.authorization)

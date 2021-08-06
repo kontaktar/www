@@ -3,9 +3,9 @@ import firebase from "firebase/app";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { Routes, SessionStorage } from "types";
+import { Routes } from "types";
 import { createUserSuccess } from "store/actions";
-import { CreateUser, GetUserByPhoneNumber, UpdateUser } from "lib/endpoints";
+import { GetUserByPhoneNumber, UpdateUser } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
@@ -52,6 +52,28 @@ const VerificationCodeForm = ({
     return () => unregisterAuthObserver(); // un-register observers on unmounts.
   });
 
+  const addUserToSessionStorage = (firebaseUser) => {
+    try {
+      firebaseUser.getIdToken().then(async (idToken) => {
+        const userSession = await UpdateUser({
+          details: {
+            id: undefined,
+            phoneNumber: firebaseUser?.phoneNumber,
+            createdAt: firebaseUser.metadata.creationTime
+          },
+          firebase: {
+            id: firebaseUser?.uid,
+            token: idToken
+          },
+          isLoggedIn: false
+        });
+        await mutateUser(userSession, true);
+      });
+    } catch (error) {
+      debugError("UpdateUser", error);
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       verificationCode: ""
@@ -75,106 +97,37 @@ const VerificationCodeForm = ({
       (window as any).confirmationResult
         .confirm(values.verificationCode)
         .then(async (response) => {
-          const { user, additionalUserInfo } = response;
-
+          const { user: firebaseUser, additionalUserInfo } = response;
           debug(`confirmationResult: response`, response);
 
-          if (additionalUserInfo?.isNewUser) {
+          let userData;
+          try {
+            userData = await GetUserByPhoneNumber(firebaseUser.phoneNumber);
+          } catch (error) {
+            if (additionalUserInfo?.isNewUser || !userData) {
+              debug("No user exists with that phonenumber");
+              if (!userData && !additionalUserInfo?.isNewUser) {
+                debug(
+                  `Deleting firebase user. No user found with phonenumber ${firebaseUser.phoneNumber}: ${error}`
+                );
+                firebaseUser.delete(); // maybe not needed?
+              }
+              addUserToSessionStorage(firebaseUser);
+              router.push(Routes.Register);
+            }
+          }
+
+          if (userData?.phoneNumber && userData?.userName) {
+            // user exists, log him/her in
+            debug("Will login existing user");
             try {
-              const { userId } = await CreateUser({
-                phoneNumber: user.phoneNumber,
-                createdAt: user.metadata.creationTime,
-                firebaseId: user?.uid
+              firebaseUser.getIdToken().then(async (idToken) => {
+                await login(userData, idToken);
               });
-
-              await mutateUser(
-                {
-                  details: {
-                    id: userId,
-                    createdAt: user.metadata.creationTime,
-                    phoneNumber: user.phoneNumber
-                  },
-                  firebase: {
-                    id: user?.uid
-                  },
-                  isLoggedIn: false
-                },
-                true
-              );
-
-              debug(`VerificationCodeForm:CreateUser: ${userId}`);
-
-              window.sessionStorage.setItem(SessionStorage.UserId, userId);
-              // dispatchToStore(
-              //   createUserSuccess(userId, { phoneNumber: user?.phoneNumber })
-              // );
-
-              router.push(Routes.Register);
+              router.push(Routes.Profile);
             } catch (error) {
               setLoading(false);
-              if (error?.includes("duplicate")) {
-                setErrorMessage("Það er til notandi með þetta símanúmer");
-              }
               setErrorMessage(error.message);
-              debugError(`Create New User: ${error}`);
-            }
-          } else {
-            let userData;
-            try {
-              userData = await GetUserByPhoneNumber(user.phoneNumber);
-              debug("userData from GetUserByPhoneNumber", userData);
-            } catch (error) {
-              setLoading(false);
-              setErrorMessage(
-                "Enginn notandi með þetta símanúmer.Vinsamlegast reyndu aftur"
-              );
-              // delete the firebase user because it's not connected to a user.
-              user.delete();
-
-              debug(
-                `Deleting firebase user. No user found with phonenumber ${user.phoneNumber}: ${error}`
-              );
-            }
-            debug("userData?.userName", userData?.userName);
-            if (userData?.phoneNumber && userData?.userName) {
-              // user exists, log him/her in
-              debug("Will login existing user");
-              try {
-                user.getIdToken().then(async (idToken) => {
-                  await login(userData, idToken);
-                });
-                router.push(Routes.Profile);
-              } catch (error) {
-                setLoading(false);
-                setErrorMessage(error.message);
-              }
-            }
-            if (userData?.phoneNumber && !userData?.userName) {
-              // somehow user started the registration but never finished.
-              window.sessionStorage.setItem(
-                SessionStorage.UserId,
-                userData?.id
-              );
-              try {
-                user.getIdToken().then(async (idToken) => {
-                  const userSession = await UpdateUser({
-                    details: {
-                      id: userData?.id,
-                      phoneNumber: userData?.phoneNumber
-                    },
-                    firebase: {
-                      id: user?.uid,
-                      token: idToken
-                    },
-                    isLoggedIn: false
-                  });
-                  console.log("will mutate", userSession);
-                  await mutateUser(userSession, true);
-                });
-              } catch (error) {
-                debugError("UpdateUser", error);
-              }
-              router.push(Routes.Register);
             }
           }
         })

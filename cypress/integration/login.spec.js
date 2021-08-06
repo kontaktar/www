@@ -3,7 +3,7 @@
 /* eslint-disable jest/expect-expect */
 /// <reference types="cypress" />
 
-describe("example to-do app", () => {
+describe("Login", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000/innskra");
   });
@@ -14,13 +14,13 @@ describe("example to-do app", () => {
 
     cy.get("[data-test=RegistrationHeading]").should("exist");
   });
+
   it("existing user should login", () => {
     cy.doLogin("+3541111111");
-
-    cy.window()
-      .its("sessionStorage")
-      .invoke("getItem", "userId")
-      .should("eq", "451");
     cy.location("pathname", { timeout: 10000 }).should("eq", "/profill");
+  });
+
+  it("new user should be able to fully register", () => {
+    cy.doRegistration();
   });
 });

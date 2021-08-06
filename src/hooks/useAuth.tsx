@@ -3,7 +3,7 @@ import React, { createContext, useContext, useMemo, useReducer } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import firebase from "firebase";
 import { Endpoint, User, UserAddress } from "types";
-import { EditUser } from "lib/endpoints";
+import { CreateUser, EditUser } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debugError, time, timeEnd } from "helpers/debug";
 import { post } from "helpers/methods";
@@ -88,14 +88,12 @@ export const AuthProvider = ({
 
   const register = async (body: User): Promise<void> => {
     try {
-      // TODO: create /register endpoint instead
-      await EditUser(body.id, body);
+      await CreateUser(body);
       dispatch(setStatus("REGISTERED"));
       dispatch(setLoggedIn(true));
       await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
     } catch (error) {
       debugError("Register:Could not register user:", error.message);
-      debugError(`Register:Could not register user: ${error}`);
     }
   };
 

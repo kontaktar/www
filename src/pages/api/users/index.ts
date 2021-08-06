@@ -1,11 +1,21 @@
+import * as admin from "firebase-admin";
 import pgp from "pg-promise";
 import { IronSession, UserSessionStorage } from "types";
+import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
 import { withMiddleware /* , withUserAccess*/ } from "utils/apiMiddleware";
 import database from "utils/database";
 import { debug, debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
 
+if (!admin.apps.length) {
+  admin.initializeApp({
+    ...firebaseAdminInitConfig,
+    credential: admin.credential.cert({
+      ...firebaseAdminInitConfig.credential
+    })
+  });
+}
 const Users = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body, method, query } = request;
@@ -138,8 +148,30 @@ const Users = withSession(async (request, response) => {
       streetName,
       city,
       country,
-      createdAt
+      createdAt,
+      firebaseId
     } = body;
+
+    if (!request?.headers?.authorization) {
+      response.status(401).json({ message: "No Authorization header" });
+      return;
+    }
+    admin
+      .auth()
+      .verifyIdToken(request?.headers?.authorization)
+      .then((decodedToken) => {
+        const { uid } = decodedToken;
+
+        // do something here?
+
+        if (firebaseId !== uid) {
+          response.status(401).json({ message: "User doesnt match" });
+        }
+      })
+      .catch((error) => {
+        debugError(error);
+      });
+
     if (!phoneNumber) {
       console.error("Phonenumber missing");
       response.status(500).end();

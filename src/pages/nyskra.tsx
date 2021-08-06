@@ -8,18 +8,19 @@ import { MainLayout, RegisterContainer } from "layouts";
 
 type Props = {
   reroute?: boolean;
+  href?: Routes;
 };
-const Register: NextPage<Props> = ({ reroute }) => {
+const Register: NextPage<Props> = ({ href, reroute }) => {
   const router = useRouter();
   useEffect(() => {
     if (reroute) {
-      router.push(Routes.Profile);
+      router.push(href);
     }
   });
 
   return (
-    <MainLayout>
-      <RegisterContainer />
+    <MainLayout noDistraction={reroute}>
+      {!reroute && <RegisterContainer />}
     </MainLayout>
   );
 };
@@ -29,7 +30,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const user = req.session.get(IronSession.UserSession);
     console.log("user from session", user);
     if (user !== undefined && user?.details?.userName) {
-      return { props: { reroute: true } };
+      return { props: { reroute: true, href: Routes.Profile } };
+    }
+    if (!user) {
+      return { props: { reroute: true, href: Routes.Login } };
     }
     return {
       props: {}

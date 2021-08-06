@@ -13,7 +13,9 @@ export async function GetSearchResult(input = "") {
 }
 
 export async function CreateUser(userInfo) {
-  return post(Endpoint.Users, userInfo);
+  return post(Endpoint.Users, userInfo, {
+    Authorization: userInfo.firebaseToken
+  });
 }
 export async function UpdateUser(userInfo: UserSessionStorage) {
   return post(`${Endpoint.User}/update`, userInfo, {

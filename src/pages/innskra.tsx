@@ -8,17 +8,11 @@ import { LoginFormContainer, MainLayout } from "layouts";
 
 const Login: NextPage = () => {
   const router = useRouter();
-  const { logout } = useAuth();
 
   const { user } = useUser();
   if (user.isLoggedIn) {
     router.push(Routes.Profile);
   }
-  React.useEffect(() => {
-    if (user?.details?.phoneNumber && !user?.isLoggedIn) {
-      logout();
-    }
-  }, [user]);
 
   return (
     <MainLayout noDistraction>
