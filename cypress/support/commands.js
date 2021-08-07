@@ -43,7 +43,7 @@ Cypress.Commands.add("doLogin", (phoneNumber) => {
 });
 
 Cypress.Commands.add("doRegistration", () => {
-  const randomNumber = Math.floor(100000 + Math.random() * 9000000);
+  const randomNumber = Math.floor(100000 + Math.random() * 900000);
   cy.doLogin(`+666${randomNumber}`);
   cy.location("pathname", { timeout: 10000 }).should("eq", "/nyskra");
   cy.get("[data-test=FirstNameInput]").type("_TESTER");

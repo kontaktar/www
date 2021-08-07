@@ -81,7 +81,46 @@ describe("Login", () => {
     cy.get("[data-test=experienceDeleteButton-Card0]").click();
   });
 
-  //   it("new user should be able to fully register", () => {
+  it("change user information", () => {
+    const randomPostalCode = Math.floor(100 + Math.random() * 900);
+    const randomAddressNumber = Math.floor(1 + Math.random() * 90);
+    cy.get("[data-test=changeUserButton]", { timeout: 10000 })
+      .should("exist")
+      .should("be.visible");
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(3000);
+    cy.get("[data-test=changeUserButton]").click();
+    cy.get("[data-test=firstNameInput]").clear().type("TESTER");
+    cy.get("[data-test=lastNameInput]").clear().type("TESTERSON");
+    cy.get("[data-test=userNameInput]").clear().type("TESTUSER");
+    cy.get("[data-test=streetNameInput]")
+      .clear()
+      .type(`TESTGATA ${randomAddressNumber}`);
+    cy.get("[data-test=cityInput]").clear().type("TESTVÍK");
+    cy.get("[data-test=postalCodeInput]").clear().type(randomPostalCode);
+    cy.get("[data-test=countryInput]").clear().type("TESTLAND");
+    cy.get("[data-test=emailInput]").clear().type("test@test.is");
+    cy.get("[data-test=websiteInput]").clear().type("www.test.is");
 
-  //   });
+    cy.get("[data-test=saveUserInfoButton]").click();
+    cy.get("[data-test=closeDialogButton]").click();
+
+    cy.get("[data-test=fullNameHeading]").should(
+      "have.text",
+      "TESTER TESTERSON"
+    );
+    cy.get("[data-test=phoneNumberUserInfoItem]").should(
+      "have.text",
+      "+3541111111"
+    );
+    cy.get("[data-test=emailUserInfoItem]").should("have.text", "test@test.is");
+    cy.get("[data-test=locationUserInfoItem]").should(
+      "have.text",
+      `TESTGATA ${randomAddressNumber}, ${randomPostalCode}, TESTVÍK, TESTLAND`
+    );
+    cy.get("[data-test=websiteUserInfoItem]").should(
+      "have.text",
+      "www.test.is"
+    );
+  });
 });

@@ -161,7 +161,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
                 width="32"
                 name="user"
               />
-              <h2>
+              <h2 data-test="fullNameHeading">
                 {userProfile.firstName} {userProfile.lastName}
               </h2>
             </div>
