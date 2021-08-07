@@ -1,7 +1,9 @@
+import { responsiveFontSizes } from "@material-ui/core";
 import firebase from "firebase/app";
 import { v4 as uuid } from "uuid";
 import { Routes, SessionStorage } from "types";
 import { CreateUser, GetUserByPhoneNumber } from "lib/endpoints";
+import fetch from "lib/fetchJson";
 import { debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
 
@@ -78,4 +80,19 @@ export const loginOrRegisterBypassingFirebase = async (
       router.push(Routes.Register);
     }
   }
+};
+
+export const getEmulatorVerificationCode = async (
+  phoneNumber: string
+): Promise<string> => {
+  console.log();
+  const response = await fetch(
+    `http://${process.env.FIREBASE_AUTH_EMULATOR_HOST}/emulator/v1/projects/${process.env.FIREBASE_PROJECT_ID}/verificationCodes`
+  );
+
+  const { code } = response.verificationCodes
+    .reverse()
+    .find((v) => v.phoneNumber === phoneNumber);
+
+  return code;
 };

@@ -1,5 +1,7 @@
+import * as admin from "firebase-admin";
 import pgp from "pg-promise";
 import { IronSession, UserSessionStorage } from "types";
+import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
 import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
 import database from "utils/database";
@@ -7,6 +9,15 @@ import { debug, debugError } from "helpers/debug";
 import { removeEmpty } from "helpers/objects";
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    ...firebaseAdminInitConfig,
+    credential: admin.credential.cert({
+      ...firebaseAdminInitConfig.credential
+    })
+  });
+}
 
 const UserById = withSession(async (request, response) => {
   await withMiddleware(request, response);
@@ -37,8 +48,10 @@ const UserById = withSession(async (request, response) => {
         country: data.country
       });
     } catch (error) {
-      response.status(500).end();
-      throw new Error(error);
+      if (error instanceof pgp.errors.QueryResultError) {
+        response.status(404).json("Not found");
+      }
+      return;
     }
   }
   if (method === "DELETE") {
@@ -63,6 +76,28 @@ const UserById = withSession(async (request, response) => {
   // This handles both "register"
   // and last_login update
   if (method === "PUT") {
+    if (!request?.headers?.authorization) {
+      response.status(401).json({ message: "Missing Authorization header" });
+      return;
+    }
+    admin
+      .auth()
+      .verifyIdToken(request?.headers?.authorization)
+      .then((decodedToken) => {
+        const { uid } = decodedToken;
+
+        // do something here?
+        // if (user?.firebase?.id) {
+        //   console.log("uid", uid);
+        //   if (body.firebase.id !== uid) {
+        //     response.status(400).json({ message: "User doesnt match" });
+        //   }
+        // }
+      })
+      .catch((error) => {
+        debugError(error);
+      });
+
     if (body && body.id && body.userName) {
       // Add to iron-session.
       let userData;

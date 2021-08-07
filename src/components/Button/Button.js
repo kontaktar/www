@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
+// import CircularProgress from "@material-ui/core/CircularProgress";
 import PropTypes from "prop-types";
 import cx from "classnames";
 import { Icon } from "components";
@@ -8,36 +8,19 @@ import Link from "components/LinkWrap";
 import styles from "./Button.module.scss";
 import colors from "styles/colors.module.scss";
 
-const Button = ({
-  children,
-  className = "",
-  disabled,
-  onClick,
-  modifier,
-  isLoading,
-  type,
-  "data-test": dataTest
-}) => {
-  return (
-    // eslint-disable-next-line react/button-has-type
-    <button
-      className={`${className} ${styles.button} ${modifier.map(
-        (m) => ` ${styles[m]} `
-      )}`}
-      disabled={disabled}
-      onClick={onClick}
-      type={type === "submit" ? "submit" : "button"}
-      // eslint-disable-next-line react/destructuring-assignment
-      data-test={dataTest}
-    >
-      {isLoading ? <CircularProgress /> : <>{children}</>}
-    </button>
-  );
-};
+import NewButton from "./NewButton";
+
+const Button = NewButton;
 
 Button.Edit = ({ type, className, ...props }) => {
   return (
-    <Button className={cx(className, styles.edit, styles[type])} {...props}>
+    <Button
+      data-test={
+        type === "save" ? "saveUserInfoButton" : "publishUserInfoButton"
+      }
+      className={cx(className, styles.edit, styles[type])}
+      {...props}
+    >
       <p>{type === "save" ? "Vista" : "Birta"}</p>
       <Icon
         className={styles.icon}

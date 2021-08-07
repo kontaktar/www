@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
+    "cy": "CYPRESS=1 cypress open",
     "emulator": "firebase emulators:start",
     "build": "next build",
     "dev": "NODE_ENV=development next",

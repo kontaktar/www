@@ -9,6 +9,7 @@ import useUser from "lib/useUser";
 import { debug } from "helpers/debug";
 import useAuth from "hooks/useAuth";
 import { Button, Checkbox, Input, Select, TextArea } from "components";
+import { MUIInput } from "components/Input";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
@@ -71,7 +72,6 @@ const Experience = ({ data }) => {
       <div className={styles.input_line}>
         <Input
           className={styles.title_input}
-          id={experience.id}
           name="title"
           label="Heiti verks"
           onChange={handleChange}
@@ -151,21 +151,18 @@ const UserInformation = ({ data }) => {
       <div className={styles.input_rows}>
         <div className={styles.input_line}>
           <Input
-            id={userInfo.id + userInfo.firstName}
             label="Fornafn"
             name="firstName"
             value={userInfo.firstName}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.lastName}
             label="Eftirnafn"
             name="lastName"
             value={userInfo.lastName}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.userName}
             label="Notendanafn"
             name="userName"
             value={userInfo.userName}
@@ -174,51 +171,44 @@ const UserInformation = ({ data }) => {
         </div>
         <div className={styles.input_line}>
           <Input
-            id={userInfo.id + userInfo.streetName}
             label="Heimilisfang"
             name="streetName"
             value={userInfo.streetName}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.city}
             name="city"
             label="Bær"
             value={userInfo.city}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.postalCode}
             label="Póstfang"
             name="postalCode"
-            value={userInfo.postalCode}
+            value={userInfo.postalCode && userInfo.postalCode.toString()}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.country}
             label="Land"
             name="country"
             value={userInfo.country}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.phoneNumber}
             label="Símanúmer"
             name="phoneNumber"
-            value={userInfo.phoneNumber}
+            value={userInfo.phoneNumber && userInfo.phoneNumber.toString()}
             onChange={handleChange}
           />
         </div>
         <div className={styles.input_line}>
           <Input
-            id={userInfo.id + userInfo.email}
             label="Netfang"
             name="email"
             value={userInfo.email}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.website}
             label="Vefsíða"
             name="website"
             value={userInfo.website}

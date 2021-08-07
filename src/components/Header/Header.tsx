@@ -95,6 +95,7 @@ const Header = ({
                 {!tabletPortrait && (
                   <Link href="/">
                     <Button
+                      name="homeNavigation"
                       className={cx(styles.tab, styles.ripple)}
                       modifier={["borderless"]}
                     >
@@ -104,6 +105,7 @@ const Header = ({
                 )}
                 <Link href={Routes.Search}>
                   <Button
+                    name="searchNavigation"
                     className={cx(styles.tab, styles.ripple)}
                     modifier={["borderless"]}
                   >
@@ -112,6 +114,7 @@ const Header = ({
                 </Link>
                 <Link href={Routes.Subcription}>
                   <Button
+                    name="subscriptionNavigation"
                     className={cx(styles.tab, styles.ripple)}
                     modifier={["borderless"]}
                   >
@@ -119,6 +122,7 @@ const Header = ({
                   </Button>
                 </Link>
                 <Button
+                  name="logoutNavigation"
                   className={styles.login}
                   onClick={
                     !user.isLoggedIn

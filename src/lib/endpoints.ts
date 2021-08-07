@@ -41,7 +41,9 @@ export async function DeleteExperience(userId, experienceId) {
 }
 
 export async function EditUser(userId, userInfo) {
-  return put(`${Endpoint.Users}/${userId}`, userInfo);
+  return put(`${Endpoint.Users}/${userId}`, userInfo, {
+    Authorization: userInfo.firebaseToken
+  });
 }
 
 export async function EditExperience(userId, experience) {

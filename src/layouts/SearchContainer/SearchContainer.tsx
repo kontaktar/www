@@ -63,6 +63,7 @@ const SearchContainer = ({
                 <Card
                   // eslint-disable-next-line react/no-array-index-key
                   key={i}
+                  id={i}
                   title={card.title}
                   description={card.description}
                   years={card.years}

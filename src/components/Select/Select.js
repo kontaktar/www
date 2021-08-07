@@ -4,26 +4,7 @@ import { TextField as MUITextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import styles from "./Select.module.scss";
 
-// const options = [
-//   {
-//     value: "1",
-//     label: "1"
-//   },
-//   {
-//     value: "2",
-//     label: "2"
-//   },
-//   {
-//     value: "3",
-//     label: "3"
-//   },
-//   {
-//     value: "4",
-//     label: "4"
-//   }
-// ];
-
-const Select = ({ className, error, label, options, ...props }) => {
+const Select = ({ className, error, label, options, name, ...props }) => {
   return (
     <div className={`${styles.select} ${className}`}>
       {label && (
@@ -41,6 +22,10 @@ const Select = ({ className, error, label, options, ...props }) => {
         SelectProps={{
           native: true
         }}
+        inputProps={{
+          "data-test": props["data-test"] || `${name}Select`
+        }}
+        name={name}
         {...props}
       >
         {options &&

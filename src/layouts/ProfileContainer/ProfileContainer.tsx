@@ -15,6 +15,7 @@ import { debugError } from "helpers/debug";
 import { Button, Card, Icon } from "components";
 import Link from "components/LinkWrap";
 import Modal from "components/Modal";
+import UserInfoItem from "components/Profile/UserInfoItem";
 import { CardsContainer, DragableCardContainer, ModalContent } from "layouts";
 import styles from "./ProfileContainer.module.scss";
 import colors from "styles/colors.module.scss";
@@ -167,6 +168,7 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
 
             {editMode && (
               <Button
+                data-test="changeUserButton"
                 className={styles.change_user_btn}
                 onClick={onEditUserInfoModal}
               >
@@ -175,64 +177,30 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
             )}
             {!editMode && userName === user?.details?.userName && (
               <Link href="/profill">
-                <Button>Breyta</Button>
+                <Button data-test="goToProfileButton">Breyta</Button>
               </Link>
             )}
           </div>
 
           <div className={styles.user_information}>
-            <Fragment>
-              {userProfile.phoneNumber && (
-                <span>
-                  <Icon
-                    className={styles.user_info_icons}
-                    color={colors.red}
-                    name="phone-profile"
-                  />
-                  {userProfile.phoneNumber}
-                </span>
-              )}
-              <span>
-                <Icon
-                  className={styles.user_info_icons}
-                  color={colors.red}
-                  name="email-profile"
-                />
-                {userProfile.email}
-              </span>
-              {userProfile.website ? (
-                <span>
-                  <Icon
-                    className={styles.user_info_icons}
-                    color={colors.red}
-                    name="website"
-                  />
-                  {userProfile.website}
-                </span>
-              ) : null}
-              {(userProfile.streetName ||
-                userProfile.postalCode ||
-                userProfile.city ||
-                userProfile.country) && (
-                <span>
-                  <Icon
-                    className={styles.user_info_icons}
-                    color={colors.red}
-                    name="location"
-                  />
-                  {[
-                    userProfile.streetName,
-                    userProfile.postalCode && userProfile.postalCode !== "0"
-                      ? userProfile.postalCode
-                      : "",
-                    userProfile.city,
-                    userProfile.country
-                  ]
-                    .filter(Boolean)
-                    .join(", ")}
-                </span>
-              )}
-            </Fragment>
+            <>
+              <UserInfoItem item={userProfile.phoneNumber} name="phoneNumber" />
+              <UserInfoItem item={userProfile.email} name="email" />
+              <UserInfoItem item={userProfile.website} name="website" />
+              <UserInfoItem
+                item={[
+                  userProfile.streetName,
+                  userProfile.postalCode && userProfile.postalCode !== "0"
+                    ? userProfile.postalCode
+                    : "",
+                  userProfile.city,
+                  userProfile.country
+                ]
+                  .filter(Boolean)
+                  .join(", ")}
+                name="location"
+              />
+            </>
           </div>
         </div>
         <div className={styles.card_container}>
@@ -253,10 +221,11 @@ const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
           ) : (
             <CardsContainer>
               {userExperiences.length > 0 &&
-                userExperiences.map((experience) => {
+                userExperiences.map((experience, i) => {
                   if (experience.published) {
                     return (
                       <Card
+                        id={i}
                         key={experience.id}
                         description={experience.description}
                         editMode={!!editMode}

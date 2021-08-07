@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Routes } from "types";
@@ -10,6 +10,7 @@ import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
 import {
+  getEmulatorVerificationCode,
   loginOrRegisterBypassingFirebase,
   shouldBypassFirebaseOnDevelopment
 } from "helpers/firebase";
@@ -33,6 +34,7 @@ const VerificationCodeForm = ({
   const router = useRouter();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [firebaseIdToken, setFirebaseIdToken] = useState("");
+  const [emulatorCode, setEmulatorCode] = useState("");
 
   const dispatchToStore = useDispatch();
 
@@ -76,8 +78,12 @@ const VerificationCodeForm = ({
 
   const formik = useFormik({
     initialValues: {
-      verificationCode: ""
+      verificationCode: emulatorCode
     },
+    initialTouched: {
+      verificationCode: !!emulatorCode
+    },
+    enableReinitialize: true,
     validationSchema: verificationCodeSchema,
     onSubmit: async (values) => {
       setLoading(true);
@@ -146,6 +152,19 @@ const VerificationCodeForm = ({
     }
   });
 
+  useEffect(() => {
+    async function fetchEmulatorCode() {
+      const code = await getEmulatorVerificationCode(userPhoneNumber);
+      setEmulatorCode(code);
+      formik.setFieldValue("verificationCode", code, true);
+      formik.setFieldTouched("verificationCode", true, true);
+    }
+
+    if (process.env.FIREBASE_EMULATOR !== "0" && process.env.CYPRESS !== "1") {
+      fetchEmulatorCode();
+    }
+  }, []);
+
   return (
     <form onSubmit={formik.handleSubmit} className={styles.form}>
       <h1>Staðfestingarkóði hefur verið sendur í símann þinn</h1>
@@ -159,13 +178,16 @@ const VerificationCodeForm = ({
         value={formik.values.verificationCode}
         error={formik.errors.verificationCode}
         isTouched={formik.touched.verificationCode}
-        data-test="VerificationCodeInput"
+        inputProps={{
+          "data-test": "verificationCodeLoginInput"
+        }}
+        controlValue={emulatorCode}
       />
       <Button
+        name="VerificationCode"
         type="submit"
         disabled={isLoading}
         isLoading={isLoading}
-        data-test="VerificationCodeButton"
       >
         Staðfesta kóða
       </Button>

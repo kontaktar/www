@@ -27,11 +27,19 @@ Cypress.Commands.add("doLogin", (phoneNumber) => {
   cy.get("[data-test=PhoneNumberLoginInput]").type(phoneNumber);
   cy.get("[data-test=PhoneNumberLoginButton]").click();
 
-  cy.get("[data-test=VerificationCodeInput]").should("exist");
-  cy.getFirebaseVerificationCode().then((code) => {
-    cy.get("[data-test=VerificationCodeInput]").type(code);
-  });
+  cy.get("[data-test=verificationCodeInput]", { timeout: 10000 }).should(
+    "exist"
+  );
+  // cy.getFirebaseVerificationCode().then((code) => {
+  //   cy.get("[data-test=VerificationCodeInput]").type(code);
+  // });
+  cy.get("[data-test=VerificationCodeButton]")
+    .should("exist")
+    .should("be.visible");
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(3000);
   cy.get("[data-test=VerificationCodeButton]").click();
+  // cy.getCookie("userSession", { timeout: 10000 }).should("exist");
 });
 
 Cypress.Commands.add("doRegistration", () => {

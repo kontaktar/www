@@ -42,6 +42,17 @@ describe("Access", () => {
       expect(response).property("body").to.have.property("message");
     });
   });
+  it.only("PUT: /api/users/0 should fail, needs Authorization", () => {
+    cy.request({
+      method: "PUT",
+      url: `${baseUrl}/user/0`,
+      failOnStatusCode: false,
+      body: { userName: "Test" }
+    }).should((response) => {
+      expect(response.status).to.eq(401);
+      expect(response).property("body").to.have.property("message");
+    });
+  });
 
   //   cy.request({
   //     method: "POST",

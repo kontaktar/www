@@ -10,7 +10,12 @@ const AddItem = () => {
   const onCloseModal = () => setOpenModal(false);
   return (
     <>
-      <button type="button" className={styles.add_new_item} onClick={onClick}>
+      <button
+        type="button"
+        data-test="addNewExperienceButton"
+        className={styles.add_new_item}
+        onClick={onClick}
+      >
         <span className={styles.add_new_plus}>+</span>
       </button>
       <Modal

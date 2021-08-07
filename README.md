@@ -225,6 +225,20 @@ all-usernames called multiple times
 
 fix button loading state, onhover
 
-passa að loka á /nyskra
+passa að loka á /nyskra !!!!
 
-withUserAccess
+dont need to save user info if nothing was changed, api being called for no chanegs
+
+\_\_
+create cypress test to edit user, edit experience
+
+create cypress test for every endpoint,
+
+then do access control, withUserAccess and so on
+(how can I reduce the admin.firebase code ?)
+
+---
+
+what happens if the firebase session stops and userSession is still ongoing?
+
+https://github.com/jellydn/next-swagger-doc

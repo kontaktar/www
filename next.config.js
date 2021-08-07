@@ -9,6 +9,8 @@ module.exports = {
   env: {
     BASE_URL: process.env.VERCEL_URL || "localhost:3000",
     FIREBASE_EMULATOR: process.env.FIREBASE_EMULATOR || "0",
+    FIREBASE_AUTH_EMULATOR_HOST:
+      process.env.FIREBASE_AUTH_EMULATOR_HOST || "Missing",
     BYPASS_FIREBASE: process.env.BYPASS_FIREBASE || "0",
     SECRET_COOKIE_PASSWORD: process.env.SECRET_COOKIE_PASSWORD,
     FIREBASE_CLIENT_API_KEY: process.env.FIREBASE_CLIENT_API_KEY,

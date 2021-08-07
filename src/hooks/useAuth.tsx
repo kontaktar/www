@@ -78,7 +78,7 @@ export const AuthProvider = ({
       }
     );
     try {
-      await EditUser(body.id, { lastLogin: new Date() });
+      await EditUser(body.id, { firebaseToken: token, lastLogin: new Date() });
     } catch (error) {
       debugError(`useAuth:login: ${error}`);
     } finally {

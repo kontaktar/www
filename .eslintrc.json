@@ -160,6 +160,7 @@
         "when": "multiline"
       }
     ],
+    "react/destructuring-assignment": ["warn"],
     "react/jsx-one-expression-per-line": "off",
     "react/no-did-mount-set-state": "off",
     "react/no-unused-prop-types": "off",

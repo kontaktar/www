@@ -74,6 +74,7 @@ const Modal = ({
                           onClose();
                           setShowDialog(false);
                         }}
+                        data-test="closeDialogButton"
                       >
                         <CloseIcon />
                       </IconButton>
