@@ -6,6 +6,7 @@ const pgp = require("pg-promise")();
 // Get these values from configuration
 const user = process.env.POSTGRES_USER;
 const password = process.env.POSTGRES_PASS;
+
 const host = process.env.POSTGRES_HOST; // TODO: set env
 const port = process.env.POSTGRES_PORT;
 const database = process.env.POSTGRES_DB;
