@@ -21,11 +21,14 @@ import styles from "./ProfileContainer.module.scss";
 import colors from "styles/colors.module.scss";
 
 type Props = {
-  editMode: boolean;
-  userName: string;
+  editMode?: boolean;
+  userName?: string;
 };
 
-const ProfileContainer = ({ editMode, userName }: Props): ReactElement => {
+const ProfileContainer = ({
+  editMode = false,
+  userName = undefined
+}: Props): ReactElement => {
   const { query } = useRouter();
 
   const { user } = useUser();

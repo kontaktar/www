@@ -175,7 +175,6 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 - Else:
 - `CreateUser` endpoint called
 - `mutateUser` for useSwr with instant revalidation.
-- `userId` added to session storage.
 - route pushed to REGISTER:`/nyskra`
 
 ### REGISTER
@@ -192,12 +191,10 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 ### LOGIN
 
 - Fetch `userData` from db with `GetUserByPhoneNumber`
-- TODO: Limit callability : `GetUserByPhoneNumber` should make sure that `AuthUser`, `window.confirmationResult`and/or `additionalUserInfo` is matching the user calling the endpoint. (Verify token, see TODO section above).
-  (The token is also in `UserSessionStorage`)
 - use `userData` to call `login` endpoint called with firebase token Authorization header
-- iron-session set.
+- `iron-session` set.
   - `updateAuthState` with `isLoggedIn` flag and `userData` object.
-- endpoint adds to iron-session info about the user + db set.
+- endpoint adds to `iron-session` info about the user + db set.
 - route pushed to `profile`
 
 ### LOGOUT
@@ -207,30 +204,17 @@ Destroy iron-session and firebase session.
 TODO:
 -[] Create cleanup function that cleans up window stuff after succesful login / register
 
--[] Firebase local testing:
-firebase.auth().settings.appVerificationDisabledForTesting = true;
-https://firebase.google.com/docs/auth/web/phone-auth?hl=en#integration-testing
-
 -[] What happens if I reach the register screen - clear the session storage and then refresh and try again.
-
--[] VERIFY FIREBASE BYPASS
 
 ####
 
 NEEDS FIXING:
 
-Logout feedback is really slow
-
 all-usernames called multiple times
 
 fix button loading state, onhover
 
-passa að loka á /nyskra !!!!
-
 dont need to save user info if nothing was changed, api being called for no chanegs
-
-\_\_
-create cypress test to edit user, edit experience
 
 create cypress test for every endpoint,
 
