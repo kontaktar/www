@@ -3,7 +3,7 @@ import pgp from "pg-promise";
 import { IronSession, UserSessionStorage } from "types";
 import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
-import { withMiddleware /* , withUserAccess*/ } from "utils/apiMiddleware";
+import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
 import { debug, debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
@@ -73,7 +73,6 @@ const Users = withSession(async (request, response) => {
           userId: data?.user_id
         });
       } else if (query && query.phoneNumber) {
-        // TODO: do withUserAccess
         // the plus is stripped when used as a query param
         const phoneNumberWithPlus = `+${query.phoneNumber}`.replace(" ", "");
         data = await database.one(

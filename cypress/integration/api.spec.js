@@ -28,7 +28,10 @@ describe("Access", () => {
       body: { abc: "123" }
     }).should((response) => {
       expect(response.status).to.eq(401);
-      expect(response).property("body").to.have.property("message");
+      expect(response)
+        .property("body")
+        .to.have.property("message")
+        .to.equal("Missing Authorization header");
     });
   });
   it("POST: /api/user/update should fail, needs Authorization", () => {
@@ -42,12 +45,65 @@ describe("Access", () => {
       expect(response).property("body").to.have.property("message");
     });
   });
-  it.only("PUT: /api/users/0 should fail, needs Authorization", () => {
+  it("PUT: /api/users/0 should fail, needs Authorization", () => {
     cy.request({
       method: "PUT",
-      url: `${baseUrl}/user/0`,
+      url: `${baseUrl}/users/0`,
       failOnStatusCode: false,
       body: { userName: "Test" }
+    }).should((response) => {
+      expect(response.status).to.eq(401);
+      expect(response).property("body").to.have.property("message");
+    });
+  });
+  it("PUT: /api/users/0/experiences/0 should fail, needs Authorization", () => {
+    cy.request({
+      method: "PUT",
+      url: `${baseUrl}/users/0/experiences/0`,
+      failOnStatusCode: false,
+      body: { stuff: "Test" }
+    }).should((response) => {
+      expect(response.status).to.eq(401);
+      expect(response)
+        .property("body")
+        .to.have.property("message")
+        .to.equal("Forbidden");
+    });
+  });
+  it("POST: /api/users/0/experiences should fail, needs Authorization", () => {
+    cy.request({
+      method: "POST",
+      url: `${baseUrl}/users/0/experiences`,
+      failOnStatusCode: false,
+      body: { stuff: "Test" }
+    }).should((response) => {
+      expect(response.status).to.eq(401);
+      expect(response)
+        .property("body")
+        .to.have.property("message")
+        .to.equal("Forbidden");
+    });
+  });
+  it("DELETE: /api/users/0 should fail, needs Authorization", () => {
+    cy.request({
+      method: "DELETE",
+      url: `${baseUrl}/users/0`,
+      failOnStatusCode: false,
+      body: { stuff: "Test" }
+    }).should((response) => {
+      expect(response.status).to.eq(401);
+      expect(response)
+        .property("body")
+        .to.have.property("message")
+        .to.equal("Forbidden");
+    });
+  });
+  it("DELETE: /api/users/0/experiences/0 should fail, needs Authorization", () => {
+    cy.request({
+      method: "DELETE",
+      url: `${baseUrl}/users/0/experiences/0`,
+      failOnStatusCode: false,
+      body: { stuff: "Test" }
     }).should((response) => {
       expect(response.status).to.eq(401);
       expect(response).property("body").to.have.property("message");

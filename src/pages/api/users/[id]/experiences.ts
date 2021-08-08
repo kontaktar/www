@@ -50,62 +50,69 @@ export default withSession(async (request, response) => {
     }
   }
   if (method === "POST") {
-    withUserAccess(request, response);
-
-    try {
-      const {
-        id,
-        title,
-        description,
-        years,
-        months,
-        published
-      } = await database.one(
-        "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
-        [
-          userId,
-          body.title,
-          body.description,
-          body.years,
-          body.months,
-          !!body.published
-        ]
-      );
-      response
-        .status(200)
-        .json({ id, title, description, years, months, published });
-    } catch (error) {
-      response.status(500).send({ error: error.message });
-      console.log(error, error.name, error.message);
-      throw new Error(`POST EXPERIENCE: ${error}`);
-    }
+    const createExperience = withUserAccess((handler) => {
+      return async (_request, _res) => {
+        try {
+          const {
+            id,
+            title,
+            description,
+            years,
+            months,
+            published
+          } = await database.one(
+            "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+            [
+              userId,
+              body.title,
+              body.description,
+              body.years,
+              body.months,
+              !!body.published
+            ]
+          );
+          _res
+            .status(200)
+            .json({ id, title, description, years, months, published });
+        } catch (error) {
+          _res.status(500).send({ error: error.message });
+          console.log(error, error.name, error.message);
+          throw new Error(`POST EXPERIENCE: ${error}`);
+        }
+      };
+    });
+    createExperience(request, response);
   }
   if (method === "PUT") {
-    withUserAccess(request, response);
-    try {
-      const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
-        table: "experiences"
-      });
-      // eslint-disable-next-line no-unused-vars
-      const query =
-        pgpHelpers.update(body, cs) +
-        pgp.as.format(" WHERE v.id = t.id AND user_id = $1 RETURNING *", [
-          userId
-        ]);
+    const updateExperience = withUserAccess((handler) => {
+      return async (_request, _res) => {
+        try {
+          const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
+            table: "experiences"
+          });
+          // eslint-disable-next-line no-unused-vars
+          const query =
+            pgpHelpers.update(body, cs) +
+            pgp.as.format(" WHERE v.id = t.id AND user_id = $1 RETURNING *", [
+              userId
+            ]);
 
-      const experiences = database.any(query);
+          const experiences = database.any(query);
 
-      response.status(200).json(experiences);
-    } catch (error) {
-      console.log(error, error.name, error.message);
-      if (error instanceof pgp.errors.QueryResultError) {
-        response.status(404).end();
-        throw new Error(`UPDATE EXPERIENCES 404: ${error}`);
-      } else {
-        response.status(500).end();
-        throw new Error(`UPDATE EXPERIENCES 500: ${error}`);
-      }
-    }
+          _res.status(200).json(experiences);
+        } catch (error) {
+          console.log(error, error.name, error.message);
+          if (error instanceof pgp.errors.QueryResultError) {
+            _res.status(404).end();
+            throw new Error(`UPDATE EXPERIENCES 404: ${error}`);
+          } else {
+            _res.status(500).end();
+            throw new Error(`UPDATE EXPERIENCES 500: ${error}`);
+          }
+        }
+      };
+    });
+    updateExperience(request, response);
   } else {
     response.status(400).end();
   }

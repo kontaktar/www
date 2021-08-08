@@ -55,23 +55,25 @@ const UserById = withSession(async (request, response) => {
     }
   }
   if (method === "DELETE") {
-    withUserAccess(request, response);
-
-    try {
-      await database.one(
-        "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
-        [userId]
-      );
-      response.status(200).json({ userId });
-    } catch (error) {
-      if (error instanceof pgp.errors.QueryResultError) {
-        response.status(404).end();
-        throw new Error(`DELETE USER 404: ${error}`);
-      } else {
-        response.status(500).end();
-        throw new Error(`DELETE USER 500:  ${error}`);
-      }
-    }
+    const deleteUser = withUserAccess((handler) => {
+      return async (_request, _res) => {
+        try {
+          await database.one(
+            "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
+            [userId]
+          );
+          _res.status(200).json({ userId });
+        } catch (error) {
+          if (error instanceof pgp.errors.QueryResultError) {
+            _res.status(404).end();
+          } else {
+            _res.status(500).end();
+            throw new Error(`DELETE USER 500:  ${error}`);
+          }
+        }
+      };
+    });
+    deleteUser(request, response);
   }
   // This handles both "register"
   // and last_login update
@@ -191,7 +193,7 @@ const UserById = withSession(async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
-        throw new Error(`UPDATE USER 404: ${error}`);
+        // throw new Error(`UPDATE USER 404: ${error}`);
       } else {
         response.status(500).end();
         throw new Error(`UPDATE USER 500: ${error}`);

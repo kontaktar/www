@@ -1,5 +1,7 @@
 import Cors from "cors";
+import next from "next";
 import { IronSession } from "types";
+import { debugError } from "helpers/debug";
 
 const cors = Cors({
   methods: ["GET", "POST", "PUT", "DELETE", "HEAD"]
@@ -21,21 +23,16 @@ export const withMiddleware = (request, response) => {
   runMiddleware(request, response, cors);
 };
 
-export const withUserAccess = (request, response) => {
-  if (
-    request.session.get(IronSession.UserSession)?.details?.id.toString() !==
-    request.query.id.toString()
-  ) {
-    response.status(403).end("Forbidden");
-
-    if (request.session.get(IronSession.UserSession) === undefined) {
-      throw new Error(`User is not logged in`);
-    } else {
-      throw new Error(
-        `User ${request.body.id} doesn't have access to ${
-          request.session.get(IronSession.UserSession)?.details?.id
-        }`
-      );
+export const withUserAccess = (handler) => {
+  return async (request, response) => {
+    if (
+      !request.session.get(IronSession.UserSession)?.details?.id ||
+      request.session.get(IronSession.UserSession)?.details?.id.toString() !==
+        request.query.id.toString()
+    ) {
+      debugError("witUserMiddleware: User does not have access");
+      return response.status(401).json({ message: "Forbidden" });
     }
-  }
+    return handler(request, response);
+  };
 };
