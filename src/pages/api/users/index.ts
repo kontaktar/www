@@ -223,6 +223,7 @@ const Users = withSession(async (request, response) => {
         debug("userData from UserStorage", userData);
         const updatedUserData: UserSessionStorage = {
           ...userData,
+          isLoggedIn: true,
           details: {
             id: newUserId,
             ...userData?.details,
