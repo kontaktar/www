@@ -1,0 +1,22 @@
+name: End-to-end tests
+on: [push]
+env:
+  CYPRESS_HOST: "http://localhost:3000"
+jobs:
+  cypress-run:
+    runs-on: ubuntu-16.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+      - name: Start
+        run: |
+          NODE_ENV=development yarn start &
+          yarn emulator &
+      - name: Run Cypress test
+        uses: cypress-io/github-action@v2
+        with:
+          command: yarn cy:run
