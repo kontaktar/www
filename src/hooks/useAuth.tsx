@@ -77,9 +77,10 @@ export const AuthProvider = ({
     try {
       await CreateUser(body);
       dispatch(setStatus("REGISTERED"));
-      await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
     } catch (error) {
       debugError("Register:Could not register user:", error.message);
+    } finally {
+      await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
     }
   };
 

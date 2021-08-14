@@ -1,5 +1,7 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 /* eslint-disable no-param-reassign */
+const ESLintPlugin = require("eslint-webpack-plugin");
+
 require("dotenv").config({ path: ".env" });
 
 module.exports = {
@@ -19,18 +21,11 @@ module.exports = {
     FIREBASE_DATABASE_URL: `${process.env.FIREBASE_PROJECT_ID}.firebase.io`
   },
   enableSvg: true,
+  plugins: [new ESLintPlugin()],
   webpack(config, { dev, isServer, webpack }) {
-    if (dev) {
-      config.module.rules.push({
-        test: /\.(js|ts|tsx)$/,
-        exclude: /node_modules/,
-        loader: "eslint-loader"
-        // options: {
-        //   fix: true
-        // }
-      });
-    }
-    config.plugins.push(new webpack.IgnorePlugin(/^pg-native$/));
+    config.plugins.push(
+      new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })
+    );
     return config;
   }
 };
