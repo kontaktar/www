@@ -1,7 +1,7 @@
 /* eslint-disable jest/lowercase-name */
 /* eslint-disable jest/valid-expect */
 /* eslint-disable jest/expect-expect */
-const baseUrl = "http://localhost:3000/api";
+const baseUrl = "/api";
 describe("Access", () => {
   beforeEach(() => {});
 

@@ -6,7 +6,7 @@
 
 describe("Login", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/innskra");
+    cy.visit("/innskra");
     cy.doLogin("+3541111111");
     cy.location("pathname", { timeout: 10000 }).should("eq", "/profill");
   });

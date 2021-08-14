@@ -214,6 +214,9 @@ all-usernames called multiple times
 
 fix button loading state, onhover
 
+Remove innskra button from /nyskra.
+How to clear userSession that has not been finalized ( in /nyskra state with isLoggedIn: false)
+
 dont need to save user info if nothing was changed, api being called for no chanegs
 
 create cypress test for every endpoint,

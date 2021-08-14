@@ -18,6 +18,7 @@ ssh_key.pub
 firebase-debug.log
 ui-debug.log
 
+cypress/screenshots/
 cypress/examples/
 cypress/videos/
 /cypress.json
