@@ -29,8 +29,8 @@
 
 .login {
   opacity: 0;
-  transition: background-color 1s;
-  animation: opacity 1s ease-out 1.5s;
+  transition: background-color 0.1s;
+  animation: opacity 0.1s ease-out 0.3s;
   animation-fill-mode: forwards;
   width: 166px;
   margin-left: 40px;

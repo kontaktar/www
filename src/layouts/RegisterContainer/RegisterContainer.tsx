@@ -4,16 +4,14 @@ import AvailableIcon from "@material-ui/icons/CheckCircleOutline";
 import NotAvailableIcon from "@material-ui/icons/HighlightOff";
 import CircleIcon from "@material-ui/icons/RadioButtonUnchecked";
 import listOfReservedUserNames from "data/reservedUserNames";
-import firebase from "firebase/app";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { Routes, SessionStorage, UserData } from "types";
+import { Routes, UserData } from "types";
 import { GetAllUserNames } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
-import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 import { registerFormSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
@@ -33,7 +31,6 @@ const RegisterContainer = (): ReactElement => {
   const { register } = useAuth();
   const { user } = useUser();
   const router = useRouter();
-  const [userPhoneNumber, setUserPhoneNumber] = useState(undefined);
 
   const formik = useFormik({
     initialValues: {
@@ -45,20 +42,26 @@ const RegisterContainer = (): ReactElement => {
     },
     validationSchema: registerFormSchema,
     onSubmit: async (values) => {
+      debug("RegisterContainer:SessionStorage:onSubmit", user);
+      if (!user?.details?.phoneNumber) {
+        // TODO: create modal that will run useAuth:logout and restart the login
+        setErrorMessage(
+          "Vinsamlegast endurhlaða vefinn og reyndu aftur, ef þessi villa heldur áfram að birtast, vinsamlegast hafðu samband"
+        );
+      }
       const body = {
-        id:
-          user?.details?.id ||
-          window.sessionStorage.getItem(SessionStorage.UserId),
         userName: values.userName,
         ssn: values.ssn,
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
-        phoneNumber: user?.details?.phoneNumber || userPhoneNumber
+        phoneNumber: user?.details?.phoneNumber,
+        createdAt: user?.details?.createdAt,
+        firebaseId: user.firebase.id,
+        firebaseToken: user.firebase.token
       };
       debug("RegisterContainer:onSubmit", body);
       debug("RegisterContainer:phoneNumber", user?.details?.phoneNumber);
-      debug("RegisterContainer:userPhoneNumber backup", userPhoneNumber);
 
       try {
         setLoader(true);
@@ -74,39 +77,6 @@ const RegisterContainer = (): ReactElement => {
         setLoader(false);
       }
     }
-  });
-  useEffect(() => {
-    const unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged(async (firebaseUser) => {
-        const userId = window.sessionStorage.getItem(SessionStorage.UserId);
-
-        if (shouldBypassFirebaseOnDevelopment) {
-          // 3/3 step in bypassing firebase on localhost
-          setUserPhoneNumber(user?.details?.phoneNumber);
-        } else if (
-          firebaseUser.phoneNumber === user?.details?.phoneNumber &&
-          firebaseUser.uid === user?.firebase?.id &&
-          user?.details?.id.toString() === userId
-        ) {
-          setUserPhoneNumber(firebaseUser.phoneNumber);
-        } else {
-          debugError("user.uid !== user?.details?.firebase");
-          debugError("user session", user);
-          debugError("firebaseUser.uid", firebaseUser.uid);
-          debugError("user?.firebase.id", user?.firebase?.id);
-          debugError("firebaseUser.phoneNumber", firebaseUser.phoneNumber);
-          debugError("user?.details?.phoneNumber", user?.details?.phoneNumber);
-
-          debugError(
-            "user?.details?.id.toString()",
-            user?.details?.id.toString()
-          );
-          debugError("userId", userId);
-          router.push(Routes.Login);
-        }
-      });
-    return () => unregisterAuthObserver(); // un-register observers on unmounts.
   });
 
   useEffect(() => {
@@ -135,7 +105,8 @@ const RegisterContainer = (): ReactElement => {
       };
       fetchAllUserNames();
     }
-  });
+  }, []);
+
   const checkIfUserNameIsTaken = async (userName: string) => {
     setUserNameCheckEmpty(false);
     const isUserNameValid =
@@ -153,7 +124,9 @@ const RegisterContainer = (): ReactElement => {
   return (
     <div {...useMaxWidth()}>
       <form onSubmit={formik.handleSubmit} className={styles.form}>
-        <span className={styles.heading}>Nýskráning</span>
+        <span data-test="RegistrationHeading" className={styles.heading}>
+          Nýskráning
+        </span>
 
         <div className={styles.row}>
           <MUIInput
@@ -169,6 +142,7 @@ const RegisterContainer = (): ReactElement => {
             value={formik.values.firstName}
             error={formik.errors.firstName}
             isTouched={formik.touched.firstName}
+            data-test="FirstNameInput"
           />
           <MUIInput
             type="text"
@@ -181,6 +155,7 @@ const RegisterContainer = (): ReactElement => {
             value={formik.values.lastName}
             error={formik.errors.lastName}
             isTouched={formik.touched.lastName}
+            data-test="LastNameInput"
           />
         </div>
         <div className={styles.row}>
@@ -194,9 +169,10 @@ const RegisterContainer = (): ReactElement => {
             onBlur={() =>
               formik.setFieldTouched(UserData.Kennitala, true, true)
             }
-            value={formik.values.ssn}
+            value={formik.values.ssn.toString()}
             error={formik.errors.ssn}
             isTouched={formik.touched.ssn}
+            data-test="KennitalaInput"
           />
           <MUIInput
             type="text"
@@ -209,6 +185,7 @@ const RegisterContainer = (): ReactElement => {
             value={formik.values.email}
             error={formik.errors.email}
             isTouched={formik.touched.email}
+            data-test="EmailInput"
           />
         </div>
         <div className={styles.row}>
@@ -252,6 +229,7 @@ const RegisterContainer = (): ReactElement => {
               value={formik.values.userName}
               error={formik.errors.userName}
               isTouched={formik.touched.userName}
+              data-test="UserNameInput"
             />
           </div>
         </div>
@@ -261,6 +239,7 @@ const RegisterContainer = (): ReactElement => {
           type="submit"
           isLoading={isLoading}
           className={styles.button}
+          data-test="RegisterNewUserButton"
         >
           Nýskrá
         </Button>

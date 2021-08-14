@@ -20,7 +20,7 @@
     "plugin:jsx-a11y/recommended",
     "prettier",
     "prettier/react",
-    "plugin:jest/recommended",
+    // "plugin:jest/recommended",
     "plugin:cypress/recommended",
     "plugin:react-hooks/recommended"
   ],
@@ -160,6 +160,7 @@
         "when": "multiline"
       }
     ],
+    "react/destructuring-assignment": ["warn"],
     "react/jsx-one-expression-per-line": "off",
     "react/no-did-mount-set-state": "off",
     "react/no-unused-prop-types": "off",

@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
+    "cy": "CYPRESS=1 cypress open",
+    "cy:run": "CYPRESS=1 cypress run",
     "emulator": "firebase emulators:start",
     "build": "next build",
     "dev": "NODE_ENV=development next",
@@ -75,6 +77,7 @@
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "css-loader": "1.0.0",
+    "cypress": "^8.2.0",
     "dotenv-webpack": "^1.7.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",

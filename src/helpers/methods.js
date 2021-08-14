@@ -56,13 +56,14 @@ export async function post(relativeUrl, body, headers) {
   }
 }
 
-export async function put(relativeUrl, body) {
+export async function put(relativeUrl, body, headers) {
   const url = `${getBaseUrl()}${relativeUrl}`;
   try {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        ...headers
       },
       body: JSON.stringify(body)
     });

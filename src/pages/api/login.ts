@@ -4,7 +4,7 @@ import { IronSession, UserSessionStorage } from "types";
 import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
-import { debugError } from "helpers/debug";
+import { debug, debugError } from "helpers/debug";
 import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 
 if (!admin.apps.length) {
@@ -23,7 +23,11 @@ const Login = withSession(async (request, response) => {
     // bypass firebase on localhost
     if (!shouldBypassFirebaseOnDevelopment) {
       if (!request?.headers?.authorization) {
-        throw new Error(`Failed to login user`);
+        response
+          .status(401)
+          .json({ messsage: "Missing Authorization header" })
+          .end();
+        return;
       }
 
       admin
@@ -32,7 +36,8 @@ const Login = withSession(async (request, response) => {
         .then((decodedToken) => {
           const { uid } = decodedToken;
           // do something here?
-          console.log("uid", uid);
+          // TODO: this is the firebase?.id, maybe compare
+          debug("uid returned from IdToken verification on login", uid);
           // ...
         })
         .catch((error) => {
@@ -57,9 +62,9 @@ const Login = withSession(async (request, response) => {
       throw new Error(`Failed to save to session storage`);
     }
   } catch (error) {
-    return response.status(500).json({ error: error.message });
+    response.status(500).json({ error: error.message });
   }
-  return response.status(200).json(body);
+  response.status(200).json(body);
 });
 
 export default Login;

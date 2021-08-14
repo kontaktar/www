@@ -1,12 +1,23 @@
+import * as admin from "firebase-admin";
 import pgp from "pg-promise";
 import { IronSession, UserSessionStorage } from "types";
+import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
-import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import { hasUserAccess, withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
 import { debug, debugError } from "helpers/debug";
 import { removeEmpty } from "helpers/objects";
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    ...firebaseAdminInitConfig,
+    credential: admin.credential.cert({
+      ...firebaseAdminInitConfig.credential
+    })
+  });
+}
 
 const UserById = withSession(async (request, response) => {
   await withMiddleware(request, response);
@@ -37,13 +48,14 @@ const UserById = withSession(async (request, response) => {
         country: data.country
       });
     } catch (error) {
-      response.status(500).end();
-      throw new Error(error);
+      if (error instanceof pgp.errors.QueryResultError) {
+        response.status(404).json("Not found");
+      }
+      return;
     }
   }
   if (method === "DELETE") {
-    withUserAccess(request, response);
-
+    hasUserAccess(request, response);
     try {
       await database.one(
         "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
@@ -53,7 +65,6 @@ const UserById = withSession(async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
-        throw new Error(`DELETE USER 404: ${error}`);
       } else {
         response.status(500).end();
         throw new Error(`DELETE USER 500:  ${error}`);
@@ -63,6 +74,28 @@ const UserById = withSession(async (request, response) => {
   // This handles both "register"
   // and last_login update
   if (method === "PUT") {
+    if (!request?.headers?.authorization) {
+      response.status(401).json({ message: "Missing Authorization header" });
+      return;
+    }
+    admin
+      .auth()
+      .verifyIdToken(request?.headers?.authorization)
+      .then((decodedToken) => {
+        const { uid } = decodedToken;
+
+        // TODO: verify
+        // if (user?.firebase?.id) {
+        //   console.log("uid", uid);
+        //   if (body.firebase.id !== uid) {
+        //     response.status(400).json({ message: "User doesnt match" });
+        //   }
+        // }
+      })
+      .catch((error) => {
+        debugError(error);
+      });
+
     if (body && body.id && body.userName) {
       // Add to iron-session.
       let userData;
@@ -91,6 +124,8 @@ const UserById = withSession(async (request, response) => {
         response.status(500).json(error);
       }
     }
+
+    // withUserAccess(request, response);
 
     const {
       ssn = null,
@@ -154,7 +189,7 @@ const UserById = withSession(async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
-        throw new Error(`UPDATE USER 404: ${error}`);
+        // throw new Error(`UPDATE USER 404: ${error}`);
       } else {
         response.status(500).end();
         throw new Error(`UPDATE USER 500: ${error}`);

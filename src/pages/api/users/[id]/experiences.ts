@@ -1,8 +1,13 @@
 import pgp from "pg-promise";
 import { IronSession } from "types";
 import withSession from "lib/sessions";
-import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import {
+  hasUserAccess,
+  withMiddleware,
+  withUserAccess
+} from "utils/apiMiddleware";
 import database from "utils/database";
+import { debugError } from "helpers/debug";
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
@@ -48,9 +53,8 @@ export default withSession(async (request, response) => {
       response.status(500).end();
       throw new Error(error);
     }
-  }
-  if (method === "POST") {
-    withUserAccess(request, response);
+  } else if (method === "POST") {
+    hasUserAccess(request, response);
 
     try {
       const {
@@ -66,8 +70,8 @@ export default withSession(async (request, response) => {
           userId,
           body.title,
           body.description,
-          body.years,
-          body.months,
+          body.years || 0,
+          body.months || 0,
           !!body.published
         ]
       );
@@ -76,12 +80,12 @@ export default withSession(async (request, response) => {
         .json({ id, title, description, years, months, published });
     } catch (error) {
       response.status(500).send({ error: error.message });
-      console.log(error, error.name, error.message);
+      debugError(error, error.message);
       throw new Error(`POST EXPERIENCE: ${error}`);
     }
-  }
-  if (method === "PUT") {
-    withUserAccess(request, response);
+  } else if (method === "PUT") {
+    hasUserAccess(request, response);
+
     try {
       const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
         table: "experiences"
@@ -97,7 +101,7 @@ export default withSession(async (request, response) => {
 
       response.status(200).json(experiences);
     } catch (error) {
-      console.log(error, error.name, error.message);
+      debugError(error, error.message);
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).end();
         throw new Error(`UPDATE EXPERIENCES 404: ${error}`);

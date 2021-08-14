@@ -5,17 +5,17 @@ const isActivated = process.env.NODE_ENV === "development";
 
 export const debug = (string: string, object?: any): void => {
   if (isActivated) {
-    console.log(string, object);
+    console.log(string, object ?? "");
   }
 };
 export const debugWarn = (string: string, object?: any): void => {
   if (isActivated) {
-    console.warn(string, object);
+    console.warn(string, object ?? "");
   }
 };
 export const debugError = (string: string, object?: any): void => {
   if (isActivated) {
-    console.error(string, object);
+    console.error(string, object ?? "");
   }
 };
 

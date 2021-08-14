@@ -1,11 +1,21 @@
+import * as admin from "firebase-admin";
 import pgp from "pg-promise";
 import { IronSession, UserSessionStorage } from "types";
+import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
-import { withMiddleware /* , withUserAccess*/ } from "utils/apiMiddleware";
+import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
 import { debug, debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
 
+if (!admin.apps.length) {
+  admin.initializeApp({
+    ...firebaseAdminInitConfig,
+    credential: admin.credential.cert({
+      ...firebaseAdminInitConfig.credential
+    })
+  });
+}
 const Users = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body, method, query } = request;
@@ -63,7 +73,6 @@ const Users = withSession(async (request, response) => {
           userId: data?.user_id
         });
       } else if (query && query.phoneNumber) {
-        // TODO: do withUserAccess
         // the plus is stripped when used as a query param
         const phoneNumberWithPlus = `+${query.phoneNumber}`.replace(" ", "");
         data = await database.one(
@@ -114,10 +123,10 @@ const Users = withSession(async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).json({ message: error.message });
-        console.error(`GET USERNAME 404: ${error}`);
+        debugError(`GET USERNAME 404: ${error}`);
       } else {
         response.status(500).json({ message: error.message });
-        console.error(`GET USERNAME 505: ${error}`);
+        debugError(`GET USERNAME 505: ${error}`);
       }
     }
   }
@@ -138,10 +147,32 @@ const Users = withSession(async (request, response) => {
       streetName,
       city,
       country,
-      createdAt
+      createdAt,
+      firebaseId
     } = body;
+
+    if (!request?.headers?.authorization) {
+      response.status(401).json({ message: "Missing Authorization header" });
+      return;
+    }
+    admin
+      .auth()
+      .verifyIdToken(request?.headers?.authorization)
+      .then((decodedToken) => {
+        const { uid } = decodedToken;
+
+        // do something here?
+
+        if (firebaseId !== uid) {
+          response.status(401).json({ message: "User doesnt match" });
+        }
+      })
+      .catch((error) => {
+        debugError(error);
+      });
+
     if (!phoneNumber) {
-      console.error("Phonenumber missing");
+      debugError("Phonenumber missing");
       response.status(500).end();
     }
 
@@ -189,7 +220,7 @@ const Users = withSession(async (request, response) => {
         );
 
         const userData = request.session.get(IronSession.UserSession);
-        console.log("userData from UserStorage", userData);
+        debug("userData from UserStorage", userData);
         const updatedUserData: UserSessionStorage = {
           ...userData,
           details: {
@@ -213,7 +244,7 @@ const Users = withSession(async (request, response) => {
         }
         response.json({ userId: newUserId });
       } catch (error) {
-        console.error("FIREBASE_USER_MAP ERROR", error);
+        debugError("FIREBASE_USER_MAP ERROR", error);
         response.status(500).end();
       }
     }

@@ -13,10 +13,12 @@ export async function GetSearchResult(input = "") {
 }
 
 export async function CreateUser(userInfo) {
-  return post(Endpoint.Users, userInfo);
+  return post(Endpoint.Users, userInfo, {
+    Authorization: userInfo.firebaseToken
+  });
 }
-export async function UpdateUser(userInfo: UserSessionStorage) {
-  return post(`${Endpoint.User}/update`, userInfo, {
+export async function AddToSession(userInfo: UserSessionStorage) {
+  return post(`${Endpoint.User}/session`, userInfo, {
     Authorization: userInfo.firebase.token
   });
 }
@@ -39,7 +41,9 @@ export async function DeleteExperience(userId, experienceId) {
 }
 
 export async function EditUser(userId, userInfo) {
-  return put(`${Endpoint.Users}/${userId}`, userInfo);
+  return put(`${Endpoint.Users}/${userId}`, userInfo, {
+    Authorization: userInfo.firebaseToken
+  });
 }
 
 export async function EditExperience(userId, experience) {

@@ -15,7 +15,7 @@ import styles from "./DragableCardContainer.module.scss";
 // const SortableItem = sortableElement(({ cardContent, handleEdit }) => {
 
 // bypassing it:
-const SortableItem = ({ cardContent, handleEdit }) => {
+const SortableItem = ({ cardContent, handleEdit, index }) => {
   return (
     <li
       key={cardContent.id + cardContent.title}
@@ -24,6 +24,7 @@ const SortableItem = ({ cardContent, handleEdit }) => {
     >
       {/* This wrapper is crucial for the dragging to work: https://github.com/clauderic/react-sortable-hoc/issues/367#issuecomment-380523336 */}
       <Card
+        id={index}
         editMode
         experienceId={cardContent.id}
         description={cardContent.description}

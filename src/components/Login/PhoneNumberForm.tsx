@@ -63,12 +63,14 @@ const PhoneNumberForm = ({
         error={formik.errors.phoneNumber}
         isTouched={formik.touched.phoneNumber}
         disabled={disabled}
+        data-test="PhoneNumberLoginInput"
       />
       <Button
         className={styles.button}
         type="submit"
         disabled={isLoading}
         isLoading={isLoading}
+        data-test="PhoneNumberLoginButton"
       >
         Innskrá
       </Button>
