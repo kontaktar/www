@@ -48,7 +48,7 @@ Cypress.Commands.add("doRegistration", () => {
   cy.location("pathname", { timeout: 10000 }).should("eq", "/nyskra");
   cy.get("[data-test=FirstNameInput]").type("_TESTER");
   cy.get("[data-test=LastNameInput]").type("_TESTERSON");
-  cy.get("[data-test=KennitalaInput]").type(`123${randomNumber}`);
+  cy.get("[data-test=KennitalaInput]").type(`1234${randomNumber}`);
   cy.get("[data-test=UserNameInput]").type(`TESTER${randomNumber}`);
   cy.get("[data-test=EmailInput]").type(`TESTER${randomNumber}@test.is`);
   cy.get("[data-test=RegisterNewUserButton]").click();

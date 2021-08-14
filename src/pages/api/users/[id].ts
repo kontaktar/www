@@ -3,7 +3,7 @@ import pgp from "pg-promise";
 import { IronSession, UserSessionStorage } from "types";
 import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
-import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import { hasUserAccess, withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
 import { debug, debugError } from "helpers/debug";
 import { removeEmpty } from "helpers/objects";
@@ -55,25 +55,21 @@ const UserById = withSession(async (request, response) => {
     }
   }
   if (method === "DELETE") {
-    const deleteUser = withUserAccess((handler) => {
-      return async (_request, _res) => {
-        try {
-          await database.one(
-            "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
-            [userId]
-          );
-          _res.status(200).json({ userId });
-        } catch (error) {
-          if (error instanceof pgp.errors.QueryResultError) {
-            _res.status(404).end();
-          } else {
-            _res.status(500).end();
-            throw new Error(`DELETE USER 500:  ${error}`);
-          }
-        }
-      };
-    });
-    deleteUser(request, response);
+    hasUserAccess(request, response);
+    try {
+      await database.one(
+        "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
+        [userId]
+      );
+      response.status(200).json({ userId });
+    } catch (error) {
+      if (error instanceof pgp.errors.QueryResultError) {
+        response.status(404).end();
+      } else {
+        response.status(500).end();
+        throw new Error(`DELETE USER 500:  ${error}`);
+      }
+    }
   }
   // This handles both "register"
   // and last_login update
@@ -88,7 +84,7 @@ const UserById = withSession(async (request, response) => {
       .then((decodedToken) => {
         const { uid } = decodedToken;
 
-        // do something here?
+        // TODO: verify
         // if (user?.firebase?.id) {
         //   console.log("uid", uid);
         //   if (body.firebase.id !== uid) {

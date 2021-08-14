@@ -56,8 +56,5 @@ export const verificationCodeSchema = Yup.object().shape({
 
 export const registerFormSchema = Yup.object().shape({
   userName: validate.userName,
-  // password: validate.password,
-  // confirmPassword: validate.confirmPassword,
-  // email: validate.email,
   ssn: validate.ssn
 });

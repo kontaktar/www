@@ -1,11 +1,11 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { Routes } from "types";
 import { createUserSuccess } from "store/actions";
-import { GetUserByPhoneNumber, UpdateUser } from "lib/endpoints";
+import { AddToSession, GetUserByPhoneNumber } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
@@ -57,7 +57,7 @@ const VerificationCodeForm = ({
   const addUserToSessionStorage = (firebaseUser) => {
     try {
       firebaseUser.getIdToken().then(async (idToken) => {
-        const userSession = await UpdateUser({
+        const userSession = await AddToSession({
           details: {
             id: undefined,
             phoneNumber: firebaseUser?.phoneNumber,
@@ -72,7 +72,7 @@ const VerificationCodeForm = ({
         await mutateUser(userSession, true);
       });
     } catch (error) {
-      debugError("UpdateUser", error);
+      debugError("AddToSession", error);
     }
   };
 

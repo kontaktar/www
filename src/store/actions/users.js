@@ -22,13 +22,6 @@ export function createUserSuccess(userId, userInfo) {
   };
 }
 
-// export function createUserFailure(error) {
-//   return {
-//     type: actionType.CREATE_USER_FAILURE,
-//     error
-//   };
-// }
-
 export function editUser(userId, userInfo) {
   return {
     type: actionType.EDIT_USER_REQUEST,

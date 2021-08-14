@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "cy": "CYPRESS=1 cypress open",
+    "cy:run": "CYPRESS=1 cypress run",
     "emulator": "firebase emulators:start",
     "build": "next build",
     "dev": "NODE_ENV=development next",

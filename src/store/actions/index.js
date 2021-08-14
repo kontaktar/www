@@ -24,8 +24,6 @@ export {
 } from "./searches";
 
 export {
-  // createUser,
-  // createUserFailure,
   createUserSuccess,
   editUser,
   editUserFailure,

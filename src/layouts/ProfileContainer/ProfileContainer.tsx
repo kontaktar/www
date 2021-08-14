@@ -123,8 +123,6 @@ const ProfileContainer = ({
   };
 
   const onEditUserInfoModal = () => {
-    // TODO: This is slow and sometimes failes on pushing 'breyta upplýsingum'.
-    // - maybe non issue ? [2021 - 21 - 10]
     if (user?.details && user?.details.id) {
       setModalData({ ...user?.details });
       setModalType({ userInformation: true });

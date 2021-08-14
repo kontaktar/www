@@ -12,7 +12,7 @@ describe("Login", () => {
   });
 
   it("add a new experience", () => {
-    cy.get("[data-test=addNewExperienceButton]", { timeout: 10000 })
+    cy.get("[data-test=addNewExperienceButton]", { timeout: 15000 })
       .should("exist")
       .should("be.visible");
     // eslint-disable-next-line cypress/no-unnecessary-waiting

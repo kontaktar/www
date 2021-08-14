@@ -1,5 +1,4 @@
 import Cors from "cors";
-import next from "next";
 import { IronSession } from "types";
 import { debugError } from "helpers/debug";
 
@@ -35,4 +34,15 @@ export const withUserAccess = (handler) => {
     }
     return handler(request, response);
   };
+};
+
+export const hasUserAccess = (request, response) => {
+  if (
+    !request.session.get(IronSession.UserSession)?.details?.id ||
+    request.session.get(IronSession.UserSession)?.details?.id.toString() !==
+      request.query.id.toString()
+  ) {
+    debugError("witUserMiddleware: User does not have access");
+    response.status(401).json({ message: "Forbidden" });
+  }
 };

@@ -4,7 +4,7 @@ import { IronSession, UserSessionStorage } from "types";
 import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
-import { debugError } from "helpers/debug";
+import { debug, debugError } from "helpers/debug";
 import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 
 if (!admin.apps.length) {
@@ -37,7 +37,7 @@ const Login = withSession(async (request, response) => {
           const { uid } = decodedToken;
           // do something here?
           // TODO: this is the firebase?.id, maybe compare
-          console.log("uid", uid);
+          debug("uid returned from IdToken verification on login", uid);
           // ...
         })
         .catch((error) => {

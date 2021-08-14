@@ -123,10 +123,10 @@ const Users = withSession(async (request, response) => {
     } catch (error) {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).json({ message: error.message });
-        console.error(`GET USERNAME 404: ${error}`);
+        debugError(`GET USERNAME 404: ${error}`);
       } else {
         response.status(500).json({ message: error.message });
-        console.error(`GET USERNAME 505: ${error}`);
+        debugError(`GET USERNAME 505: ${error}`);
       }
     }
   }
@@ -172,7 +172,7 @@ const Users = withSession(async (request, response) => {
       });
 
     if (!phoneNumber) {
-      console.error("Phonenumber missing");
+      debugError("Phonenumber missing");
       response.status(500).end();
     }
 
@@ -220,7 +220,7 @@ const Users = withSession(async (request, response) => {
         );
 
         const userData = request.session.get(IronSession.UserSession);
-        console.log("userData from UserStorage", userData);
+        debug("userData from UserStorage", userData);
         const updatedUserData: UserSessionStorage = {
           ...userData,
           details: {
@@ -244,7 +244,7 @@ const Users = withSession(async (request, response) => {
         }
         response.json({ userId: newUserId });
       } catch (error) {
-        console.error("FIREBASE_USER_MAP ERROR", error);
+        debugError("FIREBASE_USER_MAP ERROR", error);
         response.status(500).end();
       }
     }

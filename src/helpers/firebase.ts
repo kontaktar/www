@@ -85,7 +85,6 @@ export const loginOrRegisterBypassingFirebase = async (
 export const getEmulatorVerificationCode = async (
   phoneNumber: string
 ): Promise<string> => {
-  console.log();
   const response = await fetch(
     `http://${process.env.FIREBASE_AUTH_EMULATOR_HOST}/emulator/v1/projects/${process.env.FIREBASE_PROJECT_ID}/verificationCodes`
   );

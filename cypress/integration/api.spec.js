@@ -34,10 +34,10 @@ describe("Access", () => {
         .to.equal("Missing Authorization header");
     });
   });
-  it("POST: /api/user/update should fail, needs Authorization", () => {
+  it("POST: /api/user/session should fail, needs Authorization", () => {
     cy.request({
       method: "POST",
-      url: `${baseUrl}/user/update`,
+      url: `${baseUrl}/user/session`,
       failOnStatusCode: false,
       body: { abc: "123" }
     }).should((response) => {

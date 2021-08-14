@@ -1,8 +1,13 @@
 import pgp from "pg-promise";
 import { IronSession } from "types";
 import withSession from "lib/sessions";
-import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import {
+  hasUserAccess,
+  withMiddleware,
+  withUserAccess
+} from "utils/apiMiddleware";
 import database from "utils/database";
+import { debugError } from "helpers/debug";
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
@@ -48,71 +53,63 @@ export default withSession(async (request, response) => {
       response.status(500).end();
       throw new Error(error);
     }
-  }
-  if (method === "POST") {
-    const createExperience = withUserAccess((handler) => {
-      return async (_request, _res) => {
-        try {
-          const {
-            id,
-            title,
-            description,
-            years,
-            months,
-            published
-          } = await database.one(
-            "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
-            [
-              userId,
-              body.title,
-              body.description,
-              body.years,
-              body.months,
-              !!body.published
-            ]
-          );
-          _res
-            .status(200)
-            .json({ id, title, description, years, months, published });
-        } catch (error) {
-          _res.status(500).send({ error: error.message });
-          console.log(error, error.name, error.message);
-          throw new Error(`POST EXPERIENCE: ${error}`);
-        }
-      };
-    });
-    createExperience(request, response);
-  }
-  if (method === "PUT") {
-    const updateExperience = withUserAccess((handler) => {
-      return async (_request, _res) => {
-        try {
-          const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
-            table: "experiences"
-          });
-          // eslint-disable-next-line no-unused-vars
-          const query =
-            pgpHelpers.update(body, cs) +
-            pgp.as.format(" WHERE v.id = t.id AND user_id = $1 RETURNING *", [
-              userId
-            ]);
+  } else if (method === "POST") {
+    hasUserAccess(request, response);
 
-          const experiences = database.any(query);
+    try {
+      const {
+        id,
+        title,
+        description,
+        years,
+        months,
+        published
+      } = await database.one(
+        "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+        [
+          userId,
+          body.title,
+          body.description,
+          body.years || 0,
+          body.months || 0,
+          !!body.published
+        ]
+      );
+      response
+        .status(200)
+        .json({ id, title, description, years, months, published });
+    } catch (error) {
+      response.status(500).send({ error: error.message });
+      debugError(error, error.message);
+      throw new Error(`POST EXPERIENCE: ${error}`);
+    }
+  } else if (method === "PUT") {
+    hasUserAccess(request, response);
 
-          _res.status(200).json(experiences);
-        } catch (error) {
-          console.log(error, error.name, error.message);
-          if (error instanceof pgp.errors.QueryResultError) {
-            _res.status(404).end();
-            throw new Error(`UPDATE EXPERIENCES 404: ${error}`);
-          } else {
-            _res.status(500).end();
-            throw new Error(`UPDATE EXPERIENCES 500: ${error}`);
-          }
-        }
-      };
-    });
-    updateExperience(request, response);
+    try {
+      const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
+        table: "experiences"
+      });
+      // eslint-disable-next-line no-unused-vars
+      const query =
+        pgpHelpers.update(body, cs) +
+        pgp.as.format(" WHERE v.id = t.id AND user_id = $1 RETURNING *", [
+          userId
+        ]);
+
+      const experiences = database.any(query);
+
+      response.status(200).json(experiences);
+    } catch (error) {
+      debugError(error, error.message);
+      if (error instanceof pgp.errors.QueryResultError) {
+        response.status(404).end();
+        throw new Error(`UPDATE EXPERIENCES 404: ${error}`);
+      } else {
+        response.status(500).end();
+        throw new Error(`UPDATE EXPERIENCES 500: ${error}`);
+      }
+    }
   } else {
     response.status(400).end();
   }

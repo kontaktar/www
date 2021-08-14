@@ -17,8 +17,8 @@ export async function CreateUser(userInfo) {
     Authorization: userInfo.firebaseToken
   });
 }
-export async function UpdateUser(userInfo: UserSessionStorage) {
-  return post(`${Endpoint.User}/update`, userInfo, {
+export async function AddToSession(userInfo: UserSessionStorage) {
+  return post(`${Endpoint.User}/session`, userInfo, {
     Authorization: userInfo.firebase.token
   });
 }
