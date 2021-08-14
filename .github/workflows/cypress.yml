@@ -1,7 +1,7 @@
 name: End-to-end tests
 on: [push]
 env:
-  CYPRESS_HOST: "http://localhost:3000"
+  CYPRESS_HOST: "http://localhost:8000"
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -19,4 +19,4 @@ jobs:
       - name: Run Cypress test
         uses: cypress-io/github-action@v2
         with:
-          command: yarn cy:run
+          command: yarn cy:build
