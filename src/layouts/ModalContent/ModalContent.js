@@ -5,15 +5,25 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import cx from "classnames";
 import { createUserExperience, editUserExperience } from "store/actions";
+import useUser from "lib/useUser";
+import { debug } from "helpers/debug";
 import useAuth from "hooks/useAuth";
 import { Button, Checkbox, Input, Select, TextArea } from "components";
+import { MUIInput } from "components/Input";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
   const dispatch = useDispatch();
-  const { userData } = useAuth();
+  const { user } = useUser();
+  const [isLoading, setLoading] = React.useState(false);
 
-  const store = useSelector((state) => state);
+  const experiences = useSelector((state) => state.experiences);
+
+  React.useEffect(() => {
+    setLoading(experiences.isFetching);
+    debug("isLoading", experiences.isLoading);
+  }, [experiences]);
+
   const [experience, setExperience] = useState(data);
   const [errorMessage, setErrorMessage] = useState("");
   const [timestamp, setTimestamp] = useState(undefined);
@@ -38,9 +48,9 @@ const Experience = ({ data }) => {
   const saveExperience = () => {
     if (validateExperience()) {
       if (isNew) {
-        dispatch(createUserExperience(userData.id, experience));
+        dispatch(createUserExperience(user.details.id, experience));
       } else {
-        dispatch(editUserExperience(userData.id, experience));
+        dispatch(editUserExperience(user.details.id, experience));
       }
       setTimestamp(new Date());
     }
@@ -62,7 +72,6 @@ const Experience = ({ data }) => {
       <div className={styles.input_line}>
         <Input
           className={styles.title_input}
-          id={experience.id}
           name="title"
           label="Heiti verks"
           onChange={handleChange}
@@ -103,25 +112,29 @@ const Experience = ({ data }) => {
           onChange={() => togglePublishState(!experience.published)}
           label="Í birtingu"
         />
-        {timestamp && (
+        {timestamp && !isLoading && (
           <LastChange
             className={styles.experience_timestamp}
             timestamp={timestamp}
           />
         )}
-        <Button.Edit onClick={saveExperience} type="save" />
+        <Button.Edit
+          className={styles.button_save}
+          isLoading={isLoading}
+          onClick={saveExperience}
+          type="save"
+        />
       </div>
     </>
   );
 };
 
 const UserInformation = ({ data }) => {
-  const { userData, editUser } = useAuth();
-  const [userInfo, setUserInfo] = useState(userData);
+  const { editUser, status } = useAuth();
+  const { user } = useUser();
+  const [userInfo, setUserInfo] = useState(user.details);
   const [timestamp, setTimestamp] = useState(undefined);
   const dispatch = useDispatch();
-
-  const store = useSelector((state) => state);
 
   const saveUserInfo = () => {
     setTimestamp(new Date());
@@ -138,21 +151,18 @@ const UserInformation = ({ data }) => {
       <div className={styles.input_rows}>
         <div className={styles.input_line}>
           <Input
-            id={userInfo.id + userInfo.firstName}
             label="Fornafn"
             name="firstName"
             value={userInfo.firstName}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.lastName}
             label="Eftirnafn"
             name="lastName"
             value={userInfo.lastName}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.userName}
             label="Notendanafn"
             name="userName"
             value={userInfo.userName}
@@ -161,51 +171,44 @@ const UserInformation = ({ data }) => {
         </div>
         <div className={styles.input_line}>
           <Input
-            id={userInfo.id + userInfo.streetName}
             label="Heimilisfang"
             name="streetName"
             value={userInfo.streetName}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.city}
             name="city"
             label="Bær"
             value={userInfo.city}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.postalCode}
             label="Póstfang"
             name="postalCode"
-            value={userInfo.postalCode}
+            value={userInfo.postalCode && userInfo.postalCode.toString()}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.country}
             label="Land"
             name="country"
             value={userInfo.country}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.phoneNumber}
             label="Símanúmer"
             name="phoneNumber"
-            value={userInfo.phoneNumber}
+            value={userInfo.phoneNumber && userInfo.phoneNumber.toString()}
             onChange={handleChange}
           />
         </div>
         <div className={styles.input_line}>
           <Input
-            id={userInfo.id + userInfo.email}
             label="Netfang"
             name="email"
             value={userInfo.email}
             onChange={handleChange}
           />
           <Input
-            id={userInfo.id + userInfo.website}
             label="Vefsíða"
             name="website"
             value={userInfo.website}
@@ -214,8 +217,13 @@ const UserInformation = ({ data }) => {
         </div>
       </div>
       <div className={styles.button_line}>
-        <Button.Edit onClick={saveUserInfo} type="save" />
-        {timestamp && (
+        <Button.Edit
+          className={styles.button_save}
+          isLoading={status === "USER_EDIT_REQUEST"}
+          onClick={saveUserInfo}
+          type="save"
+        />
+        {timestamp && status !== "USER_EDIT_REQUEST" && (
           <LastChange
             className={styles.user_info_timestamp}
             timestamp={timestamp}

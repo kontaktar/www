@@ -8,13 +8,14 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useDispatch } from "react-redux";
 import cx from "classnames";
 import { deleteUserExperience, editUserExperience } from "store/actions";
-import useAuth from "hooks/useAuth";
+import useUser from "lib/useUser";
 import { Icon } from "components";
 import Link from "components/LinkWrap";
 import styles from "./Card.module.scss";
 
 const Card = (props) => {
   const {
+    id,
     experienceId,
     description,
     editMode = false,
@@ -31,7 +32,7 @@ const Card = (props) => {
 
   // TODO: This, onEditCard, onPublishToggleCard, onDeleteCard doesn't belong in the component.
   // Should be in a provider, this is breaking Storybook.
-  const { userData } = useAuth();
+  const { user } = useUser();
 
   const onEditCard = () => {
     onEdit(experienceId, title, description, years, months, published);
@@ -39,7 +40,7 @@ const Card = (props) => {
 
   const onPublishToggleCard = () => {
     dispatch(
-      editUserExperience(userData.id, {
+      editUserExperience(user.details.id, {
         id: experienceId,
         title,
         description,
@@ -51,7 +52,7 @@ const Card = (props) => {
   };
 
   const onDeleteCard = () => {
-    dispatch(deleteUserExperience(userData.id, experienceId));
+    dispatch(deleteUserExperience(user.details.id, experienceId));
   };
 
   const LinkToProfile = ({ children }) => {
@@ -83,6 +84,7 @@ const Card = (props) => {
               type="button"
               className={cx(styles.button, styles.left)}
               onClick={onEditCard}
+              data-test={`experienceEditButton-Card${id}`}
             >
               <Icon className={styles.button_icon} name="edit" />
             </button>
@@ -92,6 +94,7 @@ const Card = (props) => {
                 [styles.center_secondary]: !published
               })}
               onClick={onPublishToggleCard}
+              data-test={`experiencePublishToggleButton-Card${id}`}
             >
               <Icon
                 className={styles.button_icon}
@@ -102,6 +105,7 @@ const Card = (props) => {
               type="button"
               className={cx(styles.button, styles.right)}
               onClick={onDeleteCard}
+              data-test={`experienceDeleteButton-Card${id}`}
             >
               <Icon className={styles.button_icon} name="delete" />
             </button>
@@ -112,6 +116,7 @@ const Card = (props) => {
           <CardContent className={styles.card_content}>
             {editMode && (
               <span
+                data-test={`publishStatus-Card${id}`}
                 className={cx(styles.publish_status, {
                   [styles.published]: published
                 })}
@@ -119,14 +124,28 @@ const Card = (props) => {
                 {published ? "Í birtingu" : "Í geymslu"}
               </span>
             )}
-            <span className={styles.title_description}>{title}</span>
-            <span className={styles.description}>{description}</span>
+            <span
+              className={styles.title_description}
+              data-test={`experienceTitle-Card${id}`}
+            >
+              {title}
+            </span>
+            <span
+              className={styles.description}
+              data-test={`experienceDescription-Card${id}`}
+            >
+              {description}
+            </span>
             <span className={styles.length}>
               {((years && years !== "0") || (months && months !== "0")) && (
                 <>
                   <Icon className={styles.clock_icon} name="clock" />
-                  <span>{years && years !== "0" ? `${years} ár` : ""}</span>
-                  <span>{months && months !== "0" ? `${months} mán` : ""}</span>
+                  <span data-test={`experienceYears-Card${id}`}>
+                    {years && years !== "0" ? `${years} ár` : ""}
+                  </span>
+                  <span data-test={`experienceMonths-Card${id}`}>
+                    {months && months !== "0" ? `${months} mán` : ""}
+                  </span>
                 </>
               )}
             </span>
@@ -140,9 +159,7 @@ const Card = (props) => {
 Card.Loader = () => {
   return (
     <MuiCard className={cx(styles.card, styles.loader)}>
-      {/* <CardContent className={styles.card_content}> */}
       <CircularProgress />
-      {/* </CardContent> */}
     </MuiCard>
   );
 };

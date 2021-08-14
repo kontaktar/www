@@ -3,6 +3,8 @@ import screensizes from "data/screensizes";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import cx from "classnames";
+import { Routes } from "types";
+import useUser from "lib/useUser";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Logo } from "components";
@@ -20,7 +22,8 @@ const Header = ({
   noDistraction = false
 }: Props): React.ReactElement => {
   const { width } = useWindowDimensions();
-  const { isLoggedIn, logout } = useAuth();
+  const { user } = useUser();
+  const { logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
   const router = useRouter();
 
@@ -73,14 +76,14 @@ const Header = ({
                           <NextLink href="/">Kontaktar</NextLink>
                         </span>
                         <span>
-                          <NextLink href="/leit">Leita</NextLink>
+                          <NextLink href={Routes.Search}>Leita</NextLink>
                         </span>
                         <span>
-                          <NextLink href="/askrift">Áskrift</NextLink>
+                          <NextLink href={Routes.Subcription}>Áskrift</NextLink>
                         </span>
 
                         <span>
-                          <NextLink href="/innskra">Innskráning</NextLink>
+                          <NextLink href={Routes.Login}>Innskráning</NextLink>
                         </span>
                       </nav>
                     </div>
@@ -92,6 +95,7 @@ const Header = ({
                 {!tabletPortrait && (
                   <Link href="/">
                     <Button
+                      name="homeNavigation"
                       className={cx(styles.tab, styles.ripple)}
                       modifier={["borderless"]}
                     >
@@ -99,16 +103,18 @@ const Header = ({
                     </Button>
                   </Link>
                 )}
-                <Link href="/leit">
+                <Link href={Routes.Search}>
                   <Button
+                    name="searchNavigation"
                     className={cx(styles.tab, styles.ripple)}
                     modifier={["borderless"]}
                   >
                     Leita
                   </Button>
                 </Link>
-                <Link href="/askrift">
+                <Link href={Routes.Subcription}>
                   <Button
+                    name="subscriptionNavigation"
                     className={cx(styles.tab, styles.ripple)}
                     modifier={["borderless"]}
                   >
@@ -116,13 +122,16 @@ const Header = ({
                   </Button>
                 </Link>
                 <Button
+                  name="logoutNavigation"
                   className={styles.login}
                   onClick={
-                    !isLoggedIn ? () => router.push("/innskra") : () => logout()
+                    !user.isLoggedIn
+                      ? () => router.push(Routes.Login)
+                      : () => logout()
                   }
-                  modifier={!isLoggedIn ? ["inverted"] : []}
+                  modifier={!user.isLoggedIn ? ["inverted"] : []}
                 >
-                  {!isLoggedIn ? "Innskráning" : "Útskrá"}
+                  {!user.isLoggedIn ? "Innskráning" : "Útskrá"}
                 </Button>
               </div>
             )}

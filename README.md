@@ -51,6 +51,18 @@ Test instance running on AWS RDS:
 
 Prevent string injections. Never user ES6 literals for database queries.
 
+## Auth
+
+Mixture of firebase and iron-session.
+Bypass firebase on localhost by setting `BYPASS_FIREBASE=1` in `.env.local`
+
+### Firebase authentication emulator
+
+Setup: https://firebase.google.com/docs/cli#sign-in-test-cli
+
+Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
+Start: `yarn emulator`
+
 ## API
 
 ### GET:
@@ -142,3 +154,75 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 - /leit
 - /{userName}
 - /profill
+
+## Auth process documentation
+
+`LoginFormContainer`:
+
+- There is a recaptcha hooked up to Firebase.
+  `recaptchaVerifier` is stored in `window`
+  `PhoneNumberForm`:
+- User enters phonenumber
+- User enters verification code they got from their phone.
+- `window.recaptchaVerifier` used to `firebase.auth().signInWithPhoneNumber` then
+  `confirmationResult` is added to `window`
+
+  `VerificationCodeForm`:
+
+- Phonenumber is checked in Firebase Authentication database.
+- If phonenumber exists:
+  [GO TO LOGIN](#login)
+- Else:
+- `CreateUser` endpoint called
+- `mutateUser` for useSwr with instant revalidation.
+- route pushed to REGISTER:`/nyskra`
+
+### REGISTER
+
+`onAuthStateChanged`:
+
+- If errors: send to `/innskra`
+
+`onSubmit`:
+
+- Call `useAuth:register`, which calls `EditUser` endpoint.
+- Push to `/profill`
+
+### LOGIN
+
+- Fetch `userData` from db with `GetUserByPhoneNumber`
+- use `userData` to call `login` endpoint called with firebase token Authorization header
+- `iron-session` set.
+  - `updateAuthState` with `isLoggedIn` flag and `userData` object.
+- endpoint adds to `iron-session` info about the user + db set.
+- route pushed to `profile`
+
+### LOGOUT
+
+Destroy iron-session and firebase session.
+
+TODO:
+-[] Create cleanup function that cleans up window stuff after succesful login / register
+
+-[] What happens if I reach the register screen - clear the session storage and then refresh and try again.
+
+####
+
+NEEDS FIXING:
+
+all-usernames called multiple times
+
+fix button loading state, onhover
+
+dont need to save user info if nothing was changed, api being called for no chanegs
+
+create cypress test for every endpoint,
+
+then do access control, withUserAccess and so on
+(how can I reduce the admin.firebase code ?)
+
+---
+
+what happens if the firebase session stops and userSession is still ongoing?
+
+https://github.com/jellydn/next-swagger-doc

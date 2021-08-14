@@ -11,3 +11,12 @@ public/storybook
 
 .env
 .vercel
+
+ssh_key
+ssh_key.pub
+
+firebase-debug.log
+ui-debug.log
+
+cypress/examples/
+cypress.json

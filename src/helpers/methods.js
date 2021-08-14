@@ -1,3 +1,4 @@
+import { debugWarn } from "helpers/debug";
 import { getBaseUrl } from "helpers/url";
 
 export async function get(relativeUrl) {
@@ -21,18 +22,26 @@ export async function get(relativeUrl) {
   }
 }
 
-export async function post(relativeUrl, body) {
+export async function post(relativeUrl, body, headers) {
   const url = `${getBaseUrl()}${relativeUrl}`;
 
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        ...headers
       },
       body: JSON.stringify(body)
     });
-    const data = await response.json();
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (error) {
+      data = text;
+      debugWarn("Response from POST not parseble JSON", error);
+    }
     if (response.ok) {
       return data;
     }
@@ -47,13 +56,14 @@ export async function post(relativeUrl, body) {
   }
 }
 
-export async function put(relativeUrl, body) {
+export async function put(relativeUrl, body, headers) {
   const url = `${getBaseUrl()}${relativeUrl}`;
   try {
     const response = await fetch(url, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        ...headers
       },
       body: JSON.stringify(body)
     });

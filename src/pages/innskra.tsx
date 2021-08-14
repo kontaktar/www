@@ -1,15 +1,18 @@
 import React from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import useAuth from "hooks/useAuth";
+import { Routes } from "types";
+import useUser from "lib/useUser";
 import { LoginFormContainer, MainLayout } from "layouts";
 
 const Login: NextPage = () => {
-  const { isLoggedIn } = useAuth();
   const router = useRouter();
-  if (isLoggedIn) {
-    router.push("/profill");
+
+  const { user } = useUser();
+  if (user.isLoggedIn) {
+    router.push(Routes.Profile);
   }
+
   return (
     <MainLayout noDistraction>
       <LoginFormContainer />

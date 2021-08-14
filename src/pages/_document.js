@@ -34,7 +34,7 @@ class MyDocument extends Document {
             href="/fonts/BerlingskeSans.woff"
             as="font"
             type="font/woff"
-            crossOrigin
+            crossOrigin=""
           />
           <link
             rel="preload"
@@ -55,7 +55,7 @@ class MyDocument extends Document {
             href="/fonts/BerlingskeSans.woff2"
             as="font"
             type="font/woff2"
-            crossOrigin
+            crossOrigin=""
           />
           <link
             rel="preload"

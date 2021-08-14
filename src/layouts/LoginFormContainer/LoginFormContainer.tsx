@@ -1,92 +1,63 @@
-import React, { ReactElement, useState } from "react";
-import { useFormik } from "formik";
-import { useRouter } from "next/router";
-import { loginFormSchema } from "helpers/formValidationSchemas";
-import useAuth from "hooks/useAuth";
+import React, { ReactElement, useEffect, useState } from "react";
+import firebase from "firebase/app";
+import { debug, debugError } from "helpers/debug";
+import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 import useMaxWidth from "hooks/useMaxWidth";
-import { Button } from "components";
-import { MUIInput } from "components/Input";
-import Link from "components/LinkWrap";
+import PhoneNumberForm from "components/Login/PhoneNumberForm";
+import VerificationCodeForm from "components/Login/VerificationCodeForm";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = (): ReactElement => {
-  const { login } = useAuth();
-  const router = useRouter();
-  const [isLoginLoading, setLoginLoader] = useState(false);
-
+  const [isVerificationCodeSent, setVerificationCodeSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [userPhoneNumber, setUserPhoneNumber] = useState("");
+  const [recaptchaFailed, setRecaptchaFailed] = useState(false);
 
-  const formik = useFormik({
-    initialValues: {
-      userName: "",
-      password: ""
-    },
-    validationSchema: loginFormSchema,
-    onSubmit: async (values) => {
-      const body = {
-        userName: values.userName,
-        password: values.password
-      };
-
-      try {
-        setLoginLoader(true);
-        await login(body);
-        router.push("/profill");
-      } catch (error) {
-        setErrorMessage(error.message);
-        // eslint-disable-next-line no-console
-        console.error(error);
-        setLoginLoader(false);
+  useEffect(() => {
+    try {
+      (window as any).recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            debug(`Recatpcha callback: ${response}`);
+          }
+        }
+      );
+    } catch (error) {
+      if (shouldBypassFirebaseOnDevelopment) {
+        setRecaptchaFailed(false);
+        setVerificationCodeSent(true);
       }
+      setErrorMessage(error.message);
+      setVerificationCodeSent(false);
+      setRecaptchaFailed(true);
+      debugError(`RecaptchaError: ${error}`);
     }
-  });
+  }, []);
 
   return (
     <div>
+      <div id="recaptcha-container" />
       <div {...useMaxWidth()}>
-        <form onSubmit={formik.handleSubmit} className={styles.form}>
-          <span className={styles.heading}>Innskráning</span>
-          <MUIInput
-            type="text"
-            id="userName"
-            name="userName"
-            placeholder="Notendanafn"
-            onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("userName", true, true)}
-            value={formik.values.userName}
-            error={formik.errors.userName}
-            isTouched={formik.touched.userName}
-          />
-          <MUIInput
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Lykilorð"
-            onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched("password", true, true)}
-            value={formik.values.password}
-            error={formik.errors.password}
-            isTouched={formik.touched.password}
-          />
-          <p className={styles.error}>{errorMessage}</p>
-          <Button
-            className={styles.button}
-            type="submit"
-            isLoading={isLoginLoading}
-          >
-            Innskrá
-          </Button>
-          <span className={styles.or}>
-            <span>eða</span>
-          </span>
-
-          <Link href="/nyskra" as="/nyskra">
-            <Button className={styles.button} modifier={["inverted"]}>
-              Stofna nýjan aðgang
-            </Button>
-          </Link>
-        </form>
+        <>
+          {!isVerificationCodeSent ? (
+            <PhoneNumberForm
+              disabled={recaptchaFailed}
+              setVerificationCodeSent={setVerificationCodeSent}
+              setErrorMessage={setErrorMessage}
+              setUserPhoneNumber={setUserPhoneNumber}
+            />
+          ) : (
+            <VerificationCodeForm
+              userPhoneNumber={userPhoneNumber}
+              setVerificationCodeSent={setVerificationCodeSent}
+              setErrorMessage={setErrorMessage}
+            />
+          )}
+        </>
       </div>
+      <span className={styles.error}>{errorMessage}</span>
     </div>
   );
 };

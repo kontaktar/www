@@ -13,12 +13,32 @@ export type UserDB = {
 };
 
 export type User = {
-  ssn: string;
-  userMame: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  website: string;
+  id: number;
+  ssn?: string;
+  userName?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  website?: string;
   phoneNumber: string;
+  firebaseId?: string;
+  createdAt?: string;
+  lastLogin?: string;
 };
+
+export type UserAddress = {
+  country?: string;
+  postalCode?: string;
+  streetName?: string;
+  city?: string;
+};
+
+// eslint-disable-next-line import/prefer-default-export
+export enum UserData {
+  PhoneNumber = "phoneNumber",
+  LastName = "lastName",
+  UserName = "userName",
+  FirstName = "firstName",
+  Kennitala = "ssn",
+  Email = "email"
+}

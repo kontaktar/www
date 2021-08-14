@@ -28,6 +28,7 @@ const Navigation = ({ isOpen }) => {
     <div className={styles.navigation_bar} id="navi">
       {routes.map((route) => (
         <Button.Navigation
+          name={route.icon}
           icon={route.icon}
           key={route.title}
           compact={!isOpen}

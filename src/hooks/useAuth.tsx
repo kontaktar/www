@@ -1,22 +1,22 @@
-import React, { createContext, useContext, useEffect, useReducer } from "react";
-import { useDispatch } from "react-redux";
-import { createUserSuccess } from "store/actions";
+/* eslint-disable no-param-reassign */
+import React, { createContext, useContext, useMemo, useReducer } from "react";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import firebase from "firebase";
+import { Endpoint, User, UserAddress } from "types";
+import { CreateUser, EditUser } from "lib/endpoints";
 import useUser from "lib/useUser";
+import { debugError, time, timeEnd } from "helpers/debug";
 import { post } from "helpers/methods";
-import {
-  CreateUser,
-  EditUser,
-  GetUserByUserName
-} from "../pages/api/endpoints";
 
 import useLogger from "./useLogger";
+
+// TODO: probably just remove the whole usereducer, not using the isLoggedIn
 
 type AuthContextProps = {
   status: string;
   isLoggedIn: boolean;
-  userData: any;
   logout?: () => void;
-  login?: (body: any) => void;
+  login?: (body: any, headers: any) => void;
   register?: (userName: any) => void;
   editUser?: (userData: any) => void;
 };
@@ -24,49 +24,28 @@ type AuthContextProps = {
 type AuthReducerState = {
   status: string;
   isLoggedIn: boolean;
-  userData: any;
 };
 
-type AuthReducerPayload = {
-  payload: AuthReducerState;
-  type: string;
-};
-
-const initialProps = {
+const initialState = {
   status: "INITIAL",
-  isLoggedIn: false,
-  userData: undefined
+  isLoggedIn: false
 };
-const AuthContext = createContext<AuthContextProps>(initialProps);
+const AuthContext = createContext<AuthContextProps>(initialState);
 
-export const reducer = (
-  state: AuthReducerState,
-  action: AuthReducerPayload
-): AuthReducerState => {
-  switch (action.type) {
-    case "AUTH/UPDATE_LOGIN_STATUS":
-      return {
-        ...state,
-        status: action.payload.status,
-        isLoggedIn: action.payload.isLoggedIn,
-        userData: action.payload.userData
-      };
-    case "AUTH/LOGIN":
-      return {
-        ...state,
-        status: action.payload.status,
-        isLoggedIn: action.payload.isLoggedIn,
-        userData: action.payload.userData
-      };
-    case "AUTH/EDIT_USER":
-      return {
-        ...state,
-        userData: action.payload.userData
-      };
-    default:
-      return state;
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setLoggedIn: (state: AuthReducerState, action: PayloadAction<boolean>) => {
+      state.isLoggedIn = action.payload;
+    },
+    setStatus: (state: AuthReducerState, action: PayloadAction<string>) => {
+      state.status = action.payload;
+    }
   }
-};
+});
+
+export const { setLoggedIn, setStatus } = authSlice.actions;
 
 const useAuth = (): AuthContextProps => useContext(AuthContext);
 
@@ -75,99 +54,76 @@ export const AuthProvider = ({
 }: {
   children: React.ReactChild;
 }): React.ReactElement => {
-  const [state, dispatch] = useReducer(useLogger(reducer), initialProps);
-  const { user } = useUser();
-
-  const dispatchToStore = useDispatch();
+  const [state, dispatch] = useReducer(
+    useLogger(authSlice.reducer),
+    initialState
+  );
+  const { user, mutateUser } = useUser();
 
   const logout = async () => {
-    await post("/api/logout").then(() => {
-      dispatch({
-        type: "AUTH/UPDATE_LOGIN_STATUS",
-        payload: {
-          status: "LOGGED_OUT",
-          isLoggedIn: false,
-          userData: undefined
-        }
-      });
+    await post(Endpoint.Logout).then(() => {
+      firebase.auth().signOut();
+      dispatch(setLoggedIn(false));
+      dispatch(setStatus("LOGGED_OUT"));
     });
+    await mutateUser({ isLoggedIn: false }, true);
   };
 
-  const login = async (body) => {
-    await post("/api/login", body).then(async ({ isLoggedIn }) => {
-      const result = await GetUserByUserName(body.userName);
-      dispatch({
-        type: "AUTH/LOGIN",
-        payload: {
-          status: "LOGGED_IN",
-          isLoggedIn,
-          userData: result
-        }
-      });
-    });
-  };
-  const loginFromSession = async (userName) => {
-    const result = await GetUserByUserName(userName);
-    dispatch({
-      type: "AUTH/LOGIN",
-      payload: {
-        status: "LOGGED_IN",
-        isLoggedIn: true,
-        userData: result
+  // TODO: I saw /api/login called twice on prod.
+  // Make sure it's only called once.
+  const login = async (body: User, token: string) => {
+    await post(Endpoint.Login, body, { Authorization: token }).then(
+      async ({ isLoggedIn }) => {
+        dispatch(setLoggedIn(isLoggedIn));
       }
-    });
-  };
-
-  const register = async (body) => {
-    // TODO: Instead of doing two API calls here, do one to register
-    // that also createsUser and handle the rerouting after reguster here.
-    await CreateUser(body).then(async (result) => {
-      await post("/api/register", body.userName);
-      dispatchToStore(createUserSuccess(result.userId, body));
-      dispatch({
-        type: "AUTH/LOGIN",
-        payload: {
-          status: "LOGGED_IN",
-          isLoggedIn: true,
-          userData: {
-            id: result.userId,
-            ...body
-          }
-        }
-      });
-    });
-  };
-
-  const editUser = async (userData) => {
-    await EditUser(userData.id, userData);
-    dispatch({
-      type: "AUTH/EDIT_USER",
-      payload: {
-        status: "LOGGED_IN",
-        isLoggedIn: true,
-        userData
-      }
-    });
-  };
-  useEffect(() => {
-    // login from session-storage
-    if (user && user?.isLoggedIn !== state?.isLoggedIn) {
-      if (user.isLoggedIn === true && state?.status !== "LOGGED_OUT") {
-        loginFromSession(user.login);
-      }
+    );
+    try {
+      await EditUser(body.id, { firebaseToken: token, lastLogin: new Date() });
+    } catch (error) {
+      debugError(`useAuth:login: ${error}`);
+    } finally {
+      await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
     }
-  }, [state?.isLoggedIn, state?.status, user]);
+  };
+
+  const register = async (body: User): Promise<void> => {
+    try {
+      await CreateUser(body);
+      dispatch(setStatus("REGISTERED"));
+      dispatch(setLoggedIn(true));
+      await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
+    } catch (error) {
+      debugError("Register:Could not register user:", error.message);
+    }
+  };
+
+  const editUser = async (userData: User & UserAddress): Promise<void> => {
+    dispatch(setStatus("USER_EDIT_REQUEST"));
+
+    time("useAuth:editUser: ");
+    await EditUser(userData.id, userData);
+    timeEnd("useAuth:editUser: ");
+
+    time("useAuth:editUser:mutate: ");
+    await mutateUser({ ...user, details: userData, isLoggedIn: true }, true);
+    timeEnd("useAuth:editUser:mutate: ");
+
+    dispatch(setStatus("USER_EDIT_SUCCESS"));
+  };
+
+  const contextValues = useMemo(
+    () => ({
+      ...state,
+      editUser: (userData) => editUser(userData),
+      logout: () => logout(),
+      login: (userName, token) => login(userName, token),
+      register: (userData) => register(userData)
+    }),
+    [editUser, register, state, user]
+  );
 
   return (
-    <AuthContext.Provider
-      value={{
-        ...state,
-        editUser: (userData) => editUser(userData),
-        logout: () => logout(),
-        login: (userName) => login(userName),
-        register: (userName) => register(userName)
-      }}
-    >
+    <AuthContext.Provider value={contextValues}>
       {children}
     </AuthContext.Provider>
   );

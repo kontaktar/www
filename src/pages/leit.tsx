@@ -2,10 +2,11 @@ import React from "react";
 import { NextPage } from "next";
 import { useDispatch, useSelector } from "react-redux";
 import wrapper from "store/configureStore";
+import { GetSearchResult } from "lib/endpoints";
 import withSession from "lib/sessions";
+import useUser from "lib/useUser";
 import { randomize } from "helpers/arrays";
-import useAuth from "hooks/useAuth";
-import { GetSearchResult } from "pages/api/endpoints";
+import { debugError } from "helpers/debug";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 import {
   fetchSearchResult,
@@ -18,7 +19,7 @@ type Props = {
   searchInput?: string;
 };
 const Search: NextPage<Props> = ({ searchInput }) => {
-  const { isLoggedIn } = useAuth();
+  const { user } = useUser();
   const storeSearches = useSelector((state) => state.searches);
   const dispatch = useDispatch();
 
@@ -36,7 +37,7 @@ const Search: NextPage<Props> = ({ searchInput }) => {
 
   return (
     <div>
-      {!isLoggedIn ? (
+      {!user.isLoggedIn ? (
         <div>
           <MainLayout>
             <SearchContainer
@@ -82,7 +83,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         )
       );
     } catch (error) {
-      console.error("error fetching search results", error);
+      debugError(`Error fetching search results: ${error}`);
     }
     return {
       props: { searchInput: searchDecoded }

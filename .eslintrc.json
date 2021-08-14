@@ -20,7 +20,7 @@
     "plugin:jsx-a11y/recommended",
     "prettier",
     "prettier/react",
-    "plugin:jest/recommended",
+    // "plugin:jest/recommended",
     "plugin:cypress/recommended",
     "plugin:react-hooks/recommended"
   ],
@@ -41,6 +41,8 @@
     }
   },
   "rules": {
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
     "react/react-in-jsx-scope": "off",
     "prettier/prettier": ["error"],
     "react/jsx-filename-extension": [
@@ -158,6 +160,7 @@
         "when": "multiline"
       }
     ],
+    "react/destructuring-assignment": ["warn"],
     "react/jsx-one-expression-per-line": "off",
     "react/no-did-mount-set-state": "off",
     "react/no-unused-prop-types": "off",
@@ -179,7 +182,7 @@
     "unicorn/prefer-text-content": "error",
     "unicorn/prefer-type-error": "error",
     "unicorn/prevent-abbreviations": [
-      "error",
+      "warn",
       {
         "replacements": {
           "props": {
@@ -251,6 +254,7 @@
   "overrides": [
     {
       "files": ["**/*.ts", "**/*.tsx"],
+      "plugins": ["@typescript-eslint"],
       "parser": "@typescript-eslint/parser",
       "extends": ["plugin:@typescript-eslint/recommended"],
       "rules": {

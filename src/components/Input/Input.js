@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable prettier/prettier */
 /* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
 import PropTypes from "prop-types";
@@ -7,7 +9,7 @@ import styles from "./Input.module.scss";
 // todo add clicker on hover
 const Input = ({
   error = undefined,
-  id,
+  name,
   label = undefined,
   placeholder,
   value = undefined,
@@ -19,13 +21,22 @@ const Input = ({
     <div
       className={`${styles.input_wrapper} input_wrapper ${wrapperClassName}`}
     >
-      <label htmlFor={id} className={cx({ [styles.error]: error })}>
-        {label && <span className={label && styles.label}>{label}</span>}
+      <label htmlFor={name} className={cx({ [styles.error]: error })}>
+        {label && (
+          <span
+            data-test={props["data-test"] || `${name}InputLabel`}
+            className={label && styles.label}
+          >
+            {label}
+          </span>
+        )}
         <input
+          data-test={props["data-test"] || `${name}Input`}
           type="text"
-          id={id}
+          id={name}
+          name={name}
           placeholder={placeholder}
-          value={value}
+          value={value || ""}
           {...props}
         />
         {isTouched && <span className={styles.error_message}>{error}</span>}

@@ -18,7 +18,7 @@ import {
   EditExperience,
   EditExperiences,
   GetExperiencesByUserId
-} from "../../pages/api/endpoints";
+} from "lib/endpoints";
 
 function* fetchExperiencesByUserId(action) {
   try {

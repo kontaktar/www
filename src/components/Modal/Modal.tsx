@@ -38,52 +38,55 @@ const Modal = ({
 
   useEffect(() => {
     setShowDialog(open);
-  }, [open, onClose]);
+  }, [open]);
 
   return (
-    <div key={modalKey}>
-      {transitions(
-        (style, item, t, i) =>
-          item && (
-            <animated.div key={modalKey}>
-              <DialogOverlay
-                className={cx(styles.new_modal, className)}
-                style={{ opacity: style.opacity as any }}
-                key={modalKey}
-              >
-                <animated.div>
-                  <DialogContent
-                    // style={{
-                    //   transform: style?.y?.to(
-                    //     (value) => `translate3d(0px, ${value}px, 0px)`
-                    //   ),
-                    //   border: "none",
-                    //   borderRadius: 10
-                    // }}
-                    aria-label={ariaLabel}
-                    key={modalKey + i}
-                    className={overlayClassName}
-                  >
-                    <IconButton
-                      disableFocusRipple
-                      className={styles.button_clear}
-                      type="submit"
-                      aria-label="Close dialog"
-                      onClick={() => {
-                        onClose();
-                        setShowDialog(false);
-                      }}
+    open && (
+      <div key={modalKey}>
+        {transitions(
+          (style, item, t, i) =>
+            item && (
+              <animated.div key={modalKey}>
+                <DialogOverlay
+                  className={cx(styles.new_modal, className)}
+                  style={{ opacity: style.opacity as any }}
+                  key={modalKey}
+                >
+                  <animated.div>
+                    <DialogContent
+                      // style={{
+                      //   transform: style?.y?.to(
+                      //     (value) => `translate3d(0px, ${value}px, 0px)`
+                      //   ),
+                      //   border: "none",
+                      //   borderRadius: 10
+                      // }}
+                      aria-label={ariaLabel}
+                      key={modalKey + i}
+                      className={overlayClassName}
                     >
-                      <CloseIcon />
-                    </IconButton>
-                    {children}
-                  </DialogContent>
-                </animated.div>
-              </DialogOverlay>
-            </animated.div>
-          )
-      )}
-    </div>
+                      <IconButton
+                        disableFocusRipple
+                        className={styles.button_clear}
+                        type="submit"
+                        aria-label="Close dialog"
+                        onClick={() => {
+                          onClose();
+                          setShowDialog(false);
+                        }}
+                        data-test="closeDialogButton"
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                      {children}
+                    </DialogContent>
+                  </animated.div>
+                </DialogOverlay>
+              </animated.div>
+            )
+        )}
+      </div>
+    )
   );
 };
 export default Modal;

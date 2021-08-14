@@ -1,6 +1,7 @@
 @import "../../styles/config";
 
 .button {
+  padding-top: 2px;
   height: 50px;
   width: 202px;
   cursor: pointer;
@@ -19,6 +20,9 @@
   letter-spacing: 0.01em;
   font-style: bold;
 
+  &:disabled {
+    background-color: $primary-color !important;
+  }
   &:hover,
   &:active,
   &:focus {
@@ -31,6 +35,7 @@
 
   :global {
     .MuiCircularProgress-circle {
+      r: 18;
       stroke: $color-white;
       &:focus {
         outline: 0;

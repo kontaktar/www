@@ -4,7 +4,7 @@ import {
   fetchSearchResultSuccess
 } from "store/actions";
 import * as actionTypes from "store/actionTypes";
-import { GetSearchResult } from "../../pages/api/endpoints";
+import { GetSearchResult } from "lib/endpoints";
 
 function* fetchSearchResult(action) {
   try {
