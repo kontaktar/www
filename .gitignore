@@ -19,4 +19,5 @@ firebase-debug.log
 ui-debug.log
 
 cypress/examples/
-cypress.json
+cypress/videos/
+/cypress.json

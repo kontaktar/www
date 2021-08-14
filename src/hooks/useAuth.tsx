@@ -10,11 +10,8 @@ import { post } from "helpers/methods";
 
 import useLogger from "./useLogger";
 
-// TODO: probably just remove the whole usereducer, not using the isLoggedIn
-
 type AuthContextProps = {
   status: string;
-  isLoggedIn: boolean;
   logout?: () => void;
   login?: (body: any, headers: any) => void;
   register?: (userName: any) => void;
@@ -23,12 +20,10 @@ type AuthContextProps = {
 
 type AuthReducerState = {
   status: string;
-  isLoggedIn: boolean;
 };
 
 const initialState = {
-  status: "INITIAL",
-  isLoggedIn: false
+  status: "INITIAL"
 };
 const AuthContext = createContext<AuthContextProps>(initialState);
 
@@ -36,16 +31,13 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setLoggedIn: (state: AuthReducerState, action: PayloadAction<boolean>) => {
-      state.isLoggedIn = action.payload;
-    },
     setStatus: (state: AuthReducerState, action: PayloadAction<string>) => {
       state.status = action.payload;
     }
   }
 });
 
-export const { setLoggedIn, setStatus } = authSlice.actions;
+export const { setStatus } = authSlice.actions;
 
 const useAuth = (): AuthContextProps => useContext(AuthContext);
 
@@ -63,7 +55,6 @@ export const AuthProvider = ({
   const logout = async () => {
     await post(Endpoint.Logout).then(() => {
       firebase.auth().signOut();
-      dispatch(setLoggedIn(false));
       dispatch(setStatus("LOGGED_OUT"));
     });
     await mutateUser({ isLoggedIn: false }, true);
@@ -72,11 +63,7 @@ export const AuthProvider = ({
   // TODO: I saw /api/login called twice on prod.
   // Make sure it's only called once.
   const login = async (body: User, token: string) => {
-    await post(Endpoint.Login, body, { Authorization: token }).then(
-      async ({ isLoggedIn }) => {
-        dispatch(setLoggedIn(isLoggedIn));
-      }
-    );
+    await post(Endpoint.Login, body, { Authorization: token });
     try {
       await EditUser(body.id, { firebaseToken: token, lastLogin: new Date() });
     } catch (error) {
@@ -90,7 +77,6 @@ export const AuthProvider = ({
     try {
       await CreateUser(body);
       dispatch(setStatus("REGISTERED"));
-      dispatch(setLoggedIn(true));
       await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
     } catch (error) {
       debugError("Register:Could not register user:", error.message);
