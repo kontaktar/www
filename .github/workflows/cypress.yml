@@ -11,7 +11,9 @@ jobs:
       - name: Build
         run: |
           yarn install
-          SECRET_COOKIE_PASSWORD=THE_SECRET_KEY_FOR_SESSION_STORAGE yarn build & yarn firebase login --token "$FIREBASE_TOKEN"
+          SECRET_COOKIE_PASSWORD=THE_SECRET_KEY_FOR_SESSION_STORAGE &
+          yarn build &
+          yarn firebase login --token "$FIREBASE_TOKEN" &
          env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Start
