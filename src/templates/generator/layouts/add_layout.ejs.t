@@ -1,13 +1,16 @@
 ---
-to: src/layouts/<%= name %>/<%= name %>.js
+to: src/layouts/<%= name %>/<%= name %>.tsx
 message: |
  - {green CREATED}: LAYOUT @ src/layouts/<%= name %>/
 ---
-import React from "react";
-import PropTypes from "prop-types";
+import React, { ReactElement } from "react";
 import styles from "./<%= name %>.module.scss";
 
-const <%= name %> = () => {
+type Props = {
+  className?: string;
+};
+
+const <%= name %> = ({ className = "" }: Props): ReactElement => {
   return (
     <div className={styles.<%= name.toLowerCase() %>}>
       <p><%= name %></p>
@@ -16,10 +19,3 @@ const <%= name %> = () => {
 };
 
 export default <%= name %>;
-
-<%= name %>.propTypes = {
-  className: PropTypes.string
-};
-<%= name %>.defaultProps = {
-  className: ""
-};
