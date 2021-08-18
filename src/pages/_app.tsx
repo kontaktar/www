@@ -6,7 +6,9 @@ import { SWRConfig } from "swr";
 import wrapper from "store/configureStore";
 import fetch from "lib/fetchJson";
 import { configOptions } from "lib/firebaseConfig";
+import { debugError } from "helpers/debug";
 import { AuthProvider } from "hooks/useAuth";
+import ErrorBoundary from "components/ErrorBoundary";
 import "../styles/index.scss";
 
 if (!firebase.apps.length) {
@@ -17,34 +19,42 @@ if (!firebase.apps.length) {
     process.env.FIREBASE_EMULATOR === "1"
   ) {
     // firebase.firestore().settings({ host: 'localhost:4000', ssl: false });
-    firebase.auth().useEmulator("http://localhost:9099/");
+    try {
+      firebase.auth().useEmulator("http://localhost:9099/");
+    } catch (error) {
+      debugError(
+        "Emulator is expected to be on, turn it on with -yarn emulator- or set env.FIREBASE_EMULATOR = 0"
+      );
+    }
   }
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
-      <SWRConfig
-        value={{
-          fetcher: fetch,
-          onError: (error) => {
-            // eslint-disable-next-line no-console
-            console.error(error);
-          }
-        }}
-      >
-        <Head>
-          <title>Kontaktar</title>
-          <meta
-            name="viewport"
-            content="width=device-width,initial-scale=1,viewport-fit=cover"
-            key="viewport"
-          />
-        </Head>
-        <AuthProvider>
-          <Component {...pageProps} />
-        </AuthProvider>
-      </SWRConfig>
+      <ErrorBoundary>
+        <SWRConfig
+          value={{
+            fetcher: fetch,
+            onError: (error) => {
+              // eslint-disable-next-line no-console
+              console.error(error);
+            }
+          }}
+        >
+          <Head>
+            <title>Kontaktar</title>
+            <meta
+              name="viewport"
+              content="width=device-width,initial-scale=1,viewport-fit=cover"
+              key="viewport"
+            />
+          </Head>
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
+        </SWRConfig>
+      </ErrorBoundary>
     </>
   );
 };
