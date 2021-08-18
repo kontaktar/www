@@ -6,11 +6,6 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - name: Check
-        run: |
-          echo "$FIREBASE_TOKEN"
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build
