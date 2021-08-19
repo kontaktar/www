@@ -15,7 +15,7 @@ jobs:
       - name: Start
         run: |
           NODE_ENV=development yarn start &
-          yarn emulator --token "$FIREBASE_TOKEN" &
+          yarn emulator --project kontaktar-is --token "$FIREBASE_TOKEN" &
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Run Cypress test
