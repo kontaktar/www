@@ -5,7 +5,7 @@
   "scripts": {
     "cy": "CYPRESS=1 cypress open --config-file cypress/cypress.json",
     "cy:run": "CYPRESS=1 cypress run --config-file cypress/cypress.json",
-    "cy:build": "CYPRESS=1 cypress run --config-file cypress/cypress.build.json",
+    "cy:build": "FIREBASE_EMULATOR=1 CYPRESS=1 cypress run --config-file cypress/cypress.build.json",
     "emulator": "yarn firebase emulators:start",
     "build": "next build",
     "dev": "NODE_ENV=development next",
