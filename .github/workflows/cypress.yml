@@ -12,13 +12,14 @@ jobs:
         run: |
           yarn install
           SECRET_COOKIE_PASSWORD=THE_SECRET_KEY_FOR_SESSION_STORAGE yarn build
-      - name: Start
+      - name: Start Emulator
         run: |
-          NODE_ENV=development yarn start
-          yarn emulator --project kontaktar-is --token "$FIREBASE_TOKEN"
+          yarn emulator --project kontaktar-is --token "$FIREBASE_TOKEN" &
       - name: Run Cypress test
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         uses: cypress-io/github-action@v2
         with:
           command: yarn cy:build
+          start: next start
+          browser: chrome
