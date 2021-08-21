@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { useFormik } from "formik";
-import { UserData } from "types";
+import { UserEnum } from "types";
 import {
   bypassWarningMessage,
   shouldBypassFirebaseOnDevelopment,
@@ -54,11 +54,11 @@ const PhoneNumberForm = ({
     <form onSubmit={formik.handleSubmit} className={styles.form}>
       <MUIInput
         type="text"
-        id={UserData.PhoneNumber}
-        name={UserData.PhoneNumber}
+        id={UserEnum.PhoneNumber}
+        name={UserEnum.PhoneNumber}
         placeholder="Símanúmer"
         onChange={formik.handleChange}
-        onBlur={() => formik.setFieldTouched(UserData.PhoneNumber, true, true)}
+        onBlur={() => formik.setFieldTouched(UserEnum.PhoneNumber, true, true)}
         value={formik.values.phoneNumber}
         error={formik.errors.phoneNumber}
         isTouched={formik.touched.phoneNumber}
