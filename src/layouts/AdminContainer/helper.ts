@@ -4,8 +4,14 @@ export const editHowDataIsDisplayed = (users: UserData[]): UserData[] => {
   const allUsers = [...users];
 
   return allUsers.map(
-    ({ website, postalCode, streetName, city, country, ...keepAttributes }) =>
-      keepAttributes
+    ({
+      // website,
+      // postalCode,
+      // streetName,
+      // city,
+      // country,
+      ...keepAttributes
+    }) => keepAttributes
   );
 };
 
@@ -30,10 +36,7 @@ export const tableColumns = [
     Header: "Email",
     accessor: "email"
   },
-  // {
-  //   Header: "Vefsíða",
-  //   accessor: "website"
-  // },
+
   {
     Header: "Símanúmer",
     accessor: "phoneNumber"
@@ -49,22 +52,25 @@ export const tableColumns = [
   {
     Header: "lastLogin",
     accessor: "lastLogin"
+  },
+  {
+    Header: "Vefsíða",
+    accessor: "website"
+  },
+  {
+    Header: "Póstnúmer",
+    accessor: "postalCode"
+  },
+  {
+    Header: "Gata",
+    accessor: "streetName"
+  },
+  {
+    Header: "Borg",
+    accessor: "city"
+  },
+  {
+    Header: "Land",
+    accessor: "country"
   }
-
-  // {
-  //   Header: "Póstnúmer",
-  //   accessor: "postalCode"
-  // },
-  // {
-  //   Header: "Gata",
-  //   accessor: "streetName"
-  // },
-  // {
-  //   Header: "Borg",
-  //   accessor: "city"
-  // },
-  // {
-  //   Header: "Land",
-  //   accessor: "country"
-  // }
 ];

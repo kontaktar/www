@@ -17,6 +17,17 @@ type Props = {
   onClose: () => void;
 };
 
+type ConfirmProps = {
+  onCancel: () => void;
+  onConfirm: () => void;
+  open: boolean;
+  className?: string;
+};
+
+interface StaticComponents {
+  Confirm?: ConfirmProps;
+}
+
 const Modal = ({
   ariaLabel,
   open = false,
@@ -25,7 +36,7 @@ const Modal = ({
   children,
   onClose,
   modalKey
-}: Props): ReactElement => {
+}: Props & StaticComponents): ReactElement => {
   const [showDialog, setShowDialog] = useState(open);
 
   const transitions = useTransition(showDialog, {
@@ -89,4 +100,30 @@ const Modal = ({
     )
   );
 };
+
+const ModalConfirm = ({
+  className,
+  open,
+  onCancel,
+  onConfirm,
+  ...props
+}: ConfirmProps) => {
+  return (
+    <Modal
+      open={open}
+      ariaLabel="confirmation"
+      data-test="confirmModal"
+      onClose={onCancel}
+      // className={cx(className, styles.confirm)}
+      {...props}
+    >
+      <>
+        <button>Yes</button>
+        <button>No</button>
+      </>
+    </Modal>
+  );
+};
+Modal.Confirm = ModalConfirm;
+
 export default Modal;

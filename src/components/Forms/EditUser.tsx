@@ -3,12 +3,16 @@ import { useFormik } from "formik";
 import { User, UserAddress, UserAddressEnum, UserData, UserEnum } from "types";
 import { Button } from "components";
 import { MUIInput as Input } from "components/Input";
+import Modal from "components/Modal";
 import styles from "./EditUser.module.scss";
 
 type Props = {
   userData: UserData;
 };
 const EditUserForm = ({ userData }: Props): React.ReactElement => {
+  const [openConfirmationModal, setOpenConfirmationModal] = React.useState(
+    false
+  );
   console.log("ediitUser userData", userData);
   const formik = useFormik({
     initialValues: {
@@ -19,6 +23,10 @@ const EditUserForm = ({ userData }: Props): React.ReactElement => {
       console.log("value", values);
     }
   });
+
+  const promptUserToConfirm = () => {
+    setOpenConfirmationModal(true);
+  };
 
   return (
     <>
@@ -164,7 +172,7 @@ const EditUserForm = ({ userData }: Props): React.ReactElement => {
           <Button.Delete
             className={styles.button}
             // isLoading={status === "USER_EDIT_REQUEST"}
-            // onClick={saveUserInfo}
+            onClick={promptUserToConfirm}
             // type="save"
           />
           <Button.Edit
@@ -182,6 +190,12 @@ const EditUserForm = ({ userData }: Props): React.ReactElement => {
           )} */}
         </div>
       </form>
+
+      <Modal.Confirm
+        open={openConfirmationModal}
+        onConfirm={() => console.log("confirm")}
+        onCancel={() => console.log("confirm")}
+      />
     </>
   );
 };
