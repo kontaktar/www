@@ -7,6 +7,7 @@ describe("Access", () => {
 
   it("GET: /api/user", () => {
     //   cy.request(method, url, body);
+    cy.log("baseUrl", baseUrl);
     cy.request("GET", `${baseUrl}/user`).should((response) => {
       expect(response.status).to.eq(200);
       expect(response).property("body").to.have.property("isLoggedIn");
