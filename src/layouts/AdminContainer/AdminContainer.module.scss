@@ -1,5 +1,27 @@
 @import "../../styles/config";
 
 .admincontainer {
-  background-color: red;
+  overflow-x: scroll;
+  box-shadow: -55px 1px 5px -43px rgba(192, 192, 192, 1) inset;
+}
+
+.edit_icon {
+  svg {
+    path {
+      fill: $primary-color;
+    }
+  }
+}
+
+.icon_button {
+}
+
+.edit_heading {
+  padding: 20px 0;
+}
+
+.modal {
+}
+.modal_content {
+  position: relative;
 }

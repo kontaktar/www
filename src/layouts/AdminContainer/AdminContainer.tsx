@@ -1,76 +1,27 @@
 import React, { ReactElement } from "react";
 import { useTable } from "react-table";
+import { User, UserAddress, UserData } from "types";
+import { Button, Icon, Input } from "components";
+import EditUser from "components/Forms/EditUser";
+import Modal from "components/Modal";
 import styles from "./AdminContainer.module.scss";
+
+import { editHowDataIsDisplayed, tableColumns } from "./helper";
 
 type Props = {
   className?: string;
-  users: any;
+  users: UserData[];
 };
+
+type UserData = User & UserAddress;
+
 const AdminContainer = ({ className = "", users }: Props): ReactElement => {
-  const userData = React.useMemo(() => users, [users]);
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "ID",
-        accessor: "id"
-      },
-      {
-        Header: "Notendanafn",
-        accessor: "userName"
-      },
-      {
-        Header: "Fornafn",
-        accessor: "firstName"
-      },
-      {
-        Header: "Eftirnafn",
-        accessor: "lastName"
-      },
-      {
-        Header: "Email",
-        accessor: "email"
-      },
-      {
-        Header: "Vefsíða",
-        accessor: "website"
-      },
-      {
-        Header: "Símanúmer",
-        accessor: "phoneNumber"
-      },
-      {
-        Header: "createdAt",
-        accessor: "createdAt"
-      },
-      {
-        Header: "lastLogin",
-        accessor: "lastLogin"
-      },
-      {
-        Header: "Kennitala",
-        accessor: "ssn"
-      },
-      {
-        Header: "Póstnúmer",
-        accessor: "postalCode"
-      },
-      {
-        Header: "Gata",
-        accessor: "streetName"
-      },
-      {
-        Header: "Borg",
-        accessor: "city"
-      },
-      {
-        Header: "Land",
-        accessor: "country"
-      }
-    ],
-    []
-  );
-  console.log("columns", columns);
-  console.log("userData", userData);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [userToEdit, setUserToEdit] = React.useState<UserData>();
+  console.log("users", users);
+  const allUsers = React.useMemo(() => editHowDataIsDisplayed(users), [users]);
+  const columns = React.useMemo(() => tableColumns, []);
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -79,8 +30,13 @@ const AdminContainer = ({ className = "", users }: Props): ReactElement => {
     prepareRow
   } = useTable({
     columns,
-    data: userData
+    data: allUsers
   });
+
+  const editUserData = (data) => {
+    setOpenModal(true);
+    setUserToEdit(users.find((user) => user.id === data.original.id));
+  };
 
   return (
     <div className={styles.admincontainer}>
@@ -88,6 +44,7 @@ const AdminContainer = ({ className = "", users }: Props): ReactElement => {
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
+              <th>Breyta</th>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()}>{column.render("Header")}</th>
               ))}
@@ -99,6 +56,17 @@ const AdminContainer = ({ className = "", users }: Props): ReactElement => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
+                <td>
+                  <Button
+                    type="button"
+                    modifier={["raw"]}
+                    className={styles.icon_button}
+                    onClick={() => editUserData(row)}
+                    // data-test={`editUser`}
+                  >
+                    <Icon className={styles.edit_icon} name="edit" />
+                  </Button>
+                </td>
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
@@ -109,6 +77,17 @@ const AdminContainer = ({ className = "", users }: Props): ReactElement => {
           })}
         </tbody>
       </table>
+      <Modal
+        className={styles.modal}
+        ariaLabel="Breyta notanda"
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+      >
+        <div className={styles.modal_content}>
+          <h1 className={styles.edit_heading}>Breyta notanda</h1>
+          <EditUser userData={userToEdit} />
+        </div>
+      </Modal>
     </div>
   );
 };

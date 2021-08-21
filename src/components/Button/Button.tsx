@@ -11,7 +11,7 @@ type Props = {
   className?: string;
   disabled?: boolean;
   onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void;
-  modifier?: Array<string>; // TODO: onez["", "pill", "inverted", "borderless", "rectangle"]
+  modifier?: Array<string>; // TODO: onez["", "pill", "inverted", "borderless", "rectangle", "raw"]
   isLoading?: boolean;
   type?: string;
   [x: string]: any;
@@ -118,6 +118,18 @@ const ButtonEdit = ({ type, className, ...props }) => {
     </Button>
   );
 };
+const ButtonDelete = ({ className, ...props }) => {
+  return (
+    <Button
+      type="button"
+      data-test="deleteUser"
+      className={cx(className, styles.delete)}
+      {...props}
+    >
+      EYÐA NOTANDA
+    </Button>
+  );
+};
 
 const ButtonSearch = () => {
   return (
@@ -140,6 +152,7 @@ const ButtonHamburger = (props) => {
 Button.Navigation = ButtonNavigation;
 Button.CarouselNavi = ButtonCarouselNavi;
 Button.Edit = ButtonEdit;
+Button.Delete = ButtonDelete;
 Button.Search = ButtonSearch;
 Button.Hamburger = ButtonHamburger;
 

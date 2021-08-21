@@ -35,7 +35,6 @@ export type UserAddress = {
 
 export type UserData = User & UserAddress;
 
-// eslint-disable-next-line import/prefer-default-export
 export enum UserEnum {
   PhoneNumber = "phoneNumber",
   LastName = "lastName",
