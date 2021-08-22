@@ -17,9 +17,17 @@ jobs:
           yarn emulator --token "$FIREBASE_TOKEN" --project kontaktar-is &
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Login to vercel
+        run: |
+          yarn vercel login --token "$VERCEL_TOKEN"
+          yarn vercel --scope kontaktar
+          yarn vercel env pull
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       - name: Run Cypress test
         uses: cypress-io/github-action@v2
         with:
           command: yarn cy:build
           start: yarn start
           browser: chrome
+
