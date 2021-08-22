@@ -6,18 +6,19 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - name: Login to vercel
-        run: |
-          yarn vercel env --token "$VERCEL_TOKEN" --scope kontaktar pull
-          cat .env
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
       - name: Checkout
         uses: actions/checkout@v2
       - name: Build
         run: |
           yarn install
           SECRET_COOKIE_PASSWORD=THE_SECRET_KEY_FOR_SESSION_STORAGE yarn build
+      - name: Login to vercel
+        run: |
+          yarn vercel env --token "$VERCEL_TOKEN" --scope kontaktar pull
+          cat .env
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       - name: Start Emulator
         run: |
           yarn emulator --token "$FIREBASE_TOKEN" --project kontaktar-is &
