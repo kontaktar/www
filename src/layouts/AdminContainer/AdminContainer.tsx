@@ -18,6 +18,7 @@ type UserData = User & UserAddress;
 const AdminContainer = ({ className = "", users }: Props): ReactElement => {
   const [openModal, setOpenModal] = React.useState(false);
   const [userToEdit, setUserToEdit] = React.useState<UserData>();
+  // const allUsers = React.useMemo(() => editHowDataIsDisplayed(users), [users]);
   const allUsers = React.useMemo(() => editHowDataIsDisplayed(users), [users]);
   const columns = React.useMemo(() => tableColumns, []);
 

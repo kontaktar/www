@@ -53,3 +53,18 @@
     }
   }
 }
+
+.confirm {
+  position: absolute;
+
+  width: 280px !important;
+  height: 250px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  .button_clear {
+    display: none;
+  }
+}

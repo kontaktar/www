@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { CodeSharp } from "@material-ui/icons";
 import { useFormik } from "formik";
 import { User, UserAddress, UserAddressEnum, UserData, UserEnum } from "types";
-import { Button } from "components";
+import { deleteUserExperience } from "store/actions";
+import { DeleteUser } from "lib/endpoints";
+import useAuth from "hooks/useAuth";
+import { Button, LastChange } from "components";
 import { MUIInput as Input } from "components/Input";
 import Modal from "components/Modal";
 import styles from "./EditUser.module.scss";
@@ -10,22 +14,31 @@ type Props = {
   userData: UserData;
 };
 const EditUserForm = ({ userData }: Props): React.ReactElement => {
+  const [timestamp, setTimestamp] = useState(undefined);
+  const { editUser, status } = useAuth();
   const [openConfirmationModal, setOpenConfirmationModal] = React.useState(
     false
   );
-  console.log("ediitUser userData", userData);
+
   const formik = useFormik({
     initialValues: {
       ...userData
     } as UserData,
     // validationSchema: phoneNumberSchema,
     onSubmit: async (values) => {
-      console.log("value", values);
+      setTimestamp(new Date());
+
+      editUser(values);
     }
   });
 
   const promptUserToConfirm = () => {
     setOpenConfirmationModal(true);
+  };
+
+  const deleteUser = async () => {
+    await DeleteUser(userData.id);
+    setOpenConfirmationModal(false);
   };
 
   return (
@@ -168,33 +181,31 @@ const EditUserForm = ({ userData }: Props): React.ReactElement => {
           </div>
         </div>
         <div className={styles.button_line}>
-          <p>TODO timestamp</p>
           <Button.Delete
             className={styles.button}
             // isLoading={status === "USER_EDIT_REQUEST"}
             onClick={promptUserToConfirm}
             // type="save"
           />
-          <Button.Edit
-            type="save"
-            className={styles.button_save}
-            // isLoading={status === "USER_EDIT_REQUEST"}
-            // onClick={saveUserInfo}
-            // type="save"
-          />
-          {/* {timestamp && status !== "USER_EDIT_REQUEST" && (
+          {timestamp && status !== "USER_EDIT_REQUEST" && (
             <LastChange
               className={styles.user_info_timestamp}
               timestamp={timestamp}
             />
-          )} */}
+          )}
+          <Button.Edit
+            type="save"
+            className={styles.button_save}
+            isLoading={status === "USER_EDIT_REQUEST"}
+            // onClick={}
+          />
         </div>
       </form>
 
       <Modal.Confirm
         open={openConfirmationModal}
-        onConfirm={() => console.log("confirm")}
-        onCancel={() => console.log("confirm")}
+        onConfirm={() => deleteUser()}
+        onCancel={() => setOpenConfirmationModal(false)}
       />
     </>
   );

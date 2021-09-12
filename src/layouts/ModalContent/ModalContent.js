@@ -8,7 +8,14 @@ import { createUserExperience, editUserExperience } from "store/actions";
 import useUser from "lib/useUser";
 import { debug } from "helpers/debug";
 import useAuth from "hooks/useAuth";
-import { Button, Checkbox, Input, Select, TextArea } from "components";
+import {
+  Button,
+  Checkbox,
+  Input,
+  LastChange,
+  Select,
+  TextArea
+} from "components";
 import { MUIInput } from "components/Input";
 import styles from "./ModalContent.module.scss";
 
@@ -231,19 +238,6 @@ const UserInformation = ({ data }) => {
         )}
       </div>
     </>
-  );
-};
-
-const LastChange = ({ className, timestamp }) => {
-  function addZeroBefore(n) {
-    return (n < 10 ? "0" : "") + n;
-  }
-  return (
-    <div className={className}>
-      Síðast breytt: {addZeroBefore(timestamp.getHours())}:
-      {addZeroBefore(timestamp.getMinutes())}:
-      {addZeroBefore(timestamp.getSeconds())}
-    </div>
   );
 };
 

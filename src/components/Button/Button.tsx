@@ -105,6 +105,7 @@ const ButtonEdit = ({ type, className, ...props }) => {
       data-test={
         type === "save" ? "saveUserInfoButton" : "publishUserInfoButton"
       }
+      type="submit"
       className={cx(className, styles.edit, styles[type])}
       {...props}
     >

@@ -55,7 +55,9 @@ const UserById = withSession(async (request, response) => {
     }
   }
   if (method === "DELETE") {
-    hasUserAccess(request, response);
+    // TODO: check if current user is admin
+    // OR: if current user is the same user as the query.id
+    // hasUserAccess(request, response);
     try {
       await database.one(
         "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
