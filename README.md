@@ -201,28 +201,30 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 
 Destroy iron-session and firebase session.
 
-TODO:
--[] Create cleanup function that cleans up window stuff after succesful login / register
-
--[] What happens if I reach the register screen - clear the session storage and then refresh and try again.
 
 ####
 
-NEEDS FIXING:
+TODO / NEEDS FIXING:
+
+ACCESS CONTROL ON ENDPOINTS.
+
+create cypress test for every endpoint,
 
 all-usernames called multiple times
 
 fix button loading state, onhover
 
+fix carousel on in smaller screensizes.
+
+Create cleanup function that cleans up window stuff after succesful login / register
+
 dont need to save user info if nothing was changed, api being called for no chanegs
-
-create cypress test for every endpoint,
-
-then do access control, withUserAccess and so on
-(how can I reduce the admin.firebase code ?)
 
 ---
 
-what happens if the firebase session stops and userSession is still ongoing?
+What happens if the firebase session stops and session storage userSession is still ongoing?
+What happens if the user reacesh the register screen - clears the session storage and then refreshes and try again.
+
+# Nice to have:
 
 https://github.com/jellydn/next-swagger-doc
