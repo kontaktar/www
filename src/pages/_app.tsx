@@ -8,6 +8,7 @@ import fetch from "lib/fetchJson";
 import { configOptions } from "lib/firebaseConfig";
 import { debugError } from "helpers/debug";
 import { AuthProvider } from "hooks/useAuth";
+import AdminProvider from "components/Admin/AdminProvider";
 import ErrorBoundary from "components/ErrorBoundary";
 import "../styles/index.scss";
 
@@ -51,7 +52,9 @@ const App = ({ Component, pageProps }: AppProps) => {
             />
           </Head>
           <AuthProvider>
+            {/* <AdminProvider> */}
             <Component {...pageProps} />
+            {/* </AdminProvider> */}
           </AuthProvider>
         </SWRConfig>
       </ErrorBoundary>

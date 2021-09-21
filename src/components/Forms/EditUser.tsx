@@ -1,19 +1,24 @@
 import React, { useState } from "react";
-import { CodeSharp } from "@material-ui/icons";
 import { useFormik } from "formik";
 import { User, UserAddress, UserAddressEnum, UserData, UserEnum } from "types";
 import { deleteUserExperience } from "store/actions";
 import { DeleteUser } from "lib/endpoints";
 import useAuth from "hooks/useAuth";
 import { Button, LastChange } from "components";
+import { useAdmin } from "components/Admin/AdminProvider";
 import { MUIInput as Input } from "components/Input";
 import Modal from "components/Modal";
 import styles from "./EditUser.module.scss";
 
 type Props = {
   userData: UserData;
+  onCloseModal?: () => void;
 };
-const EditUserForm = ({ userData }: Props): React.ReactElement => {
+const EditUserForm = ({
+  userData,
+  onCloseModal
+}: Props): React.ReactElement => {
+  const { mutateUsers } = useAdmin();
   const [timestamp, setTimestamp] = useState(undefined);
   const { editUser, status } = useAuth();
   const [openConfirmationModal, setOpenConfirmationModal] = React.useState(
@@ -29,6 +34,7 @@ const EditUserForm = ({ userData }: Props): React.ReactElement => {
       setTimestamp(new Date());
 
       editUser(values);
+      mutateUsers();
     }
   });
 
@@ -38,7 +44,9 @@ const EditUserForm = ({ userData }: Props): React.ReactElement => {
 
   const deleteUser = async () => {
     await DeleteUser(userData.id);
+    mutateUsers();
     setOpenConfirmationModal(false);
+    onCloseModal();
   };
 
   return (

@@ -1,6 +1,7 @@
 import { UserData } from "types";
 
 export const editHowDataIsDisplayed = (users: UserData[]): UserData[] => {
+  if (!users) return [];
   const allUsers = [...users];
 
   return allUsers.map(

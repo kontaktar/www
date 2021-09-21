@@ -1,33 +1,42 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
+import { UserData } from "types";
 import { getUserByUserNameSuccess } from "store/actions";
 import wrapper from "store/configureStore";
 import { GetAllUsers } from "lib/endpoints";
 import withSession from "lib/sessions";
 import useUser from "lib/useUser";
 import { debugError } from "helpers/debug";
+import AdminProvider, { useAdmin } from "components/Admin/AdminProvider";
 import { AdminContainer, MainLayout } from "layouts";
 
-type Props = {
-  users: any;
-};
-const Admin = ({ users }: Props): ReactElement => {
-  // console.log("users", users);
-  //   const { user } = useUser();
+// type Props = {
+//   users: any;
+// };
+const Admin = (): ReactElement => {
+  // const { storeAllUsers } = useAdmin();
+
+  // useEffect(() => {
+  //   storeAllUsers(users);
+  // }, [users]);
 
   return (
     <>
-      <MainLayout noDistraction>
-        <AdminContainer users={users} />
-      </MainLayout>
+      <AdminProvider>
+        <MainLayout noDistraction>
+          <AdminContainer />
+        </MainLayout>
+      </AdminProvider>
     </>
   );
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ store }) => {
-    const users = await GetAllUsers();
+    // const users: UserData[] = await GetAllUsers();
+    // TODO: Add all users to store for snappier updates
+
     return {
-      props: { users }
+      props: {}
     };
   })
 );

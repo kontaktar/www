@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { useTable } from "react-table";
 import { User, UserAddress, UserData } from "types";
 import { Button, Icon, Input } from "components";
+import { useAdmin } from "components/Admin/AdminProvider";
 import EditUser from "components/Forms/EditUser";
 import Modal from "components/Modal";
 import styles from "./AdminContainer.module.scss";
@@ -10,15 +11,12 @@ import { editHowDataIsDisplayed, tableColumns } from "./helper";
 
 type Props = {
   className?: string;
-  users: UserData[];
 };
 
-type UserData = User & UserAddress;
-
-const AdminContainer = ({ className = "", users }: Props): ReactElement => {
+const AdminContainer = ({ className = "" }: Props): ReactElement => {
+  const { users } = useAdmin();
   const [openModal, setOpenModal] = React.useState(false);
   const [userToEdit, setUserToEdit] = React.useState<UserData>();
-  // const allUsers = React.useMemo(() => editHowDataIsDisplayed(users), [users]);
   const allUsers = React.useMemo(() => editHowDataIsDisplayed(users), [users]);
   const columns = React.useMemo(() => tableColumns, []);
 
@@ -85,7 +83,10 @@ const AdminContainer = ({ className = "", users }: Props): ReactElement => {
       >
         <div className={styles.modal_content}>
           <h1 className={styles.edit_heading}>Breyta notanda</h1>
-          <EditUser userData={userToEdit} />
+          <EditUser
+            userData={userToEdit}
+            onCloseModal={() => setOpenModal(false)}
+          />
         </div>
       </Modal>
     </div>
