@@ -202,9 +202,9 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 Destroy iron-session and firebase session.
 
 
-####
+---
 
-TODO / NEEDS FIXING:
+# TODO / NEEDS FIXING:
 
 ACCESS CONTROL ON ENDPOINTS.
 
