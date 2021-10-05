@@ -4,8 +4,7 @@ import { IronSession, UserSessionStorage } from "types";
 import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
 import {
-  hasUserAccess,
-  isAdmin,
+  // hasUserAccess,
   isAdminOrCurrentUser,
   withMiddleware
 } from "utils/apiMiddleware";
@@ -91,14 +90,7 @@ const UserById = withSession(async (request, response) => {
       .verifyIdToken(request?.headers?.authorization)
       .then((decodedToken) => {
         const { uid } = decodedToken;
-
         // TODO: verify
-        // if (user?.firebase?.id) {
-        //   console.log("uid", uid);
-        //   if (body.firebase.id !== uid) {
-        //     response.status(400).json({ message: "User doesnt match" });
-        //   }
-        // }
       })
       .catch((error) => {
         debugError(error);
