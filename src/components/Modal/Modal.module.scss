@@ -68,3 +68,11 @@
     display: none;
   }
 }
+
+.button_group_reversed {
+  display: flex;
+  flex-direction: column-reverse;
+  button {
+    margin: 8px;
+  }
+}

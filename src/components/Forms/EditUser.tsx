@@ -33,7 +33,7 @@ const EditUserForm = ({
     onSubmit: async (values) => {
       setTimestamp(new Date());
 
-      editUser(values);
+      await editUser(values);
       mutateUsers();
     }
   });

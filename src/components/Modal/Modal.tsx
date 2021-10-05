@@ -120,10 +120,12 @@ const ModalConfirm = ({
     >
       <>
         <span>Ertu viss um að þú viljir eyða notanda?</span>
-        <Button onClick={onConfirm}>JÁ</Button>
-        <Button onClick={onCancel} modifier={["inverted"]}>
-          NEI
-        </Button>
+        <div className={styles.button_group_reversed}>
+          <Button onClick={onCancel}>NEI</Button>
+          <Button onClick={onConfirm} modifier={["inverted"]}>
+            JÁ
+          </Button>
+        </div>
       </>
     </Modal>
   );
