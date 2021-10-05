@@ -82,3 +82,10 @@ export async function GetAllUsers() {
 export async function GetAllUserNames() {
   return get(`${Endpoint.Users}/all-usernames`);
 }
+
+export async function GetIsAdmin(phoneNumber: string) {
+  return (
+    get(`${Endpoint.Admins}?phoneNumber=${encodeURIComponent(phoneNumber)}`) ??
+    false
+  );
+}

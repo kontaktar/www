@@ -6,6 +6,11 @@ Start development mode
 
 `yarn dev`
 
+Start development with emulator
+
+Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
+`yarn emulator` && `yarn dev`
+
 Start storybook for component development
 
 `yarn storybook`
@@ -28,6 +33,8 @@ storybook.
 - Eslint & Prettier
 
 ### Storybook.
+
+Note: Storybook is outdated an has not been updated in a while.
 
 For the Jest intergration to work, a jest test has to be run to generate
 `.jest-test-results.json`.

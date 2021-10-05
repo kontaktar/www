@@ -4,5 +4,6 @@ export enum Endpoint {
   Logout = "/api/logout",
   Users = "/api/users",
   User = "/api/user",
-  Search = "/api/search"
+  Search = "/api/search",
+  Admins = "/api/admins"
 }
