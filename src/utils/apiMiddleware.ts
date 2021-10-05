@@ -1,5 +1,6 @@
 import Cors from "cors";
-import { IronSession } from "types";
+import { IronSession, UserSessionStorage } from "types";
+import { GetIsAdmin } from "lib/endpoints";
 import { debugError } from "helpers/debug";
 
 const cors = Cors({
@@ -43,6 +44,25 @@ export const hasUserAccess = (request, response) => {
       request.query.id.toString()
   ) {
     debugError("witUserMiddleware: User does not have access");
+    response.status(401).json({ message: "Forbidden" });
+  }
+};
+
+export const isAdminOrCurrentUser = async (request, response) => {
+  const user: UserSessionStorage = request.session.get(IronSession.UserSession);
+  if (!user) {
+    debugError("isAdmin: No user or this is being called server side");
+  }
+
+  const isCurrentUser = request?.body?.id === user?.details?.id.toString();
+
+  const isAdministrator =
+    (user?.details?.phoneNumber &&
+      (await GetIsAdmin(user?.details?.phoneNumber))) ??
+    false;
+
+  if (!(user?.isLoggedIn && (isAdministrator || isCurrentUser))) {
+    debugError("isAdmin: User is not an admin or the current user");
     response.status(401).json({ message: "Forbidden" });
   }
 };

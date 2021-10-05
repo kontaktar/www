@@ -88,7 +88,12 @@ export const AuthProvider = ({
     dispatch(setStatus("USER_EDIT_REQUEST"));
 
     time("useAuth:editUser: ");
-    await EditUser(userData.id, userData);
+    try {
+      await EditUser(userData.id, userData);
+    } catch (error) {
+      dispatch(setStatus("USER_EDIT_FAILED"));
+      return;
+    }
     timeEnd("useAuth:editUser: ");
 
     time("useAuth:editUser:mutate: ");

@@ -3,7 +3,12 @@ import pgp from "pg-promise";
 import { IronSession, UserSessionStorage } from "types";
 import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
-import { hasUserAccess, withMiddleware } from "utils/apiMiddleware";
+import {
+  hasUserAccess,
+  isAdmin,
+  isAdminOrCurrentUser,
+  withMiddleware
+} from "utils/apiMiddleware";
 import database from "utils/database";
 import { debug, debugError } from "helpers/debug";
 import { removeEmpty } from "helpers/objects";
@@ -55,9 +60,8 @@ const UserById = withSession(async (request, response) => {
     }
   }
   if (method === "DELETE") {
-    // TODO: check if current user is admin
-    // OR: if current user is the same user as the query.id
-    // hasUserAccess(request, response);
+    await isAdminOrCurrentUser(request, response);
+
     try {
       await database.one(
         "DELETE FROM addresses WHERE user_id = $1;DELETE FROM users WHERE id = $1 RETURNING *",
@@ -76,6 +80,8 @@ const UserById = withSession(async (request, response) => {
   // This handles both "register"
   // and last_login update
   if (method === "PUT") {
+    await isAdminOrCurrentUser(request, response);
+
     if (!request?.headers?.authorization) {
       response.status(401).json({ message: "Missing Authorization header" });
       return;
@@ -126,8 +132,6 @@ const UserById = withSession(async (request, response) => {
         response.status(500).json(error);
       }
     }
-
-    // withUserAccess(request, response);
 
     const {
       ssn = null,

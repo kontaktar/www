@@ -195,11 +195,17 @@ const EditUserForm = ({
             onClick={promptUserToConfirm}
             // type="save"
           />
-          {timestamp && status !== "USER_EDIT_REQUEST" && (
+          {timestamp && status === "USER_EDIT_SUCCESS" && (
             <LastChange
               className={styles.user_info_timestamp}
               timestamp={timestamp}
             />
+          )}
+          {/* this should never happen, user should never get the option to edit a user he is not controlling or admining, just here for debugging now */}
+          {status === "USER_EDIT_FAILED" && (
+            <span>
+              Ekki tókst að breyta notanda, vinsamlegast hafðu samband
+            </span>
           )}
           <Button.Edit
             type="save"
