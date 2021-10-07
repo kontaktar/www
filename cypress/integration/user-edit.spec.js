@@ -104,6 +104,8 @@ describe("Login", () => {
 
     cy.get("[data-test=saveUserInfoButton]").click();
     cy.get("[data-test=closeDialogButton]").click();
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(3000);
 
     cy.get("[data-test=fullNameHeading]").should(
       "have.text",

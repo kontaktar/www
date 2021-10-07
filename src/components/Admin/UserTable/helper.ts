@@ -4,16 +4,18 @@ export const editHowDataIsDisplayed = (users: UserData[]): UserData[] => {
   if (!users) return [];
   const allUsers = [...users];
 
-  return allUsers.map(
-    ({
-      // website,
-      // postalCode,
-      // streetName,
-      // city,
-      // country,
-      ...keepAttributes
-    }) => keepAttributes
-  );
+  return allUsers
+    .filter((user) => user.id !== 451) // TestUser
+    .map(
+      ({
+        // website,
+        // postalCode,
+        // streetName,
+        // city,
+        // country,
+        ...keepAttributes
+      }) => keepAttributes
+    );
 };
 
 export const tableColumns = [

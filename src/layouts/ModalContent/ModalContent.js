@@ -16,6 +16,7 @@ import {
   Select,
   TextArea
 } from "components";
+import EditUser from "components/Forms/EditUser";
 import { MUIInput } from "components/Input";
 import styles from "./ModalContent.module.scss";
 
@@ -136,107 +137,13 @@ const Experience = ({ data }) => {
   );
 };
 
-const UserInformation = ({ data }) => {
-  const { editUser, status } = useAuth();
+const UserInformation = () => {
   const { user } = useUser();
-  const [userInfo, setUserInfo] = useState(user.details);
-  const [timestamp, setTimestamp] = useState(undefined);
-  const dispatch = useDispatch();
-
-  const saveUserInfo = () => {
-    setTimestamp(new Date());
-    editUser(userInfo);
-  };
-
-  const handleChange = (event) => {
-    setUserInfo({ ...userInfo, [event.target.name]: event.target.value });
-  };
 
   return (
     <>
       <div className={styles.header}>Breyta upplýsingum</div>
-      <div className={styles.input_rows}>
-        <div className={styles.input_line}>
-          <Input
-            label="Fornafn"
-            name="firstName"
-            value={userInfo.firstName}
-            onChange={handleChange}
-          />
-          <Input
-            label="Eftirnafn"
-            name="lastName"
-            value={userInfo.lastName}
-            onChange={handleChange}
-          />
-          <Input
-            label="Notendanafn"
-            name="userName"
-            value={userInfo.userName}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.input_line}>
-          <Input
-            label="Heimilisfang"
-            name="streetName"
-            value={userInfo.streetName}
-            onChange={handleChange}
-          />
-          <Input
-            name="city"
-            label="Bær"
-            value={userInfo.city}
-            onChange={handleChange}
-          />
-          <Input
-            label="Póstfang"
-            name="postalCode"
-            value={userInfo.postalCode && userInfo.postalCode.toString()}
-            onChange={handleChange}
-          />
-          <Input
-            label="Land"
-            name="country"
-            value={userInfo.country}
-            onChange={handleChange}
-          />
-          <Input
-            label="Símanúmer"
-            name="phoneNumber"
-            value={userInfo.phoneNumber && userInfo.phoneNumber.toString()}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.input_line}>
-          <Input
-            label="Netfang"
-            name="email"
-            value={userInfo.email}
-            onChange={handleChange}
-          />
-          <Input
-            label="Vefsíða"
-            name="website"
-            value={userInfo.website}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
-      <div className={styles.button_line}>
-        <Button.Edit
-          className={styles.button_save}
-          isLoading={status === "USER_EDIT_REQUEST"}
-          onClick={saveUserInfo}
-          type="save"
-        />
-        {timestamp && status !== "USER_EDIT_REQUEST" && (
-          <LastChange
-            className={styles.user_info_timestamp}
-            timestamp={timestamp}
-          />
-        )}
-      </div>
+      <EditUser userData={user.details} />
     </>
   );
 };
@@ -253,7 +160,7 @@ const ModalContent = ({
       })}
     >
       {experience && <Experience data={data} />}
-      {userInformation && <UserInformation data={data} />}
+      {userInformation && <UserInformation />}
     </div>
   );
 };

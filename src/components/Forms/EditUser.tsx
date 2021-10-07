@@ -65,7 +65,6 @@ const EditUserForm = ({
               value={formik.values.firstName}
               error={formik.errors.firstName}
               isTouched={formik.touched.firstName}
-              data-test="FirstNameInput"
             />
             <Input
               id={UserEnum.LastName}
@@ -78,7 +77,6 @@ const EditUserForm = ({
               value={formik.values.lastName}
               error={formik.errors.lastName}
               isTouched={formik.touched.lastName}
-              data-test="LastNameInput"
             />
             <Input
               id={UserEnum.UserName}
@@ -91,7 +89,6 @@ const EditUserForm = ({
               value={formik.values.userName}
               error={formik.errors.userName}
               isTouched={formik.touched.userName}
-              data-test="UserNameInput"
             />
           </div>
           <div className={styles.input_line}>
@@ -106,7 +103,6 @@ const EditUserForm = ({
               value={formik.values.streetName}
               error={formik.errors.streetName}
               isTouched={formik.touched.streetName}
-              data-test="StreetNameInput"
             />
             <Input
               id={UserAddressEnum.City}
@@ -119,7 +115,6 @@ const EditUserForm = ({
               value={formik.values.city}
               error={formik.errors.city}
               isTouched={formik.touched.city}
-              data-test="CityInput"
             />
             <Input
               id={UserAddressEnum.PostalCode}
@@ -132,7 +127,6 @@ const EditUserForm = ({
               value={formik.values.postalCode}
               error={formik.errors.postalCode}
               isTouched={formik.touched.postalCode}
-              data-test="PostalCodeInput"
             />
             <Input
               id={UserAddressEnum.Country}
@@ -145,7 +139,6 @@ const EditUserForm = ({
               value={formik.values.country}
               error={formik.errors.country}
               isTouched={formik.touched.country}
-              data-test="CountryInput"
             />
             <Input
               id={UserEnum.PhoneNumber}
@@ -158,7 +151,6 @@ const EditUserForm = ({
               value={formik.values.phoneNumber}
               error={formik.errors.phoneNumber}
               isTouched={formik.touched.phoneNumber}
-              data-test="PhoneNumberInput"
             />
           </div>
           <div className={styles.input_line}>
@@ -171,7 +163,6 @@ const EditUserForm = ({
               value={formik.values.email}
               error={formik.errors.email}
               isTouched={formik.touched.email}
-              data-test="EmailInput"
             />
             <Input
               id={UserEnum.Website}
@@ -184,7 +175,6 @@ const EditUserForm = ({
               value={formik.values.website}
               error={formik.errors.website}
               isTouched={formik.touched.website}
-              data-test="WebsiteInput"
             />
           </div>
         </div>

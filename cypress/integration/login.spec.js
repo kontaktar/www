@@ -9,8 +9,8 @@ describe("Login", () => {
   });
 
   it("new user should reach Register page", () => {
-    cy.doLogin("+3541231231");
-    cy.location("pathname", { timeout: 10000 }).should("eq", "/nyskra");
+    cy.doLogin("+3541234567");
+    cy.location("pathname", { timeout: 15000 }).should("eq", "/nyskra");
 
     cy.get("[data-test=RegistrationHeading]").should("exist");
   });
