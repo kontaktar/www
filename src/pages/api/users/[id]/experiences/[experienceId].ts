@@ -1,23 +1,23 @@
 import pgp from "pg-promise";
 import withSession from "lib/sessions";
-import { withMiddleware, withUserAccess } from "utils/apiMiddleware";
+import { hasUserAccess, withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
 import { debugError } from "helpers/debug";
 import { removeEmpty } from "helpers/objects";
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
-export default withSession(
-  withUserAccess(async (request, response) => {
-    withMiddleware(request, response);
+export default withSession(async (request, response) => {
+  withMiddleware(request, response);
 
-    const {
-      body,
-      method,
-      query: { experienceId, id: userId }
-    } = request;
+  const {
+    body,
+    method,
+    query: { experienceId, id: userId }
+  } = request;
 
-    if (method === "DELETE") {
+  if (method === "DELETE") {
+    if (await hasUserAccess(request, response)) {
       try {
         await database.one(
           "DELETE FROM experiences WHERE user_id = $1 AND id = $2 RETURNING *;",
@@ -26,14 +26,16 @@ export default withSession(
         response.status(200).json({ userId, experienceId });
       } catch (error) {
         if (error instanceof pgp.errors.QueryResultError) {
-          response.status(404).end();
+          response.status(401).json({ message: "Forbidden" });
           debugError(`DELETE EXPERIENCE 404: ${error}`);
         } else {
           response.status(500).end();
           throw new Error(`DELETE EXPERIENCE 500: ${error}`);
         }
       }
-    } else if (method === "PUT") {
+    }
+  } else if (method === "PUT") {
+    if (await hasUserAccess(request, response)) {
       const {
         id,
         title = null,
@@ -79,6 +81,6 @@ export default withSession(
     } else {
       response.status(400).end();
     }
-    return null;
-  })
-);
+  }
+  return null;
+});

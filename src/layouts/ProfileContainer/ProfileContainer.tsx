@@ -6,6 +6,7 @@ import React, {
   useState
 } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Details } from "@material-ui/icons";
 import orderBy from "lodash.orderby";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,6 +52,7 @@ const ProfileContainer = ({
   }, [experiences]);
 
   useEffect(() => {
+    console.log("ProdileContainer:user", user);
     if (editMode && user?.details?.id) {
       try {
         dispatch(fetchUserExperiences(user?.details.id));
@@ -58,6 +60,15 @@ const ProfileContainer = ({
         debugError(error);
       }
       setUserProfile(user?.details);
+    } else if (
+      editMode &&
+      user?.details?.createdAt &&
+      user?.details?.phoneNumber &&
+      !user?.details?.id
+    ) {
+      // user was just created.
+      setUserProfile(user?.details);
+      debugError("A profile is not accessing user?.details?.id of the user");
     }
   }, [dispatch, editMode, user, user?.details]);
 

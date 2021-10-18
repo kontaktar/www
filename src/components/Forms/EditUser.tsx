@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { User, UserAddress, UserAddressEnum, UserData, UserEnum } from "types";
 import { deleteUserExperience } from "store/actions";
 import { DeleteUser } from "lib/endpoints";
+import useUser from "lib/useUser";
 import useAuth from "hooks/useAuth";
 import { Button, LastChange } from "components";
 import { useAdmin } from "components/Admin/AdminProvider";
@@ -24,6 +25,7 @@ const EditUserForm = ({
   const [openConfirmationModal, setOpenConfirmationModal] = React.useState(
     false
   );
+  const { user } = useUser();
 
   const formik = useFormik({
     initialValues: {
@@ -43,10 +45,18 @@ const EditUserForm = ({
   };
 
   const deleteUser = async () => {
-    await DeleteUser(userData.id);
+    await DeleteUser(userData.id, user?.firebase?.token);
     mutateUsers();
     setOpenConfirmationModal(false);
-    onCloseModal();
+
+    // The difference between the admin console vs. current user.
+    if (onCloseModal) {
+      // On Admin console, just close the user modal an mutateUsers triggers a rerender
+      onCloseModal();
+    } else {
+      // When a user delete his own profile, maybe not ideal but does the job to hard reload to log him out.
+      window.location.reload();
+    }
   };
 
   return (

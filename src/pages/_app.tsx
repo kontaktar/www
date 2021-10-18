@@ -14,14 +14,14 @@ import "../styles/index.scss";
 
 if (!firebase.apps.length) {
   firebase.initializeApp(configOptions);
-
   if (
     process.env.NODE_ENV === "development" &&
     process.env.FIREBASE_EMULATOR === "1"
   ) {
-    // firebase.firestore().settings({ host: 'localhost:4000', ssl: false });
     try {
-      firebase.auth().useEmulator("http://localhost:9099/");
+      firebase
+        .auth()
+        .useEmulator(`http://${process.env.FIRESTORE_EMULATOR_HOST}/`);
     } catch (error) {
       debugError(
         "Emulator is expected to be on, turn it on with -yarn emulator- or set env.FIREBASE_EMULATOR = 0"
@@ -52,9 +52,9 @@ const App = ({ Component, pageProps }: AppProps) => {
             />
           </Head>
           <AuthProvider>
-            {/* <AdminProvider> */}
-            <Component {...pageProps} />
-            {/* </AdminProvider> */}
+            <AdminProvider>
+              <Component {...pageProps} />
+            </AdminProvider>
           </AuthProvider>
         </SWRConfig>
       </ErrorBoundary>

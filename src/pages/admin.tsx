@@ -35,12 +35,15 @@ const Admin = ({ isAdmin }: Props): ReactElement => {
 export const getServerSideProps = wrapper.getServerSideProps(
   withSession(async ({ req }) => {
     const user: UserSessionStorage = req?.session?.get(IronSession.UserSession);
-
+    console.log("user", user);
     return {
       props: {
         isAdmin:
           (user?.isLoggedIn &&
-            (await GetIsAdmin(user?.details?.phoneNumber))) ??
+            (await GetIsAdmin(
+              user?.details?.phoneNumber,
+              user?.details?.id
+            ))) ??
           false
       }
     };

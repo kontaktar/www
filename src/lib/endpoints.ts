@@ -31,9 +31,10 @@ export async function CreateExperience(userId, experience) {
   return post(`${Endpoint.Users}/${userId}/experiences`, experience);
 }
 
-// TODO: TEST
-export async function DeleteUser(userId) {
-  return remove(`${Endpoint.Users}/${userId}`);
+export async function DeleteUser(userId, firebaseToken) {
+  return remove(`${Endpoint.Users}/${userId}`, "", {
+    Authorization: firebaseToken
+  });
 }
 
 export async function DeleteExperience(userId, experienceId) {
@@ -42,6 +43,12 @@ export async function DeleteExperience(userId, experienceId) {
 
 export async function EditUser(userId, userInfo) {
   return put(`${Endpoint.Users}/${userId}`, userInfo, {
+    Authorization: userInfo.firebaseToken
+  });
+}
+
+export async function UpdateUserLastLogin(userId, userInfo) {
+  return put(`${Endpoint.Users}/${userId}/lastLogin`, userInfo, {
     Authorization: userInfo.firebaseToken
   });
 }
@@ -83,9 +90,12 @@ export async function GetAllUserNames() {
   return get(`${Endpoint.Users}/all-usernames`);
 }
 
-export async function GetIsAdmin(phoneNumber: string) {
+export async function GetIsAdmin(phoneNumber: string, id: number) {
   return (
-    get(`${Endpoint.Admins}?phoneNumber=${encodeURIComponent(phoneNumber)}`) ??
-    false
+    get(
+      `${Endpoint.Admins}?phoneNumber=${encodeURIComponent(
+        phoneNumber
+      )}&id=${id}`
+    ) ?? false
   );
 }

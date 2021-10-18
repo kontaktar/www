@@ -8,7 +8,7 @@ describe("Login", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000/innskra");
     cy.doLogin("+3541111111");
-    cy.location("pathname", { timeout: 10000 }).should("eq", "/profill");
+    cy.location("pathname", { timeout: 20000 }).should("eq", "/profill");
   });
 
   it("add a new experience", () => {
@@ -57,7 +57,7 @@ describe("Login", () => {
     cy.get("[data-test=saveUserInfoButton]").click();
     cy.get("[data-test=closeDialogButton]").click();
 
-    cy.get("[data-test=publishStatus-Card0]")
+    cy.get("[data-test=publishStatus-Card0]", { timeout: 10000 })
       .should("exist")
       .should("be.visible");
     cy.get("[data-test=publishStatus-Card0]", { timeout: 10000 }).should(

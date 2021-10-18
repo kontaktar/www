@@ -16,7 +16,7 @@ describe("Login", () => {
   });
 
   it("existing user should login", () => {
-    cy.doLogin("+3541111111");
+    cy.doLogin("+3543234324324");
     cy.location("pathname", { timeout: 10000 }).should("eq", "/profill");
   });
 

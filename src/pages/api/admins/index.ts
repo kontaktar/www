@@ -3,6 +3,7 @@ import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
+import { debugError } from "helpers/debug";
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -17,18 +18,23 @@ const GetAdmins = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const {
     method,
-    query: { phoneNumber }
+    query: { phoneNumber, id }
   } = request;
   if (method === "GET") {
     try {
       await database.one(
-        "SELECT a.phone_number FROM admins a WHERE a.phone_number = $1",
-        phoneNumber
+        "SELECT a.phone_number FROM admins a WHERE a.phone_number = $1 AND a.user_id = $2",
+        [phoneNumber, id]
       );
 
-      response.status(200).json(true);
+      response.status(200).json({ isAdmin: true });
     } catch (error) {
-      response.status(404).json(false);
+      if (error.message === "No data returned from the query.") {
+        response.status(200).json({ isAdmin: false });
+      } else {
+        debugError("ERROR:GetAdmins ", error);
+        response.status(404).json({ message: "GetAdmins: UNKOWN-ERROR" });
+      }
     }
   }
 });

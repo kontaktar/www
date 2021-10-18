@@ -208,12 +208,11 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 
 Destroy iron-session and firebase session.
 
-TODO:
+# VARIOUS TODO:
+
 -[] Create cleanup function that cleans up window stuff after succesful login / register
 
 -[] What happens if I reach the register screen - clear the session storage and then refresh and try again.
-
-####
 
 NEEDS FIXING:
 
@@ -233,3 +232,12 @@ then do access control, withUserAccess and so on
 what happens if the firebase session stops and userSession is still ongoing?
 
 https://github.com/jellydn/next-swagger-doc
+
+Make baseUrl dynamic for Cypress so I can run it with a "production" build - the test outcomes are to unstable with hotreload on. Random failures.
+
+## Cypress tests to add:
+
+User deletes himself.
+User registers, logsout, logs in again.
+Admin edits user.
+Admin deletes users.

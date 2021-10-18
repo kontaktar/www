@@ -2,18 +2,13 @@ import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
 import { Routes } from "types";
 import { createUserSuccess } from "store/actions";
 import { AddToSession, GetUserByPhoneNumber } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
-import {
-  getEmulatorVerificationCode,
-  loginOrRegisterBypassingFirebase,
-  shouldBypassFirebaseOnDevelopment
-} from "helpers/firebase";
+import { getEmulatorVerificationCode } from "helpers/firebase";
 import { verificationCodeSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import { Button } from "components";
@@ -36,8 +31,6 @@ const VerificationCodeForm = ({
   const [firebaseIdToken, setFirebaseIdToken] = useState("");
   const [emulatorCode, setEmulatorCode] = useState("");
 
-  const dispatchToStore = useDispatch();
-
   const { mutateUser } = useUser();
   const { login, logout } = useAuth();
 
@@ -56,6 +49,7 @@ const VerificationCodeForm = ({
 
   const addUserToSessionStorage = (firebaseUser) => {
     try {
+      console.log("firebaseUser", firebaseUser);
       firebaseUser.getIdToken().then(async (idToken) => {
         const userSession = await AddToSession({
           details: {
@@ -69,10 +63,10 @@ const VerificationCodeForm = ({
           },
           isLoggedIn: false
         });
-        await mutateUser(userSession, true);
+        mutateUser(userSession, true);
       });
     } catch (error) {
-      debugError("AddToSession", error);
+      debugError("addUserToSessionStorage AddToSession ERROR:", error);
     }
   };
 
@@ -87,19 +81,6 @@ const VerificationCodeForm = ({
     validationSchema: verificationCodeSchema,
     onSubmit: async (values) => {
       setLoading(true);
-
-      // 2/3 step in bypassing firebase
-      if (shouldBypassFirebaseOnDevelopment) {
-        await loginOrRegisterBypassingFirebase(
-          userPhoneNumber,
-          login,
-          firebaseIdToken,
-          setLoading,
-          dispatchToStore,
-          createUserSuccess,
-          router
-        );
-      }
       (window as any).confirmationResult
         .confirm(values.verificationCode)
         .then(async (response) => {
@@ -110,11 +91,17 @@ const VerificationCodeForm = ({
           try {
             userData = await GetUserByPhoneNumber(firebaseUser.phoneNumber);
           } catch (error) {
+            debugError("GetUserByPhoneNumber ERROR", error);
+          } finally {
             if (additionalUserInfo?.isNewUser || !userData) {
               debug("No user exists with that phonenumber");
+              debug(
+                "additionalUserInfo?.isNewUser",
+                additionalUserInfo?.isNewUser
+              );
               if (!userData && !additionalUserInfo?.isNewUser) {
                 debug(
-                  `Deleting firebase user. No user found with phonenumber ${firebaseUser.phoneNumber}: ${error}`
+                  `Deleting firebase user. No user found with phonenumber ${firebaseUser.phoneNumber}`
                 );
                 firebaseUser.delete(); // maybe not needed?
               }
