@@ -3,6 +3,7 @@ import { NextApiHandler } from "next";
 import { UserDB } from "types";
 import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
+import { debugError } from "helpers/debug";
 
 const AllUserNames: NextApiHandler = async (request, response) => {
   await withMiddleware(request, response);
@@ -15,6 +16,7 @@ const AllUserNames: NextApiHandler = async (request, response) => {
       if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).json({ message: error.message });
       } else {
+        debugError(error);
         response.status(500).json({ message: error.message });
       }
     }
