@@ -9,7 +9,7 @@
     "emulator": "yarn firebase emulators:start",
     "build": "next build",
     "dev": "NODE_ENV=development next",
-    "start": "next start -p 8000",
+    "start": "LOCALHOST=localhost:8000 next start -p 8000",
     "generate": "yarn hygen generator",
     "new": "yarn hygen generator",
     "lint": "eslint . --ext .ts,.tsx,.js",
