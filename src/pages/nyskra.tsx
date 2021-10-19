@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { IronSession, Routes } from "types";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
-import { debug } from "helpers/debug";
+import { debug, debugWarn } from "helpers/debug";
 import { MainLayout, RegisterContainer } from "layouts";
 
 type Props = {
@@ -34,6 +34,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       return { props: { reroute: true, href: Routes.Profile } };
     }
     if (!user) {
+      debugWarn("NO MATCHING USER IN SESSION - Reroute to: /innskra", user);
       return { props: { reroute: true, href: Routes.Login } };
     }
     return {

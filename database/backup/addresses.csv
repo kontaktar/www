@@ -1,0 +1,28 @@
+"id","user_id","postal_code","street_name","city","country"
+2,2,"105","Fagrahlíð","Reykjavík","Iceland"
+4,4,"0","Berlinstrasse 142","Berlin","Germany"
+5,5,"0","","London","United Kingdom"
+6,6,"900","","Vestmannaeyjar","Iceland"
+7,7,"108","Suðurlandsbraut 22","Reykjavík","Iceland"
+8,8,"600","","Akureyri","Iceland"
+9,9,"101","Bárugötu 1","Reykjavík","Iceland"
+10,10,"0","","","Útlönd"
+11,11,"220","","Hafnarfjörður","Iceland"
+150,409,,,,
+198,463,,,,
+199,465,,,,
+200,466,,,,
+201,467,,,,
+204,470,,,,
+205,471,,,,
+207,473,,,,
+208,474,,,,
+3,3,"200","Hamraborg 22","Kópavogur","Iceland"
+209,475,,"212","123",
+206,472,"123","TESTAGATA 1","TESTVÍK","TESTLAND"
+213,479,,,,
+214,480,,,,
+215,481,,,,
+216,482,,,,
+190,451,"550","TESTGATA 52","TESTVÍK","TESTLAND"
+1,1,"108","Suðurlandsbraut 133","Reykjavík","Iceland"

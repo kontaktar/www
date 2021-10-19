@@ -1,5 +1,6 @@
 import Cors from "cors";
-import { IronSession } from "types";
+import { IronSession, UserSessionStorage } from "types";
+import { GetIsAdmin } from "lib/endpoints";
 import { debugError } from "helpers/debug";
 
 const cors = Cors({
@@ -22,7 +23,7 @@ export const withMiddleware = (request, response) => {
   runMiddleware(request, response, cors);
 };
 
-export const withUserAccess = (handler) => {
+export const withUserAccess = () => {
   return async (request, response) => {
     if (
       !request.session.get(IronSession.UserSession)?.details?.id ||
@@ -30,19 +31,47 @@ export const withUserAccess = (handler) => {
         request.query.id.toString()
     ) {
       debugError("witUserMiddleware: User does not have access");
-      return response.status(401).json({ message: "Forbidden" });
+      response.status(401).json({ message: "Forbidden" });
     }
-    return handler(request, response);
   };
 };
-
-export const hasUserAccess = (request, response) => {
+export const hasUserAccess = async (request, response): Promise<boolean> => {
   if (
     !request.session.get(IronSession.UserSession)?.details?.id ||
     request.session.get(IronSession.UserSession)?.details?.id.toString() !==
       request.query.id.toString()
   ) {
-    debugError("witUserMiddleware: User does not have access");
+    debugError("hasUserAccess: User does not have access");
     response.status(401).json({ message: "Forbidden" });
+    return false;
   }
+  return true;
+};
+
+export const isAdminOrCurrentUser = async (request): Promise<boolean> => {
+  const user: UserSessionStorage = request?.session?.get(
+    IronSession.UserSession
+  );
+
+  if (!user) {
+    debugError("isAdmin: No user or this is being called server side");
+    return false;
+  }
+
+  const hasAdminAccess = await GetIsAdmin(
+    user?.details?.phoneNumber,
+    user?.details?.id
+  ).catch(() => debugError("User is not admin "));
+
+  const isCurrentUser =
+    request?.body?.id?.toString() === user?.details?.id?.toString() ||
+    request?.query?.id?.toString() === user?.details?.id?.toString();
+
+  const isAdministrator =
+    (user?.details?.phoneNumber && hasAdminAccess) ?? false;
+  if (!(user?.isLoggedIn && (isAdministrator || isCurrentUser))) {
+    debugError("isAdmin: User is not an admin or the current user");
+    return false;
+  }
+  return true;
 };

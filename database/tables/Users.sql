@@ -5,15 +5,15 @@
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    user_name character varying(30) UNIQUE,
+    user_name character varying(30) NOT NULL UNIQUE,
     first_name character varying(50),
     last_name character varying(30),
-    email character varying(355) NOT NULL UNIQUE,
+    email character varying(355) UNIQUE,
     website character varying(355),
-    phone_number character varying(10),
+    phone_number character varying(16) NOT NULL UNIQUE,
     created_at timestamp with time zone NOT NULL DEFAULT now(),
     last_login timestamp with time zone,
-    ssn character varying(10) UNIQUE,
+    ssn character varying(10) NOT NULL UNIQUE,
     password character varying(255)
 );
 
@@ -23,3 +23,4 @@ CREATE UNIQUE INDEX users_pkey ON users(id int4_ops);
 CREATE UNIQUE INDEX users_user_name_key ON users(user_name text_ops);
 CREATE UNIQUE INDEX users_email_key ON users(email text_ops);
 CREATE UNIQUE INDEX users_ssn_key ON users(ssn text_ops);
+CREATE UNIQUE INDEX users_phone_number_key ON users(phone_number text_ops);

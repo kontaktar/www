@@ -10,3 +10,4 @@ export { default as SubscriptionContainer } from "./SubscriptionContainer";
 export { default as ModalContent } from "./ModalContent";
 export { default as RegisterContainer } from "./RegisterContainer";
 export { default as LoginFormContainer } from "./LoginFormContainer";
+export { default as AdminContainer } from "./AdminContainer";

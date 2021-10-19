@@ -20,30 +20,27 @@ const Login = withSession(async (request, response) => {
   await withMiddleware(request, response);
   const { body } = request;
   try {
-    // bypass firebase on localhost
-    if (!shouldBypassFirebaseOnDevelopment) {
-      if (!request?.headers?.authorization) {
-        response
-          .status(401)
-          .json({ messsage: "Missing Authorization header" })
-          .end();
-        return;
-      }
-
-      admin
-        .auth()
-        .verifyIdToken(request?.headers?.authorization)
-        .then((decodedToken) => {
-          const { uid } = decodedToken;
-          // do something here?
-          // TODO: this is the firebase?.id, maybe compare
-          debug("uid returned from IdToken verification on login", uid);
-          // ...
-        })
-        .catch((error) => {
-          debugError(error);
-        });
+    if (!request?.headers?.authorization) {
+      response
+        .status(401)
+        .json({ messsage: "Missing Authorization header" })
+        .end();
+      return;
     }
+
+    admin
+      .auth()
+      .verifyIdToken(request?.headers?.authorization)
+      .then((decodedToken) => {
+        const { uid } = decodedToken;
+        // do something here?
+        // TODO: this is the firebase?.id, maybe compare
+        debug("uid returned from IdToken verification on login", uid);
+        // ...
+      })
+      .catch((error) => {
+        debugError(error);
+      });
 
     const user: UserSessionStorage = {
       details: body,

@@ -11,7 +11,7 @@ type Props = {
   className?: string;
   disabled?: boolean;
   onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void;
-  modifier?: Array<string>; // TODO: onez["", "pill", "inverted", "borderless", "rectangle"]
+  modifier?: Array<string>; // TODO: onez["", "pill", "inverted", "borderless", "rectangle", "raw"]
   isLoading?: boolean;
   type?: string;
   [x: string]: any;
@@ -105,6 +105,7 @@ const ButtonEdit = ({ type, className, ...props }) => {
       data-test={
         type === "save" ? "saveUserInfoButton" : "publishUserInfoButton"
       }
+      type="submit"
       className={cx(className, styles.edit, styles[type])}
       {...props}
     >
@@ -115,6 +116,18 @@ const ButtonEdit = ({ type, className, ...props }) => {
           name={type === "save" ? "save" : "publish"}
         />
       </>
+    </Button>
+  );
+};
+const ButtonDelete = ({ className, ...props }) => {
+  return (
+    <Button
+      type="button"
+      data-test="deleteUser"
+      className={cx(className, styles.delete)}
+      {...props}
+    >
+      EYÐA NOTANDA
     </Button>
   );
 };
@@ -140,6 +153,7 @@ const ButtonHamburger = (props) => {
 Button.Navigation = ButtonNavigation;
 Button.CarouselNavi = ButtonCarouselNavi;
 Button.Edit = ButtonEdit;
+Button.Delete = ButtonDelete;
 Button.Search = ButtonSearch;
 Button.Hamburger = ButtonHamburger;
 

@@ -7,7 +7,7 @@ import {
   withUserAccess
 } from "utils/apiMiddleware";
 import database from "utils/database";
-import { debugError } from "helpers/debug";
+import { debug, debugError } from "helpers/debug";
 
 const { helpers: pgpHelpers } = pgp({ capSQL: true });
 
@@ -54,60 +54,60 @@ export default withSession(async (request, response) => {
       throw new Error(error);
     }
   } else if (method === "POST") {
-    hasUserAccess(request, response);
-
-    try {
-      const {
-        id,
-        title,
-        description,
-        years,
-        months,
-        published
-      } = await database.one(
-        "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
-        [
-          userId,
-          body.title,
-          body.description,
-          body.years || 0,
-          body.months || 0,
-          !!body.published
-        ]
-      );
-      response
-        .status(200)
-        .json({ id, title, description, years, months, published });
-    } catch (error) {
-      response.status(500).send({ error: error.message });
-      debugError(error, error.message);
-      throw new Error(`POST EXPERIENCE: ${error}`);
+    if (await hasUserAccess(request, response)) {
+      try {
+        const {
+          id,
+          title,
+          description,
+          years,
+          months,
+          published
+        } = await database.one(
+          "INSERT INTO experiences(user_id, title, description, years, months, published) VALUES($1, $2, $3, $4, $5, $6) RETURNING *",
+          [
+            userId,
+            body.title,
+            body.description,
+            body.years || 0,
+            body.months || 0,
+            !!body.published
+          ]
+        );
+        response
+          .status(200)
+          .json({ id, title, description, years, months, published });
+      } catch (error) {
+        response.status(500).send({ error: error.message });
+        debugError(error, error.message);
+        throw new Error(`POST EXPERIENCE: ${error}`);
+      }
     }
   } else if (method === "PUT") {
-    hasUserAccess(request, response);
+    if (await hasUserAccess(request, response)) {
+      try {
+        const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
+          table: "experiences"
+        });
+        // eslint-disable-next-line no-unused-vars
+        const query =
+          pgpHelpers.update(body, cs) +
+          pgp.as.format(" WHERE v.id = t.id AND user_id = $1 RETURNING *", [
+            userId
+          ]);
 
-    try {
-      const cs = new pgpHelpers.ColumnSet(["?id", "order"], {
-        table: "experiences"
-      });
-      // eslint-disable-next-line no-unused-vars
-      const query =
-        pgpHelpers.update(body, cs) +
-        pgp.as.format(" WHERE v.id = t.id AND user_id = $1 RETURNING *", [
-          userId
-        ]);
+        const experiences = database.any(query);
 
-      const experiences = database.any(query);
-
-      response.status(200).json(experiences);
-    } catch (error) {
-      debugError(error, error.message);
-      if (error instanceof pgp.errors.QueryResultError) {
-        response.status(404).end();
-        throw new Error(`UPDATE EXPERIENCES 404: ${error}`);
-      } else {
-        response.status(500).end();
-        throw new Error(`UPDATE EXPERIENCES 500: ${error}`);
+        response.status(200).json(experiences);
+      } catch (error) {
+        debugError(error, error.message);
+        if (error instanceof pgp.errors.QueryResultError) {
+          response.status(404).end();
+          throw new Error(`UPDATE EXPERIENCES 404: ${error}`);
+        } else {
+          response.status(500).end();
+          throw new Error(`UPDATE EXPERIENCES 500: ${error}`);
+        }
       }
     }
   } else {

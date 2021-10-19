@@ -4,19 +4,22 @@ import { useRouter } from "next/router";
 import { IronSession, Routes, UserSessionStorage } from "types";
 import wrapper from "store/configureStore";
 import withSession from "lib/sessions";
+import useUser from "lib/useUser";
 import { debug } from "helpers/debug";
 import { ProfileContainer, UserLayout } from "layouts";
 
 type Props = {
   reroute?: boolean;
+  user?: UserSessionStorage;
 };
-const Profile: NextPage<Props> = ({ reroute }) => {
+const Profile: NextPage<Props> = ({ reroute, user: userServerSide }) => {
   const router = useRouter();
+  const { user } = useUser();
   useEffect(() => {
-    if (reroute) {
+    if (reroute || (!user && !userServerSide)) {
       router.push(Routes.Login);
     }
-  });
+  }, [user, userServerSide, reroute]);
   return (
     <UserLayout>
       <ProfileContainer editMode />
@@ -35,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     }
 
     return {
-      props: {}
+      props: { user }
     };
   })
 );

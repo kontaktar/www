@@ -7,7 +7,7 @@ import listOfReservedUserNames from "data/reservedUserNames";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { Routes, UserData } from "types";
+import { Routes, UserEnum } from "types";
 import { GetAllUserNames } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
@@ -94,7 +94,7 @@ const RegisterContainer = (): ReactElement => {
       isUserNameTaken &&
       formik.errors.userName !== registerErrors.EXISTS_USER_NAME
     ) {
-      formik.setFieldError(UserData.UserName, registerErrors.EXISTS_USER_NAME);
+      formik.setFieldError(UserEnum.UserName, registerErrors.EXISTS_USER_NAME);
     }
   }, [isUserNameTaken, formik]);
 
@@ -132,12 +132,12 @@ const RegisterContainer = (): ReactElement => {
           <MUIInput
             type="text"
             className={styles.form_firstName}
-            id={UserData.FirstName}
-            name={UserData.FirstName}
+            id={UserEnum.FirstName}
+            name={UserEnum.FirstName}
             placeholder="Fornafn"
             onChange={formik.handleChange}
             onBlur={() =>
-              formik.setFieldTouched(UserData.FirstName, true, true)
+              formik.setFieldTouched(UserEnum.FirstName, true, true)
             }
             value={formik.values.firstName}
             error={formik.errors.firstName}
@@ -147,11 +147,11 @@ const RegisterContainer = (): ReactElement => {
           <MUIInput
             type="text"
             className={styles.form_lastName}
-            id={UserData.LastName}
-            name={UserData.LastName}
+            id={UserEnum.LastName}
+            name={UserEnum.LastName}
             placeholder="Eftirnafn"
             onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched(UserData.LastName, true, true)}
+            onBlur={() => formik.setFieldTouched(UserEnum.LastName, true, true)}
             value={formik.values.lastName}
             error={formik.errors.lastName}
             isTouched={formik.touched.lastName}
@@ -161,13 +161,13 @@ const RegisterContainer = (): ReactElement => {
         <div className={styles.row}>
           <MUIInput
             type="number"
-            id={UserData.Kennitala}
-            name={UserData.Kennitala}
+            id={UserEnum.Kennitala}
+            name={UserEnum.Kennitala}
             className={styles.form_ssn}
             placeholder="Kennitala"
             onChange={formik.handleChange}
             onBlur={() =>
-              formik.setFieldTouched(UserData.Kennitala, true, true)
+              formik.setFieldTouched(UserEnum.Kennitala, true, true)
             }
             value={formik.values.ssn.toString()}
             error={formik.errors.ssn}
@@ -176,12 +176,12 @@ const RegisterContainer = (): ReactElement => {
           />
           <MUIInput
             type="text"
-            id={UserData.Email}
-            name={UserData.Email}
+            id={UserEnum.Email}
+            name={UserEnum.Email}
             className={styles.form_email}
             placeholder="Netfang"
             onChange={formik.handleChange}
-            onBlur={() => formik.setFieldTouched(UserData.Email, true, true)}
+            onBlur={() => formik.setFieldTouched(UserEnum.Email, true, true)}
             value={formik.values.email}
             error={formik.errors.email}
             isTouched={formik.touched.email}
@@ -214,8 +214,8 @@ const RegisterContainer = (): ReactElement => {
             <MUIInput
               type="text"
               className={styles.form_userName}
-              id={UserData.UserName}
-              name={UserData.UserName}
+              id={UserEnum.UserName}
+              name={UserEnum.UserName}
               placeholder="Notendanafn / slóð"
               onChange={(event) => {
                 formik.handleChange(event);
@@ -223,7 +223,7 @@ const RegisterContainer = (): ReactElement => {
                 checkIfUserNameIsTaken(event.target.value);
               }}
               onBlur={(event) => {
-                formik.setFieldTouched(UserData.UserName, true, true);
+                formik.setFieldTouched(UserEnum.UserName, true, true);
                 checkIfUserNameIsTaken(event.target.value);
               }}
               value={formik.values.userName}

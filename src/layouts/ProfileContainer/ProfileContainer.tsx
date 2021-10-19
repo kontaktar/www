@@ -1,17 +1,11 @@
-import React, {
-  Fragment,
-  ReactElement,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import orderBy from "lodash.orderby";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserExperiences } from "store/actions";
 import useUser from "lib/useUser";
-import { debugError } from "helpers/debug";
+import { debug, debugError } from "helpers/debug";
 import { Button, Card, Icon } from "components";
 import Link from "components/LinkWrap";
 import Modal from "components/Modal";
@@ -51,6 +45,7 @@ const ProfileContainer = ({
   }, [experiences]);
 
   useEffect(() => {
+    debug("ProfileContainer:user", user);
     if (editMode && user?.details?.id) {
       try {
         dispatch(fetchUserExperiences(user?.details.id));
@@ -58,6 +53,15 @@ const ProfileContainer = ({
         debugError(error);
       }
       setUserProfile(user?.details);
+    } else if (
+      editMode &&
+      user?.details?.createdAt &&
+      user?.details?.phoneNumber &&
+      !user?.details?.id
+    ) {
+      // user was just created.
+      setUserProfile(user?.details);
+      debugError("A profile is not accessing user?.details?.id of the user");
     }
   }, [dispatch, editMode, user, user?.details]);
 

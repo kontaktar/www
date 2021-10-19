@@ -5,7 +5,7 @@
 
 CREATE TABLE addresses (
     id SERIAL PRIMARY KEY,
-    user_id integer REFERENCES users(id),
+    user_id integer REFERENCES users(id) ON DELETE CASCADE,
     postal_code text,
     street_name text,
     city text,

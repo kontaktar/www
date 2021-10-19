@@ -1,5 +1,5 @@
 ---
-to: src/layouts/<%= name %>/index.js
+to: src/layouts/<%= name %>/index.ts
 message: |
  - {green CREATED}: LAYOUT INDEX
 ---

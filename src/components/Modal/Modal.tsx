@@ -4,6 +4,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { DialogContent, DialogOverlay } from "@reach/dialog";
 import { animated, useTransition } from "react-spring";
 import cx from "classnames";
+import { Button } from "components";
 import "@reach/dialog/styles.css";
 import styles from "./Modal.module.scss";
 
@@ -17,6 +18,17 @@ type Props = {
   onClose: () => void;
 };
 
+type ConfirmProps = {
+  onCancel: () => void;
+  onConfirm: () => void;
+  open: boolean;
+  className?: string;
+};
+
+interface StaticComponents {
+  Confirm?: ConfirmProps;
+}
+
 const Modal = ({
   ariaLabel,
   open = false,
@@ -25,7 +37,7 @@ const Modal = ({
   children,
   onClose,
   modalKey
-}: Props): ReactElement => {
+}: Props & StaticComponents): ReactElement => {
   const [showDialog, setShowDialog] = useState(open);
 
   const transitions = useTransition(showDialog, {
@@ -89,4 +101,35 @@ const Modal = ({
     )
   );
 };
+
+const ModalConfirm = ({
+  className,
+  open,
+  onCancel,
+  onConfirm,
+  ...props
+}: ConfirmProps) => {
+  return (
+    <Modal
+      open={open}
+      ariaLabel="confirmation"
+      data-test="confirmModal"
+      onClose={onCancel}
+      overlayClassName={cx(className, styles.confirm)}
+      {...props}
+    >
+      <>
+        <span>Ertu viss um að þú viljir eyða notanda?</span>
+        <div className={styles.button_group_reversed}>
+          <Button onClick={onCancel}>NEI</Button>
+          <Button onClick={onConfirm} modifier={["inverted"]}>
+            JÁ
+          </Button>
+        </div>
+      </>
+    </Modal>
+  );
+};
+Modal.Confirm = ModalConfirm;
+
 export default Modal;
