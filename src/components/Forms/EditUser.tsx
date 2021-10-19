@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { User, UserAddress, UserAddressEnum, UserData, UserEnum } from "types";
-import { deleteUserExperience } from "store/actions";
+import { UserAddressEnum, UserData, UserEnum } from "types";
 import { DeleteUser } from "lib/endpoints";
 import useUser from "lib/useUser";
+import { editUserSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import { Button, LastChange } from "components";
 import { useAdmin } from "components/Admin/AdminProvider";
@@ -19,7 +19,7 @@ const EditUserForm = ({
   userData,
   onCloseModal
 }: Props): React.ReactElement => {
-  const { mutateUsers } = useAdmin();
+  const { mutateUsers, isAdmin } = useAdmin();
   const [timestamp, setTimestamp] = useState(undefined);
   const { editUser, status } = useAuth();
   const [openConfirmationModal, setOpenConfirmationModal] = React.useState(
@@ -31,7 +31,7 @@ const EditUserForm = ({
     initialValues: {
       ...userData
     } as UserData,
-    // validationSchema: phoneNumberSchema,
+    validationSchema: editUserSchema,
     onSubmit: async (values) => {
       setTimestamp(new Date());
 
@@ -150,18 +150,20 @@ const EditUserForm = ({
               error={formik.errors.country}
               isTouched={formik.touched.country}
             />
-            <Input
-              id={UserEnum.PhoneNumber}
-              name={UserEnum.PhoneNumber}
-              placeholder="Símanúmer"
-              onChange={formik.handleChange}
-              onBlur={() =>
-                formik.setFieldTouched(UserEnum.PhoneNumber, true, true)
-              }
-              value={formik.values.phoneNumber}
-              error={formik.errors.phoneNumber}
-              isTouched={formik.touched.phoneNumber}
-            />
+            {isAdmin && (
+              <Input
+                id={UserEnum.PhoneNumber}
+                name={UserEnum.PhoneNumber}
+                placeholder="Símanúmer"
+                onChange={formik.handleChange}
+                onBlur={() =>
+                  formik.setFieldTouched(UserEnum.PhoneNumber, true, true)
+                }
+                value={formik.values.phoneNumber}
+                error={formik.errors.phoneNumber}
+                isTouched={formik.touched.phoneNumber}
+              />
+            )}
           </div>
           <div className={styles.input_line}>
             <Input

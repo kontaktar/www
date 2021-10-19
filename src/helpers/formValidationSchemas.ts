@@ -1,7 +1,9 @@
 import * as Yup from "yup";
 
 const messages = {
+  TOO_SHORT: "Of stutt",
   TOO_LONG: "Of langt",
+  NUMBERS_ONLY: "Aðeins tölustafir",
   MINIMUM_3: "Lágmark 3 stafir.",
   MINIMUM_8: "Lágmark 8 stafir.",
   REQUIRED: "Nauðsynlegt.",
@@ -33,7 +35,13 @@ const validate = {
     .required(messages.REQUIRED)
     .min(6, messages.INCORRECT_VERIFICATION_CODE_LENGTH)
     .max(6, messages.INCORRECT_VERIFICATION_CODE_LENGTH)
-    .matches(/^\d+$/)
+    .matches(/^\d+$/, { message: messages.NUMBERS_ONLY }),
+  name: Yup.string().min(2, messages.TOO_SHORT),
+  country: Yup.string(),
+  city: Yup.string(),
+  streetName: Yup.string(),
+  postalCode: Yup.string().matches(/^\d+$/, { message: messages.NUMBERS_ONLY }),
+  website: Yup.string()
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -57,4 +65,18 @@ export const verificationCodeSchema = Yup.object().shape({
 export const registerFormSchema = Yup.object().shape({
   userName: validate.userName,
   ssn: validate.ssn
+});
+
+export const editUserSchema = Yup.object().shape({
+  userName: validate.userName,
+  ssn: validate.ssn,
+  firstName: validate.name,
+  lastName: validate.name,
+  country: validate.country,
+  city: validate.city,
+  postalCode: validate.postalCode,
+  streetName: validate.streetName,
+  email: validate.email,
+  website: validate.website
+  // phoneNumber: validate.phoneNumber,
 });

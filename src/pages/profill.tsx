@@ -19,7 +19,7 @@ const Profile: NextPage<Props> = ({ reroute, user: userServerSide }) => {
     if (reroute || (!user && !userServerSide)) {
       router.push(Routes.Login);
     }
-  }, [user, userServerSide]);
+  }, [user, userServerSide, reroute]);
   return (
     <UserLayout>
       <ProfileContainer editMode />

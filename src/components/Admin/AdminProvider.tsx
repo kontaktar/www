@@ -3,17 +3,23 @@ import React, {
   ReactChild,
   ReactElement,
   useContext,
-  useMemo
+  useEffect,
+  useMemo,
+  useState
 } from "react";
 import useSWR from "swr";
 import { Endpoint, UserData } from "types";
+import { GetIsAdmin } from "lib/endpoints";
+import useUser from "lib/useUser";
 
 export type AdminReducerState = {
+  isAdmin: boolean;
   users: UserData[];
   mutateUsers?: () => void;
 };
 
 export const initialState: AdminReducerState = {
+  isAdmin: false,
   users: []
 };
 
@@ -34,14 +40,27 @@ const AdminProvider = ({
 }: {
   children: ReactChild;
 }): ReactElement => {
+  const [isAdmin, setAdmin] = useState<boolean>(false);
   const { data: users, error, mutate: mutateUsers } = useSWR(Endpoint.Users);
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (user?.details?.phoneNumber && user?.details?.id) {
+      checkAdmin();
+    }
+  }, [user]);
+
+  const checkAdmin = async () => {
+    setAdmin(await GetIsAdmin(user?.details?.phoneNumber, user?.details?.id));
+  };
 
   const contextValues = useMemo(
     () => ({
+      isAdmin,
       users,
       mutateUsers
     }),
-    [users]
+    [users, isAdmin, mutateUsers]
   );
   return (
     <AdminContext.Provider value={contextValues}>

@@ -20,7 +20,7 @@ const GetAdmins = withSession(async (request, response) => {
     method,
     query: { phoneNumber, id }
   } = request;
-  if (method === "GET") {
+  if (method === "GET" && phoneNumber && id) {
     try {
       await database.one(
         "SELECT a.phone_number FROM admins a WHERE a.phone_number = $1 AND a.user_id = $2",
@@ -33,7 +33,8 @@ const GetAdmins = withSession(async (request, response) => {
         response.status(200).json({ isAdmin: false });
       } else {
         debugError("ERROR:GetAdmins ", error);
-        response.status(404).json({ message: "GetAdmins: UNKOWN-ERROR" });
+        console.error(error);
+        response.status(404).json({ message: "GetAdmins: UNKNOWN-ERROR" });
       }
     }
   }

@@ -1,18 +1,11 @@
-import React, {
-  Fragment,
-  ReactElement,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Details } from "@material-ui/icons";
 import orderBy from "lodash.orderby";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserExperiences } from "store/actions";
 import useUser from "lib/useUser";
-import { debugError } from "helpers/debug";
+import { debug, debugError } from "helpers/debug";
 import { Button, Card, Icon } from "components";
 import Link from "components/LinkWrap";
 import Modal from "components/Modal";
@@ -52,7 +45,7 @@ const ProfileContainer = ({
   }, [experiences]);
 
   useEffect(() => {
-    console.log("ProdileContainer:user", user);
+    debug("ProfileContainer:user", user);
     if (editMode && user?.details?.id) {
       try {
         dispatch(fetchUserExperiences(user?.details.id));
