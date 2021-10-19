@@ -93,6 +93,11 @@
   background-color: $color-orange;
 }
 
+.delete {
+  background-color: $color-red;
+  color: $color-white;
+}
+
 .navigation:before,
 .navigation:after {
   content: "";
@@ -286,5 +291,17 @@
   }
   *:first-child {
     margin-top: 0;
+  }
+}
+
+.raw {
+  border: none;
+  background: none;
+  width: unset;
+  height: unset;
+  &:hover,
+  &:active,
+  &:focus {
+    border: none;
   }
 }

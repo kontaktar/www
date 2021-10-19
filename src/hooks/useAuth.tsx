@@ -3,7 +3,7 @@ import React, { createContext, useContext, useMemo, useReducer } from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import firebase from "firebase";
 import { Endpoint, User, UserAddress } from "types";
-import { CreateUser, EditUser } from "lib/endpoints";
+import { CreateUser, EditUser, UpdateUserLastLogin } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debugError, time, timeEnd } from "helpers/debug";
 import { post } from "helpers/methods";
@@ -65,7 +65,10 @@ export const AuthProvider = ({
   const login = async (body: User, token: string) => {
     await post(Endpoint.Login, body, { Authorization: token });
     try {
-      await EditUser(body.id, { firebaseToken: token, lastLogin: new Date() });
+      await UpdateUserLastLogin(body.id, {
+        firebaseToken: token,
+        lastLogin: new Date()
+      });
     } catch (error) {
       debugError(`useAuth:login: ${error}`);
     } finally {
@@ -88,7 +91,12 @@ export const AuthProvider = ({
     dispatch(setStatus("USER_EDIT_REQUEST"));
 
     time("useAuth:editUser: ");
-    await EditUser(userData.id, userData);
+    try {
+      await EditUser(userData.id, userData);
+    } catch (error) {
+      dispatch(setStatus("USER_EDIT_FAILED"));
+      return;
+    }
     timeEnd("useAuth:editUser: ");
 
     time("useAuth:editUser:mutate: ");

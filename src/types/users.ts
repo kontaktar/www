@@ -33,12 +33,20 @@ export type UserAddress = {
   city?: string;
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export enum UserData {
+export type UserData = User & UserAddress;
+
+export enum UserEnum {
   PhoneNumber = "phoneNumber",
   LastName = "lastName",
   UserName = "userName",
   FirstName = "firstName",
   Kennitala = "ssn",
-  Email = "email"
+  Email = "email",
+  Website = "website"
+}
+export enum UserAddressEnum {
+  StreetName = "streetName",
+  City = "city",
+  Country = "country",
+  PostalCode = "postalCode"
 }

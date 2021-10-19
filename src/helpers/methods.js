@@ -80,13 +80,14 @@ export async function put(relativeUrl, body, headers) {
     throw error;
   }
 }
-export async function remove(relativeUrl, body) {
+export async function remove(relativeUrl, body, header) {
   const url = `${getBaseUrl()}${relativeUrl}`;
   try {
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        ...header
       },
       body: JSON.stringify(body)
     });

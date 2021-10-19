@@ -6,6 +6,11 @@ Start development mode
 
 `yarn dev`
 
+Start development with emulator
+
+Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
+`yarn emulator` && `yarn dev`
+
 Start storybook for component development
 
 `yarn storybook`
@@ -28,6 +33,8 @@ storybook.
 - Eslint & Prettier
 
 ### Storybook.
+
+Note: Storybook is outdated an has not been updated in a while.
 
 For the Jest intergration to work, a jest test has to be run to generate
 `.jest-test-results.json`.
@@ -202,9 +209,10 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 Destroy iron-session and firebase session.
 
 
----
+# VARIOUS TODO:
 
-# TODO / NEEDS FIXING:
+-[] Create cleanup function that cleans up window stuff after succesful login / register
+
 
 ACCESS CONTROL ON ENDPOINTS.
 
@@ -228,3 +236,12 @@ What happens if the user reacesh the register screen - clears the session storag
 # Nice to have:
 
 https://github.com/jellydn/next-swagger-doc
+
+Make baseUrl dynamic for Cypress so I can run it with a "production" build - the test outcomes are to unstable with hotreload on. Random failures.
+
+## Cypress tests to add:
+
+User deletes himself.
+User registers, logsout, logs in again.
+Admin edits user.
+Admin deletes users.

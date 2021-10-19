@@ -16,12 +16,11 @@ if (!admin.apps.length) {
 
 const AddToSession = withSession(async (request, response) => {
   await withMiddleware(request, response);
-  //   withUserAccess(request, response);
   const { body } = request;
 
   const userSession = request.session.get(IronSession.UserSession);
   const user: UserSessionStorage = {
-    isLoggedIn: false, // this is only used to update user before registration, therefore isLogger
+    isLoggedIn: false, // this is only used to update user before registration, therefore isLoggedIn set to false.
     ...userSession,
     details: {
       ...userSession?.details,
@@ -33,7 +32,6 @@ const AddToSession = withSession(async (request, response) => {
       token: request.headers.authorization
     }
   };
-  debug("AddToSession", user);
 
   if (!request?.headers?.authorization) {
     response.status(401).json({ message: "Missing Authorization header" });
@@ -47,17 +45,13 @@ const AddToSession = withSession(async (request, response) => {
       const { uid } = decodedToken;
 
       if (user?.firebase?.id) {
-        debug(
-          "uid returned from IdToken verification on user registration session creation",
-          uid
-        );
         if (body.firebase.id !== uid) {
           response.status(400).json({ message: "User doesnt match" });
         }
       }
     })
     .catch((error) => {
-      debugError(error);
+      debugError("ERROR: AddToSession", error);
     });
 
   try {
@@ -68,6 +62,7 @@ const AddToSession = withSession(async (request, response) => {
     debugError(`setting to iron: ${error.message}`);
     throw new Error(`Failed to save to session storage`);
   }
+
   response.status(200).json(user);
 });
 

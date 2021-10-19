@@ -121,7 +121,9 @@ const Users = withSession(async (request, response) => {
         );
       }
     } catch (error) {
-      if (error instanceof pgp.errors.QueryResultError) {
+      if (error.message === "No data returned from the query.") {
+        response.status(200).json(false);
+      } else if (error instanceof pgp.errors.QueryResultError) {
         response.status(404).json({ message: error.message });
         debugError(`GET USERNAME 404: ${error}`);
       } else {
@@ -129,9 +131,7 @@ const Users = withSession(async (request, response) => {
         debugError(`GET USERNAME 505: ${error}`);
       }
     }
-  }
-
-  if (method === "POST") {
+  } else if (method === "POST") {
     let newUserId;
     withMiddleware(request, response);
 

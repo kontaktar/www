@@ -4,7 +4,7 @@
 -- Table Definition ----------------------------------------------
 
 CREATE TABLE firebase_user_map (
-    user_id integer NOT NULL REFERENCES users(id) UNIQUE,
+    user_id integer NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
     firebase_id text NOT NULL UNIQUE
 );
 

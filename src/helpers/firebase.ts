@@ -39,7 +39,13 @@ export const signInToFirebaseWithPhoneNumber = (
       if (error.code === "auth/too-many-requests") {
         setErrorMessage(verificationErrors.TOO_MANY_REQUESTS);
       }
-      setErrorMessage(`Villa kom upp, skilaboð ekki send. ${error}`);
+      if (error.code === "auth/network-request-failed") {
+        setErrorMessage("TURN ON THE FIREBASE EMULATOR");
+        debugError(`${error} - CODE: ${error.code}`);
+      }
+      setErrorMessage(
+        `Villa kom upp, skilaboð ekki send. ${error} - CODE: ${error.code}`
+      );
       setLoading(false);
       debugError(`PhoneNumberForm Error: ${error}`);
     });
@@ -55,6 +61,7 @@ export const loginOrRegisterBypassingFirebase = async (
   router
 ): Promise<void> => {
   // DEPRECATED
+
   let userData;
   try {
     userData = await GetUserByPhoneNumber(userPhoneNumber);
@@ -86,7 +93,7 @@ export const getEmulatorVerificationCode = async (
   phoneNumber: string
 ): Promise<string> => {
   const response = await fetch(
-    `http://${process.env.FIREBASE_AUTH_EMULATOR_HOST}/emulator/v1/projects/${process.env.FIREBASE_PROJECT_ID}/verificationCodes`
+    `http://${process.env.FIRESTORE_EMULATOR_HOST}/emulator/v1/projects/${process.env.FIREBASE_PROJECT_ID}/verificationCodes`
   );
 
   const { code } = response.verificationCodes
