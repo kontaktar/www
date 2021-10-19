@@ -129,7 +129,7 @@ const VerificationCodeForm = ({
 
           logout();
 
-          if (error.code === "auth/code-expired") {
+          if (error?.code === "auth/code-expired") {
             setErrorMessage(verificationErrors.SMS_EXPIRED);
             setVerificationCodeSent(false);
           }
