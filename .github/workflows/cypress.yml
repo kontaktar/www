@@ -35,5 +35,6 @@ jobs:
         with:
           command: yarn cy:build
           start: yarn start
+          wait-on: http://localhost:8000
           browser: chrome
 
