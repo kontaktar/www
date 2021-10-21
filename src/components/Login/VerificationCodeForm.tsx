@@ -164,6 +164,7 @@ const VerificationCodeForm = ({
         onBlur={() => formik.setFieldTouched("verificationCode", true, true)}
         value={formik.values.verificationCode}
         error={formik.errors.verificationCode}
+        autocomplete="one-time-code"
         isTouched={formik.touched.verificationCode}
         inputProps={{
           "data-test": "verificationCodeLoginInput"
