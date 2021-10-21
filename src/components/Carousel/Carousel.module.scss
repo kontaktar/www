@@ -152,6 +152,15 @@ $carousel-mobile-breakpoint: 664px;
   .carousel {
     margin: auto;
   }
+  .carousel {
+    :global {
+      .slider-slide {
+        > div {
+          margin: auto;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: $screen-smartphone-wide) {

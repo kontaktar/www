@@ -37,7 +37,7 @@ const LoginFormContainer = (): ReactElement => {
   }, []);
 
   return (
-    <div>
+    <>
       <div id="recaptcha-container" />
       <div {...useMaxWidth()}>
         <>
@@ -58,7 +58,7 @@ const LoginFormContainer = (): ReactElement => {
         </>
       </div>
       <span className={styles.error}>{errorMessage}</span>
-    </div>
+    </>
   );
 };
 
