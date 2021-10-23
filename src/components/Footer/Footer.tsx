@@ -32,14 +32,15 @@ const Footer = ({ className, userLayout }: Props): ReactElement => {
               </>
             )}
           </div>
-
-          <div className={styles.row}>
-            <Icon className={styles.icons} name="phone" />
-            <p>862-9580</p>
-          </div>
-          <div className={styles.row}>
-            <Icon className={styles.icons} name="email" />
-            <p>kontaktar@kontaktar.is</p>
+          <div className={styles.details}>
+            <div className={styles.row}>
+              {/* <Icon className={styles.icons} name="phone" /> */}
+              <p>862-9580</p>
+            </div>
+            <div className={styles.row}>
+              {/* <Icon className={styles.icons} name="email" /> */}
+              <p>kontaktar@kontaktar.is</p>
+            </div>
           </div>
         </div>
       </footer>

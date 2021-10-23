@@ -1,123 +1,78 @@
-import { ReactElement, useEffect, useState } from "react";
-import NukaCarousel from "nuka-carousel";
+import { ReactElement } from "react";
+import ResponsiveCarousel from "react-multi-carousel";
+import cx from "classnames";
 import { Button, Card } from "components";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
+import "react-multi-carousel/lib/styles.css";
 import styles from "./Carousel.module.scss";
 
-/**
- * THE FIRST THING THAT NEEDS TO BE REWRITTEN IS THIS PILE OF CRAP
- * PLEASE JUST SCRAP IT ALL AND START OVER.
- */
-
-export const breakPointSettings = [
-  {
-    breakpoint: 1328,
-    slides: 4
-  },
-  {
-    breakpoint: 996,
-    slides: 3
-  },
-  {
-    breakpoint: 664, // 2*300px (card width) + 2*32px (spacing)
-    slides: 2
-  },
-  {
-    breakpoint: 332,
-    slides: 1
-  }
-];
-export const breakPointSettingsSecond = [
-  {
-    breakpoint: 332,
-    slides: 1
-  },
-  {
-    breakpoint: 664, // 2*300px (card width) + 2*32px (spacing)
-    slides: 2
-  },
-  {
-    breakpoint: 996,
-    slides: 3
-  },
-  {
-    breakpoint: 1328,
-    slides: 4
-  }
-];
-
-// TODO: laga að wraparoun er ekki smooth með custom buttons, virkar fínt með lyklaborði!
 const Carousel = ({ cards }: { cards: any }): ReactElement => {
-  const { width } = useWindowDimensions();
-  const [slidesToShow, setSlidesToShow] = useState(4);
-  const [carouselSize, setCarouselSize] = useState(undefined);
-  const [elementSize, setSize] = useState(undefined);
-  useEffect(() => {
-    let breakpoint = 332;
-    let slides = 1;
-    for (let i = 0; i < breakPointSettingsSecond.length; i += 1) {
-      if (width > breakPointSettingsSecond[i].breakpoint) {
-        // eslint-disable-next-line prefer-destructuring
-        breakpoint = breakPointSettingsSecond[i].breakpoint;
-        // eslint-disable-next-line prefer-destructuring
-        slides = breakPointSettingsSecond[i].slides;
-      }
+  const responsive = {
+    largeDesktop: {
+      breakpoint: { max: 9999, min: 1328 },
+      items: 4
+    },
+    desktop: {
+      breakpoint: { max: 1328, min: 1016 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1016, min: 684 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 684, min: 0 },
+      items: 1
     }
-    if (slidesToShow !== slides) {
-      setSlidesToShow(slides);
-    }
-    if (carouselSize !== breakpoint) {
-      setCarouselSize(breakpoint);
-    }
-    let size;
-    if (slides === 2) size = "medium";
-    if (slides === 1) size = "small";
-    setSize(size);
-  }, [carouselSize, slidesToShow, width]);
+  };
+
+  const CustomRightArrow = ({ onClick, carouselState }) => {
+    // console.log("deviceType", carouselState.deviceType);
+    return (
+      <Button.CarouselNavi
+        id="carousel_next"
+        direction="next"
+        className={cx(styles.button_next, {
+          [styles.button_next_small]: carouselState.deviceType === "mobile"
+        })}
+        onClick={onClick}
+      />
+    );
+  };
+  const CustomLeftArrow = ({ onClick, carouselState }) => {
+    return (
+      <Button.CarouselNavi
+        id="carousel_back"
+        direction="back"
+        className={cx(styles.button_back, {
+          [styles.button_back_small]: carouselState.deviceType === "mobile"
+        })}
+        onClick={onClick}
+      />
+    );
+  };
 
   return (
     <div className={styles.carousel_root}>
       <div
         className={`
           ${styles.carousel_header}
-          ${styles[elementSize]}
         `}
       >
         <h2>Kontaktar af handahófi</h2>
       </div>
-      <NukaCarousel
-        className={`
-        ${styles.carousel}
-        ${styles[elementSize]}
-      `}
-        wrapAround
-        // onResize={onResize}
-        // slideIndex={slideIndex}
-        renderTopRightControls={({ nextSlide }) => (
-          <Button.CarouselNavi
-            id="carousel_next"
-            direction="next"
-            className={`${styles.button_next} ${styles[elementSize]}`}
-            onClick={nextSlide}
-          />
-        )}
-        renderTopCenterControls={({ previousSlide }) => (
-          <Button.CarouselNavi
-            id="carousel_back"
-            direction="back"
-            className={`${styles.button_back} ${styles[elementSize]}`}
-            onClick={previousSlide}
-          />
-        )}
-        // cellSpacing={20}
-        cellAlign="left"
-        width={carouselSize?.toString()}
-        enableKeyboardControls={false}
-        pauseOnHover={false}
-        dragging={false}
-        swiping
-        transitionMode="scroll"
-        slidesToShow={slidesToShow}
+      <ResponsiveCarousel
+        ssr
+        responsive={responsive}
+        infinite
+        draggable
+        swipeable
+        renderButtonGroupOutside
+        // partialVisible
+        // centerMode
+        autoPlay
+        autoPlaySpeed={6000}
+        customRightArrow={<CustomRightArrow />}
+        customLeftArrow={<CustomLeftArrow />}
       >
         {cards.length > 0 ? (
           cards.map((card, i) => (
@@ -137,7 +92,7 @@ const Carousel = ({ cards }: { cards: any }): ReactElement => {
         ) : (
           <Card />
         )}
-      </NukaCarousel>
+      </ResponsiveCarousel>
     </div>
   );
 };

@@ -2,6 +2,11 @@
 
 .root {
   background-color: $secondary-black-color;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  // position: fixed;
+  // bottom: 0;
 }
 
 .footer {
@@ -38,6 +43,7 @@
   > svg {
     justify-items: center;
     width: 6 * $unit;
+    height: 2 * $unit;
   }
 }
 
@@ -54,8 +60,25 @@
   flex-grow: 1;
 }
 
+.details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  @media (max-width: $screen-smartphone-wide) {
+    .row {
+      height: 20px;
+      svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+}
+
 .logo_wrapper {
   flex-grow: 1;
+  align-self: center;
 }
 
 .user_layout {
@@ -95,6 +118,15 @@
 }
 
 @media (max-width: $screen-smartphone-wide) {
+  .root {
+    height: 80px;
+    margin: 0;
+  }
+  .footer {
+    .info {
+      margin: 0;
+    }
+  }
   .footer {
     p {
       font-size: 12px;
