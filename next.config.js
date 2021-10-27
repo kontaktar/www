@@ -10,7 +10,7 @@ module.exports = {
   // publicRuntimeConfig: false,
   ssr: true,
   env: {
-    BASE_URL: process.env.VERCEL_URL || "localhost:3000",
+    BASE_URL: process.env.VERCEL_URL || process.env.LOCALHOST,
     FIREBASE_EMULATOR: process.env.FIREBASE_EMULATOR || "0",
     FIRESTORE_EMULATOR_HOST: process.env.FIRESTORE_EMULATOR_HOST || "Missing",
     BYPASS_FIREBASE: process.env.BYPASS_FIREBASE || "0",

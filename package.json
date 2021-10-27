@@ -4,11 +4,12 @@
   "description": "",
   "scripts": {
     "cy": "CYPRESS=1 cypress open --config-file cypress/cypress.json",
-    "cy:run": "CYPRESS=1 cypress run cypress/cypress.json",
-    "emulator": "firebase emulators:start",
+    "cy:run": "CYPRESS=1 cypress run --config-file cypress/cypress.json",
+    "cy:build": "FIREBASE_EMULATOR=1 CYPRESS=1 cypress run --config-file cypress/cypress.build.json",
+    "emulator": "yarn firebase emulators:start",
     "build": "next build",
     "dev": "NODE_ENV=development next",
-    "start": "next start -p 8000",
+    "start": "LOCALHOST=localhost:8000 next start -p 8000",
     "generate": "yarn hygen generator",
     "new": "yarn hygen generator",
     "lint": "next lint",
@@ -83,6 +84,7 @@
     "eslint-plugin-simple-import-sort": "^5.0.3",
     "eslint-plugin-unicorn": "^9.1.1",
     "eslint-webpack-plugin": "^3.1.0",
+    "firebase-tools": "^9.16.5",
     "husky": "^4.3.0",
     "hygen": "^4.0.7",
     "identity-obj-proxy": "^3.0.0",
@@ -97,7 +99,8 @@
     "style-loader": "^3.3.1",
     "ts-loader": "^8.0.4",
     "tsconfig-paths-webpack-plugin": "^3.3.0",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.2",
+    "vercel": "^23.1.2"
   },
   "resolutions": {
     "webpack": "^5.0.0",

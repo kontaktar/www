@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 import { Routes, SessionStorage } from "types";
 import { CreateUser, GetUserByPhoneNumber } from "lib/endpoints";
 import fetch from "lib/fetchJson";
-import { debugError } from "helpers/debug";
+import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
 
 export const bypassWarningMessage = `WARNING! BYPASSING FIREBASE`;
@@ -30,21 +30,21 @@ export const signInToFirebaseWithPhoneNumber = (
       setVerificationCodeSent(true);
     })
     .catch((error) => {
-      if (error.code === "auth/invalid-phone-number") {
+      if (error?.code === "auth/invalid-phone-number") {
         // TODO: Move this validation to formik/yup
         setErrorMessage(
           `Villa, sláið inn símanúmer á þessu formi: +3545554444`
         );
       }
-      if (error.code === "auth/too-many-requests") {
+      if (error?.code === "auth/too-many-requests") {
         setErrorMessage(verificationErrors.TOO_MANY_REQUESTS);
       }
-      if (error.code === "auth/network-request-failed") {
+      if (error?.code === "auth/network-request-failed") {
         setErrorMessage("TURN ON THE FIREBASE EMULATOR");
         debugError(`${error} - CODE: ${error.code}`);
       }
       setErrorMessage(
-        `Villa kom upp, skilaboð ekki send. ${error} - CODE: ${error.code}`
+        `Villa kom upp, skilaboð ekki send. ${error} - CODE: ${error?.code}`
       );
       setLoading(false);
       debugError(`PhoneNumberForm Error: ${error}`);
