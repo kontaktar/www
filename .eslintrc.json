@@ -190,6 +190,7 @@
           }
         },
         "whitelist": {
+          "args": true,
           "req": true,
           "res": true,
           "getServerSideProps": true,

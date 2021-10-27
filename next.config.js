@@ -6,6 +6,7 @@ require("dotenv").config({ path: ".env" });
 
 module.exports = {
   target: "serverless",
+  webpack5: true,
   // publicRuntimeConfig: false,
   ssr: true,
   env: {

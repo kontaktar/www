@@ -50,6 +50,7 @@ const VerificationCodeForm = ({
   const addUserToSessionStorage = (firebaseUser) => {
     try {
       console.log("firebaseUser", firebaseUser);
+
       firebaseUser.getIdToken().then(async (idToken) => {
         const userSession = await AddToSession({
           details: {
