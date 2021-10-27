@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Endpoint, UserSessionStorage } from "types";
 import { get, post, put, remove } from "helpers/methods";
 

@@ -46,15 +46,15 @@ const AdminProvider = ({
   );
   const { user } = useUser();
 
+  const checkAdmin = async () => {
+    setAdmin(await GetIsAdmin(user?.details?.phoneNumber, user?.details?.id));
+  };
   useEffect(() => {
     if (user?.details?.phoneNumber && user?.details?.id) {
       checkAdmin();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
-
-  const checkAdmin = async () => {
-    setAdmin(await GetIsAdmin(user?.details?.phoneNumber, user?.details?.id));
-  };
 
   const contextValues = useMemo(
     () => ({

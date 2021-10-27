@@ -148,10 +148,14 @@ const VerificationCodeForm = ({
       formik.setFieldTouched("verificationCode", true, true);
     }
 
-    if (process.env.FIREBASE_EMULATOR !== "0" && process.env.CYPRESS !== "1") {
+    if (
+      process.env.FIREBASE_EMULATOR !== "0" &&
+      process.env.CYPRESS !== "1" &&
+      !emulatorCode
+    ) {
       fetchEmulatorCode();
     }
-  }, []);
+  }, [formik, userPhoneNumber]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.form}>

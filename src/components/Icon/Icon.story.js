@@ -16,9 +16,10 @@ storiesOf("Components", module)
     }
   })
   .add("Icon", () => {
-    return icons.map((name) => (
-      <div style={{ backgroundColor: "gray" }}>
+    return icons.map((name, i) => (
+      <div key={i} style={{ backgroundColor: "gray" }}>
         <Icon
+          key={i}
           disabled={boolean("Disabled", false)}
           onClick={action("Icon-clicked")}
           name={name.toString()}

@@ -33,7 +33,7 @@ const Logo = ({
     </div>
   );
 };
-
+Logo.displayName = "Logo";
 export default Logo;
 
 Logo.Title = () => {

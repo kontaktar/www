@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";

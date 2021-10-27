@@ -51,7 +51,7 @@ Select.YearsMonths = ({ name, ...props }) => {
 
   return <Select options={options} name={name} {...props} />;
 };
-
+Select.displayName = "Select";
 export default Select;
 
 Select.propTypes = {

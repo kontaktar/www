@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable prettier/prettier */
-/* eslint-disable unicorn/prevent-abbreviations */
 import React from "react";
 import PropTypes from "prop-types";
 import cx from "classnames";

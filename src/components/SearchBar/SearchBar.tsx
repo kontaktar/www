@@ -76,9 +76,9 @@ const SearchBar = ({
     </div>
   );
 };
-
-export default SearchBar;
-
 SearchBar.Results = ({ number = "0" }: ResultProps): ReactElement => {
   return <div className={styles.results}>{number} niðurstöður</div>;
 };
+
+SearchBar.displayName = "SearchBar";
+export default SearchBar;

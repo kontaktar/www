@@ -77,3 +77,5 @@ Drawer.defaultProps = {
 Drawer.Navigation.propTypes = {
   isOpen: PropTypes.bool.isRequired
 };
+
+Drawer.displayName = "Drawer";
