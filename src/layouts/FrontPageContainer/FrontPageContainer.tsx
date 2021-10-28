@@ -14,7 +14,7 @@ const FrontPageContainer = (): ReactElement => {
   const router = useRouter();
 
   const [searchInput, setSearchInput] = useState("");
-  const searchState = useSelector((state) => state.searches);
+  const searchState = useSelector((state) => (state as any).searches);
   const [fiveRandomCards, setFiveRandomCards] = useState();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {

@@ -36,8 +36,8 @@ const ProfileContainer = ({
   const [userExperiences, setUserExperiences] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  const store = useSelector((state) => state);
-  const experiences = useSelector((state) => state.experiences);
+  const store: any = useSelector((state) => state);
+  const experiences = useSelector((state) => (state as any).experiences);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -35,7 +35,10 @@ const SearchBar = ({
   const onClear = async () => {
     onClearClicked();
     await dispatch(updateLatestSearch(""));
-    if (store.searches.inputs && !store.searches.inputs[""]) {
+    if (
+      (store as any).searches.inputs &&
+      !(store as any)?.searches.inputs[""]
+    ) {
       await dispatch(fetchSearchResult(""));
     }
   };

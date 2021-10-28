@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { debug, debugError } from "helpers/debug";
-import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 import useMaxWidth from "hooks/useMaxWidth";
 import PhoneNumberForm from "components/Login/PhoneNumberForm";
 import VerificationCodeForm from "components/Login/VerificationCodeForm";
@@ -25,10 +24,6 @@ const LoginFormContainer = (): ReactElement => {
         }
       );
     } catch (error) {
-      if (shouldBypassFirebaseOnDevelopment) {
-        setRecaptchaFailed(false);
-        setVerificationCodeSent(true);
-      }
       setErrorMessage(error.message);
       setVerificationCodeSent(false);
       setRecaptchaFailed(true);
