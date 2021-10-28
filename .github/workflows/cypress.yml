@@ -33,6 +33,7 @@ jobs:
       - name: Run Cypress test
         uses: cypress-io/github-action@v2
         with:
+          config: baseUrl=http://localhost:8000
           command: yarn cy:build
           start: yarn start
           wait-on: http://localhost:8000
