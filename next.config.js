@@ -1,10 +1,8 @@
-/* eslint-disable no-param-reassign */
-const ESLintPlugin = require("eslint-webpack-plugin");
-
 require("dotenv").config({ path: ".env" });
 
 module.exports = {
-  target: "serverless",
+  webpack5: true,
+  // publicRuntimeConfig: false,
   ssr: true,
   env: {
     BASE_URL: process.env.VERCEL_URL || process.env.LOCALHOST,
@@ -18,7 +16,6 @@ module.exports = {
     FIREBASE_DATABASE_URL: `${process.env.FIREBASE_PROJECT_ID}.firebase.io`
   },
   enableSvg: true,
-  plugins: [new ESLintPlugin()],
   webpack(config, { dev, isServer, webpack }) {
     config.plugins.push(
       new webpack.IgnorePlugin({ resourceRegExp: /^pg-native$/ })
