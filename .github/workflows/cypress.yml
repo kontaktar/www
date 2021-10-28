@@ -1,7 +1,7 @@
 name: End-to-end tests
 on: [push]
 env:
-  LOCALHOST: "localhost:8000"
+  LOCALHOST: "http://localhost:8000"
   CYPRESS_HOST: "http://localhost:8000"
   FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
   FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}

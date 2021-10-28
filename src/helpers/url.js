@@ -10,6 +10,12 @@ const getBaseUrl = () => {
     return window.location.origin;
   }
 
+  if (
+    process.env.BASE_URL.includes("localhost") &&
+    process.env.BASE_URL.includes("http")
+  ) {
+    return `${process.env.BASE_URL}`;
+  }
   if (process.env.BASE_URL.includes("localhost")) {
     return `http://${process.env.BASE_URL}`;
   }
