@@ -155,7 +155,8 @@ const VerificationCodeForm = ({
     ) {
       fetchEmulatorCode();
     }
-  }, [formik, userPhoneNumber]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userPhoneNumber]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.form}>

@@ -1,6 +1,7 @@
 name: End-to-end tests
 on: [push]
 env:
+  ACTIONS_RUNNER_DEBUG: true
   LOCALHOST: "http://localhost:8000"
   CYPRESS_HOST: "http://localhost:8000"
   FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
@@ -35,6 +36,7 @@ jobs:
         uses: cypress-io/github-action@v2
         env:
           DEBUG: '@cypress/github-action'
+          ACTIONS_STEP_DEBUG: true
         with:
           command: yarn cy:build
           start: yarn start
