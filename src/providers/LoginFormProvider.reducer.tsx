@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export type LoginFormContextType = {
   isVerificationCodeSent: boolean;
-  errorMessage: boolean;
+  errorMessage: string;
   userPhoneNumber: string;
   setVerificationCodeSent?: (f: boolean) => void;
   setErrorMessage?: (f: string) => void;
@@ -26,7 +26,7 @@ const LoginForm = createSlice({
     },
     setErrorMessage: (
       state: LoginFormContextType,
-      action: { payload: boolean }
+      action: { payload: string }
     ) => {
       state.errorMessage = action.payload;
     },
