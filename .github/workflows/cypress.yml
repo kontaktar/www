@@ -1,6 +1,8 @@
 name: End-to-end tests
 on: [push]
 env:
+  NODE_ENV: "development"
+  FIREBASE_EMULATOR: "1"
   LOCALHOST: "http://localhost:8000"
   CYPRESS_HOST: "http://localhost:8000"
   FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}

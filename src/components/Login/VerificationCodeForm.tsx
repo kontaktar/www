@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { useFormik } from "formik";
+import { useLoginForm } from "providers/LoginFormProvider";
 import { useRouter } from "next/router";
 import { Routes } from "types";
 import { createUserSuccess } from "store/actions";
@@ -16,17 +17,13 @@ import { MUIInput } from "components/Input";
 import styles from "layouts/LoginFormContainer/LoginFormContainer.module.scss";
 
 type Props = {
-  setErrorMessage: (m: string) => void;
-  setVerificationCodeSent: (f: boolean) => void;
   userPhoneNumber: string;
 };
 
-const VerificationCodeForm = ({
-  setErrorMessage,
-  setVerificationCodeSent,
-  userPhoneNumber
-}: Props): ReactElement => {
+const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
   const router = useRouter();
+  const { isVerificationCodeSent, setVerificationCodeSent, setErrorMessage } =
+    useLoginForm();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [firebaseIdToken, setFirebaseIdToken] = useState("");
   const [emulatorCode, setEmulatorCode] = useState("");

@@ -54,6 +54,9 @@
     "pages": [
       "pages"
     ],
+    "providers": [
+      "providers"
+    ],
     "store": [
       "store"
     ],

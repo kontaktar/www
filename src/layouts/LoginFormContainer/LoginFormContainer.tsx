@@ -1,5 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
+import { useLoginForm } from "providers/LoginFormProvider";
 import { debug, debugError } from "helpers/debug";
 import useMaxWidth from "hooks/useMaxWidth";
 import PhoneNumberForm from "components/Login/PhoneNumberForm";
@@ -7,10 +8,15 @@ import VerificationCodeForm from "components/Login/VerificationCodeForm";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = (): ReactElement => {
-  const [isVerificationCodeSent, setVerificationCodeSent] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [userPhoneNumber, setUserPhoneNumber] = useState("");
   const [recaptchaFailed, setRecaptchaFailed] = useState(false);
+  const {
+    isVerificationCodeSent,
+    setVerificationCodeSent,
+    userPhoneNumber,
+    setErrorMessage,
+    errorMessage
+  } = useLoginForm();
+  const [showCodeForm, setShowCodeForm] = useState(isVerificationCodeSent);
 
   useEffect(() => {
     try {
@@ -31,24 +37,24 @@ const LoginFormContainer = (): ReactElement => {
     }
   }, []);
 
+  useEffect(() => {
+    setShowCodeForm(isVerificationCodeSent);
+    console.log("SHOULD SHOW VERIFICIATION CODE", isVerificationCodeSent);
+    console.log("wwww", window?.confirmationResult);
+  }, [isVerificationCodeSent]);
+  useEffect(() => {
+    setShowCodeForm(isVerificationCodeSent);
+    console.log("wwww", window?.confirmationResult);
+  }, [typeof window !== "undefined" && window?.confirmationResult]);
   return (
     <>
       <div id="recaptcha-container" />
       <div {...useMaxWidth()}>
         <>
-          {!isVerificationCodeSent ? (
-            <PhoneNumberForm
-              disabled={recaptchaFailed}
-              setVerificationCodeSent={setVerificationCodeSent}
-              setErrorMessage={setErrorMessage}
-              setUserPhoneNumber={setUserPhoneNumber}
-            />
+          {!showCodeForm ? (
+            <PhoneNumberForm disabled={recaptchaFailed} />
           ) : (
-            <VerificationCodeForm
-              userPhoneNumber={userPhoneNumber}
-              setVerificationCodeSent={setVerificationCodeSent}
-              setErrorMessage={setErrorMessage}
-            />
+            <VerificationCodeForm userPhoneNumber={userPhoneNumber} />
           )}
         </>
       </div>

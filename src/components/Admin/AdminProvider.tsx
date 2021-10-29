@@ -41,9 +41,11 @@ const AdminProvider = ({
   children: ReactChild;
 }): ReactElement => {
   const [isAdmin, setAdmin] = useState<boolean>(false);
-  const { data: users, error, mutate: mutateUsers } = useSWR(
-    isAdmin ? Endpoint.Users : null
-  );
+  const {
+    data: users,
+    error,
+    mutate: mutateUsers
+  } = useSWR(isAdmin ? Endpoint.Users : null);
   const { user } = useUser();
 
   const checkAdmin = async () => {

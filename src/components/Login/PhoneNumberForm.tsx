@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import firebase from "firebase/app";
 import { useFormik } from "formik";
+import { useLoginForm } from "providers/LoginFormProvider";
 import { UserEnum } from "types";
 import { getEmulatorVerificationCode } from "helpers/firebase";
 import {
@@ -14,17 +15,15 @@ import { MUIInput } from "components/Input";
 import styles from "layouts/LoginFormContainer/LoginFormContainer.module.scss";
 
 type Props = {
-  setVerificationCodeSent: (b: boolean) => void;
-  setErrorMessage: (m: string) => void;
-  setUserPhoneNumber: (pN: string) => void;
   disabled: boolean;
 };
-const PhoneNumberForm = ({
-  setVerificationCodeSent,
-  setErrorMessage,
-  setUserPhoneNumber,
-  disabled
-}: Props): ReactElement => {
+const PhoneNumberForm = ({ disabled }: Props): ReactElement => {
+  const {
+    isVerificationCodeSent,
+    setVerificationCodeSent,
+    setUserPhoneNumber,
+    setErrorMessage
+  } = useLoginForm();
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const formik = useFormik({
@@ -37,12 +36,12 @@ const PhoneNumberForm = ({
       setLoading(true);
 
       // 1/3 STEPS IN BYPASSING FIREBASE
-      if (isBypassingFirebase) {
-        setVerificationCodeSent(true);
-        setErrorMessage(bypassWarningMessage);
-      } else {
-        setErrorMessage("");
-      }
+      // if (isBypassingFirebase) {
+      //   setVerificationCodeSent(true);
+      //   setErrorMessage(bypassWarningMessage);
+      // } else {
+      //   setErrorMessage("");
+      // }
 
       signInToFirebaseWithPhoneNumber(
         values.phoneNumber,
