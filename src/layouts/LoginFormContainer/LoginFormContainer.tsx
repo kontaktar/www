@@ -16,7 +16,6 @@ const LoginFormContainer = (): ReactElement => {
     setErrorMessage,
     errorMessage
   } = useLoginForm();
-  const [showCodeForm, setShowCodeForm] = useState(isVerificationCodeSent);
 
   useEffect(() => {
     try {
@@ -37,21 +36,12 @@ const LoginFormContainer = (): ReactElement => {
     }
   }, []);
 
-  useEffect(() => {
-    setShowCodeForm(isVerificationCodeSent);
-    console.log("SHOULD SHOW VERIFICIATION CODE", isVerificationCodeSent);
-    console.log("wwww", window?.confirmationResult);
-  }, [isVerificationCodeSent]);
-  useEffect(() => {
-    setShowCodeForm(isVerificationCodeSent);
-    console.log("wwww", window?.confirmationResult);
-  }, [typeof window !== "undefined" && window?.confirmationResult]);
   return (
     <>
       <div id="recaptcha-container" />
       <div {...useMaxWidth()}>
         <>
-          {!showCodeForm ? (
+          {!isVerificationCodeSent ? (
             <PhoneNumberForm disabled={recaptchaFailed} />
           ) : (
             <VerificationCodeForm userPhoneNumber={userPhoneNumber} />
