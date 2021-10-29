@@ -7,6 +7,7 @@ import wrapper from "store/configureStore";
 import fetch from "lib/fetchJson";
 import { configOptions } from "lib/firebaseConfig";
 import { debugError } from "helpers/debug";
+import { isBypassingFirebase } from "helpers/firebase";
 import { AuthProvider } from "hooks/useAuth";
 import AdminProvider from "components/Admin/AdminProvider";
 import ErrorBoundary from "components/ErrorBoundary";
@@ -14,14 +15,12 @@ import "../styles/index.scss";
 
 if (!firebase.apps.length) {
   firebase.initializeApp(configOptions);
-  if (
-    process.env.NODE_ENV === "development" &&
-    process.env.FIREBASE_EMULATOR === "1"
-  ) {
+  if (isBypassingFirebase) {
     try {
       firebase
         .auth()
         .useEmulator(`http://${process.env.FIRESTORE_EMULATOR_HOST}/`);
+      firebase.auth().settings.appVerificationDisabledForTesting = true;
     } catch (error) {
       debugError(
         "Emulator is expected to be on, turn it on with -yarn emulator- or set env.FIREBASE_EMULATOR = 0"

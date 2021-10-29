@@ -1,6 +1,8 @@
 import React, { ReactElement, useState } from "react";
+import firebase from "firebase/app";
 import { useFormik } from "formik";
 import { UserEnum } from "types";
+import { getEmulatorVerificationCode } from "helpers/firebase";
 import {
   bypassWarningMessage,
   isBypassingFirebase,
@@ -24,6 +26,7 @@ const PhoneNumberForm = ({
   disabled
 }: Props): ReactElement => {
   const [isLoading, setLoading] = useState<boolean>(false);
+
   const formik = useFormik({
     initialValues: {
       phoneNumber: ""
