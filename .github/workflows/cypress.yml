@@ -35,7 +35,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           command: yarn cy:build
-          start: FIREBASE_EMULATOR=1 BYPASS_FIREBASE=1 NODE_ENV=development yarn start
+          start: yarn start:cy
           wait-on: http://localhost:8000
           browser: chrome
 

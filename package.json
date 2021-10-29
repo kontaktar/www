@@ -10,6 +10,7 @@
     "build": "next build",
     "dev": "NODE_ENV=development next",
     "start": "next start -p 8000",
+    "start:cy": "FIREBASE_EMULATOR=1 BYPASS_FIREBASE=1 NODE_ENV=development next start -p 8000",
     "generate": "yarn hygen generator",
     "new": "yarn hygen generator",
     "lint": "next lint",
