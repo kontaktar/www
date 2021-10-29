@@ -8,7 +8,7 @@ import { AddToSession, GetUserByPhoneNumber } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
-import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
+import { isBypassingFirebase } from "helpers/firebase";
 import { getEmulatorVerificationCode } from "helpers/firebase";
 import { verificationCodeSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
@@ -35,7 +35,7 @@ const VerificationCodeForm = ({
   const { mutateUser } = useUser();
   const { login, logout } = useAuth();
 
-  if (shouldBypassFirebaseOnDevelopment) {
+  if (isBypassingFirebase) {
     firebase.auth().settings.appVerificationDisabledForTesting = true;
   }
 

@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import { UserEnum } from "types";
 import {
   bypassWarningMessage,
-  shouldBypassFirebaseOnDevelopment,
+  isBypassingFirebase,
   signInToFirebaseWithPhoneNumber
 } from "helpers/firebase";
 import { phoneNumberSchema } from "helpers/formValidationSchemas";
@@ -34,7 +34,7 @@ const PhoneNumberForm = ({
       setLoading(true);
 
       // 1/3 STEPS IN BYPASSING FIREBASE
-      if (shouldBypassFirebaseOnDevelopment) {
+      if (isBypassingFirebase) {
         setVerificationCodeSent(true);
         setErrorMessage(bypassWarningMessage);
       } else {

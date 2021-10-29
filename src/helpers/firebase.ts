@@ -9,7 +9,7 @@ import { verificationErrors } from "helpers/errorMessages";
 
 export const bypassWarningMessage = `WARNING! BYPASSING FIREBASE`;
 
-export const shouldBypassFirebaseOnDevelopment =
+export const isBypassingFirebase =
   process.env.NODE_ENV === "development" && process.env.BYPASS_FIREBASE === "1";
 
 export const signInToFirebaseWithPhoneNumber = (

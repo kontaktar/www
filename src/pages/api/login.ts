@@ -5,7 +5,7 @@ import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 import withSession from "lib/sessions";
 import { withMiddleware } from "utils/apiMiddleware";
 import { debug, debugError } from "helpers/debug";
-import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
+import { isBypassingFirebase } from "helpers/firebase";
 
 if (!admin.apps.length) {
   admin.initializeApp({

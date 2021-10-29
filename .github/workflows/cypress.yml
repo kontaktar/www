@@ -33,12 +33,9 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Run Cypress test
         uses: cypress-io/github-action@v2
-        env:
-          NODE_ENV: "development"
-          BYPASS_FIREBASE: "1"
         with:
           command: yarn cy:build
-          start: yarn start
+          start: FIREBASE_EMULATOR=1 BYPASS_FIREBASE=1 NODE_ENV=development yarn start
           wait-on: http://localhost:8000
           browser: chrome
 
