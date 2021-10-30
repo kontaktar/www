@@ -1,8 +1,8 @@
-import * as admin from "firebase-admin";
+// import * as admin from "firebase-admin";
 import { NextApiHandler } from "next";
 import { NextRequest, NextResponse } from "next/server";
 import cors from "lib/cors";
-import { firebaseAdminInitConfig } from "lib/firebaseConfig";
+// import { firebaseAdminInitConfig } from "lib/firebaseConfig";
 
 export async function middleware(req: NextRequest, next: NextApiHandler) {
   console.log(req.geo);

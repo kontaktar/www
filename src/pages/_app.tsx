@@ -30,7 +30,6 @@ if (!firebase.apps.length) {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
-  // console.log("prisma", prisma);
   useEffect(() => {
     async () => {
       if (typeof window !== undefined) {

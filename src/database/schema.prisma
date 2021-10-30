@@ -1,11 +1,3 @@
-datasource DS {
-  provider             = "postgresql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
-}
-
-// GENERATORS
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
@@ -21,7 +13,11 @@ generator fullTextSearch {
   previewFeatures = ["fullTextSearch"]
 }
 
-// USER
+datasource db {
+  provider             = "postgresql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
 
 model User {
   id              Int              @id @default(autoincrement())
@@ -41,30 +37,24 @@ model UserPhoneNumber {
   id                    Int     @id @default(autoincrement())
   phoneCountryExtension String?
   phoneNumber           String  @unique
-
-  // FOREIGN KEY
-  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int   @unique
+  User                  User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                Int     @unique
 }
 
 model UserMetaData {
   id      Int     @id @default(autoincrement())
   email   String? @unique
   website String?
-
-  // FOREIGN KEY
-  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int   @unique
+  User    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int     @unique
 }
 
 model UserStatistics {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   lastLogin DateTime
-
-  // FOREIGN KEY
-  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int   @unique
+  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int      @unique
 }
 
 model UserAddress {
@@ -73,20 +63,15 @@ model UserAddress {
   streetName String?
   city       String?
   country    String?
-  // FOREIGN KEY
   User       User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int     @unique
 }
 
 model UserFirebaseMap {
   firebaseId String @unique
-
-  // FOREIGN KEY
-  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int   @unique
+  User       User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int    @unique
 }
-
-// EXPERIENCES
 
 model Experience {
   id          Int      @id @default(autoincrement())
@@ -97,7 +82,6 @@ model Experience {
   description String
   editedAt    DateTime
   isPublished Boolean  @default(false)
-  // FOREIGN KEY
   User        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int      @unique
 }
