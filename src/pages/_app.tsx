@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import firebase from "firebase/app";
 import type { AppProps } from "next/app";
 import Head from "next/head";
@@ -30,6 +30,25 @@ if (!firebase.apps.length) {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
+  // console.log("prisma", prisma);
+  useEffect(() => {
+    async () => {
+      if (typeof window !== undefined) {
+        const prisma = require("../database/");
+        const newUser = await prisma.user.create({
+          data: {
+            name: "Alice",
+            email: "alice@prisma.io"
+          }
+        });
+
+        const users = await prisma.user.findMany();
+        console.log("newUser", newUser);
+        console.log("users", users);
+      }
+    };
+  }, []);
+
   return (
     <>
       <ErrorBoundary>

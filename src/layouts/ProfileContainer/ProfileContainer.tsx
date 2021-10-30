@@ -254,7 +254,7 @@ const ProfileContainer = ({
           )}
           {activeExperience && showActiveSection && (
             <Modal
-              ariaLabel="Valið verkpsjald"
+              ariaLabel="Valið verkspjald"
               modalKey={activeExperience?.id}
               open={showActiveSection}
               onClose={() => {

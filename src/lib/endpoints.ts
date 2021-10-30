@@ -82,9 +82,9 @@ export async function GetUserByPhoneNumber(phoneNumber) {
   return get(`${Endpoint.Users}?phoneNumber=${phoneNumber}`);
 }
 
-export async function GetAllUsers() {
-  return get(Endpoint.Users);
-}
+// export async function GetAllUsers() {
+//   return get(Endpoint.Users);
+// }
 export async function GetAllUserNames() {
   return get(`${Endpoint.Users}/all-usernames`);
 }

@@ -16,6 +16,7 @@ const SearchWithParams = async (request, response): Promise<void> => {
         .filter((arr) => arr != "");
       const wordsRegex = `(${words.join("|")})`;
       const wordsLike = `%${words.join("% ILIKE %")}%`;
+      console.log(wordsLike);
 
       const data = await database.any(
         `

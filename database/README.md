@@ -9,3 +9,5 @@ https://betterprogramming.pub/how-to-provision-a-cheap-postgresql-database-in-aw
 When creating postgres-prod, the security group needs to be to a certain server IP.
 
 `your-user-name` = `ubuntu`
+
+Currently working on hooking up Prisma db, see src/database/

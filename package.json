@@ -11,9 +11,10 @@
     "build:profiling": "next build --profile",
     "dev": "NODE_ENV=development next",
     "dev:prod": "FIREBASE_EMULATOR=0 NODE_ENV=production next",
+    "studio": "yarn prisma studio --schema=./src/database/schema.prisma",
+    "generate": "yarn prisma generate --schema=./src/database/schema.prisma",
     "start": "next start -p 8000",
     "start:cy": "FIREBASE_EMULATOR=1 NODE_ENV=development next start -p 8000",
-    "generate": "yarn hygen generator",
     "new": "yarn hygen generator",
     "lint": "next lint",
     "pre-push": "yarn lint",
@@ -28,6 +29,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.3.3",
     "@material-ui/system": "^4.5.0",
+    "@prisma/client": "^3.3.0",
     "@reduxjs/toolkit": "^1.5.1",
     "array-move": "^2.1.0",
     "bcryptjs": "^2.4.3",
@@ -42,6 +44,7 @@
     "next-iron-session": "^4.1.9",
     "next-redux-wrapper": "^6.0.2",
     "pg-promise": "^10.5.5",
+    "prisma": "^3.3.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -113,5 +116,8 @@
     "hooks": {
       "pre-push": "yarn pre-push"
     }
+  },
+  "prisma":{
+    "schema": "./src/database/schema.prisma"
   }
 }

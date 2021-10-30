@@ -1,6 +1,7 @@
 import Cors from "cors";
 import { IronSession, UserSessionStorage } from "types";
 import { GetIsAdmin } from "lib/endpoints";
+import withSession from "lib/sessions";
 import { debugError } from "helpers/debug";
 
 const cors = Cors({
@@ -18,9 +19,8 @@ function runMiddleware(request, response, fn) {
   });
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export const withMiddleware = (request, response) => {
-  runMiddleware(request, response, cors);
+export const withMiddleware = async (req, res) => {
+  await runMiddleware(req, res, cors);
 };
 
 export const withUserAccess = () => {
