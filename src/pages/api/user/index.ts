@@ -79,8 +79,10 @@ export default withSession(async (request, response) => {
           }
         }
       })
-      .catch((err) => console.error(err));
-    const users = await prisma.user.findMany();
+      .catch((err) => console.error("ERROR", err));
+    const users = await prisma.user
+      .findMany()
+      .catch((err) => console.error("ERROR", err));
     console.log("users", users);
     console.log("user", user);
     response.json(users);

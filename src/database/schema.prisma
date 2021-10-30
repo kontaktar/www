@@ -1,3 +1,10 @@
+datasource db {
+  provider             = "postgresql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+// GENERATORS
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
@@ -13,12 +20,7 @@ generator fullTextSearch {
   previewFeatures = ["fullTextSearch"]
 }
 
-datasource db {
-  provider             = "postgresql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
-}
-
+// USER
 model User {
   id              Int              @id @default(autoincrement())
   ssn             String           @unique
@@ -73,6 +75,7 @@ model UserFirebaseMap {
   userId     Int    @unique
 }
 
+// EXPERIENCE
 model Experience {
   id          Int      @id @default(autoincrement())
   years       Int

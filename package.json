@@ -12,7 +12,7 @@
     "build:profiling": "next build --profile",
     "dev": "NODE_ENV=development next",
     "dev:prod": "FIREBASE_EMULATOR=0 NODE_ENV=production next",
-    "studio": "yarn prisma studio",
+    "studio": "make db-studio",
     "prisma:generate": "make db-generate",
     "prisma:migrate": "make db-migrate",
     "start": "next start -p 8000",

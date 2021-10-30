@@ -14,3 +14,6 @@ db-migrate:
 
 db-pull:
 	DATABASE_URL=${DATABASE_MIGRATE_URL} yarn prisma db pull ${PRISMA_SCHEMA}
+
+db-studio:
+	DATABASE_URL=${DATABASE_MIGRATE_URL} yarn prisma studio ${PRISMA_SCHEMA}
