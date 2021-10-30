@@ -79,7 +79,7 @@
   align-items: flex-end;
   flex-direction: row;
   min-width: 300px;
-  @media (max-width: $screen-smartphone-small + 30) {
+  @media (max-width: $screen-tablet-portrait) {
     min-width: unset;
   }
 }

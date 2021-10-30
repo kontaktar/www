@@ -10,6 +10,9 @@
 
 .edit_wrapper {
   width: 100%;
+  @media (max-width: $screen-tablet-portrait) {
+    padding-top: 2rem;
+  }
 }
 
 .title {
@@ -19,6 +22,9 @@
 
 .header_icon {
   margin-right: 20px;
+  @media (max-width: $screen-tablet-portrait) {
+    display: none;
+  }
 }
 .user {
   display: inline-flex;
@@ -66,18 +72,28 @@
 .cards {
   display: flex;
 }
-
 .active_experience_modal {
-  background-color: $color-paper-white;
+  background-color: $color-white;
+  padding: 2rem 0;
+
+  button {
+    position: absolute;
+    top: $unit * 2;
+    right: $unit * 2;
+  }
+  hr {
+    margin-top: 1.5rem;
+    border: none;
+    height: 1px;
+    color: #cdcaca;
+    background-color: #cdcaca;
+  }
+  h3 {
+    margin-left: 2rem;
+  }
 }
 .active_experience_wrapper {
   padding: 40px;
-  @media screen and (max-width: $screen-smartphone-wide) {
-    padding: 0;
-  }
-  h3 {
-    line-height: 40px;
-  }
 }
 
 .active_experience_paper {
@@ -85,6 +101,12 @@
   animation-duration: 0.2s;
   animation-name: ExpandIntoView;
   background: $color-white;
+  border-radius: $border-radius;
+  .description {
+  }
+  h3  {
+    padding-top: 20px;
+  }
   span,
   h5 {
     opacity: 0;
@@ -123,9 +145,10 @@
   span {
     line-height: 24px;
   }
+
   margin-top: 20px;
   margin-bottom: 40px;
-  box-shadow: 0px 4px 23px rgba(0, 0, 0, 0.1);
+
   padding: 20px;
   box-sizing: border-box;
 }

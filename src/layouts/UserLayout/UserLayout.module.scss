@@ -23,3 +23,8 @@
     padding-left: 70px;
   }
 }
+@media (max-width: $screen-smartphone) {
+  .user_root .user_main_content {
+    padding-left: 60px;
+  }
+}

@@ -45,7 +45,9 @@ const ProfileContainer = ({
   }, [experiences]);
 
   useEffect(() => {
-    debug("ProfileContainer:user", user);
+    if (user?.details !== userProfile) {
+      debug("ProfileContainer:user", user);
+    }
     if (editMode && user?.details?.id) {
       try {
         dispatch(fetchUserExperiences(user?.details.id));
@@ -60,7 +62,7 @@ const ProfileContainer = ({
       !user?.details?.id
     ) {
       // user was just created.
-      setUserProfile(user?.details);
+      setUserProfile((prev) => prev !== user?.details);
       debugError("A profile is not accessing user?.details?.id of the user");
     }
   }, [dispatch, editMode, user, user?.details]);
@@ -260,15 +262,13 @@ const ProfileContainer = ({
               }}
               overlayClassName={styles.active_experience_modal}
             >
-              <div
-                key={activeExperience?.id}
-                className={styles.active_experience_wrapper}
-              >
-                <h3>Valið verkspjald</h3>
+              <h3>Valið verkspjald</h3>
+              <hr />
+              <div className={styles.active_experience_wrapper}>
                 <div className={styles.active_experience_paper}>
                   <h5>{`${activeExperience?.title}`}</h5>
                   <span
-                    className={styles.full_description}
+                    className={styles.description}
                   >{`${activeExperience?.description}`}</span>
                 </div>
               </div>

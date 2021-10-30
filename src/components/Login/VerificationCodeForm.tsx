@@ -91,15 +91,15 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
           } catch (error) {
             debugError("GetUserByPhoneNumber ERROR", error);
           } finally {
-            if (additionalUserInfo?.isNewUser || !userData) {
-              debug("No user exists with that phonenumber");
+            if (additionalUserInfo.isNewUser || !userData) {
+              debug("No user exists with that phonenumber", userData);
               debug(
-                "additionalUserInfo?.isNewUser",
+                "No user exists with that phonenumber :additionalUserInfo?.isNewUser",
                 additionalUserInfo?.isNewUser
               );
-              if (!userData && !additionalUserInfo?.isNewUser) {
+              if (!userData && !additionalUserInfo.isNewUser) {
                 debug(
-                  `Deleting firebase user. No user found with phonenumber ${firebaseUser.phoneNumber}`
+                  `DELETING FIREBASE USER. No user found with phonenumber ${firebaseUser.phoneNumber}`
                 );
                 firebaseUser.delete(); // maybe not needed?
               }

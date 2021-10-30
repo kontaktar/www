@@ -37,6 +37,10 @@
 
 .new_modal {
   z-index: 1000;
+  padding: 0 2rem;
+  @media screen and (max-width: $screen-smartphone) {
+    padding: 0 1rem;
+  }
   div[data-reach-dialog-content] {
     width: 70vw;
     max-width: 1080px;
