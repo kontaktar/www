@@ -1,5 +1,6 @@
 import { withMiddleware } from "utils/apiMiddleware";
 import database from "utils/database";
+import { debugError } from "helpers/debug";
 
 const SearchWithParams = async (request, response): Promise<void> => {
   await withMiddleware(request, response);
@@ -9,7 +10,10 @@ const SearchWithParams = async (request, response): Promise<void> => {
   } = request;
   if (method === "GET") {
     try {
-      const words = params.toLowerCase().split(" ");
+      const words = params
+        .toLowerCase()
+        .split(" ")
+        .filter((arr) => arr != "");
       const wordsRegex = `(${words.join("|")})`;
       const wordsLike = `%${words.join("% ILIKE %")}%`;
 
@@ -46,8 +50,8 @@ const SearchWithParams = async (request, response): Promise<void> => {
       });
       response.status(200).json(mappedData);
     } catch (error) {
+      debugError("Search params failed", error);
       response.status(500).end();
-      throw new Error(error);
     }
   } else {
     response.status(400).end();

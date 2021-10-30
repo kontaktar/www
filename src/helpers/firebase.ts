@@ -2,6 +2,7 @@ import { responsiveFontSizes } from "@material-ui/core";
 import firebase from "firebase/app";
 import { v4 as uuid } from "uuid";
 import { Routes, SessionStorage } from "types";
+import { useRouter } from "next/router";
 import { CreateUser, GetUserByPhoneNumber } from "lib/endpoints";
 import fetch from "lib/fetchJson";
 import { debug, debugError } from "helpers/debug";
@@ -19,6 +20,7 @@ export const signInToFirebaseWithPhoneNumber = (
   setErrorMessage: (m: string) => void,
   setLoading: (b: boolean) => void
 ): void => {
+  const router = useRouter();
   firebase.auth().settings.appVerificationDisabledForTesting =
     process.env.FIREBASE_EMULATOR === "1";
 
@@ -31,7 +33,11 @@ export const signInToFirebaseWithPhoneNumber = (
       setVerificationCodeSent(true);
     })
     .catch((error) => {
-      if (error?.code === "auth/invalid-phone-number") {
+      if (error.code === "auth/captcha-check-failed") {
+        setErrorMessage(`Recaptcha expired. Please try again.`);
+        router.reload();
+      }
+      if (error.code === "auth/invalid-phone-number") {
         // TODO: Move this validation to formik/yup
         setErrorMessage(
           `Villa, sláið inn símanúmer á þessu formi: +3545554444`
