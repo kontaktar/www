@@ -20,7 +20,7 @@ type Props = {
 };
 const Search: NextPage<Props> = ({ searchInput }) => {
   const { user } = useUser();
-  const storeSearches = useSelector((state) => state.searches);
+  const storeSearches = useSelector((state) => (state as any).searches);
   const dispatch = useDispatch();
 
   const onSearch = async (params) => {

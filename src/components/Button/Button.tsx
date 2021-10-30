@@ -64,7 +64,7 @@ const ButtonNavigation = ({
   ...props
 }) => {
   return (
-    <Link href={url} onClick={onClick}>
+    <Link href={url || ""} onClick={onClick}>
       <Button
         className={`${styles.navigation} ${compact && styles.compact}`}
         {...props}

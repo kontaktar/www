@@ -27,7 +27,7 @@ const RegisterContainer = (): ReactElement => {
   const [isUserNameTaken, setUserNameIsTaken] = useState(false);
   const [isUserNameCheckEmpty, setUserNameCheckEmpty] = useState(true);
   const [allUserNames, setAllUserNames] = useState([]);
-  const users = useSelector((state) => state.users);
+  const users = useSelector((state) => (state as any).users);
   const { register } = useAuth();
   const { user } = useUser();
   const router = useRouter();

@@ -41,20 +41,22 @@ const AdminProvider = ({
   children: ReactChild;
 }): ReactElement => {
   const [isAdmin, setAdmin] = useState<boolean>(false);
-  const { data: users, error, mutate: mutateUsers } = useSWR(
-    isAdmin ? Endpoint.Users : null
-  );
+  const {
+    data: users,
+    error,
+    mutate: mutateUsers
+  } = useSWR(isAdmin ? Endpoint.Users : null);
   const { user } = useUser();
-
-  useEffect(() => {
-    if (user?.details?.phoneNumber && user?.details?.id) {
-      checkAdmin();
-    }
-  }, [user]);
 
   const checkAdmin = async () => {
     setAdmin(await GetIsAdmin(user?.details?.phoneNumber, user?.details?.id));
   };
+  useEffect(() => {
+    if (user?.details?.phoneNumber && user?.details?.id) {
+      checkAdmin();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const contextValues = useMemo(
     () => ({

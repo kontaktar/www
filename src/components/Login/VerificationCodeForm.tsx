@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { useFormik } from "formik";
+import { useLoginForm } from "providers/LoginFormProvider";
 import { useRouter } from "next/router";
 import { Routes } from "types";
 import { createUserSuccess } from "store/actions";
@@ -16,17 +17,13 @@ import { MUIInput } from "components/Input";
 import styles from "layouts/LoginFormContainer/LoginFormContainer.module.scss";
 
 type Props = {
-  setErrorMessage: (m: string) => void;
-  setVerificationCodeSent: (f: boolean) => void;
   userPhoneNumber: string;
 };
 
-const VerificationCodeForm = ({
-  setErrorMessage,
-  setVerificationCodeSent,
-  userPhoneNumber
-}: Props): ReactElement => {
+const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
   const router = useRouter();
+  const { isVerificationCodeSent, setVerificationCodeSent, setErrorMessage } =
+    useLoginForm();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [firebaseIdToken, setFirebaseIdToken] = useState("");
   const [emulatorCode, setEmulatorCode] = useState("");
@@ -50,6 +47,7 @@ const VerificationCodeForm = ({
   const addUserToSessionStorage = (firebaseUser) => {
     try {
       console.log("firebaseUser", firebaseUser);
+
       firebaseUser.getIdToken().then(async (idToken) => {
         const userSession = await AddToSession({
           details: {
@@ -93,15 +91,15 @@ const VerificationCodeForm = ({
           } catch (error) {
             debugError("GetUserByPhoneNumber ERROR", error);
           } finally {
-            if (additionalUserInfo?.isNewUser || !userData) {
-              debug("No user exists with that phonenumber");
+            if (additionalUserInfo.isNewUser || !userData) {
+              debug("No user exists with that phonenumber", userData);
               debug(
-                "additionalUserInfo?.isNewUser",
+                "No user exists with that phonenumber :additionalUserInfo?.isNewUser",
                 additionalUserInfo?.isNewUser
               );
-              if (!userData && !additionalUserInfo?.isNewUser) {
+              if (!userData && !additionalUserInfo.isNewUser) {
                 debug(
-                  `Deleting firebase user. No user found with phonenumber ${firebaseUser.phoneNumber}`
+                  `DELETING FIREBASE USER. No user found with phonenumber ${firebaseUser.phoneNumber}`
                 );
                 firebaseUser.delete(); // maybe not needed?
               }
@@ -129,7 +127,7 @@ const VerificationCodeForm = ({
 
           logout();
 
-          if (error.code === "auth/code-expired") {
+          if (error?.code === "auth/code-expired") {
             setErrorMessage(verificationErrors.SMS_EXPIRED);
             setVerificationCodeSent(false);
           }
@@ -147,10 +145,15 @@ const VerificationCodeForm = ({
       formik.setFieldTouched("verificationCode", true, true);
     }
 
-    if (process.env.FIREBASE_EMULATOR !== "0" && process.env.CYPRESS !== "1") {
+    if (
+      process.env.FIREBASE_EMULATOR !== "0" &&
+      process.env.CYPRESS !== "1" &&
+      !emulatorCode
+    ) {
       fetchEmulatorCode();
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userPhoneNumber]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.form}>

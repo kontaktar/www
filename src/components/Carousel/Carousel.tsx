@@ -25,7 +25,11 @@ const Carousel = ({ cards }: { cards: any }): ReactElement => {
     }
   };
 
-  const CustomRightArrow = ({ onClick, carouselState }) => {
+  type ArrowProps = {
+    onClick?: (e: any) => void;
+    carouselState?: any;
+  };
+  const CustomRightArrow = ({ onClick, carouselState }: ArrowProps) => {
     // console.log("deviceType", carouselState.deviceType);
     return (
       <Button.CarouselNavi
@@ -38,7 +42,7 @@ const Carousel = ({ cards }: { cards: any }): ReactElement => {
       />
     );
   };
-  const CustomLeftArrow = ({ onClick, carouselState }) => {
+  const CustomLeftArrow = ({ onClick, carouselState }: ArrowProps) => {
     return (
       <Button.CarouselNavi
         id="carousel_back"
@@ -74,7 +78,7 @@ const Carousel = ({ cards }: { cards: any }): ReactElement => {
         customRightArrow={<CustomRightArrow />}
         customLeftArrow={<CustomLeftArrow />}
       >
-        {cards.length > 0 ? (
+        {cards?.length > 0 ? (
           cards.map((card, i) => (
             <Card
               id={i}

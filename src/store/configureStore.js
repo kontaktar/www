@@ -36,6 +36,8 @@ function configureStore() {
   return store;
 }
 
-const wrapper = createWrapper(configureStore, { debug: true });
+const wrapper = createWrapper(configureStore, {
+  debug: process.env.REDUX_DEBUG === "1"
+});
 
 export default wrapper;

@@ -61,7 +61,7 @@ Prevent string injections. Never user ES6 literals for database queries.
 ## Auth
 
 Mixture of firebase and iron-session.
-Bypass firebase on localhost by setting `BYPASS_FIREBASE=1` in `.env.local`
+Bypass firebase on localhost by setting `FIREBASE_EMULATOR=1` in `.env.local`
 
 ### Firebase authentication emulator
 
@@ -208,11 +208,9 @@ https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#zero-config-type
 
 Destroy iron-session and firebase session.
 
-
 # VARIOUS TODO:
 
 -[] Create cleanup function that cleans up window stuff after succesful login / register
-
 
 ACCESS CONTROL ON ENDPOINTS.
 
@@ -221,6 +219,11 @@ create cypress test for every endpoint,
 all-usernames called multiple times
 
 fix button loading state, onhover
+
+Remove innskra button from /nyskra.
+How to clear userSession that has not been finalized ( in /nyskra state with isLoggedIn: false)
+
+dont need to save user info if nothing was changed, api being called for no chanegs
 
 fix carousel on in smaller screensizes.
 

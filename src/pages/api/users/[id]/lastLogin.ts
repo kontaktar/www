@@ -52,6 +52,7 @@ const UpdateUserLastLoginById = withSession(async (request, response) => {
         userSessionStorage = {
           ...userData,
           details: {
+            id: userId,
             ...userData?.details,
             ...body
           },

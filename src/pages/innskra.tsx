@@ -1,4 +1,5 @@
 import React from "react";
+import { LoginFormProvider } from "providers/LoginFormProvider";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Routes } from "types";
@@ -15,7 +16,9 @@ const Login: NextPage = () => {
 
   return (
     <MainLayout noDistraction>
-      <LoginFormContainer />
+      <LoginFormProvider>
+        <LoginFormContainer />
+      </LoginFormProvider>
     </MainLayout>
   );
 };

@@ -1,17 +1,21 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
+import { useLoginForm } from "providers/LoginFormProvider";
 import { debug, debugError } from "helpers/debug";
-import { shouldBypassFirebaseOnDevelopment } from "helpers/firebase";
 import useMaxWidth from "hooks/useMaxWidth";
 import PhoneNumberForm from "components/Login/PhoneNumberForm";
 import VerificationCodeForm from "components/Login/VerificationCodeForm";
 import styles from "./LoginFormContainer.module.scss";
 
 const LoginFormContainer = (): ReactElement => {
-  const [isVerificationCodeSent, setVerificationCodeSent] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [userPhoneNumber, setUserPhoneNumber] = useState("");
   const [recaptchaFailed, setRecaptchaFailed] = useState(false);
+  const {
+    isVerificationCodeSent,
+    setVerificationCodeSent,
+    userPhoneNumber,
+    setErrorMessage,
+    errorMessage
+  } = useLoginForm();
 
   useEffect(() => {
     try {
@@ -25,10 +29,6 @@ const LoginFormContainer = (): ReactElement => {
         }
       );
     } catch (error) {
-      if (shouldBypassFirebaseOnDevelopment) {
-        setRecaptchaFailed(false);
-        setVerificationCodeSent(true);
-      }
       setErrorMessage(error.message);
       setVerificationCodeSent(false);
       setRecaptchaFailed(true);
@@ -42,18 +42,9 @@ const LoginFormContainer = (): ReactElement => {
       <div {...useMaxWidth()}>
         <>
           {!isVerificationCodeSent ? (
-            <PhoneNumberForm
-              disabled={recaptchaFailed}
-              setVerificationCodeSent={setVerificationCodeSent}
-              setErrorMessage={setErrorMessage}
-              setUserPhoneNumber={setUserPhoneNumber}
-            />
+            <PhoneNumberForm disabled={recaptchaFailed} />
           ) : (
-            <VerificationCodeForm
-              userPhoneNumber={userPhoneNumber}
-              setVerificationCodeSent={setVerificationCodeSent}
-              setErrorMessage={setErrorMessage}
-            />
+            <VerificationCodeForm userPhoneNumber={userPhoneNumber} />
           )}
         </>
       </div>

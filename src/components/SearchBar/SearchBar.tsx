@@ -35,7 +35,10 @@ const SearchBar = ({
   const onClear = async () => {
     onClearClicked();
     await dispatch(updateLatestSearch(""));
-    if (store.searches.inputs && !store.searches.inputs[""]) {
+    if (
+      (store as any).searches.inputs &&
+      !(store as any)?.searches.inputs[""]
+    ) {
       await dispatch(fetchSearchResult(""));
     }
   };
@@ -76,9 +79,9 @@ const SearchBar = ({
     </div>
   );
 };
-
-export default SearchBar;
-
 SearchBar.Results = ({ number = "0" }: ResultProps): ReactElement => {
   return <div className={styles.results}>{number} niðurstöður</div>;
 };
+
+SearchBar.displayName = "SearchBar";
+export default SearchBar;

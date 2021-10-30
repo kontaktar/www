@@ -40,11 +40,13 @@ const UserTable = ({ className = "" }: Props): ReactElement => {
     <div className={styles.usertable}>
       <table {...getTableProps()}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+          {headerGroups.map((headerGroup, i) => (
+            <tr key={i} {...headerGroup.getHeaderGroupProps()}>
               <th>Breyta</th>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              {headerGroup.headers.map((column, j) => (
+                <th key={`${i + j}`} {...column.getHeaderProps()}>
+                  {column.render("Header")}
+                </th>
               ))}
             </tr>
           ))}
@@ -53,7 +55,7 @@ const UserTable = ({ className = "" }: Props): ReactElement => {
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr key={i} {...row.getRowProps()}>
                 <td>
                   <Button
                     type="button"
@@ -65,9 +67,11 @@ const UserTable = ({ className = "" }: Props): ReactElement => {
                     <Icon className={styles.edit_icon} name="edit" />
                   </Button>
                 </td>
-                {row.cells.map((cell) => {
+                {row.cells.map((cell, j) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td key={i + j} {...cell.getCellProps()}>
+                      {cell.render("Cell")}
+                    </td>
                   );
                 })}
               </tr>

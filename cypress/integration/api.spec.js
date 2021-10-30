@@ -1,12 +1,13 @@
 /* eslint-disable jest/lowercase-name */
 /* eslint-disable jest/valid-expect */
 /* eslint-disable jest/expect-expect */
-const baseUrl = "http://localhost:3000/api";
+const baseUrl = "/api";
 describe("Access", () => {
   beforeEach(() => {});
 
   it("GET: /api/user", () => {
     //   cy.request(method, url, body);
+    cy.log("baseUrl", baseUrl);
     cy.request("GET", `${baseUrl}/user`).should((response) => {
       expect(response.status).to.eq(200);
       expect(response).property("body").to.have.property("isLoggedIn");

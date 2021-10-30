@@ -18,11 +18,12 @@ const SearchContainer = ({
 }: Props): ReactElement => {
   const [searchValue, setSearchValue] = useState(searchInput);
   const [cards, setCards] = useState(cardsToDisplay);
-  const store = useSelector((state) => state);
+  const store: any = useSelector((state) => state);
 
-  useEffect(() => setSearchValue(store.searches.latestInput), [
-    store.searches.latestInput
-  ]);
+  useEffect(
+    () => setSearchValue(store.searches.latestInput),
+    [store.searches.latestInput]
+  );
 
   const onSearchChange = (event) => {
     setSearchValue(event.target.value);

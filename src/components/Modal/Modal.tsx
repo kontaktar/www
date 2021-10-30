@@ -41,7 +41,6 @@ const Modal = ({
   const [showDialog, setShowDialog] = useState(open);
 
   const transitions = useTransition(showDialog, {
-    // eslint-disable-next-line unicorn/prevent-abbreviations
     // ref: null,
     from: { opacity: 0, y: -1000 },
     enter: { opacity: 1, y: 0 },

@@ -1,0 +1,43 @@
+name: End-to-end tests
+on: [push]
+env:
+  NODE_ENV: "development"
+  FIREBASE_EMULATOR: "1"
+  LOCALHOST: "http://localhost:8000"
+  CYPRESS_HOST: "http://localhost:8000"
+  FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+  FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+  FIREBASE_CLIENT_API_KEY: ${{ secrets.FIREBASE_CLIENT_API_KEY }}
+  FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+  FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASS: ${{ secrets.POSTGRES_PASS }}
+  POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  FIRESTORE_EMULATOR_HOST: localhost:9099
+  FIREBASE_AUTH_EMULATOR_HOST: localhost:9099
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: |
+          yarn install
+          SECRET_COOKIE_PASSWORD=THE_SECRET_KEY_FOR_SESSION_STORAGE yarn build
+      - name: Start Emulator
+        run: |
+          yarn emulator --token "$FIREBASE_TOKEN" --project kontaktar-is &
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Run Cypress test
+        uses: cypress-io/github-action@v2
+        with:
+          command: yarn cy:build
+          start: yarn start:cy
+          wait-on: http://localhost:8000
+          browser: chrome
+
