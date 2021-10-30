@@ -11,7 +11,7 @@ const SearchWithParams = async (request, response): Promise<void> => {
     try {
       const words = params.toLowerCase().split(" ");
       const wordsRegex = `(${words.join("|")})`;
-      const wordsLike = `%${words.join("% <-> %")}%`;
+      const wordsLike = `%${words.join("% ILIKE %")}%`;
 
       const data = await database.any(
         `
@@ -30,7 +30,7 @@ const SearchWithParams = async (request, response): Promise<void> => {
         WHERE e.published IS TRUE
         AND LOWER(u.user_name || ' ' || u.first_name || ' ' || u.last_name || ' ' || e.title || ' ' || e.description) ~ $1
         GROUP BY e.id, u.id, u.user_name, u.first_name, u.last_name, e.title, e.description
-        ORDER BY (LOWER(u.user_name || ' ' || u.first_name || ' ' || u.last_name || ' ' || e.title || ' ' || e.description) <-> $2) ASC;
+        ORDER BY (LOWER(u.user_name || ' ' || u.first_name || ' ' || u.last_name || ' ' || e.title || ' ' || e.description) ILIKE $2) ASC;
       `,
         [wordsRegex, wordsLike]
       );
