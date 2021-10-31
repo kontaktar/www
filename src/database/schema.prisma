@@ -1,10 +1,3 @@
-datasource db {
-  provider             = "postgresql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
-}
-
-// GENERATORS
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
@@ -20,7 +13,12 @@ generator fullTextSearch {
   previewFeatures = ["fullTextSearch"]
 }
 
-// USER
+datasource db {
+  provider             = "postgresql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
 model User {
   id              Int              @id @default(autoincrement())
   ssn             String           @unique
@@ -33,10 +31,10 @@ model User {
   Experiences     Experience[]
   userPhoneNumber UserPhoneNumber?
   userFirebaseMap UserFirebaseMap?
+  role            Role             @default(USER)
 }
 
 model UserPhoneNumber {
-  id                    Int     @id @default(autoincrement())
   phoneCountryExtension String?
   phoneNumber           String  @unique
   User                  User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -52,11 +50,12 @@ model UserMetaData {
 }
 
 model UserStatistics {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
   lastLogin DateTime
-  User      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int      @unique
+  updatedAt DateTime?
+  User      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int       @unique
 }
 
 model UserAddress {
@@ -75,7 +74,6 @@ model UserFirebaseMap {
   userId     Int    @unique
 }
 
-// EXPERIENCE
 model Experience {
   id          Int      @id @default(autoincrement())
   years       Int
@@ -87,4 +85,9 @@ model Experience {
   isPublished Boolean  @default(false)
   User        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int      @unique
+}
+
+enum Role {
+  USER
+  ADMIN
 }
