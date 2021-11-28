@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SWRConfig } from "swr";
-import wrapper from "store/configureStore";
+import { wrapper } from "store";
 import fetch from "lib/fetchJson";
 import { configOptions } from "lib/firebaseConfig";
 import { debugError } from "helpers/debug";
@@ -11,8 +11,26 @@ import { isBypassingFirebase } from "helpers/firebase";
 import { AuthProvider } from "hooks/useAuth";
 import AdminProvider from "components/Admin/AdminProvider";
 import ErrorBoundary from "components/ErrorBoundary";
+import { LoggedInUserProvider } from "../providers/AuthorizedUser";
+import { UserProvider } from "../providers/User";
 import "../styles/index.scss";
 
+if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
+  const whyDidYouRender = require("@welldone-software/why-did-you-render");
+
+  // eslint-disable-next-line no-console
+  console.debug(
+    "Applying whyDidYouRender, to help you locate unnecessary re-renders during development. See https://github.com/welldone-software/why-did-you-render"
+  );
+
+  // See https://github.com/welldone-software/why-did-you-render#options
+  whyDidYouRender(React, {
+    trackAllPureComponents: true,
+    trackHooks: true,
+    logOwnerReasons: true,
+    collapseGroups: true
+  });
+}
 if (!firebase.apps.length) {
   firebase.initializeApp(configOptions);
   if (isBypassingFirebase) {
@@ -30,30 +48,13 @@ if (!firebase.apps.length) {
 }
 
 const App = ({ Component, pageProps }: AppProps) => {
-  useEffect(() => {
-    async () => {
-      if (typeof window !== undefined) {
-        const prisma = require("../database/");
-        const newUser = await prisma.user.create({
-          data: {
-            name: "Alice",
-            email: "alice@prisma.io"
-          }
-        });
-
-        const users = await prisma.user.findMany();
-        console.log("newUser", newUser);
-        console.log("users", users);
-      }
-    };
-  }, []);
-
   return (
     <>
       <ErrorBoundary>
         <SWRConfig
           value={{
             fetcher: fetch,
+            revalidateOnFocus: process.env.NODE_ENV === "production",
             onError: (error) => {
               // eslint-disable-next-line no-console
               console.error(error);
@@ -68,11 +69,17 @@ const App = ({ Component, pageProps }: AppProps) => {
               key="viewport"
             />
           </Head>
-          <AuthProvider>
-            <AdminProvider>
-              <Component {...pageProps} />
-            </AdminProvider>
-          </AuthProvider>
+          <React.StrictMode>
+            <LoggedInUserProvider>
+              <AuthProvider>
+                <AdminProvider>
+                  <UserProvider>
+                    <Component {...pageProps} />
+                  </UserProvider>
+                </AdminProvider>
+              </AuthProvider>
+            </LoggedInUserProvider>
+          </React.StrictMode>
         </SWRConfig>
       </ErrorBoundary>
     </>

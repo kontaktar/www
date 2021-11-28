@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
-import { useLoginForm } from "providers/LoginFormProvider";
+import { useLoginForm } from "providers/LoginForm";
 import { debug, debugError } from "helpers/debug";
 import useMaxWidth from "hooks/useMaxWidth";
 import PhoneNumberForm from "components/Login/PhoneNumberForm";

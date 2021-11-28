@@ -51,6 +51,14 @@
   flex-grow: 1;
 
   :global {
+    //
+
+    color: $paragraph-color;
+    :not(.MuiFormLabel-filled) {
+      label {
+        color: $paragraph-color-placeholder !important;
+      }
+    }
     .MuiTextField-root {
       height: 100px;
       width: 100%;

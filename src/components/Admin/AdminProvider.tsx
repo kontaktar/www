@@ -2,6 +2,7 @@ import React, {
   createContext,
   ReactChild,
   ReactElement,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -48,15 +49,18 @@ const AdminProvider = ({
   } = useSWR(isAdmin ? Endpoint.Users : null);
   const { user } = useUser();
 
-  const checkAdmin = async () => {
+  console.log("RENDERED: AdminProvider");
+
+  const checkAdmin = async () =>
     setAdmin(await GetIsAdmin(user?.details?.phoneNumber, user?.details?.id));
-  };
+
   useEffect(() => {
     if (user?.details?.phoneNumber && user?.details?.id) {
+      console.log("setting admin");
       checkAdmin();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, user?.details]);
 
   const contextValues = useMemo(
     () => ({
@@ -72,5 +76,6 @@ const AdminProvider = ({
     </AdminContext.Provider>
   );
 };
+AdminProvider.whyDidYouRender = true;
 
 export default AdminProvider;

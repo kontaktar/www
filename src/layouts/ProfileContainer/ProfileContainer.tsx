@@ -1,10 +1,10 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import orderBy from "lodash.orderby";
+import { useUser } from "providers/AuthorizedUser";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchUserExperiences } from "store/actions";
-import useUser from "lib/useUser";
+import { useAppDispatch, useAppSelector } from "store";
+import { fetchUserExperiences } from "store/experiences";
 import { debug, debugError } from "helpers/debug";
 import { Button, Card, Icon } from "components";
 import Link from "components/LinkWrap";
@@ -36,9 +36,9 @@ const ProfileContainer = ({
   const [userExperiences, setUserExperiences] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  const store: any = useSelector((state) => state);
-  const experiences = useSelector((state) => (state as any).experiences);
-  const dispatch = useDispatch();
+  const store: any = useAppSelector((state) => state);
+  const experiences = useAppSelector((state) => (state as any).experiences);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setLoading(experiences.isFetching);

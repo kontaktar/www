@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginFormProvider } from "providers/LoginFormProvider";
+import { LoginFormProvider } from "providers/LoginForm";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Routes } from "types";

@@ -5,9 +5,8 @@ import MuiCard from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { useDispatch } from "react-redux";
 import cx from "classnames";
-import { deleteUserExperience, editUserExperience } from "store/actions";
+import { useAppDispatch } from "store";
 import useUser from "lib/useUser";
 import { Icon } from "components";
 import Link from "components/LinkWrap";
@@ -28,7 +27,7 @@ const Card = (props) => {
     style,
     years = "0"
   } = props;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // TODO: This, onEditCard, onPublishToggleCard, onDeleteCard doesn't belong in the component.
   // Should be in a provider, this is breaking Storybook.
@@ -40,7 +39,8 @@ const Card = (props) => {
 
   const onPublishToggleCard = () => {
     dispatch(
-      editUserExperience(user.details.id, {
+      // TODO: THIS DOES NOT ALLOW ADMIN TO EDIT
+      editUserExperience(user, {
         id: experienceId,
         title,
         description,
@@ -52,7 +52,7 @@ const Card = (props) => {
   };
 
   const onDeleteCard = () => {
-    dispatch(deleteUserExperience(user.details.id, experienceId));
+    dispatch(deleteUserExperience(user, experienceId));
   };
 
   const LinkToProfile = ({ children }) => {

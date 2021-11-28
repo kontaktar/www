@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { useRouter } from "next/router";
 import { IronSession, Routes, UserSessionStorage } from "types";
-import wrapper from "store/configureStore";
+import { wrapper } from "store";
 import { GetIsAdmin } from "lib/endpoints";
-import withSession from "lib/sessions";
+import { withSession } from "lib/sessions";
 import { AdminContainer, MainLayout } from "layouts";
 
 type Props = {
@@ -29,7 +29,7 @@ const Admin = ({ isAdmin }: Props): ReactElement => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
   withSession(async ({ req }) => {
     const user: UserSessionStorage = req?.session?.get(IronSession.UserSession);
     return {

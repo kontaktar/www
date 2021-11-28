@@ -1,18 +1,14 @@
 import React from "react";
 import { NextPage } from "next";
-import { useDispatch, useSelector } from "react-redux";
-import wrapper from "store/configureStore";
+import { useAppDispatch, useAppSelector } from "store";
+import { wrapper } from "store";
+import { fetchSearchResult, updateLatestSearch } from "store/search";
 import { GetSearchResult } from "lib/endpoints";
-import withSession from "lib/sessions";
+import { withSession } from "lib/sessions";
 import useUser from "lib/useUser";
 import { randomize } from "helpers/arrays";
 import { debugError } from "helpers/debug";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
-import {
-  fetchSearchResult,
-  fetchSearchResultSuccess,
-  updateLatestSearch
-} from "../store/actions";
 
 type Props = {
   // From getServerSideProps
@@ -20,8 +16,10 @@ type Props = {
 };
 const Search: NextPage<Props> = ({ searchInput }) => {
   const { user } = useUser();
-  const storeSearches = useSelector((state) => (state as any).searches);
-  const dispatch = useDispatch();
+
+  const storeSearches = useAppSelector((state) => (state as any).searches);
+  console.log("storeSearch", storeSearches);
+  const dispatch = useAppDispatch();
 
   const onSearch = async (params) => {
     if (params && storeSearches.inputs && storeSearches.inputs[params]) {
@@ -37,7 +35,7 @@ const Search: NextPage<Props> = ({ searchInput }) => {
 
   return (
     <div>
-      {!user.isLoggedIn ? (
+      {!user?.isLoggedIn ? (
         <div>
           <MainLayout>
             <SearchContainer
@@ -68,20 +66,22 @@ const Search: NextPage<Props> = ({ searchInput }) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ store, query: { searchInput = "" } }) => {
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  withSession(async ({ query: { searchInput = "" } }) => {
     const searchDecoded = decodeURIComponent(searchInput);
     try {
-      const searchResult = Object.values(await GetSearchResult(searchDecoded));
+      await store.dispatch(fetchSearchResult(searchDecoded));
+      // TODO: Randomize in db lookup like I was doing before?
 
-      store.dispatch(updateLatestSearch(searchDecoded));
+      // const searchResult = Object.values(await GetSearchResult(searchDecoded));
 
-      store.dispatch(
-        fetchSearchResultSuccess(
-          searchDecoded,
-          searchInput === "" ? randomize(searchResult) : searchResult
-        )
-      );
+      // store.dispatch(updateLatestSearch(searchDecoded));
+
+      // store.dispatch(
+      //     searchDecoded,
+      //     searchInput === "" ? randomize(searchResult) : searchResult
+      //   )
+      // );
     } catch (error) {
       debugError(`Error fetching search results: ${error}`);
     }

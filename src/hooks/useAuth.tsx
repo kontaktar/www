@@ -51,6 +51,7 @@ export const AuthProvider = ({
     initialState
   );
   const { user, mutateUser } = useUser();
+  console.log("RENDERED: useAuth");
 
   const logout = async () => {
     await post(Endpoint.Logout).then(() => {
@@ -65,7 +66,8 @@ export const AuthProvider = ({
   const login = async (body: User, token: string) => {
     await post(Endpoint.Login, body, { Authorization: token });
     try {
-      await UpdateUserLastLogin(body.id, {
+      await UpdateUserLastLogin({
+        id: body.id,
         firebaseToken: token,
         lastLogin: new Date()
       });
@@ -92,8 +94,9 @@ export const AuthProvider = ({
 
     time("useAuth:editUser: ");
     try {
-      await EditUser(userData.id, userData);
+      await EditUser(userData, user.firebase.token);
     } catch (error) {
+      debugError("editUser:EditUser", error);
       dispatch(setStatus("USER_EDIT_FAILED"));
       return;
     }

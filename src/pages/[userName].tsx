@@ -1,8 +1,7 @@
 import React, { ReactElement } from "react";
-import { getUserByUserNameSuccess } from "store/actions";
-import wrapper from "store/configureStore";
+import { wrapper } from "store";
 import { GetUserByUserName } from "lib/endpoints";
-import withSession from "lib/sessions";
+import { withSession } from "lib/sessions";
 import useUser from "lib/useUser";
 import { debugError } from "helpers/debug";
 import { MainLayout, ProfileContainer, UserLayout } from "layouts";
@@ -12,9 +11,11 @@ type Props = {
 };
 const UserProfile = ({ userName }: Props): ReactElement => {
   const { user } = useUser();
+  console.log("RENDERED: UserProfile");
+
   return (
     <>
-      {!user.isLoggedIn ? (
+      {!user?.isLoggedIn ? (
         <MainLayout>
           <ProfileContainer userName={userName} />
         </MainLayout>
@@ -27,8 +28,8 @@ const UserProfile = ({ userName }: Props): ReactElement => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ store, query: { userName } }) => {
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  withSession(async ({ query: { userName } }) => {
     if (userName === "favicon.ico") {
       // Because usernames can be on root level, favicon.ico is being picked up. Bypass it,
       // no need to do a failed database lookup on every rerender.
@@ -36,7 +37,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
     try {
       const userResult = await GetUserByUserName(userName);
-      store.dispatch(getUserByUserNameSuccess(userResult));
+      // store.dispatch(getUserByUserNameSuccess(userResult));
     } catch (error) {
       debugError(`No user named: ${userName}`);
     }

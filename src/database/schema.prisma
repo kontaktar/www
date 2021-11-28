@@ -1,16 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
-}
-
-generator dataProxy {
-  provider        = "prisma-client-js"
-  previewFeatures = ["dataProxy"]
-}
-
-generator fullTextSearch {
-  provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch"]
+  previewFeatures = ["referentialIntegrity", "fullTextSearch", "dataProxy"]
 }
 
 datasource db {
@@ -52,7 +42,7 @@ model UserMetaData {
 model UserStatistics {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
-  lastLogin DateTime
+  lastLogin DateTime?
   updatedAt DateTime?
   User      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int       @unique
@@ -75,16 +65,16 @@ model UserFirebaseMap {
 }
 
 model Experience {
-  id          Int      @id @default(autoincrement())
-  years       Int
-  months      Int
-  order       Int
-  title       String
-  description String
-  editedAt    DateTime
-  isPublished Boolean  @default(false)
-  User        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int      @unique
+  id          Int       @id @default(autoincrement())
+  years       Int?
+  months      Int?
+  order       Int?
+  title       String?
+  description String?
+  editedAt    DateTime?
+  published   Boolean?  @default(false)
+  User        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
 }
 
 enum Role {

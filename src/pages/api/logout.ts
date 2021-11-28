@@ -1,15 +1,6 @@
 import * as admin from "firebase-admin";
 import { firebaseAdminInitConfig } from "lib/firebaseConfig";
-import withSession from "lib/sessions";
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    ...firebaseAdminInitConfig,
-    credential: admin.credential.cert({
-      ...firebaseAdminInitConfig.credential
-    })
-  });
-}
+import { withSession } from "lib/sessions";
 
 const Logout = withSession(async (request, response) => {
   try {

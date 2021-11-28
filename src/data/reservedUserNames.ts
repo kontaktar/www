@@ -28,4 +28,6 @@ const possibleFutureRoutes = [
   "user"
 ];
 
-export default [...reservedRoutes, ...possibleFutureRoutes];
+const banned = ["undefined", "null"];
+
+export default [...reservedRoutes, ...possibleFutureRoutes, ...banned];

@@ -2,9 +2,9 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import cx from "classnames";
-import { createUserExperience, editUserExperience } from "store/actions";
+import { useAppDispatch, useAppSelector } from "store";
+import { createUserExperience, editUserExperience } from "store/experiences";
 import useUser from "lib/useUser";
 import { debug } from "helpers/debug";
 import useAuth from "hooks/useAuth";
@@ -21,11 +21,11 @@ import { MUIInput } from "components/Input";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { user } = useUser();
   const [isLoading, setLoading] = React.useState(false);
 
-  const experiences = useSelector((state) => state.experiences);
+  const experiences = useAppSelector((state) => state.experiences);
 
   React.useEffect(() => {
     setLoading(experiences.isFetching);
@@ -56,9 +56,10 @@ const Experience = ({ data }) => {
   const saveExperience = () => {
     if (validateExperience()) {
       if (isNew) {
-        dispatch(createUserExperience(user.details.id, experience));
+        dispatch(createUserExperience(user, experience));
       } else {
-        dispatch(editUserExperience(user.details.id, experience));
+        console.log("editUser::::::");
+        dispatch(editUserExperience(user, experience));
       }
       setTimestamp(new Date());
     }

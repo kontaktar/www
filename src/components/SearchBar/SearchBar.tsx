@@ -5,8 +5,8 @@ import MuiInput from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchSearchResult, updateLatestSearch } from "store/actions";
+import { useAppDispatch, useAppSelector } from "store";
+import { fetchSearchResult, updateLatestSearch } from "store/search";
 import styles from "./SearchBar.module.scss";
 
 type Props = {
@@ -29,8 +29,8 @@ const SearchBar = ({
   value,
   ...props
 }: Props): ReactElement => {
-  const store = useSelector((state) => state);
-  const dispatch = useDispatch();
+  const store = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
 
   const onClear = async () => {
     onClearClicked();

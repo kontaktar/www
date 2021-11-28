@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prevent-abbreviations */
 /* eslint-disable camelcase */
 
 export type UserDB = {
@@ -23,6 +22,7 @@ export type User = {
   phoneNumber: string;
   firebaseId?: string;
   createdAt?: string;
+  updateAt?: string;
   lastLogin?: string;
 };
 
@@ -50,3 +50,12 @@ export enum UserAddressEnum {
   Country = "country",
   PostalCode = "postalCode"
 }
+export type Experiences = {
+  id: number;
+  title: string;
+  description: string;
+  years: number;
+  months: number;
+  published: boolean;
+  order: number;
+};

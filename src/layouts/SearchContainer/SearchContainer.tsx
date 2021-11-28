@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import type { Card as CardType } from "types";
+import { useAppSelector } from "store";
 import { Card, SearchBar } from "components";
 import { CardsContainer } from "layouts";
 import styles from "./SearchContainer.module.scss";
@@ -18,7 +18,7 @@ const SearchContainer = ({
 }: Props): ReactElement => {
   const [searchValue, setSearchValue] = useState(searchInput);
   const [cards, setCards] = useState(cardsToDisplay);
-  const store: any = useSelector((state) => state);
+  const store: any = useAppSelector((state) => state);
 
   useEffect(
     () => setSearchValue(store.searches.latestInput),

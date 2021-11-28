@@ -1,24 +1,24 @@
 import React from "react";
+import { useUserProvider } from "providers/User";
 import { NextPage } from "next";
-import wrapper from "store/configureStore";
-import { GetSearchResult } from "lib/endpoints";
-import withSession from "lib/sessions";
+import { wrapper } from "store";
+import { fetchSearchResult } from "store/search";
+import { withSession } from "lib/sessions";
 import { FrontPageContainer, MainLayout } from "layouts";
-import { fetchSearchResultSuccess, updateLatestSearch } from "../store/actions";
 
 const LandingPage: NextPage = () => {
+  const { fetchUserById } = useUserProvider();
   return (
     <MainLayout>
+      <button onClick={() => fetchUserById("1")}>click</button>
       <FrontPageContainer />
     </MainLayout>
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ store }) => {
-    const searchResult = await GetSearchResult("");
-    store.dispatch(updateLatestSearch(""));
-    store.dispatch(fetchSearchResultSuccess("", Object.values(searchResult)));
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  withSession(async () => {
+    await store.dispatch(fetchSearchResult(""));
   })
 );
 

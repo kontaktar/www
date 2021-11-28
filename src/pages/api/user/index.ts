@@ -1,90 +1,73 @@
-import { PrismaClient } from "@prisma/client";
-import * as admin from "firebase-admin";
-import { setUserPhoneNumber } from "providers/LoginFormProvider.reducer";
+import {
+  createUser,
+  getUserById,
+  getUserByPhoneNumber,
+  getUserByUserName
+} from "database/queries/user";
 import type { NextApiResponse } from "next";
+import type { NextIronRequest } from "types";
 import { IronSession } from "types";
-import { firebaseAdminInitConfig } from "lib/firebaseConfig";
-import withSession from "lib/sessions";
+import { isAdminOrCurrentUser, isCurrentUserUnregistered } from "lib/auth";
+import { withSession } from "lib/sessions";
 import { debug, debugError } from "helpers/debug";
 
-const prisma = new PrismaClient();
-if (!admin.apps.length) {
-  admin.initializeApp({
-    ...firebaseAdminInitConfig,
-    credential: admin.credential.cert({
-      ...firebaseAdminInitConfig.credential
-    })
-  });
-}
+/**
+ * @swagger
+ path:
+   /user/:
+     get:
+       summary: Get user session storage
+       responses:
+         "200":
+           description: Data from session storage.
 
-export default withSession(async (request, response) => {
-  const { body, method, query } = request;
-  if (method === "GET") {
-    const userData = request.session?.get(IronSession.UserSession);
-    if (userData) {
-      response.json({
-        isLoggedIn: true,
-        ...userData
-      });
-    } else {
-      response.json({
-        isLoggedIn: false
-      });
-    }
-  } else if (method === "POST") {
-    let newUserId;
-
-    // if (!request?.headers?.authorization) {
-    //   response.status(401).json({ message: "Missing Authorization header" });
-    //   return;
-    // }
-    // admin
-    //   .auth()
-    //   .verifyIdToken(request?.headers?.authorization)
-    //   .then((decodedToken) => {
-    //     const { uid } = decodedToken;
-
-    //     if (body.firebaseId !== uid) {
-    //       response.status(401).json({ message: "User doesnt match" });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     debugError(error);
-    //   });
-
-    const user = await prisma.user
-      .create({
-        data: {
-          userName: body.userName,
-          firstName: body.firstName,
-          lastName: body.lastName,
-          ssn: body.ssn,
-          userPhoneNumber: {
-            create: {
-              phoneNumber: body.phoneNumber
-            }
-          },
-          userFirebaseMap: {
-            create: {
-              firebaseId: body.firebaseId
-            }
-          },
-          userAddress: {
-            create: {
-              postalCode: body?.postalCode,
-              streetName: body?.streetName,
-              city: body?.city,
-              country: body?.country
-            }
-          }
-        }
-      })
-      .catch((err) => console.error("ERROR", err));
-    const users = await prisma.user
-      .findMany()
-      .catch((err) => console.error("ERROR", err));
-    console.log("users", users);
-    console.log("user", user);
-    response.json(users);
+     post:
+       summary: Creates a new user
+       requestBody:
+         required: true
+       responses:
+         "200":
+           description: The userId.
+ */
+const getUserFromSession = async (
+  request: NextIronRequest,
+  response: NextApiResponse
+) => {
+  const userData = request.session?.get(IronSession.UserSession);
+  if (userData) {
+    response.json({
+      isLoggedIn: true,
+      ...userData
+    });
+  } else {
+    response.json({
+      isLoggedIn: false
+    });
   }
-});
+};
+
+export default withSession(
+  async (request: NextIronRequest, response: NextApiResponse) => {
+    const { body, method, query } = request;
+    if (method === "GET") {
+      if (Object.keys(query).length === 0) {
+        await getUserFromSession(request, response);
+      } else if (query?.userName) {
+        await getUserByUserName(request, response);
+      } else if (query?.phoneNumber) {
+        await getUserByPhoneNumber(request, response);
+      } else if (query?.id) {
+        await getUserById(request, response);
+      } else {
+        response.status(404).json({ message: "Not found" });
+      }
+    } else if (
+      method === "POST" &&
+      (await isCurrentUserUnregistered(request, response))
+    ) {
+      // CREATE USER
+      await createUser(request, response);
+    }
+    response.status(404);
+  }
+);

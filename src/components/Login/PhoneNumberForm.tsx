@@ -1,7 +1,8 @@
 import React, { ReactElement, useState } from "react";
 import firebase from "firebase/app";
 import { useFormik } from "formik";
-import { useLoginForm } from "providers/LoginFormProvider";
+import { useLoginForm } from "providers/LoginForm";
+import { useRouter } from "next/router";
 import { UserEnum } from "types";
 import { getEmulatorVerificationCode } from "helpers/firebase";
 import {
@@ -18,6 +19,7 @@ type Props = {
   disabled: boolean;
 };
 const PhoneNumberForm = ({ disabled }: Props): ReactElement => {
+  const router = useRouter();
   const {
     isVerificationCodeSent,
     setVerificationCodeSent,
@@ -35,19 +37,12 @@ const PhoneNumberForm = ({ disabled }: Props): ReactElement => {
       setUserPhoneNumber(values.phoneNumber);
       setLoading(true);
 
-      // 1/3 STEPS IN BYPASSING FIREBASE
-      // if (isBypassingFirebase) {
-      //   setVerificationCodeSent(true);
-      //   setErrorMessage(bypassWarningMessage);
-      // } else {
-      //   setErrorMessage("");
-      // }
-
       signInToFirebaseWithPhoneNumber(
         values.phoneNumber,
         setVerificationCodeSent,
         setErrorMessage,
-        setLoading
+        setLoading,
+        router
       );
     }
   });
