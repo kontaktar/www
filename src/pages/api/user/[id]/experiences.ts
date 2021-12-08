@@ -3,7 +3,7 @@ import {
   editUserExperiencesOrder,
   getUserExperiences
 } from "database/queries/experiences";
-import { isAdminOrCurrentUser } from "lib/auth";
+import { isAdminOrAuthorizedUser } from "lib/auth";
 import { withSession } from "lib/sessions";
 
 export default withSession(async (request, response) => {
@@ -12,12 +12,12 @@ export default withSession(async (request, response) => {
     await getUserExperiences(request, response);
   } else if (
     method === "POST" &&
-    (await isAdminOrCurrentUser(request, response))
+    (await isAdminOrAuthorizedUser(request, response))
   ) {
     await createUserExperience(request, response);
   } else if (
     method === "PUT" &&
-    (await isAdminOrCurrentUser(request, response))
+    (await isAdminOrAuthorizedUser(request, response))
   ) {
     await editUserExperiencesOrder(request, response);
   } else {

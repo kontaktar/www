@@ -7,7 +7,7 @@ export const getIsAdmin: NextApiHandler = async (request, response) => {
       where: {
         id: parseInt(request.query.id as string),
         userPhoneNumber: {
-          phoneNumber: request.query.phoneNumber
+          phoneNumber: request.query.phoneNumber as string
         },
         role: {
           equals: "ADMIN"

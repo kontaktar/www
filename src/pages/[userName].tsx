@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { wrapper } from "store";
+import { fetchUserByUserName } from "store/users";
 import { GetUserByUserName } from "lib/endpoints";
 import { withSession } from "lib/sessions";
 import useUser from "lib/useUser";
@@ -36,8 +37,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
       return {};
     }
     try {
-      const userResult = await GetUserByUserName(userName);
-      // store.dispatch(getUserByUserNameSuccess(userResult));
+      await store.dispatch(fetchUserByUserName(userName));
     } catch (error) {
       debugError(`No user named: ${userName}`);
     }

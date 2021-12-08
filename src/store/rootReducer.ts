@@ -3,10 +3,12 @@ import { HYDRATE } from "next-redux-wrapper";
 
 import { experiencesSlice } from "./experiences";
 import { searchesSlice } from "./search";
+import { usersSlice } from "./users";
 
 export const otherReducers = combineReducers({
   [experiencesSlice.name]: experiencesSlice.reducer,
-  [searchesSlice.name]: searchesSlice.reducer
+  [searchesSlice.name]: searchesSlice.reducer,
+  [usersSlice.name]: usersSlice.reducer
 });
 
 const rootReducer = (state, action) => {

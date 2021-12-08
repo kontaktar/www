@@ -21,7 +21,7 @@ const validate = {
   password: Yup.string()
     // .min(8, messages.MINIMUM_8) // TODO:
     .required(messages.REQUIRED),
-  email: Yup.string().email("Invalid email format").required(messages.REQUIRED),
+  email: Yup.string().email("Invalid email format"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], messages.PASSWORD_DONT_MATCH)
     .required(messages.REQUIRED),

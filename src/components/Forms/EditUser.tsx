@@ -22,19 +22,21 @@ const EditUserForm = ({
   const { mutateUsers, isAdmin } = useAdmin();
   const [timestamp, setTimestamp] = useState(undefined);
   const { editUser, status } = useAuth();
-  const [openConfirmationModal, setOpenConfirmationModal] = React.useState(
-    false
-  );
+  const [openConfirmationModal, setOpenConfirmationModal] =
+    React.useState(false);
   const { user } = useUser();
 
   const formik = useFormik({
     initialValues: {
       ...userData
     } as UserData,
-    validationSchema: editUserSchema,
+    // TODO:
+    // validationSchema: (values) => editUserSchema(values),
     onSubmit: async (values) => {
+      editUserSchema(values);
       setTimestamp(new Date());
 
+      console.log("userValue from formik", values);
       await editUser(values);
       mutateUsers();
     }
@@ -213,7 +215,6 @@ const EditUserForm = ({
             type="save"
             className={styles.button_save}
             isLoading={status === "USER_EDIT_REQUEST"}
-            // onClick={}
           />
         </div>
       </form>

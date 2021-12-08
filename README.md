@@ -248,3 +248,9 @@ User deletes himself.
 User registers, logsout, logs in again.
 Admin edits user.
 Admin deletes users.
+
+# Prisma
+
+Schema (re)uploaded villa.
+Tóks að laga þegar ég breytti database/index DATABASE_URL í eitthvað sem virkaði ekki, generateaði.
+Breytti svo til baka. generate,migrate,push

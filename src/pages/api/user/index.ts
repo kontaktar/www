@@ -7,28 +7,10 @@ import {
 import type { NextApiResponse } from "next";
 import type { NextIronRequest } from "types";
 import { IronSession } from "types";
-import { isAdminOrCurrentUser, isCurrentUserUnregistered } from "lib/auth";
+import { isAdminOrAuthorizedUser, isCurrentUserUnregistered } from "lib/auth";
 import { withSession } from "lib/sessions";
 import { debug, debugError } from "helpers/debug";
 
-/**
- * @swagger
- path:
-   /user/:
-     get:
-       summary: Get user session storage
-       responses:
-         "200":
-           description: Data from session storage.
-
-     post:
-       summary: Creates a new user
-       requestBody:
-         required: true
-       responses:
-         "200":
-           description: The userId.
- */
 const getUserFromSession = async (
   request: NextIronRequest,
   response: NextApiResponse

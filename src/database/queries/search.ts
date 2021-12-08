@@ -19,7 +19,6 @@ export const searchAll: NextApiHandler = async (request, response) => {
       }
     })
     .then(async (data) => {
-      console.log("mapped", mapSearchResult(data));
       response.status(200).json(mapSearchResult(data));
     })
     .catch((error) => {
@@ -37,6 +36,10 @@ export const searchWithParams: NextApiHandler = async (request, response) => {
     .filter((arr) => arr !== "")
     .map((string) => `%${string}%`);
 
+  console.log("arraySearch", arraySearch);
+  console.log("arraySearch", Prisma.join(arraySearch));
+  console.log("arraySearch", Prisma.join(arraySearch).values);
+
   await prisma
     .$queryRawUnsafe(
       `
@@ -50,7 +53,7 @@ export const searchWithParams: NextApiHandler = async (request, response) => {
         e."description",
         e."years",
         e."months",
-        RANK () OVER (ann
+        RANK () OVER (
           ORDER BY e."title", e."description", u."userName", u."firstName"
         ) rank_number
       FROM "User" u

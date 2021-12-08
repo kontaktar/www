@@ -4,18 +4,17 @@ import logger from "redux-logger";
 
 import rootReducer from "./rootReducer";
 
-export function makeStore() {
-  return configureStore({
+export const makeStore = () =>
+  configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
     devTools: process.env.NODE_ENV !== "production"
   });
-}
 
 const store = makeStore();
 
 export type AppStore = ReturnType<typeof makeStore>;
-export type AppState = ReturnType<typeof store.getState>;
+export type AppState = ReturnType<AppStore["getState"]>;
 
 export type AppDispatch = typeof store.dispatch;
 

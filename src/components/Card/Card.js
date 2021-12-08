@@ -7,6 +7,8 @@ import CardContent from "@material-ui/core/CardContent";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import cx from "classnames";
 import { useAppDispatch } from "store";
+import { deleteUserExperience } from "store/experiences";
+import { editUserExperience } from "store/experiences";
 import useUser from "lib/useUser";
 import { Icon } from "components";
 import Link from "components/LinkWrap";

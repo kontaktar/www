@@ -6,7 +6,6 @@ import { fetchSearchResult, updateLatestSearch } from "store/search";
 import { GetSearchResult } from "lib/endpoints";
 import { withSession } from "lib/sessions";
 import useUser from "lib/useUser";
-import { randomize } from "helpers/arrays";
 import { debugError } from "helpers/debug";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 
@@ -71,17 +70,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) =>
     const searchDecoded = decodeURIComponent(searchInput);
     try {
       await store.dispatch(fetchSearchResult(searchDecoded));
-      // TODO: Randomize in db lookup like I was doing before?
-
-      // const searchResult = Object.values(await GetSearchResult(searchDecoded));
-
-      // store.dispatch(updateLatestSearch(searchDecoded));
-
-      // store.dispatch(
-      //     searchDecoded,
-      //     searchInput === "" ? randomize(searchResult) : searchResult
-      //   )
-      // );
     } catch (error) {
       debugError(`Error fetching search results: ${error}`);
     }

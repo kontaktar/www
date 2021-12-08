@@ -13,11 +13,11 @@ const LoggedInUserContext = React.createContext<Props>({
 });
 
 export function LoggedInUserProvider(props) {
-  const { data: user, error, mutate: mutateUsers } = useSWR(Endpoint.User);
+  const { data: user, error, mutate: mutateUser } = useSWR(Endpoint.User);
 
   const value = React.useMemo(
-    () => ({ user, error, mutateUsers }),
-    [user, error, mutateUsers]
+    () => ({ user, error, mutateUser }),
+    [user, error, mutateUser]
   );
 
   return <LoggedInUserContext.Provider value={value} {...props} />;

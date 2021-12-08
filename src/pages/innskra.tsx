@@ -10,7 +10,7 @@ const Login: NextPage = () => {
   const router = useRouter();
 
   const { user } = useUser();
-  if (user.isLoggedIn) {
+  if (user?.isLoggedIn) {
     router.push(Routes.Profile);
   }
 

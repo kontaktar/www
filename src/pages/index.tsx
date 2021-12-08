@@ -10,7 +10,6 @@ const LandingPage: NextPage = () => {
   const { fetchUserById } = useUserProvider();
   return (
     <MainLayout>
-      <button onClick={() => fetchUserById("1")}>click</button>
       <FrontPageContainer />
     </MainLayout>
   );

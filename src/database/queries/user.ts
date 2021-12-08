@@ -13,6 +13,18 @@ const userSelect = {
   firstName: true,
   ssn: true,
   userMetaData: true,
+  userPhoneNumber: true,
+  userStatistics: true,
+  userAddress: true
+};
+
+const userFullSelect = {
+  id: true,
+  userName: true,
+  lastName: true,
+  firstName: true,
+  ssn: true,
+  userMetaData: true,
   userFirebaseMap: true,
   userPhoneNumber: true,
   userStatistics: true,
@@ -25,7 +37,7 @@ export const getUserByUserName = async (
   await prisma.user
     .findUnique({
       where: {
-        userName: request.body.userName
+        userName: request.query.userName
       },
       select: userSelect
     })
@@ -107,6 +119,32 @@ export const getUserById = async (
       return;
     });
 };
+export const getAuthorizedUserById = async (
+  request: NextIronRequest,
+  response: NextApiResponse
+) => {
+  await prisma.user
+    .findUnique({
+      where: {
+        id: parseInt(request.query.id as string)
+      },
+      select: userFullSelect
+    })
+    .catch((error) => {
+      debugError("error", error);
+      response.status(401).json({ message: error });
+      return;
+    })
+    .then((user) => {
+      console.log("found user", user);
+      if (!user) {
+        response.status(404).json({ message: "Not found" });
+      } else {
+        response.status(200).json(user);
+      }
+      return;
+    });
+};
 
 export const createUser = async (
   request: NextIronRequest,
@@ -165,9 +203,12 @@ export const createUser = async (
         response.status(401).json({ message: errorMessage });
       })
       .then(async (user) => {
+        debug("createdUser db response", user);
         const newUserToSession: UserSessionStorage = {
           isLoggedIn: true,
           details: {
+            id: (user as any)?.id, // TODO: ??? why user.id doesn't exist!?
+            phoneNumber: body.phoneNumber,
             ...user
           },
           firebase: {
@@ -177,7 +218,7 @@ export const createUser = async (
         debug("Created user added to storage:", newUserToSession);
         try {
           await saveUserToSession(request, response, newUserToSession);
-          response.status(200).json({ userId: user.id });
+          response.status(200).json({ userId: (user as any)?.id });
         } catch (error) {
           response.status(400).json({ message: error });
         }
@@ -232,6 +273,18 @@ export const editUser = async (
         firstName: body?.firstName,
         lastName: body?.lastName,
         ssn: body?.ssn,
+        userMetaData: {
+          upsert: {
+            update: {
+              email: body?.email,
+              website: body?.website
+            },
+            create: {
+              email: body?.email,
+              website: body?.website
+            }
+          }
+        },
         userStatistics: {
           upsert: {
             update: {
@@ -248,11 +301,19 @@ export const editUser = async (
           }
         },
         userAddress: {
-          update: {
-            postalCode: body?.postalCode,
-            streetName: body?.streetName,
-            city: body?.city,
-            country: body?.country
+          upsert: {
+            update: {
+              postalCode: body?.postalCode,
+              streetName: body?.streetName,
+              city: body?.city,
+              country: body?.country
+            },
+            create: {
+              postalCode: body?.postalCode,
+              streetName: body?.streetName,
+              city: body?.city,
+              country: body?.country
+            }
           }
         }
       },

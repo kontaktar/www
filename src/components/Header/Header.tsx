@@ -125,13 +125,13 @@ const Header = ({
                   name="logoutNavigation"
                   className={styles.login}
                   onClick={
-                    !user.isLoggedIn
+                    !user?.isLoggedIn
                       ? () => router.push(Routes.Login)
                       : () => logout()
                   }
-                  modifier={!user.isLoggedIn ? ["inverted"] : []}
+                  modifier={!user?.isLoggedIn ? ["inverted"] : []}
                 >
-                  {!user.isLoggedIn ? "Innskráning" : "Útskrá"}
+                  {!user?.isLoggedIn ? "Innskráning" : "Útskrá"}
                 </Button>
               </div>
             )}

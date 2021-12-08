@@ -140,11 +140,30 @@ const Experience = ({ data }) => {
 
 const UserInformation = () => {
   const { user } = useUser();
+  const currentUser = useAppSelector((state) => state.users.currentUser);
+
+  const userToEdit = {
+    id: currentUser.id,
+    ssn: currentUser.ssn,
+    userName: currentUser.userName,
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
+    email: currentUser.userMetaData?.email,
+    website: currentUser.userMetaData?.website,
+    phoneNumber: currentUser.userPhoneNumber.phoneNumber,
+    firebaseId: user.firebase.id,
+    createdAt: currentUser.userStatistics?.createdAt,
+    lastLogin: currentUser.userStatistics?.lastLogin,
+    country: currentUser.userAddress?.country,
+    postalCode: currentUser.userAddress?.postalCode,
+    streetName: currentUser.userAddress?.streetName,
+    city: currentUser.userAddress?.city
+  };
 
   return (
     <>
       <div className={styles.header}>Breyta upplýsingum</div>
-      <EditUser userData={user.details} />
+      <EditUser userData={userToEdit} />
     </>
   );
 };

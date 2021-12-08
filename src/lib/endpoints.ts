@@ -27,12 +27,9 @@ export async function AddToSession(userInfo: UserSessionStorage) {
 // }
 
 export async function CreateExperience(userId, experience, firebaseToken) {
-  return (
-    post(`${Endpoint.User}/${userId}/experiences`, experience),
-    {
-      Authorization: firebaseToken
-    }
-  );
+  return post(`${Endpoint.User}/${userId}/experiences`, experience, {
+    Authorization: firebaseToken
+  });
 }
 
 export async function DeleteUser(userId, firebaseToken) {

@@ -26,7 +26,7 @@ const Register: NextPage<Props> = ({ href, reroute }) => {
   );
 };
 
-export const getServerSideProps = (wrapper.getServerSideProps((store) =>
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
   withSession(async ({ req }) => {
     const user = req.session.get(IronSession.UserSession);
     debug("user from session", user);

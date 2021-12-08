@@ -37,7 +37,7 @@ export const getUserExperiences = async (
         response.status(401).json({ message: error });
         return;
       })
-      .then((experiences: Experiences) => {
+      .then((experiences) => {
         if (!experiences) {
           response.status(404).json({ message: "Not found" });
         } else {
@@ -59,7 +59,7 @@ export const getUserExperiences = async (
         response.status(401).json({ message: error });
         return;
       })
-      .then((experiences: Experiences) => {
+      .then((experiences) => {
         if (!experiences) {
           response.status(404).json({ message: "Not found" });
         } else {
@@ -90,8 +90,8 @@ export const createUserExperience = async (
         },
         title: body?.title,
         description: body?.description,
-        years: body?.years || 0,
-        months: body?.months || 0,
+        years: parseInt(body?.years) || 0,
+        months: parseInt(body?.months) || 0,
         published: !!body.published,
         editedAt: new Date().toISOString()
       }
@@ -101,7 +101,7 @@ export const createUserExperience = async (
       response.status(401).json({ message: error });
       return;
     })
-    .then((experiences: Experiences) => {
+    .then((experiences) => {
       if (!experiences) {
         response.status(404).json({ message: "Not found" });
       } else {
@@ -136,7 +136,7 @@ export const editUserExperiencesOrder = async (
       response.status(401).json({ message: error });
       return;
     })
-    .then((experiences: Experiences) => {
+    .then((experiences) => {
       if (!experiences) {
         response.status(404).json({ message: "Not found" });
       } else {
@@ -162,7 +162,7 @@ export const deleteExperienceById = async (
         }
       })
       .catch((error) => {
-        debugError("error", error);
+        debugError("deleteExperienceById", error);
         response.status(401).json({ message: error });
         return;
       })
@@ -171,9 +171,11 @@ export const deleteExperienceById = async (
         return;
       });
   } catch (error) {
-    console.log("error", error);
+    debugError("::deleteExperienceById", error);
   }
 };
+
+// Works
 export const editExperienceById = async (
   request: NextIronRequest,
   response: NextApiResponse
@@ -191,14 +193,14 @@ export const editExperienceById = async (
         data: {
           title: body?.title,
           description: body?.description,
-          years: body?.years,
-          months: body?.months,
+          years: parseInt(body?.years),
+          months: parseInt(body?.months),
           published: !!body?.published,
           editedAt: new Date().toISOString()
         }
       })
       .catch((error) => {
-        debugError("error", error);
+        debugError("editExperienceById", error);
         response.status(401).json({ message: error });
         return;
       })
@@ -207,6 +209,6 @@ export const editExperienceById = async (
         return;
       });
   } catch (error) {
-    console.log("error", error);
+    debugError("::editExperienceById", error);
   }
 };

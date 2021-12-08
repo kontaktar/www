@@ -1,10 +1,10 @@
 import { editUserLastLoginById } from "database/queries/user";
-import { isAdminOrCurrentUser } from "lib/auth";
+import { isAdminOrAuthorizedUser } from "lib/auth";
 import { withSession } from "lib/sessions";
 const UpdateUserLastLoginById = withSession(async (request, response) => {
   const { body, method } = request;
 
-  if (method === "PUT" && (await isAdminOrCurrentUser(request, response))) {
+  if (method === "PUT" && (await isAdminOrAuthorizedUser(request, response))) {
     if (body && body.lastLogin) {
       await editUserLastLoginById(request, response);
     }

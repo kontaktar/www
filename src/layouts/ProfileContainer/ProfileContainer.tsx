@@ -3,9 +3,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import orderBy from "lodash.orderby";
 import { useUser } from "providers/AuthorizedUser";
 import { useRouter } from "next/router";
+import { DatabaseUser } from "types";
 import { useAppDispatch, useAppSelector } from "store";
+import type { AppState, AppStore } from "store/configureStore";
 import { fetchUserExperiences } from "store/experiences";
+import { fetchAuthorizedUser } from "store/users";
 import { debug, debugError } from "helpers/debug";
+import useAuth from "hooks/useAuth";
 import { Button, Card, Icon } from "components";
 import Link from "components/LinkWrap";
 import Modal from "components/Modal";
@@ -25,6 +29,7 @@ const ProfileContainer = ({
 }: Props): ReactElement => {
   const { query } = useRouter();
 
+  const { logout } = useAuth();
   const { user } = useUser();
   const wrapperElement = useRef(null);
   const [openModal, setOpenModal] = useState(false);
@@ -36,62 +41,52 @@ const ProfileContainer = ({
   const [userExperiences, setUserExperiences] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  const store: any = useAppSelector((state) => state);
+  const store = useAppSelector((state) => state);
   const experiences = useAppSelector((state) => (state as any).experiences);
+
+  const users = useAppSelector((state) => (state as any).users.byId);
+
+  const profileUser: DatabaseUser = userName
+    ? Object.values(users).filter(
+        (u: DatabaseUser) => u.userName == userName
+      )[0]
+    : undefined;
+
+  const currentUser = useAppSelector(
+    (state) => (state as any).users?.byId?.[user?.details?.id]
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setLoading(experiences.isFetching);
-  }, [experiences]);
-
-  useEffect(() => {
-    if (user?.details !== userProfile) {
-      debug("ProfileContainer:user", user);
-    }
-    if (editMode && user?.details?.id) {
-      try {
+    if (user && !user?.details?.id) {
+      if (user?.details?.createdAt && user?.details?.phoneNumber) {
+        // user was just created.
+        setUserProfile(user?.details);
+        // does this not run on user creation!?!?
+        debugError("USER CREATED !?", user);
+      } else {
+        console.log("will logout", user);
+        logout();
+      }
+    } else if (user?.details?.id) {
+      dispatch(fetchAuthorizedUser(user?.details.id));
+      if (!store?.experiences?.byUserId?.[user.details.id]) {
         dispatch(fetchUserExperiences(user?.details.id));
-      } catch (error) {
-        debugError(error);
       }
-      setUserProfile(user?.details);
-    } else if (
-      editMode &&
-      user?.details?.createdAt &&
-      user?.details?.phoneNumber &&
-      !user?.details?.id
-    ) {
-      // user was just created.
-      setUserProfile((prev) => prev !== user?.details);
-      debugError("A profile is not accessing user?.details?.id of the user");
     }
-  }, [dispatch, editMode, user, user?.details]);
-
-  // Fetch user profile
+  }, [user]);
   useEffect(() => {
-    if (!editMode && userName) {
-      if (
-        !userProfile &&
-        Object.entries(store.users).length > 0 &&
-        !store.users.isFetching
-      ) {
-        // TODO: type
-        const [currentUserProfile]: any = Object.values(store.users).filter(
-          (u: any) => u && u?.userName && u?.userName === userName
-        );
-
-        if (currentUserProfile) {
-          setUserProfile(currentUserProfile);
-          try {
-            dispatch(fetchUserExperiences(currentUserProfile.id));
-          } catch (error) {
-            debugError(error);
-          }
-        }
+    if (editMode) {
+      setUserProfile(currentUser);
+    } else {
+      setUserProfile(profileUser);
+      if (!store?.experiences?.byUserId?.[profileUser.id]) {
+        dispatch(fetchUserExperiences(profileUser.id));
       }
     }
-  }, [userName, store.users, editMode, userProfile, dispatch]);
+  }, [editMode, currentUser, profileUser]);
 
+  // TODO: Revisit this:
   useEffect(() => {
     if (
       store.users &&
@@ -99,8 +94,7 @@ const ProfileContainer = ({
       userProfile?.id &&
       store.experiences &&
       store.experiences.byUserId &&
-      store.experiences.byUserId[userProfile?.id] &&
-      !store.experiences.isFetching
+      store.experiences.byUserId[userProfile?.id]
     ) {
       setUserExperiences(
         orderBy(store.experiences.byUserId[userProfile?.id], ["order"], ["asc"])
@@ -191,17 +185,27 @@ const ProfileContainer = ({
 
           <div className={styles.user_information}>
             <>
-              <UserInfoItem item={userProfile.phoneNumber} name="phoneNumber" />
-              <UserInfoItem item={userProfile.email} name="email" />
-              <UserInfoItem item={userProfile.website} name="website" />
+              <UserInfoItem
+                item={userProfile.userPhoneNumber.phoneNumber}
+                name="phoneNumber"
+              />
+              <UserInfoItem
+                item={userProfile.userMetaData?.email}
+                name="email"
+              />
+              <UserInfoItem
+                item={userProfile.userMetaData?.website}
+                name="website"
+              />
               <UserInfoItem
                 item={[
-                  userProfile.streetName,
-                  userProfile.postalCode && userProfile.postalCode !== "0"
-                    ? userProfile.postalCode
+                  userProfile.userAddress?.streetName,
+                  userProfile.userAddress?.postalCode &&
+                  userProfile.userAddress?.postalCode !== "0"
+                    ? userProfile.userAddress?.postalCode
                     : "",
-                  userProfile.city,
-                  userProfile.country
+                  userProfile.userAddress?.city,
+                  userProfile.userAddress?.country
                 ]
                   .filter(Boolean)
                   .join(", ")}

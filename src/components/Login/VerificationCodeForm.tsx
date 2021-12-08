@@ -1,10 +1,9 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { useFormik } from "formik";
-import { useLoginForm } from "providers/LoginFormProvider";
+import { useLoginForm } from "providers/LoginForm";
 import { useRouter } from "next/router";
 import { Routes } from "types";
-import { createUserSuccess } from "store/actions";
 import { AddToSession, GetUserByPhoneNumber } from "lib/endpoints";
 import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
@@ -14,6 +13,7 @@ import { verificationCodeSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import { Button } from "components";
 import { MUIInput } from "components/Input";
+import { mapDatabaseUser } from "../../utils/session";
 import styles from "layouts/LoginFormContainer/LoginFormContainer.module.scss";
 
 type Props = {
@@ -46,7 +46,7 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
 
   const addUserToSessionStorage = (firebaseUser) => {
     try {
-      console.log("firebaseUser", firebaseUser);
+      debug("Add firebaseUser to session storage: ", firebaseUser);
 
       firebaseUser.getIdToken().then(async (idToken) => {
         const userSession = await AddToSession({
@@ -61,6 +61,7 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
           },
           isLoggedIn: false
         });
+        console.log("mutateUser", mutateUser);
         mutateUser(userSession, true);
       });
     } catch (error) {
@@ -87,9 +88,12 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
 
           let userData;
           try {
-            userData = await GetUserByPhoneNumber(firebaseUser.phoneNumber);
+            userData = mapDatabaseUser(
+              await GetUserByPhoneNumber(firebaseUser.phoneNumber)
+            );
           } catch (error) {
             debugError("GetUserByPhoneNumber ERROR", error);
+            router.push(Routes.Login);
           } finally {
             if (additionalUserInfo.isNewUser || !userData) {
               debug("No user exists with that phonenumber", userData);
@@ -103,7 +107,7 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
                 );
                 firebaseUser.delete(); // maybe not needed?
               }
-              addUserToSessionStorage(firebaseUser);
+              await addUserToSessionStorage(firebaseUser);
               router.push(Routes.Register);
             }
           }

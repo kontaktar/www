@@ -14,25 +14,23 @@ type Props = {
 };
 
 const UserTable = ({ className = "" }: Props): ReactElement => {
-  const { users } = useAdmin();
+  const { users, isAdmin } = useAdmin();
   const [openModal, setOpenModal] = React.useState(false);
   const [userToEdit, setUserToEdit] = React.useState<UserData>();
   const allUsers = React.useMemo(() => editHowDataIsDisplayed(users), [users]);
   const columns = React.useMemo(() => tableColumns, []);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable({
-    columns,
-    data: allUsers
-  });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data: allUsers
+    });
 
   const editUserData = (data) => {
     setOpenModal(true);
+
+    //TODO: use isAdmin
+    // TODO: filter out role and phoneNumber, we need only admin to be able to change those
     setUserToEdit(users.find((user) => user.id === data.original.id));
   };
 
