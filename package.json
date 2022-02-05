@@ -7,7 +7,7 @@
     "cy": "CYPRESS=1 cypress open --config-file cypress/cypress.json",
     "cy:run": "CYPRESS=1 cypress run --config-file cypress/cypress.json",
     "cy:build": "NODE_ENV=development FIREBASE_EMULATOR=1 CYPRESS=1 cypress run --config-file cypress/cypress.build.json",
-    "emulator": "yarn firebase emulators:start",
+    "emulator": "FIREBASE_EMULATOR=1 yarn firebase emulators:start",
     "build": "next build",
     "build:profiling": "next build --profile",
     "dev": "NODE_ENV=development next",
@@ -19,7 +19,7 @@
     "start:cy": "FIREBASE_EMULATOR=1 NODE_ENV=development next start -p 8000",
     "new": "yarn hygen generator",
     "lint": "next lint",
-    "pre-push": "yarn lint",
+    "pre-push": "yarn lint & yarn build",
     "test": "jest --json --outputFile=.jest-test-results.json",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "storybook:build": "build-storybook -c .storybook -o public/storybook"

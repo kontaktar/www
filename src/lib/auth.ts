@@ -108,7 +108,7 @@ export const isAuthorizedUser = async (request): Promise<boolean> => {
   }
 };
 export const isAdminOrAuthorizedUser = async (
-  request,
+  request: NextIronRequest,
   response
 ): Promise<boolean> => {
   const user: UserSessionStorage = request?.session?.get(
@@ -150,6 +150,20 @@ export const isAdminOrAuthorizedUser = async (
 
   return true;
 };
+
+export const isAdmin = async (request: NextIronRequest): Promise<boolean> => {
+  const user: UserSessionStorage = request?.session?.get(
+    IronSession.UserSession
+  );
+
+  const hasAdminAccess = await GetIsAdmin(
+    user?.details?.phoneNumber,
+    user?.details?.id
+  ).catch(() => debugError("User is not admin "));
+
+  return hasAdminAccess ?? false;
+};
+
 export const isCurrentUserUnregistered = async (
   request,
   response

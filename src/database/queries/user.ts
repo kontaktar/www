@@ -37,7 +37,7 @@ export const getUserByUserName = async (
   await prisma.user
     .findUnique({
       where: {
-        userName: request.query.userName
+        userName: request.query.userName as string
       },
       select: userSelect
     })
@@ -62,7 +62,9 @@ export const getUserByPhoneNumber = async (
   const {
     query: { phoneNumber }
   } = request;
-  // TODO: use with country extension
+  // TODO: SUPPORT country extension, this is hardcoded only to support 354
+  // maybe it's crazy to store it seperate in our db, because firebase stores it as one string, how to dynamically know if there is a countrycoded in the front of the number?
+
   let fullPhoneNumber =
     phoneNumber && typeof phoneNumber !== "undefined"
       ? `+${request.query.phoneNumber.toString()}`.replace(" ", "")

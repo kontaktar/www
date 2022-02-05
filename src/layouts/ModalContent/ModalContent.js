@@ -58,7 +58,6 @@ const Experience = ({ data }) => {
       if (isNew) {
         dispatch(createUserExperience(user, experience));
       } else {
-        console.log("editUser::::::");
         dispatch(editUserExperience(user, experience));
       }
       setTimestamp(new Date());

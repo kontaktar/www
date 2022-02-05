@@ -1,15 +1,18 @@
-Install packages
+Install packages:
 
 `yarn install`
 
-Start development mode
+Start Firebase emulator:
+
+`echo 'FIREBASE_EMULATOR=1' >> .env`
+
+`yarn emulator`
+
+More: https://firebase.google.com/docs/cli#sign-in-test-cli
+
+Start development mode:
 
 `yarn dev`
-
-Start development with emulator
-
-Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
-`yarn emulator` && `yarn dev`
 
 Start storybook for component development
 
@@ -64,7 +67,7 @@ Bypass firebase on localhost by setting `FIREBASE_EMULATOR=1` in `.env.local`
 
 Setup: https://firebase.google.com/docs/cli#sign-in-test-cli
 
-Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
+Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in`.env`.
 Start: `yarn emulator`
 
 ## API
@@ -79,42 +82,46 @@ All published cards
 
 `/api/search/[params]`
 
-Finds cards by user_name, first_name, last_name, experience title, description
+Find cards by user_name, first_name, last_name, experience title, description
 and published.
 
+`/api/user`
+
+`/api/user/[userId]`
+
+`/api/user/[userId]/experiences`
+
+`/api/user/[userId]/experiences/[experienceId]`
+
+Get all usernames.
+
 `/api/users`
-
-`/api/users/[userId]`
-
-`/api/users/[userId]/experiences`
-
-`/api/users/[userId]/experiences/[experienceId]`
 
 ### POST:
 
-`/api/users`
+`/api/user`
 
 - body = { ssn, userName, firstName, lastName, email, website?, phoneNumber? ,
   postalCode?, streetName?, city?, country? }
 
-`/api/users/[userId]/experiences`
+`/api/user/[userId]/experiences`
 
 - body = { title?, description?, years?, months?, published? }
 
 ### DELETE:
 
-`/api/users/[userId]`
+`/api/user/[userId]`
 
-`/api/users/[userId]/experiences/[experienceId]`
+`/api/user/[userId]/experiences/[experienceId]`
 
 ### PUT:
 
-`/api/users/[userId]`
+`/api/user/[userId]`
 
 - body = { ssn?, userName?, firstName?, lastName?, email?, website?,
   phoneNumber? , postalCode?, streetName?, city?, country? }
 
-`/api/users/[userId]/experiences/[experienceId]`
+`/api/user/[userId]/experiences/[experienceId]`
 
 - body = { title?, description?, years?, months?, published? }
 
@@ -248,6 +255,12 @@ Admin deletes users.
 
 # Prisma
 
-Schema (re)uploaded villa.
+Schema (re)uploaded villa:
 Tóks að laga þegar ég breytti database/index DATABASE_URL í eitthvað sem virkaði ekki, generateaði.
 Breytti svo til baka. generate,migrate,push
+
+# Phone number dilemmas
+
+In Prisma, there is a userPhoneNumber table with `phoneNumber` and `countryCodeExtension`.
+Because of how phone numbers are stored in Firebase, it's better that `phoneNumber` (should be `fullPhoneNumber` or just move it to User tables), includes the country code.
+Note that the mock seed data seperates them, TODO.

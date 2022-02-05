@@ -46,7 +46,7 @@ const AdminProvider = ({
     data: users,
     error,
     mutate: mutateUsers
-  } = useSWR(isAdmin ? Endpoint.Users : null);
+  } = useSWR(isAdmin ? `${Endpoint.Admins}/users` : null);
   const { user } = useUser();
 
   console.log("RENDERED: AdminProvider");

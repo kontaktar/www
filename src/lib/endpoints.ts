@@ -38,10 +38,14 @@ export async function DeleteUser(userId, firebaseToken) {
   });
 }
 
-export async function DeleteExperience(userId, experienceId, firebaseToken) {
-  return remove(`${Endpoint.User}/${userId}/experiences/${experienceId}`, "", {
-    Authorization: firebaseToken
-  });
+export async function DeleteExperience(user, experienceId, firebaseToken) {
+  return remove(
+    `${Endpoint.User}/${user.details.id}/experiences/${experienceId}`,
+    "",
+    {
+      Authorization: firebaseToken
+    }
+  );
 }
 
 export async function EditUser(userInfo, firebaseToken) {
@@ -88,15 +92,14 @@ export async function GetUserByUserName(userName) {
 //   return get(`${Endpoint.Users}?email=${email}`);
 // }
 
-export async function GetUserByPhoneNumber(phoneNumber, phoneCountryCode) {
-  return get(
-    `${Endpoint.User}?phoneNumber=${phoneNumber}?phoneCountryCode=${phoneCountryCode}`
-  );
+export async function GetUserByPhoneNumber(phoneNumber) {
+  return get(`${Endpoint.User}?phoneNumber=${phoneNumber}`);
 }
 
-// export async function GetAllUsers() {
-//   return get(Endpoint.Users);
-// }
+export async function GetAllUsers() {
+  return get(`${Endpoint.Admins}/users`);
+}
+
 export async function GetAllUserNames() {
   return get(`${Endpoint.Users}`);
 }

@@ -24,12 +24,16 @@ export const fetchUserExperiences =
 export const createUserExperience =
   (user: UserSessionStorage, experience: Experiences): AppThunk =>
   async (dispatch) => {
-    console.log("user creating exp", user);
-    await CreateExperience(user.details.id, experience, user.firebase.token);
+    const newExperience = await CreateExperience(
+      user.details.id,
+      experience,
+      user.firebase.token
+    );
+
     dispatch(
       experiencesSlice.actions.setNewUserExperience({
         userId: user.details.id,
-        experience: experience
+        experience: newExperience
       })
     );
   };

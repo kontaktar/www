@@ -36,6 +36,7 @@ const ProfileContainer = ({
   const [modalData, setModalData] = useState({});
   const [modalType, setModalType] = useState<any>();
   const [userProfile, setUserProfile] = useState<any>();
+  const [profileUser, setProfileUser] = useState(undefined);
   const [showActiveSection, setShowActiveSection] = useState(false);
   const [activeExperience, setActiveExperience] = useState<any>();
   const [userExperiences, setUserExperiences] = useState([]);
@@ -46,11 +47,15 @@ const ProfileContainer = ({
 
   const users = useAppSelector((state) => (state as any).users.byId);
 
-  const profileUser: DatabaseUser = userName
-    ? Object.values(users).filter(
-        (u: DatabaseUser) => u.userName == userName
-      )[0]
-    : undefined;
+  useEffect(() => {
+    if (userName) {
+      setProfileUser(
+        Object.values(users)?.filter(
+          (u: DatabaseUser) => u?.userName == userName
+        )?.[0] ?? undefined
+      );
+    }
+  }, [users]);
 
   const currentUser = useAppSelector(
     (state) => (state as any).users?.byId?.[user?.details?.id]
@@ -76,18 +81,19 @@ const ProfileContainer = ({
     }
   }, [user]);
   useEffect(() => {
-    if (editMode) {
+    if (editMode && !profileUser) {
       setUserProfile(currentUser);
     } else {
       setUserProfile(profileUser);
-      if (!store?.experiences?.byUserId?.[profileUser.id]) {
-        dispatch(fetchUserExperiences(profileUser.id));
+      if (!store?.experiences?.byUserId?.[profileUser?.id]) {
+        dispatch(fetchUserExperiences(profileUser?.id));
       }
     }
   }, [editMode, currentUser, profileUser]);
 
   // TODO: Revisit this:
   useEffect(() => {
+    console.log("yoooo", userExperiences);
     if (
       store.users &&
       userProfile &&
