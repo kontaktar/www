@@ -35,6 +35,7 @@ export const signInToFirebaseWithPhoneNumber = (
         setVerificationCodeSent(true);
       })
       .catch((error) => {
+        console.error("VerificationCodedError", error);
         if (error.code === "auth/captcha-check-failed") {
           setErrorMessage(`Recaptcha expired. Please try again.`);
           router.reload();

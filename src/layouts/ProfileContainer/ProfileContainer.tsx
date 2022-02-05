@@ -93,7 +93,6 @@ const ProfileContainer = ({
 
   // TODO: Revisit this:
   useEffect(() => {
-    console.log("yoooo", userExperiences);
     if (
       store.users &&
       userProfile &&
