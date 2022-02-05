@@ -17,13 +17,12 @@ const Login = withSession(async (request, response) => {
     };
     await saveUserToSession(request, response, user);
     await checkAuthHeader(request, response, user);
+    response.status(200).json(body);
   } catch (error) {
     debugError(error);
     response.status(400).json(body);
     return;
   }
-
-  response.status(200).json(body);
 });
 
 export default Login;
