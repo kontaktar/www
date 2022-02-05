@@ -25,43 +25,70 @@ export const signInToFirebaseWithPhoneNumber = (
     process.env.FIREBASE_EMULATOR === "1";
 
   const appVerifier = (window as any).recaptchaVerifier;
-
-  try {
-    firebase
-      .auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        (window as any).confirmationResult = confirmationResult;
-        setVerificationCodeSent(true);
-      })
-      .catch((error) => {
-        console.error("VerificationCodedError", error);
-        if (error?.code === "auth/captcha-check-failed") {
-          setErrorMessage(`Recaptcha expired. Please try again.`);
-          router.reload();
-        }
-        if (error?.code === "auth/invalid-phone-number") {
-          // TODO: Move this validation to formik/yup
-          setErrorMessage(
-            `Villa, sláið inn símanúmer á þessu formi: +3545554444`
-          );
-        }
-        if (error?.code === "auth/too-many-requests") {
-          setErrorMessage(verificationErrors.TOO_MANY_REQUESTS);
-        }
-        if (error?.code === "auth/network-request-failed") {
-          setErrorMessage("TURN ON THE FIREBASE EMULATOR");
-          debugError(`${error} - CODE: ${error.code}`);
-        }
+  firebase
+    .auth()
+    .signInWithPhoneNumber(phoneNumber, appVerifier)
+    .then((confirmationResult) => {
+      (window as any).confirmationResult = confirmationResult;
+      setVerificationCodeSent(true);
+    })
+    .catch((error) => {
+      if (error.code === "auth/captcha-check-failed") {
+        setErrorMessage(verificationErrors.CAPTCHA_CHECK_FAILED);
+        router.reload();
+      } else if (error.code === "auth/invalid-phone-number") {
         // TODO: Move this validation to formik/yup
+        setErrorMessage(verificationErrors.INVALID_PHONE_NUMBER);
+      } else if (error.code === "auth/too-many-requests") {
+        setErrorMessage(verificationErrors.TOO_MANY_REQUESTS);
+      } else if (error.code === "auth/network-request-failed") {
+        setErrorMessage("TURN ON THE FIREBASE EMULATOR");
+        debugError(`NETWORK REQUEST FAILED - ${error} - CODE: ${error.code}`);
+      } else {
         setErrorMessage(
-          `Villa, sláið inn símanúmer á þessu formi: +3545554444`
+          `Villa kom upp, skilaboð ekki send. ${error} - CODE: ${error?.code}`
         );
-        setLoading(false);
-        debugError(`PhoneNumberForm Error: ${error}`);
-      });
-  } catch (err) {
-    console.error("errrrrr", err, err.message);
+      }
+      setLoading(false);
+      debugError(`PhoneNumberForm Error: ${error}`);
+    });
+};
+
+export const loginOrRegisterBypassingFirebase = async (
+  userPhoneNumber,
+  login,
+  firebaseTokenId,
+  setLoading,
+  dispatchToStore,
+  createUserSuccess,
+  router
+): Promise<void> => {
+  // DEPRECATED
+
+  let userData;
+  try {
+    userData = await GetUserByPhoneNumber(userPhoneNumber);
+  } catch (error) {
+    setLoading(false);
+    debugError(error);
+  }
+  if (userData) {
+    await login(userData, firebaseTokenId);
+  } else {
+    const mockFirebaseId = uuid();
+    const { userId } = await CreateUser({
+      phoneNumber: userPhoneNumber,
+      createdAt: new Date(),
+      firebaseId: mockFirebaseId
+    });
+    if (userId) {
+      window.sessionStorage.setItem(SessionStorage.UserId, userId);
+      // TODO: is this needed?
+      dispatchToStore(
+        createUserSuccess(userId, { phoneNumber: userPhoneNumber })
+      );
+      router.push(Routes.Register);
+    }
   }
 };
 

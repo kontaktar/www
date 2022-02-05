@@ -4,11 +4,7 @@ Install packages:
 
 Start Firebase emulator:
 
-`echo 'FIREBASE_EMULATOR=1' >> .env`
-
 `yarn emulator`
-
-More: https://firebase.google.com/docs/cli#sign-in-test-cli
 
 Start development mode:
 
