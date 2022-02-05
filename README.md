@@ -1,15 +1,14 @@
-Install packages
+Install packages:
 
 `yarn install`
 
-Start development mode
+Start Firebase emulator:
+
+`yarn emulator`
+
+Start development mode:
 
 `yarn dev`
-
-Start development with emulator
-
-Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
-`yarn emulator` && `yarn dev`
 
 Start storybook for component development
 
