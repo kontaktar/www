@@ -80,65 +80,70 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
     validationSchema: verificationCodeSchema,
     onSubmit: async (values) => {
       setLoading(true);
-      (window as any).confirmationResult
-        .confirm(values.verificationCode)
-        .then(async (response) => {
-          const { user: firebaseUser, additionalUserInfo } = response;
-          debug(`confirmationResult: response`, response);
 
-          let userData;
-          try {
-            userData = mapDatabaseUser(
-              await GetUserByPhoneNumber(firebaseUser.phoneNumber)
-            );
-          } catch (error) {
-            debugError("GetUserByPhoneNumber ERROR", error);
-            router.push(Routes.Login);
-          } finally {
-            if (additionalUserInfo.isNewUser || !userData) {
-              debug("No user exists with that phonenumber", userData);
-              debug(
-                "No user exists with that phonenumber :additionalUserInfo?.isNewUser",
-                additionalUserInfo?.isNewUser
-              );
-              if (!userData && !additionalUserInfo.isNewUser) {
-                debug(
-                  `DELETING FIREBASE USER. No user found with phonenumber ${firebaseUser.phoneNumber}`
-                );
-                firebaseUser.delete(); // maybe not needed?
-              }
-              await addUserToSessionStorage(firebaseUser);
-              router.push(Routes.Register);
-            }
-          }
+      try {
+        (window as any).confirmationResult
+          .confirm(values.verificationCode)
+          .then(async (response) => {
+            const { user: firebaseUser, additionalUserInfo } = response;
+            debug(`confirmationResult: response`, response);
 
-          if (userData?.phoneNumber && userData?.userName) {
-            // user exists, log him/her in
-            debug("Will login existing user");
+            let userData;
             try {
-              setLoading(true);
-              firebaseUser.getIdToken().then(async (idToken) => {
-                await login(userData, idToken);
-                router.push(Routes.Profile);
-              });
+              userData = mapDatabaseUser(
+                await GetUserByPhoneNumber(firebaseUser.phoneNumber)
+              );
             } catch (error) {
-              setLoading(false);
-              setErrorMessage(error.message);
+              debugError("GetUserByPhoneNumber ERROR", error);
+              router.push(Routes.Login);
+            } finally {
+              if (additionalUserInfo.isNewUser || !userData) {
+                debug("No user exists with that phonenumber", userData);
+                debug(
+                  "No user exists with that phonenumber :additionalUserInfo?.isNewUser",
+                  additionalUserInfo?.isNewUser
+                );
+                if (!userData && !additionalUserInfo.isNewUser) {
+                  debug(
+                    `DELETING FIREBASE USER. No user found with phonenumber ${firebaseUser.phoneNumber}`
+                  );
+                  firebaseUser.delete(); // maybe not needed?
+                }
+                await addUserToSessionStorage(firebaseUser);
+                router.push(Routes.Register);
+              }
             }
-          }
-        })
-        .catch((error) => {
-          setLoading(false);
 
-          logout();
+            if (userData?.phoneNumber && userData?.userName) {
+              // user exists, log him/her in
+              debug("Will login existing user");
+              try {
+                setLoading(true);
+                firebaseUser.getIdToken().then(async (idToken) => {
+                  await login(userData, idToken);
+                  router.push(Routes.Profile);
+                });
+              } catch (error) {
+                setLoading(false);
+                setErrorMessage(error.message);
+              }
+            }
+          })
+          .catch((error) => {
+            setLoading(false);
 
-          if (error?.code === "auth/code-expired") {
-            setErrorMessage(verificationErrors.SMS_EXPIRED);
-            setVerificationCodeSent(false);
-          }
-          setErrorMessage("Óvænt villa kom, reyndu að staðfesta aftur.");
-          debugError("Verification code failure", error);
-        });
+            logout();
+
+            if (error?.code === "auth/code-expired") {
+              setErrorMessage(verificationErrors.SMS_EXPIRED);
+              setVerificationCodeSent(false);
+            }
+            setErrorMessage("Óvænt villa kom, reyndu að staðfesta aftur.");
+            debugError("Verification code failure", error);
+          });
+      } catch (err) {
+        console.log("VERIFERI", err);
+      }
     }
   });
 

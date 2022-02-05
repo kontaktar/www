@@ -66,13 +66,15 @@ export const AuthProvider = ({
   const login = async (body: User, token: string) => {
     await post(Endpoint.Login, body, { Authorization: token });
     try {
-      await UpdateUserLastLogin({
-        id: body.id,
-        firebaseToken: token,
-        lastLogin: new Date()
-      });
+      if (body?.id) {
+        await UpdateUserLastLogin({
+          id: body.id,
+          firebaseToken: token,
+          lastLogin: new Date()
+        });
+      }
     } catch (error) {
-      debugError(`useAuth:login: ${error}`);
+      debugError(`useAuth:login: ${error} ${error.message}, ${error.code}`);
     } finally {
       await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
     }
