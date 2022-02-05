@@ -36,11 +36,11 @@ export const signInToFirebaseWithPhoneNumber = (
       })
       .catch((error) => {
         console.error("VerificationCodedError", error);
-        if (error.code === "auth/captcha-check-failed") {
+        if (error?.code === "auth/captcha-check-failed") {
           setErrorMessage(`Recaptcha expired. Please try again.`);
           router.reload();
         }
-        if (error.code === "auth/invalid-phone-number") {
+        if (error?.code === "auth/invalid-phone-number") {
           // TODO: Move this validation to formik/yup
           setErrorMessage(
             `Villa, sláið inn símanúmer á þessu formi: +3545554444`
