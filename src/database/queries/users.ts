@@ -36,6 +36,7 @@ export const getAllUsers: NextApiHandler = async (request, response) => {
       return;
     })
     .then((users) => {
+      if (!users) {
         response.status(404).json({ message: "Not found" });
       } else {
         response.status(200).json(users);
