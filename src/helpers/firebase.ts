@@ -33,15 +33,15 @@ export const signInToFirebaseWithPhoneNumber = (
       setVerificationCodeSent(true);
     })
     .catch((error) => {
-      if (error?.code === "auth/captcha-check-failed") {
+      if (error.code === "auth/captcha-check-failed") {
         setErrorMessage(verificationErrors.CAPTCHA_CHECK_FAILED);
         router.reload();
-      } else if (error?.code === "auth/invalid-phone-number") {
+      } else if (error.code === "auth/invalid-phone-number") {
         // TODO: Move this validation to formik/yup
         setErrorMessage(verificationErrors.INVALID_PHONE_NUMBER);
-      } else if (error?.code === "auth/too-many-requests") {
+      } else if (error.code === "auth/too-many-requests") {
         setErrorMessage(verificationErrors.TOO_MANY_REQUESTS);
-      } else if (error?.code === "auth/network-request-failed") {
+      } else if (error.code === "auth/network-request-failed") {
         setErrorMessage("TURN ON THE FIREBASE EMULATOR");
         debugError(`NETWORK REQUEST FAILED - ${error} - CODE: ${error.code}`);
       } else {
