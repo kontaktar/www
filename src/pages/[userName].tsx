@@ -35,8 +35,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
       return {};
     }
     try {
-      const userResult = await GetUserByUserName(userName);
-      store.dispatch(getUserByUserNameSuccess(userResult));
+      if (userName !== "__webpack_hmr") {
+        const userResult = await GetUserByUserName(userName);
+        store.dispatch(getUserByUserNameSuccess(userResult));
+      }
     } catch (error) {
       debugError(`No user named: ${userName}`);
     }
