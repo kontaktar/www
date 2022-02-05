@@ -116,10 +116,11 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
             // user exists, log him/her in
             debug("Will login existing user");
             try {
+              setLoading(true);
               firebaseUser.getIdToken().then(async (idToken) => {
                 await login(userData, idToken);
+                router.push(Routes.Profile);
               });
-              router.push(Routes.Profile);
             } catch (error) {
               setLoading(false);
               setErrorMessage(error.message);
@@ -171,7 +172,7 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
         onBlur={() => formik.setFieldTouched("verificationCode", true, true)}
         value={formik.values.verificationCode}
         error={formik.errors.verificationCode}
-        autocomplete="one-time-code"
+        autoComplete="one-time-code"
         isTouched={formik.touched.verificationCode}
         inputProps={{
           "data-test": "verificationCodeLoginInput"

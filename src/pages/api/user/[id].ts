@@ -16,22 +16,25 @@ import { debugError } from "helpers/debug";
 const UserById = withSession(
   async (request: NextIronRequest, response: NextApiResponse) => {
     const { method } = request;
+
     if (method === "GET") {
       if (await isAuthorizedUser(request)) {
         await getAuthorizedUserById(request, response);
       } else {
         await getUserById(request, response);
       }
-    } else if (
-      method === "DELETE" &&
-      (await isAdminOrAuthorizedUser(request, response))
-    ) {
-      await deleteUserById(request, response);
-    } else if (
-      method === "PUT" &&
-      (await isAdminOrAuthorizedUser(request, response))
-    ) {
-      await editUser(request, response);
+    } else if (method === "DELETE") {
+      if (await isAdminOrAuthorizedUser(request, response)) {
+        await deleteUserById(request, response);
+      } else {
+        response.status(401).json({ message: "Forbidden" });
+      }
+    } else if (method === "PUT") {
+      if (await isAdminOrAuthorizedUser(request, response)) {
+        await editUser(request, response);
+      } else {
+        response.status(401).json({ message: "Forbidden" });
+      }
     }
   }
 );

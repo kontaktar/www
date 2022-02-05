@@ -76,6 +76,9 @@ const Header = ({
                           <NextLink href="/">Kontaktar</NextLink>
                         </span>
                         <span>
+                          <NextLink href={Routes.Profile}>Prófill</NextLink>
+                        </span>
+                        <span>
                           <NextLink href={Routes.Search}>Leita</NextLink>
                         </span>
                         <span>
@@ -100,6 +103,17 @@ const Header = ({
                       modifier={["borderless"]}
                     >
                       Kontaktar
+                    </Button>
+                  </Link>
+                )}
+                {user?.isLoggedIn && (
+                  <Link href={Routes.Subcription}>
+                    <Button
+                      name="profileNavigation"
+                      className={cx(styles.tab, styles.ripple)}
+                      modifier={["borderless"]}
+                    >
+                      Prófíll
                     </Button>
                   </Link>
                 )}

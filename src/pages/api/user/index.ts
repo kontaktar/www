@@ -43,12 +43,13 @@ export default withSession(
       } else {
         response.status(404).json({ message: "Not found" });
       }
-    } else if (
-      method === "POST" &&
-      (await isCurrentUserUnregistered(request, response))
-    ) {
-      // CREATE USER
-      await createUser(request, response);
+    } else if (method === "POST") {
+      if (await isCurrentUserUnregistered(request, response)) {
+        // CREATE USER
+        await createUser(request, response);
+      } else {
+        response.status(401).json({ message: "Forbidden" });
+      }
     }
     response.status(404);
   }

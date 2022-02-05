@@ -53,10 +53,7 @@ dynamic variables like `../api/user/[id].js` Visit
 
 ## Database
 
-Test instance running on AWS RDS:
-`psql --host=kontaktardb.crpycooyf4pt.eu-west-2.rds.amazonaws.com --port=5432 --username=postgres --password --dbname=kontaktar -U admin`
-
-Prevent string injections. Never user ES6 literals for database queries.
+Prisma todo:
 
 ## Auth
 

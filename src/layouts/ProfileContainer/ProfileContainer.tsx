@@ -64,7 +64,7 @@ const ProfileContainer = ({
         setUserProfile(user?.details);
         // does this not run on user creation!?!?
         debugError("USER CREATED !?", user);
-      } else {
+      } else if (user.isLoggedIn) {
         console.log("will logout", user);
         logout();
       }

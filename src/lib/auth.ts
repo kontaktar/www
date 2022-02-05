@@ -56,8 +56,9 @@ export const checkAuthHeader = async (
           userSession?.user?.firebase?.token
         );
         // userSession.user.firebase.id getur verið annað en request?.headers.authorization ef notandi er adimin
+
         console.log(
-          "should be true: ",
+          "should be true: usersessionToken === headers.authorisation ",
           userSession?.user?.firebase?.token === request?.headers?.authorization
         );
         console.log(
@@ -71,6 +72,8 @@ export const checkAuthHeader = async (
         debugError("checkAuthHeader:", error);
         if (error.code === "auth/id-token-expired") {
           request.session.destroy();
+        } else if (error.code === "auth/user-not-found") {
+          response.status(404).json({ message: "User not found." });
         }
         response.status(401).json({ message: "Forbidden" });
         throw new Error(

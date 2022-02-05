@@ -24,7 +24,6 @@ export const signInToFirebaseWithPhoneNumber = (
   firebase.auth().settings.appVerificationDisabledForTesting =
     process.env.FIREBASE_EMULATOR === "1";
 
-  console.log("--- i get here ----");
   const appVerifier = (window as any).recaptchaVerifier;
 
   try {
@@ -53,8 +52,9 @@ export const signInToFirebaseWithPhoneNumber = (
           setErrorMessage("TURN ON THE FIREBASE EMULATOR");
           debugError(`${error} - CODE: ${error.code}`);
         }
+        // TODO: Move this validation to formik/yup
         setErrorMessage(
-          `Villa kom upp, skilaboð ekki send. ${error} - CODE: ${error?.code}`
+          `Villa, sláið inn símanúmer á þessu formi: +3545554444`
         );
         setLoading(false);
         debugError(`PhoneNumberForm Error: ${error}`);

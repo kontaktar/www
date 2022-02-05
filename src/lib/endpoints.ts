@@ -88,8 +88,10 @@ export async function GetUserByUserName(userName) {
 //   return get(`${Endpoint.Users}?email=${email}`);
 // }
 
-export async function GetUserByPhoneNumber(phoneNumber) {
-  return get(`${Endpoint.User}?phoneNumber=${phoneNumber}`);
+export async function GetUserByPhoneNumber(phoneNumber, phoneCountryCode) {
+  return get(
+    `${Endpoint.User}?phoneNumber=${phoneNumber}?phoneCountryCode=${phoneCountryCode}`
+  );
 }
 
 // export async function GetAllUsers() {
