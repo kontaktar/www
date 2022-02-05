@@ -16,11 +16,16 @@ const Login = withSession(async (request, response) => {
       }
     };
     await saveUserToSession(request, response, user);
-    await checkAuthHeader(request, response, user);
-    response.status(200).json(body);
+    try {
+      await checkAuthHeader(request, response, user);
+    } catch (err) {
+      console.log("err", err);
+    } finally {
+      response.status(200).json(body);
+    }
   } catch (error) {
     debugError(error);
-    response.status(400).json(body);
+    // response.status(400).json(body);
     return;
   }
 });
