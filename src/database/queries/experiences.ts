@@ -33,7 +33,7 @@ export const getUserExperiences = async (
         select: experienceSelect
       })
       .catch((error) => {
-        debugError("error", error);
+        debugError("getUserExperiences userProfile error", error);
         response.status(401).json({ message: error });
         return;
       })
@@ -55,7 +55,7 @@ export const getUserExperiences = async (
         select: experienceSelect
       })
       .catch((error) => {
-        debugError("error", error);
+        debugError("getUserExperiences anotherProfile error", error);
         response.status(401).json({ message: error });
         return;
       })

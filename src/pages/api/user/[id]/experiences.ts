@@ -22,6 +22,7 @@ export default withSession(async (request, response) => {
     } else {
       response.status(401).json({ message: "Forbidden" });
     }
+  } else {
+    response.status(400).json({ message: "Forbidden" });
   }
-  response.status(400).json({ message: "Forbidden" });
 });
