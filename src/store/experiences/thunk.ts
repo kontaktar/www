@@ -12,13 +12,20 @@ import { experiencesSlice } from "./slice";
 export const fetchUserExperiences =
   (userId: number): AppThunk =>
   async (dispatch) => {
-    const experiences = await GetExperiencesByUserId(userId);
-    dispatch(
-      experiencesSlice.actions.setExperiencesByUserId({
-        userId: userId,
-        experiences: experiences
-      })
-    );
+    try {
+      if (userId) {
+        const experiences = await GetExperiencesByUserId(userId);
+
+        dispatch(
+          experiencesSlice.actions.setExperiencesByUserId({
+            userId: userId,
+            experiences: experiences
+          })
+        );
+      }
+    } catch (err) {
+      console.error("ERROR fetchUserExperiences", err);
+    }
   };
 
 export const createUserExperience =

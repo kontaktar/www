@@ -70,9 +70,9 @@ export const checkAuthHeader = async (
       })
       .catch((error) => {
         debugError("checkAuthHeader:", error);
-        if (error.code === "auth/id-token-expired") {
+        if (error?.code === "auth/id-token-expired") {
           request.session.destroy();
-        } else if (error.code === "auth/user-not-found") {
+        } else if (error?.code === "auth/user-not-found") {
           response.status(404).json({ message: "User not found." });
         }
         response.status(401).json({ message: "Forbidden" });
