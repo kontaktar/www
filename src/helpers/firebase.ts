@@ -1,8 +1,8 @@
 import { responsiveFontSizes } from "@material-ui/core";
 import firebase from "firebase/app";
 import { v4 as uuid } from "uuid";
-import { Routes, SessionStorage } from "types";
 import { useRouter } from "next/router";
+import { Routes, SessionStorage } from "types";
 import { CreateUser, GetUserByPhoneNumber } from "lib/endpoints";
 import fetch from "lib/fetchJson";
 import { debug, debugError } from "helpers/debug";
@@ -33,26 +33,22 @@ export const signInToFirebaseWithPhoneNumber = (
       setVerificationCodeSent(true);
     })
     .catch((error) => {
-      if (error.code === "auth/captcha-check-failed") {
-        setErrorMessage(`Recaptcha expired. Please try again.`);
+      if (error?.code === "auth/captcha-check-failed") {
+        setErrorMessage(verificationErrors.CAPTCHA_CHECK_FAILED);
         router.reload();
-      }
-      if (error.code === "auth/invalid-phone-number") {
+      } else if (error?.code === "auth/invalid-phone-number") {
         // TODO: Move this validation to formik/yup
+        setErrorMessage(verificationErrors.INVALID_PHONE_NUMBER);
+      } else if (error?.code === "auth/too-many-requests") {
+        setErrorMessage(verificationErrors.TOO_MANY_REQUESTS);
+      } else if (error?.code === "auth/network-request-failed") {
+        setErrorMessage("TURN ON THE FIREBASE EMULATOR");
+        debugError(`NETWORK REQUEST FAILED - ${error} - CODE: ${error.code}`);
+      } else {
         setErrorMessage(
-          `Villa, sláið inn símanúmer á þessu formi: +3545554444`
+          `Villa kom upp, skilaboð ekki send. ${error} - CODE: ${error?.code}`
         );
       }
-      if (error?.code === "auth/too-many-requests") {
-        setErrorMessage(verificationErrors.TOO_MANY_REQUESTS);
-      }
-      if (error?.code === "auth/network-request-failed") {
-        setErrorMessage("TURN ON THE FIREBASE EMULATOR");
-        debugError(`${error} - CODE: ${error.code}`);
-      }
-      setErrorMessage(
-        `Villa kom upp, skilaboð ekki send. ${error} - CODE: ${error?.code}`
-      );
       setLoading(false);
       debugError(`PhoneNumberForm Error: ${error}`);
     });
