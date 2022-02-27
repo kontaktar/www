@@ -54,44 +54,6 @@ export const signInToFirebaseWithPhoneNumber = (
     });
 };
 
-export const loginOrRegisterBypassingFirebase = async (
-  userPhoneNumber,
-  login,
-  firebaseTokenId,
-  setLoading,
-  dispatchToStore,
-  createUserSuccess,
-  router
-): Promise<void> => {
-  // DEPRECATED
-
-  let userData;
-  try {
-    userData = await GetUserByPhoneNumber(userPhoneNumber);
-  } catch (error) {
-    setLoading(false);
-    debugError(error);
-  }
-  if (userData) {
-    await login(userData, firebaseTokenId);
-  } else {
-    const mockFirebaseId = uuid();
-    const { userId } = await CreateUser({
-      phoneNumber: userPhoneNumber,
-      createdAt: new Date(),
-      firebaseId: mockFirebaseId
-    });
-    if (userId) {
-      window.sessionStorage.setItem(SessionStorage.UserId, userId);
-      // TODO: is this needed?
-      dispatchToStore(
-        createUserSuccess(userId, { phoneNumber: userPhoneNumber })
-      );
-      router.push(Routes.Register);
-    }
-  }
-};
-
 export const getEmulatorVerificationCode = async (
   phoneNumber: string
 ): Promise<string> => {

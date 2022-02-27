@@ -41,7 +41,7 @@ if (!firebase.apps.length) {
       firebase.auth().settings.appVerificationDisabledForTesting = true;
     } catch (error) {
       debugError(
-        "Emulator is expected to be on, turn it on with -yarn emulator- or set env.FIREBASE_EMULATOR = 0"
+        "ATTENTION: Emulator is expected to be on, turn it on with -yarn emulator-."
       );
     }
   }

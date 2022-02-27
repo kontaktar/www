@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "build:db": "yarn prisma:generate && yarn prisma:migrate",
+    "clean": "rm -rf .next",
     "cy": "CYPRESS=1 cypress open --config-file cypress/cypress.json",
     "cy:run": "CYPRESS=1 cypress run --config-file cypress/cypress.json",
     "cy:build": "NODE_ENV=development FIREBASE_EMULATOR=1 CYPRESS=1 cypress run --config-file cypress/cypress.build.json",

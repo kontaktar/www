@@ -90,7 +90,7 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
 
             let userData;
             try {
-              userData = mapDatabaseUser(
+              userData = await mapDatabaseUser(
                 await GetUserByPhoneNumber(firebaseUser.phoneNumber)
               );
             } catch (error) {
