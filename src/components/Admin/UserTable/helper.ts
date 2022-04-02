@@ -2,7 +2,7 @@ import { UserData } from "types";
 
 export const editHowDataIsDisplayed = (users): UserData[] => {
   if (!users) return [];
-  console.log("ALL_USERS", users);
+  // console.log("ALL_USERS", users);
   const allUsers = [...users];
 
   return (

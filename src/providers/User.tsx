@@ -50,7 +50,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       fetchUserById: async (userId: string) => {
         if (userId !== state?.user?.id) {
           let user = await GetUser(userId);
-          console.log(" i dispatch");
           dispatch(setUser(user));
         }
       }

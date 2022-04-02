@@ -27,46 +27,47 @@ export const checkAuthHeader = async (
   } else {
     userSession = session;
   }
-  console.log(
-    "request?.headers?.authorization",
-    request?.headers?.authorization
-  );
+  
   if (request.headers && !request?.headers?.authorization) {
     response.status(401).json({ message: "Missing Authorization header" });
     throw new Error("Missing Authorization header");
   } else {
+    // THIS IS FAILING ON PRODUCTION WITH:
+    // "Forbidden, Authorization Header does not match Firebase user"!!!!
+    // BUT THEN I CAN STILL LOG IN
     return admin
       .auth()
       .verifyIdToken(request?.headers?.authorization)
       .then(async (decodedToken) => {
-        console.log("-------TODO VERIFY-----");
-        console.log("VERIFY FIREBASE USER!?");
-        console.log("request.body.firebaseId", request.body.firebaseId);
-        console.log("request.body.phoneNumber", request.body?.phoneNumer);
-        console.log("decodedToken", decodedToken);
-        console.log("decodedToken.phone_number", decodedToken?.phone_number);
-        console.log("decodedToken.user_id", decodedToken?.user_id);
-        console.log(
-          "userSession?.user?.firebase?.id",
-          userSession?.user?.firebase?.id
-        );
+          // TODO: verify
+        // console.log("-------TODO VERIFY-----");
+        // console.log("VERIFY FIREBASE USER!?");
+        // console.log("request.body.firebaseId", request.body.firebaseId);
+        // console.log("request.body.phoneNumber", request.body?.phoneNumer);
+        // console.log("decodedToken", decodedToken);
+        // console.log("decodedToken.phone_number", decodedToken?.phone_number);
+        // console.log("decodedToken.user_id", decodedToken?.user_id);
+        // console.log(
+        //   "userSession?.user?.firebase?.id",
+        //   userSession?.user?.firebase?.id
+        // );
 
-        console.log(
-          "userSession?.user?.firebase?.token",
-          userSession?.user?.firebase?.token
-        );
-        // userSession.user.firebase.id getur verið annað en request?.headers.authorization ef notandi er adimin
+        // console.log(
+        //   "userSession?.user?.firebase?.token",
+        //   userSession?.user?.firebase?.token
+        // );
+        // userSession.user.firebase.id getur verið annað en request?.headers.authorization ef notandi er admin
 
-        console.log(
-          "should be true: usersessionToken === headers.authorisation ",
-          userSession?.user?.firebase?.token === request?.headers?.authorization
-        );
-        console.log(
-          "request?.headers?.authorization",
-          request?.headers?.authorization
-        );
-        console.log("----------------------");
-        // TODO: verify
+        // console.log(
+        //   "should be true: usersessionToken === headers.authorisation ",
+        //   userSession?.user?.firebase?.token === request?.headers?.authorization
+        // );
+        // console.log(
+        //   "request?.headers?.authorization",
+        //   request?.headers?.authorization
+        // );
+        // console.log("----------------------");
+
       })
       .catch((error) => {
         debugError("checkAuthHeader:", error);

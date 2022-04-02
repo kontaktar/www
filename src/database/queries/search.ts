@@ -36,10 +36,6 @@ export const searchWithParams: NextApiHandler = async (request, response) => {
     .filter((arr) => arr !== "")
     .map((string) => `%${string}%`);
 
-  console.log("arraySearch", arraySearch);
-  console.log("arraySearch", Prisma.join(arraySearch));
-  console.log("arraySearch", Prisma.join(arraySearch).values);
-
   await prisma
     .$queryRawUnsafe(
       `

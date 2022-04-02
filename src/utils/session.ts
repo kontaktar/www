@@ -6,7 +6,6 @@ export const mapDatabaseUser = ({
 }: {
   User: DatabaseUser;
 }): User => {
-  console.log("dbUser", dbUser);
   return {
     id: dbUser.id,
     phoneNumber: dbUser.userPhoneNumber.phoneNumber,

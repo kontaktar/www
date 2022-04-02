@@ -36,7 +36,6 @@ const EditUserForm = ({
       editUserSchema(values);
       setTimestamp(new Date());
 
-      console.log("userValue from formik", values);
       await editUser(values);
       mutateUsers();
     }

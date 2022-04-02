@@ -17,6 +17,7 @@
     "prisma:generate": "make db-generate",
     "prisma:migrate": "make db-migrate",
     "start": "next start -p 8000",
+    "start:local": "LOCALHOST=localhost:8000 next start -p 8000",
     "start:cy": "FIREBASE_EMULATOR=1 NODE_ENV=development next start -p 8000",
     "new": "yarn hygen generator",
     "lint": "next lint",

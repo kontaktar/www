@@ -63,8 +63,7 @@ Bypass firebase on localhost by setting `FIREBASE_EMULATOR=1` in `.env.local`
 
 Setup: https://firebase.google.com/docs/cli#sign-in-test-cli
 
-Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in`.env`.
-Start: `yarn emulator`
+Start: `yarn emulator` it will set `FIREBASE_EMULATOR=1`.
 
 ## API
 

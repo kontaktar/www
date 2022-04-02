@@ -112,7 +112,6 @@ export const getUserById = async (
       return;
     })
     .then((user) => {
-      console.log("found user", user);
       if (!user) {
         response.status(404).json({ message: "Not found" });
       } else {
@@ -138,7 +137,6 @@ export const getAuthorizedUserById = async (
       return;
     })
     .then((user) => {
-      console.log("found user", user);
       if (!user) {
         response.status(404).json({ message: "Not found" });
       } else {
@@ -341,7 +339,6 @@ export const editUser = async (
     .then(async (user) => {
       if (user) {
         let userData;
-        console.log("user edited", user);
 
         try {
           userData = request.session.get(IronSession.UserSession);

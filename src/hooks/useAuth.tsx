@@ -61,8 +61,6 @@ export const AuthProvider = ({
     await mutateUser({ isLoggedIn: false }, true);
   };
 
-  // TODO: I saw /api/login called twice on prod.
-  // Make sure it's only called once.
   const login = async (body: User, token: string) => {
     await post(Endpoint.Login, body, { Authorization: token });
     try {

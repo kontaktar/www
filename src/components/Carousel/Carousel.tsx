@@ -80,7 +80,6 @@ const Carousel = ({ cards }: { cards: any }): ReactElement => {
       >
         {cards?.length > 0 ? (
           cards.map((card, i) => {
-            console.log("card", card);
             return (
               <Card
                 id={i}
