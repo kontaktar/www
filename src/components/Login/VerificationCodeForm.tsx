@@ -93,12 +93,10 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
               userData = await mapDatabaseUser(
                 await GetUserByPhoneNumber(firebaseUser.phoneNumber)
               );
-              // console.log('userData', userData);
             } catch (error) {
               debugError("GetUserByPhoneNumber ERROR", error);
               router.push(Routes.Login);
             } finally {
-              // console.log('addtionaUserInfo', additionalUserInfo);
               if (additionalUserInfo.isNewUser || !userData) {
                 debug("No user exists with that phonenumber", userData);
                 debug(
