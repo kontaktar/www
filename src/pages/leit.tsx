@@ -5,8 +5,8 @@ import { wrapper } from "store";
 import { fetchSearchResult, updateLatestSearch } from "store/search";
 import { GetSearchResult } from "lib/endpoints";
 import { withSession } from "lib/sessions";
-import useUser from "lib/useUser";
 import { debugError } from "helpers/debug";
+import useAuth from "hooks/useAuth";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
   searchInput?: string;
 };
 const Search: NextPage<Props> = ({ searchInput }) => {
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const storeSearches = useAppSelector((state) => (state as any).searches);
   console.log("storeSearch", storeSearches);

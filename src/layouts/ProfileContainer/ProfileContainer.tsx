@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import orderBy from "lodash.orderby";
-import { useUser } from "providers/AuthorizedUser";
 import { useRouter } from "next/router";
 import { DatabaseUser } from "types";
 import { useAppDispatch, useAppSelector } from "store";
@@ -30,7 +29,7 @@ const ProfileContainer = ({
   const { query } = useRouter();
 
   const { logout } = useAuth();
-  const { user } = useUser();
+  const { user } = useAuth();
   const wrapperElement = useRef(null);
   const [openModal, setOpenModal] = useState(false);
   const [modalData, setModalData] = useState({});

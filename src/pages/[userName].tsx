@@ -3,15 +3,15 @@ import { wrapper } from "store";
 import { fetchUserByUserName } from "store/users";
 import { GetUserByUserName } from "lib/endpoints";
 import { withSession } from "lib/sessions";
-import useUser from "lib/useUser";
 import { debugError } from "helpers/debug";
+import useAuth from "hooks/useAuth";
 import { MainLayout, ProfileContainer, UserLayout } from "layouts";
 
 type Props = {
   userName: string;
 };
 const UserProfile = ({ userName }: Props): ReactElement => {
-  const { user } = useUser();
+  const { user } = useAuth();
   console.log("RENDERED: UserProfile");
 
   return (

@@ -1,5 +1,4 @@
 import React from "react";
-import { useUserProvider } from "providers/User";
 import { NextPage } from "next";
 import { wrapper } from "store";
 import { fetchSearchResult } from "store/search";
@@ -7,7 +6,6 @@ import { withSession } from "lib/sessions";
 import { FrontPageContainer, MainLayout } from "layouts";
 
 const LandingPage: NextPage = () => {
-  const { fetchUserById } = useUserProvider();
   return (
     <MainLayout>
       <FrontPageContainer />

@@ -1,4 +1,3 @@
-import { TrainRounded } from "@material-ui/icons";
 import * as admin from "firebase-admin";
 import type { NextApiResponse } from "next";
 import type { NextIronRequest } from "types";

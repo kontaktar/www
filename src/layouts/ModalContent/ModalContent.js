@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import cx from "classnames";
 import { useAppDispatch, useAppSelector } from "store";
 import { createUserExperience, editUserExperience } from "store/experiences";
-import useUser from "lib/useUser";
 import { debug } from "helpers/debug";
 import useAuth from "hooks/useAuth";
 import {
@@ -22,7 +21,7 @@ import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
   const dispatch = useAppDispatch();
-  const { user } = useUser();
+  const { user } = useAuth();
   const [isLoading, setLoading] = React.useState(false);
 
   const experiences = useAppSelector((state) => state.experiences);
@@ -138,7 +137,7 @@ const Experience = ({ data }) => {
 };
 
 const UserInformation = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
   const currentUser = useAppSelector((state) => state.users.currentUser);
 
   const userToEdit = {

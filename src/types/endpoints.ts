@@ -2,6 +2,7 @@
 export enum Endpoint {
   Login = "/api/login",
   Logout = "/api/logout",
+  Register = "/api/register",
   Users = "/api/users",
   User = "/api/user",
   Search = "/api/search",

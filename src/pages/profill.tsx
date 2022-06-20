@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import { IronSession, Routes, UserSessionStorage } from "types";
 import { wrapper } from "store";
 import { withSession } from "lib/sessions";
-import useUser from "lib/useUser";
 import { debug } from "helpers/debug";
+import useAuth from "hooks/useAuth";
 import { ProfileContainer, UserLayout } from "layouts";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 };
 const Profile: NextPage<Props> = ({ reroute, user: userServerSide }) => {
   const router = useRouter();
-  const { user } = useUser();
+  const { user } = useAuth();
   useEffect(() => {
     if (reroute || (!user && !userServerSide)) {
       router.push(Routes.Login);

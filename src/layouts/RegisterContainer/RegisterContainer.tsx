@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { Routes, UserEnum } from "types";
 import { useAppSelector } from "store";
 import { GetAllUserNames } from "lib/endpoints";
-import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
 import { registerFormSchema } from "helpers/formValidationSchemas";
@@ -29,7 +28,7 @@ const RegisterContainer = (): ReactElement => {
   const [allUserNames, setAllUserNames] = useState([]);
   const users = useAppSelector((state) => (state as any).users);
   const { register } = useAuth();
-  const { user } = useUser();
+  const { user } = useAuth();
   const router = useRouter();
 
   const formik = useFormik({

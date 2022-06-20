@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { useAppDispatch, useAppSelector } from "store";
 import { editUserExperiences } from "store/experiences";
-import useUser from "lib/useUser";
+import useAuth from "hooks/useAuth";
 import { Card } from "components";
 import { CardsContainer } from "layouts";
 import styles from "./DragableCardContainer.module.scss";
@@ -47,7 +47,7 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
   // eslint-disable-next-line no-param-reassign
   const dispatch = useAppDispatch();
   const store = useAppSelector((state) => state);
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const [arrangement, setArrangement] = useState(items);
   async function updateOrder(rearrangeItems) {

@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import firebase from "firebase/app";
 import { useLoginForm } from "providers/LoginForm";
+import Firebase from "lib/firebaseInstance";
 import { debug, debugError } from "helpers/debug";
 import useMaxWidth from "hooks/useMaxWidth";
 import PhoneNumberForm from "components/Login/PhoneNumberForm";
@@ -19,7 +19,7 @@ const LoginFormContainer = (): ReactElement => {
 
   useEffect(() => {
     try {
-      (window as any).recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      (window as any).recaptchaVerifier = new Firebase.auth.RecaptchaVerifier(
         "recaptcha-container",
         {
           size: "invisible",

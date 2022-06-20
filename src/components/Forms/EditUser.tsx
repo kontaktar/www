@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { UserAddressEnum, UserData, UserEnum } from "types";
 import { DeleteUser } from "lib/endpoints";
-import useUser from "lib/useUser";
 import { editUserSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import { Button, LastChange } from "components";
@@ -24,7 +23,7 @@ const EditUserForm = ({
   const { editUser, status } = useAuth();
   const [openConfirmationModal, setOpenConfirmationModal] =
     React.useState(false);
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const formik = useFormik({
     initialValues: {

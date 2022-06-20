@@ -1,15 +1,8 @@
 import React, { ReactElement, useState } from "react";
-import firebase from "firebase/app";
 import { useFormik } from "formik";
+import { useAuth as useFirebaseAuth } from "providers/FirebaseAuthUser";
 import { useLoginForm } from "providers/LoginForm";
-import { useRouter } from "next/router";
 import { UserEnum } from "types";
-import { getEmulatorVerificationCode } from "helpers/firebase";
-import {
-  bypassWarningMessage,
-  isBypassingFirebase,
-  signInToFirebaseWithPhoneNumber
-} from "helpers/firebase";
 import { phoneNumberSchema } from "helpers/formValidationSchemas";
 import { Button } from "components";
 import { MUIInput } from "components/Input";
@@ -19,15 +12,10 @@ type Props = {
   disabled: boolean;
 };
 const PhoneNumberForm = ({ disabled }: Props): ReactElement => {
-  const router = useRouter();
-  const {
-    isVerificationCodeSent,
-    setVerificationCodeSent,
-    setUserPhoneNumber,
-    setErrorMessage
-  } = useLoginForm();
+  const { setVerificationCodeSent, setUserPhoneNumber, setErrorMessage } =
+    useLoginForm();
   const [isLoading, setLoading] = useState<boolean>(false);
-
+  const { verificationCodeSent, signInWithPhoneNumber } = useFirebaseAuth();
   const formik = useFormik({
     initialValues: {
       phoneNumber: ""
@@ -37,13 +25,15 @@ const PhoneNumberForm = ({ disabled }: Props): ReactElement => {
       setUserPhoneNumber(values.phoneNumber);
       setLoading(true);
 
-      signInToFirebaseWithPhoneNumber(
-        values.phoneNumber,
-        setVerificationCodeSent,
-        setErrorMessage,
-        setLoading,
-        router
-      );
+      try {
+        signInWithPhoneNumber(values.phoneNumber);
+        setLoading(true);
+        setVerificationCodeSent(true);
+      } catch (err) {
+        setLoading(false);
+        setVerificationCodeSent(true);
+        setErrorMessage("TODO: Error message");
+      }
     }
   });
 

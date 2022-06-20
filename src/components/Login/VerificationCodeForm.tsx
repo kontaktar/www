@@ -1,13 +1,15 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import firebase from "firebase/app";
 import { useFormik } from "formik";
+import { useAuth as useFirebaseAuth} from 'providers/FirebaseAuthUser';
 import { useLoginForm } from "providers/LoginForm";
 import { useRouter } from "next/router";
 import { Routes } from "types";
 import { AddToSession, GetUserByPhoneNumber } from "lib/endpoints";
-import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
+import {
+  isBypassingFirebase,
+} from "helpers/firebase";
 import { getEmulatorVerificationCode } from "helpers/firebase";
 import { verificationCodeSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
@@ -25,49 +27,15 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
   const { isVerificationCodeSent, setVerificationCodeSent, setErrorMessage } =
     useLoginForm();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [firebaseIdToken, setFirebaseIdToken] = useState("");
-  const [emulatorCode, setEmulatorCode] = useState("");
 
-  const { mutateUser } = useUser();
-  const { login, logout } = useAuth();
+  const { firebaseIdToken, verificationCodeSent, emulatorCode } = useFirebaseAuth();
+  const { login, logout, mutateUser, preregister } = useAuth();
 
-  useEffect(() => {
-    const unregisterAuthObserver = firebase
-      .auth()
-      .onAuthStateChanged(async (firebaseUser) => {
-        if (firebaseUser) {
-          firebaseUser.getIdToken().then((idToken) => {
-            setFirebaseIdToken(idToken);
-          });
-        }
-      });
-    return () => unregisterAuthObserver(); // un-register observers on unmounts.
+  const formatAuthUser = (user) => ({
+    uid: user.uid,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
   });
-
-  const addUserToSessionStorage = (firebaseUser) => {
-    try {
-      debug("Add firebaseUser to session storage: ", firebaseUser);
-
-      firebaseUser.getIdToken().then(async (idToken) => {
-        const userSession = await AddToSession({
-          details: {
-            id: undefined,
-            phoneNumber: firebaseUser?.phoneNumber,
-            createdAt: firebaseUser.metadata.creationTime
-          },
-          firebase: {
-            id: firebaseUser?.uid,
-            token: idToken
-          },
-          isLoggedIn: false
-        });
-        console.log("mutateUser", mutateUser);
-        mutateUser(userSession, true);
-      });
-    } catch (error) {
-      debugError("addUserToSessionStorage AddToSession ERROR:", error);
-    }
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -81,13 +49,15 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
     onSubmit: async (values) => {
       setLoading(true);
 
+      // TODO: CLEAN THIS UP
       try {
         (window as any).confirmationResult
-          .confirm(values.verificationCode)
+          .confirm(values.verificationCode) // TO FIREBASE PROVIDER
           .then(async (response) => {
             const { user: firebaseUser, additionalUserInfo } = response;
             debug(`confirmationResult: response`, response);
-
+            
+            // try getting user by phone number
             let userData;
             try {
               userData = await mapDatabaseUser(
@@ -109,20 +79,20 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
                   );
                   firebaseUser.delete(); // maybe not needed?
                 }
-                await addUserToSessionStorage(firebaseUser);
-                router.push(Routes.Register);
+                firebaseUser.getIdToken().then(async (idToken) => {
+                  await preregister(formatAuthUser(firebaseUser), idToken);
+                });
+            
+                setLoading(true)
               }
             }
-
-            if (userData?.phoneNumber && userData?.userName) {
+            if (userData && userData?.phoneNumber && userData?.userName) {
               // user exists, log him/her in
               debug("Will login existing user");
               try {
                 setLoading(true);
-                firebaseUser.getIdToken().then(async (idToken) => {
-                  await login(userData, idToken);
-                  router.push(Routes.Profile);
-                });
+                await login(userData);
+
               } catch (error) {
                 setLoading(false);
                 setErrorMessage(error.message);
@@ -137,6 +107,7 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
             if (error?.code === "auth/code-expired") {
               setErrorMessage(verificationErrors.SMS_EXPIRED);
               setVerificationCodeSent(false);
+              return;
             }
             setErrorMessage("Óvænt villa kom, reyndu að staðfesta aftur.");
             debugError("Verification code failure", error);
@@ -149,21 +120,18 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
 
   useEffect(() => {
     async function fetchEmulatorCode() {
-      const code = await getEmulatorVerificationCode(userPhoneNumber);
-      setEmulatorCode(code);
-      formik.setFieldValue("verificationCode", code, true);
+      formik.setFieldValue("verificationCode", emulatorCode, true);
       formik.setFieldTouched("verificationCode", true, true);
     }
 
     if (
-      process.env.FIREBASE_EMULATOR !== "0" &&
-      process.env.CYPRESS !== "1" &&
+      isBypassingFirebase && 
       !emulatorCode
     ) {
       fetchEmulatorCode();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userPhoneNumber]);
+  }, [userPhoneNumber, verificationCodeSent, emulatorCode]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.form}>

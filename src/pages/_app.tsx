@@ -1,18 +1,13 @@
-import React, { useEffect } from "react";
-import firebase from "firebase/app";
+import React from "react";
+import FirebaseProvider from "providers/FirebaseAuthUser";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { SWRConfig } from "swr";
 import { wrapper } from "store";
 import fetch from "lib/fetchJson";
-import { configOptions } from "lib/firebaseConfig";
-import { debugError } from "helpers/debug";
-import { isBypassingFirebase } from "helpers/firebase";
 import { AuthProvider } from "hooks/useAuth";
 import AdminProvider from "components/Admin/AdminProvider";
 import ErrorBoundary from "components/ErrorBoundary";
-import { LoggedInUserProvider } from "../providers/AuthorizedUser";
-import { UserProvider } from "../providers/User";
 import "../styles/index.scss";
 
 if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
@@ -31,56 +26,41 @@ if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
     collapseGroups: true
   });
 }
-if (!firebase.apps.length) {
-  firebase.initializeApp(configOptions);
-  if (isBypassingFirebase) {
-    try {
-      firebase
-        .auth()
-        .useEmulator(`http://${process.env.FIRESTORE_EMULATOR_HOST}/`);
-      firebase.auth().settings.appVerificationDisabledForTesting = true;
-    } catch (error) {
-      debugError(
-        "ATTENTION: Emulator is expected to be on, turn it on with -yarn emulator-."
-      );
-    }
-  }
-}
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <ErrorBoundary>
-        <LoggedInUserProvider>
-          <SWRConfig
-            value={{
-              fetcher: fetch,
-              revalidateOnFocus: process.env.NODE_ENV === "production",
-              onError: (error) => {
-                // eslint-disable-next-line no-console
-                console.error(error);
-              }
-            }}
-          >
-            <Head>
-              <title>Kontaktar</title>
-              <meta
-                name="viewport"
-                content="width=device-width,initial-scale=1,viewport-fit=cover"
-                key="viewport"
-              />
-            </Head>
-            <React.StrictMode>
-              <AuthProvider>
+        <FirebaseProvider>
+          <AuthProvider>
+            <SWRConfig
+              value={{
+                fetcher: fetch,
+                revalidateOnFocus: process.env.NODE_ENV === "production",
+                onError: (error) => {
+                  // eslint-disable-next-line no-console
+                  console.error(error);
+                }
+              }}
+            >
+              <Head>
+                <title>Kontaktar</title>
+                <meta
+                  name="viewport"
+                  content="width=device-width,initial-scale=1,viewport-fit=cover"
+                  key="viewport"
+                />
+              </Head>
+              <React.StrictMode>
                 <AdminProvider>
-                  <UserProvider>
-                    <Component {...pageProps} />
-                  </UserProvider>
+                  {/* <UserProvider> */}
+                  <Component {...pageProps} />
+                  {/* </UserProvider> */}
                 </AdminProvider>
-              </AuthProvider>
-            </React.StrictMode>
-          </SWRConfig>
-        </LoggedInUserProvider>
+              </React.StrictMode>
+            </SWRConfig>
+          </AuthProvider>
+        </FirebaseProvider>
       </ErrorBoundary>
     </>
   );

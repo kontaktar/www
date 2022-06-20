@@ -1,31 +1,46 @@
 /* eslint-disable no-param-reassign */
-import React, { createContext, useContext, useMemo, useReducer } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState
+} from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import firebase from "firebase";
-import { Endpoint, User, UserAddress } from "types";
+import { useAuth as useFirebaseAuth } from "providers/FirebaseAuthUser";
+import router from "next/router";
+import useSWR from "swr";
+import { Routes } from "types";
+import { Endpoint, User, UserAddress, UserSessionStorage } from "types";
 import { CreateUser, EditUser, UpdateUserLastLogin } from "lib/endpoints";
-import useUser from "lib/useUser";
 import { debugError, time, timeEnd } from "helpers/debug";
 import { post } from "helpers/methods";
 
 import useLogger from "./useLogger";
 
 type AuthContextProps = {
+  user: UserSessionStorage;
+  mutateUser: (data?: UserSessionStorage, shouldRevalidate?: boolean) => void;
   status: string;
   logout?: () => void;
-  login?: (body: any, headers: any) => void;
+  login?: (body: any) => void;
   register?: (userName: any) => void;
   editUser?: (userData: any) => void;
+  preregister?: (user: any, token: any) => void;
 };
+
+const initialState = {
+  user: { isLoggedIn: false },
+  mutateUser: () => {},
+  status: "INITIAL"
+};
+
+const AuthContext = React.createContext<AuthContextProps>(initialState);
 
 type AuthReducerState = {
   status: string;
 };
-
-const initialState = {
-  status: "INITIAL"
-};
-const AuthContext = createContext<AuthContextProps>(initialState);
 
 const authSlice = createSlice({
   name: "auth",
@@ -50,74 +65,115 @@ export const AuthProvider = ({
     useLogger(authSlice.reducer),
     initialState
   );
-  const { user, mutateUser } = useUser();
-  console.log("RENDERED: useAuth");
+  const {
+    signOut,
+    firebaseIdToken,
+    authUser: firebaseAuthUser
+  } = useFirebaseAuth();
+  const { data: user, error, mutate: mutateUser } = useSWR(Endpoint.User);
 
-  const logout = async () => {
+  const [authUser, setAuthUser] = useState();
+
+  useEffect(() => {
+    setAuthUser(firebaseAuthUser);
+  }, [firebaseAuthUser]);
+
+  const logout = useCallback(async () => {
     await post(Endpoint.Logout).then(() => {
-      firebase.auth().signOut();
+      signOut();
       dispatch(setStatus("LOGGED_OUT"));
     });
     await mutateUser({ isLoggedIn: false }, true);
-  };
+  }, [signOut, mutateUser]);
 
-  const login = async (body: User, token: string) => {
-    await post(Endpoint.Login, body, { Authorization: token });
-    try {
-      if (body?.id) {
-        await UpdateUserLastLogin({
-          id: body.id,
-          firebaseToken: token,
-          lastLogin: new Date()
-        });
+  const login = useCallback(
+    async (userData) => {
+      console.log("firebaseIdToken", firebaseIdToken);
+      await post(Endpoint.Login, userData, { Authorization: firebaseIdToken });
+      try {
+        if (userData?.id) {
+          await UpdateUserLastLogin({
+            id: userData.id,
+            firebaseToken: firebaseIdToken,
+            lastLogin: new Date()
+          });
+        }
+      } catch (error) {
+        debugError(`useAuth:login: ${error} ${error.message}, ${error.code}`);
+        router.push(Routes.Login);
+      } finally {
+        console.log("logging in user", userData);
+        console.log("logging in user, user from session is", user);
+        await mutateUser(
+          { ...user, details: userData, isLoggedIn: true },
+          true
+        );
+        router.push(Routes.Profile);
       }
-    } catch (error) {
-      debugError(`useAuth:login: ${error} ${error.message}, ${error.code}`);
-    } finally {
-      await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
-    }
-  };
+    },
+    [firebaseIdToken, mutateUser, user]
+  );
 
-  const register = async (body: User): Promise<void> => {
-    try {
-      await CreateUser(body);
-      dispatch(setStatus("REGISTERED"));
-    } catch (error) {
-      debugError("Register:Could not register user:", error.message);
-    } finally {
-      await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
-    }
-  };
+  const preregister = useCallback(
+    async (authUser, firebaseIdToken): Promise<void> => {
+      const body = await post(Endpoint.Register, authUser, {
+        Authorization: firebaseIdToken
+      });
+      mutateUser(body, true);
+      router.push(Routes.Register);
+    },
+    [authUser, firebaseIdToken, mutateUser]
+  );
 
-  const editUser = async (userData: User & UserAddress): Promise<void> => {
-    dispatch(setStatus("USER_EDIT_REQUEST"));
+  const register = useCallback(
+    async (body: User): Promise<void> => {
+      try {
+        await CreateUser(body);
+        dispatch(setStatus("REGISTERED"));
+      } catch (error) {
+        debugError("Register:Could not register user:", error.message);
+      } finally {
+        await mutateUser({ ...user, details: body, isLoggedIn: true }, true);
+      }
+    },
+    [mutateUser, user]
+  );
 
-    time("useAuth:editUser: ");
-    try {
-      await EditUser(userData, user.firebase.token);
-    } catch (error) {
-      debugError("editUser:EditUser", error);
-      dispatch(setStatus("USER_EDIT_FAILED"));
-      return;
-    }
-    timeEnd("useAuth:editUser: ");
+  const editUser = useCallback(
+    async (userData: User & UserAddress): Promise<void> => {
+      dispatch(setStatus("USER_EDIT_REQUEST"));
 
-    time("useAuth:editUser:mutate: ");
-    await mutateUser({ ...user, details: userData, isLoggedIn: true }, true);
-    timeEnd("useAuth:editUser:mutate: ");
+      time("useAuth:editUser: ");
+      try {
+        await EditUser(userData, user.firebase.token);
+      } catch (error) {
+        debugError("editUser:EditUser", error);
+        dispatch(setStatus("USER_EDIT_FAILED"));
+        return;
+      }
+      timeEnd("useAuth:editUser: ");
 
-    dispatch(setStatus("USER_EDIT_SUCCESS"));
-  };
+      time("useAuth:editUser:mutate: ");
+      await mutateUser({ ...user, details: userData, isLoggedIn: true }, true);
+      timeEnd("useAuth:editUser:mutate: ");
+
+      dispatch(setStatus("USER_EDIT_SUCCESS"));
+    },
+    [user, mutateUser]
+  );
 
   const contextValues = useMemo(
     () => ({
       ...state,
       editUser: (userData) => editUser(userData),
       logout: () => logout(),
-      login: (userName, token) => login(userName, token),
-      register: (userData) => register(userData)
+      login: login,
+      register: (userData) => register(userData),
+      preregister: preregister,
+      user: user,
+      mutateUser: mutateUser
     }),
-    [editUser, register, state, user]
+    [editUser, register, state, user, mutateUser, preregister, logout, login]
   );
 
   return (

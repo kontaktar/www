@@ -11,7 +11,7 @@ import React, {
 import useSWR from "swr";
 import { Endpoint, UserData } from "types";
 import { GetIsAdmin } from "lib/endpoints";
-import useUser from "lib/useUser";
+import useAuth from "hooks/useAuth";
 
 export type AdminReducerState = {
   isAdmin: boolean;
@@ -47,7 +47,7 @@ const AdminProvider = ({
     error,
     mutate: mutateUsers
   } = useSWR(isAdmin ? `${Endpoint.Admins}/users` : null);
-  const { user } = useUser();
+  const { user } = useAuth();
 
   console.log("RENDERED: AdminProvider");
 

@@ -3,13 +3,13 @@ import { LoginFormProvider } from "providers/LoginForm";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { Routes } from "types";
-import useUser from "lib/useUser";
+import useAuth from "hooks/useAuth";
 import { LoginFormContainer, MainLayout } from "layouts";
 
 const Login: NextPage = () => {
   const router = useRouter();
 
-  const { user } = useUser();
+  const { user } = useAuth();
   if (user?.isLoggedIn) {
     router.push(Routes.Profile);
   }

@@ -9,7 +9,7 @@ import cx from "classnames";
 import { useAppDispatch } from "store";
 import { deleteUserExperience } from "store/experiences";
 import { editUserExperience } from "store/experiences";
-import useUser from "lib/useUser";
+import useAuth from "hooks/useAuth";
 import { Icon } from "components";
 import Link from "components/LinkWrap";
 import styles from "./Card.module.scss";
@@ -33,7 +33,7 @@ const Card = (props) => {
 
   // TODO: This, onEditCard, onPublishToggleCard, onDeleteCard doesn't belong in the component.
   // Should be in a provider, this is breaking Storybook.
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const onEditCard = () => {
     onEdit(experienceId, title, description, years, months, published);
