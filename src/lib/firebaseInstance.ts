@@ -1,5 +1,5 @@
-import Firebase from 'Firebase/app';
-import 'Firebase/auth';
+import Firebase from 'firebase/app';
+import 'firebase/auth';
 // import { debugError } from 'helpers/debug';
 import { isBypassingFirebase } from "helpers/firebase";
 
