@@ -52,10 +52,7 @@ dynamic variables like `../api/user/[id].js` Visit
 
 ## Database
 
-Test instance running on AWS RDS:
-`psql --host=kontaktardb.crpycooyf4pt.eu-west-2.rds.amazonaws.com --port=5432 --username=postgres --password --dbname=kontaktar -U admin`
-
-Prevent string injections. Never user ES6 literals for database queries.
+Prisma todo:
 
 ## Auth
 
@@ -66,8 +63,7 @@ Bypass firebase on localhost by setting `FIREBASE_EMULATOR=1` in `.env.local`
 
 Setup: https://firebase.google.com/docs/cli#sign-in-test-cli
 
-Use the Firebase emulator, set `FIREBASE_EMULATOR=1` in `.env.local`
-Start: `yarn emulator`
+Start: `yarn emulator` it will set `FIREBASE_EMULATOR=1`.
 
 ## API
 
@@ -81,42 +77,46 @@ All published cards
 
 `/api/search/[params]`
 
-Finds cards by user_name, first_name, last_name, experience title, description
+Find cards by user_name, first_name, last_name, experience title, description
 and published.
 
+`/api/user`
+
+`/api/user/[userId]`
+
+`/api/user/[userId]/experiences`
+
+`/api/user/[userId]/experiences/[experienceId]`
+
+Get all usernames.
+
 `/api/users`
-
-`/api/users/[userId]`
-
-`/api/users/[userId]/experiences`
-
-`/api/users/[userId]/experiences/[experienceId]`
 
 ### POST:
 
-`/api/users`
+`/api/user`
 
 - body = { ssn, userName, firstName, lastName, email, website?, phoneNumber? ,
   postalCode?, streetName?, city?, country? }
 
-`/api/users/[userId]/experiences`
+`/api/user/[userId]/experiences`
 
 - body = { title?, description?, years?, months?, published? }
 
 ### DELETE:
 
-`/api/users/[userId]`
+`/api/user/[userId]`
 
-`/api/users/[userId]/experiences/[experienceId]`
+`/api/user/[userId]/experiences/[experienceId]`
 
 ### PUT:
 
-`/api/users/[userId]`
+`/api/user/[userId]`
 
 - body = { ssn?, userName?, firstName?, lastName?, email?, website?,
   phoneNumber? , postalCode?, streetName?, city?, country? }
 
-`/api/users/[userId]/experiences/[experienceId]`
+`/api/user/[userId]/experiences/[experienceId]`
 
 - body = { title?, description?, years?, months?, published? }
 
@@ -247,3 +247,15 @@ User deletes himself.
 User registers, logsout, logs in again.
 Admin edits user.
 Admin deletes users.
+
+# Prisma
+
+Schema (re)uploaded villa:
+Tóks að laga þegar ég breytti database/index DATABASE_URL í eitthvað sem virkaði ekki, generateaði.
+Breytti svo til baka. generate,migrate,push
+
+# Phone number dilemmas
+
+In Prisma, there is a userPhoneNumber table with `phoneNumber` and `countryCodeExtension`.
+Because of how phone numbers are stored in Firebase, it's better that `phoneNumber` (should be `fullPhoneNumber` or just move it to User tables), includes the country code.
+Note that the mock seed data seperates them, TODO.

@@ -79,20 +79,22 @@ const Carousel = ({ cards }: { cards: any }): ReactElement => {
         customLeftArrow={<CustomLeftArrow />}
       >
         {cards?.length > 0 ? (
-          cards.map((card, i) => (
-            <Card
-              id={i}
-              key={`${card.userId}${card.experienceId}`}
-              title={card?.title}
-              description={card?.description}
-              years={card?.years}
-              months={card?.months}
-              linkToProfile={{
-                userName: card?.userName,
-                experienceId: card?.experienceId
-              }}
-            />
-          ))
+          cards.map((card, i) => {
+            return (
+              <Card
+                id={i}
+                key={`${card.userId}${card.experienceId}`}
+                title={card?.title}
+                description={card?.description}
+                years={card?.years}
+                months={card?.months}
+                linkToProfile={{
+                  userName: card?.userName,
+                  experienceId: card?.experienceId
+                }}
+              />
+            );
+          })
         ) : (
           <Card />
         )}

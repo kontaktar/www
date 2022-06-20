@@ -7,7 +7,7 @@
 describe("Login", () => {
   beforeEach(() => {
     cy.visit("/innskra");
-    cy.doLogin("+3541111111");
+    cy.doLogin("+3541111112");
     cy.location("pathname", { timeout: 20000 }).should("eq", "/profill");
   });
 
@@ -99,7 +99,7 @@ describe("Login", () => {
     cy.get("[data-test=cityInput]").clear().type("TESTVÍK");
     cy.get("[data-test=postalCodeInput]").clear().type(randomPostalCode);
     cy.get("[data-test=countryInput]").clear().type("TESTLAND");
-    cy.get("[data-test=emailInput]").clear().type("test@test.is");
+    cy.get("[data-test=emailInput]").clear().type("yoloo@test.is");
     cy.get("[data-test=websiteInput]").clear().type("www.test.is");
 
     cy.get("[data-test=saveUserInfoButton]").click();
@@ -113,9 +113,16 @@ describe("Login", () => {
     );
     cy.get("[data-test=phoneNumberUserInfoItem]").should(
       "have.text",
-      "+3541111111"
+      "+3541111112"
     );
-    cy.get("[data-test=emailUserInfoItem]").should("have.text", "test@test.is");
+    cy.get("[data-test=emailUserInfoItem]").should(
+      "have.text",
+      "yoloo@test.is"
+    );
+    cy.get("[data-test=emailUserInfoItem]").should(
+      "have.text",
+      "yoloo@test.is"
+    );
     cy.get("[data-test=locationUserInfoItem]").should(
       "have.text",
       `TESTGATA ${randomAddressNumber}, ${randomPostalCode}, TESTVÍK, TESTLAND`

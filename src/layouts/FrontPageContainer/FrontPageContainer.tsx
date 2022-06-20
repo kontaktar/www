@@ -4,9 +4,9 @@ import SvgPluses from "assets/background/SvgPluses";
 import SvgSolidRing from "assets/background/SvgSolidRing";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "store";
 import { randomize } from "helpers/arrays";
-import { Button, /* Carousel,*/ SearchBar } from "components";
+import { Button, SearchBar } from "components";
 import Link from "components/LinkWrap";
 import styles from "./FrontPageContainer.module.scss";
 
@@ -14,7 +14,7 @@ const FrontPageContainer = (): ReactElement => {
   const router = useRouter();
 
   const [searchInput, setSearchInput] = useState("");
-  const searchState = useSelector((state) => (state as any).searches);
+  const searchState = useAppSelector((state) => (state as any).searches);
   const [fiveRandomCards, setFiveRandomCards] = useState();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {

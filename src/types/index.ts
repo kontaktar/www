@@ -1,9 +1,12 @@
+import { NextApiRequest } from "next";
+import { Session } from "next-iron-session";
 import { User } from "types";
-
 export * from "./endpoints";
 export * from "./users";
 export * from "./routes";
+export * from "./database";
 
+export type NextIronRequest = NextApiRequest & { session: Session };
 export type UserSessionStorage = {
   details?: User;
   isLoggedIn: boolean;

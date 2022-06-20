@@ -1,14 +1,22 @@
+import {
+  createUser,
+  getUserById,
+  getUserByPhoneNumber,
+  getUserByUserName
+} from "database/queries/user";
+import type { NextApiResponse } from "next";
+import type { NextIronRequest } from "types";
 import { IronSession } from "types";
-import withSession from "lib/sessions";
-import { withMiddleware } from "utils/apiMiddleware";
-import { debug } from "helpers/debug";
+import { isAdminOrAuthorizedUser, isCurrentUserUnregistered } from "lib/auth";
+import { withSession } from "lib/sessions";
+import { debug, debugError } from "helpers/debug";
 
-const User = withSession(async (request, response) => {
-  await withMiddleware(request, response);
-  const userData = request.session.get(IronSession.UserSession);
+const getUserFromSession = async (
+  request: NextIronRequest,
+  response: NextApiResponse
+) => {
+  const userData = request.session?.get(IronSession.UserSession);
   if (userData) {
-    // do we need to fetch any information about the user?
-    debug("userData from /api/user/", userData);
     response.json({
       isLoggedIn: true,
       ...userData
@@ -18,6 +26,31 @@ const User = withSession(async (request, response) => {
       isLoggedIn: false
     });
   }
-});
+};
 
-export default User;
+export default withSession(
+  async (request: NextIronRequest, response: NextApiResponse) => {
+    const { body, method, query } = request;
+    if (method === "GET") {
+      if (Object.keys(query).length === 0) {
+        await getUserFromSession(request, response);
+      } else if (query?.userName) {
+        await getUserByUserName(request, response);
+      } else if (query?.phoneNumber) {
+        await getUserByPhoneNumber(request, response);
+      } else if (query?.id) {
+        await getUserById(request, response);
+      } else {
+        response.status(404).json({ message: "Not found" });
+      }
+    } else if (method === "POST") {
+      if (await isCurrentUserUnregistered(request, response)) {
+        // CREATE USER
+        await createUser(request, response);
+      } else {
+        response.status(401).json({ message: "Forbidden" });
+      }
+    }
+    response.status(404);
+  }
+);

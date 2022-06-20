@@ -1,0 +1,83 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity", "fullTextSearch", "dataProxy"]
+}
+
+datasource db {
+  provider             = "postgresql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model User {
+  id              Int              @id @default(autoincrement())
+  ssn             String           @unique
+  userName        String           @unique
+  firstName       String
+  lastName        String
+  userStatistics  UserStatistics?
+  userMetaData    UserMetaData?
+  userAddress     UserAddress?
+  Experiences     Experience[]
+  userPhoneNumber UserPhoneNumber?
+  userFirebaseMap UserFirebaseMap?
+  role            Role             @default(USER)
+}
+
+model UserPhoneNumber {
+  phoneCountryExtension String?
+  phoneNumber           String  @unique
+  User                  User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                Int     @unique
+}
+
+model UserMetaData {
+  id      Int     @id @default(autoincrement())
+  email   String? @unique
+  website String?
+  User    User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int     @unique
+}
+
+model UserStatistics {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  lastLogin DateTime?
+  updatedAt DateTime?
+  User      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int       @unique
+}
+
+model UserAddress {
+  id         Int     @id @default(autoincrement())
+  postalCode String?
+  streetName String?
+  city       String?
+  country    String?
+  User       User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int     @unique
+}
+
+model UserFirebaseMap {
+  firebaseId String @unique
+  User       User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int    @unique
+}
+
+model Experience {
+  id          Int       @id @default(autoincrement())
+  years       Int?
+  months      Int?
+  order       Int?
+  title       String?
+  description String?
+  editedAt    DateTime?
+  published   Boolean?  @default(false)
+  User        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+}
+
+enum Role {
+  USER
+  ADMIN
+}

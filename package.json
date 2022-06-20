@@ -3,20 +3,25 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
+    "build:db": "yarn prisma:generate && yarn prisma:migrate",
+    "clean": "rm -rf .next",
     "cy": "CYPRESS=1 cypress open --config-file cypress/cypress.json",
     "cy:run": "CYPRESS=1 cypress run --config-file cypress/cypress.json",
     "cy:build": "NODE_ENV=development FIREBASE_EMULATOR=1 CYPRESS=1 cypress run --config-file cypress/cypress.build.json",
-    "emulator": "yarn firebase emulators:start",
+    "emulator": "FIREBASE_EMULATOR=1 yarn firebase emulators:start",
     "build": "next build",
     "build:profiling": "next build --profile",
     "dev": "NODE_ENV=development next",
     "dev:prod": "FIREBASE_EMULATOR=0 NODE_ENV=production next",
+    "studio": "make db-studio",
+    "prisma:generate": "make db-generate",
+    "prisma:migrate": "make db-migrate",
     "start": "next start -p 8000",
+    "start:local": "LOCALHOST=localhost:8000 next start -p 8000",
     "start:cy": "FIREBASE_EMULATOR=1 NODE_ENV=development next start -p 8000",
-    "generate": "yarn hygen generator",
     "new": "yarn hygen generator",
     "lint": "next lint",
-    "pre-push": "yarn lint",
+    "pre-push": "yarn lint & yarn build",
     "test": "jest --json --outputFile=.jest-test-results.json",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "storybook:build": "build-storybook -c .storybook -o public/storybook"
@@ -28,6 +33,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.3.3",
     "@material-ui/system": "^4.5.0",
+    "@prisma/client": "^3.5.0",
     "@reduxjs/toolkit": "^1.5.1",
     "array-move": "^2.1.0",
     "bcryptjs": "^2.4.3",
@@ -40,8 +46,8 @@
     "lodash.orderby": "^4.6.0",
     "next": "^12.0.0",
     "next-iron-session": "^4.1.9",
-    "next-redux-wrapper": "^6.0.2",
-    "pg-promise": "^10.5.5",
+    "next-redux-wrapper": "^7.0.5",
+    "prisma": "^3.5.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -49,8 +55,10 @@
     "react-sortable-hoc": "^1.11.0",
     "react-table": "^7.7.0",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.3",
     "sass": "^1.32.12",
+    "swagger-ui-react": "^3.52.5",
     "swr": "^0.3.0",
     "uuid": "^8.3.2",
     "webpack": "^5.60.0",
@@ -70,7 +78,9 @@
     "@storybook/manager-webpack5": "^6.3.12",
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^6.3.12",
+    "@types/jest": "^27.0.3",
     "@types/yup": "^0.29.11",
+    "@welldone-software/why-did-you-render": "^6.2.3",
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "css-loader": "^6.5.0",
@@ -98,6 +108,7 @@
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^8.0.4",
+    "ts-node": "^10.4.0",
     "tsconfig-paths-webpack-plugin": "^3.3.0",
     "typescript": "^4.3.2",
     "vercel": "^23.1.2"
@@ -113,5 +124,9 @@
     "hooks": {
       "pre-push": "yarn pre-push"
     }
+  },
+  "prisma": {
+    "schema": "./src/database/schema.prisma",
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} ./src/database/prismaSeed.ts"
   }
 }

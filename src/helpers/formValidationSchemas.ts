@@ -21,7 +21,7 @@ const validate = {
   password: Yup.string()
     // .min(8, messages.MINIMUM_8) // TODO:
     .required(messages.REQUIRED),
-  email: Yup.string().email("Invalid email format").required(messages.REQUIRED),
+  email: Yup.string().email("Invalid email format"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], messages.PASSWORD_DONT_MATCH)
     .required(messages.REQUIRED),
@@ -67,16 +67,30 @@ export const registerFormSchema = Yup.object().shape({
   ssn: validate.ssn
 });
 
-export const editUserSchema = Yup.object().shape({
-  userName: validate.userName,
-  ssn: validate.ssn,
-  firstName: validate.name,
-  lastName: validate.name,
-  country: validate.country,
-  city: validate.city,
-  postalCode: validate.postalCode,
-  streetName: validate.streetName,
-  email: validate.email,
-  website: validate.website
-  // phoneNumber: validate.phoneNumber,
-});
+export const editUserSchema = (values) => {
+  try {
+    const schema = Yup.object().shape({
+      userName: validate.userName,
+      ssn: validate.ssn,
+      firstName: validate.name,
+      lastName: validate.name,
+      country: validate.country,
+      city: validate.city,
+      postalCode: validate.postalCode,
+      streetName: validate.streetName,
+      email: validate.email,
+      website: validate.website
+      // phoneNumber: validate.phoneNumber,
+    });
+    return schema
+      .validate(values, {
+        abortEarly: false
+      })
+      .then(() => {})
+      .catch((err) => {
+        throw err;
+      });
+  } catch (error) {
+    console.error("editUserSchema", error);
+  }
+};

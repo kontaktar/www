@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { UserAddressEnum, UserData, UserEnum } from "types";
 import { DeleteUser } from "lib/endpoints";
-import useUser from "lib/useUser";
 import { editUserSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
 import { Button, LastChange } from "components";
@@ -22,17 +21,18 @@ const EditUserForm = ({
   const { mutateUsers, isAdmin } = useAdmin();
   const [timestamp, setTimestamp] = useState(undefined);
   const { editUser, status } = useAuth();
-  const [openConfirmationModal, setOpenConfirmationModal] = React.useState(
-    false
-  );
-  const { user } = useUser();
+  const [openConfirmationModal, setOpenConfirmationModal] =
+    React.useState(false);
+  const { user } = useAuth();
 
   const formik = useFormik({
     initialValues: {
       ...userData
     } as UserData,
-    validationSchema: editUserSchema,
+    // TODO:
+    // validationSchema: (values) => editUserSchema(values),
     onSubmit: async (values) => {
+      editUserSchema(values);
       setTimestamp(new Date());
 
       await editUser(values);
@@ -213,7 +213,6 @@ const EditUserForm = ({
             type="save"
             className={styles.button_save}
             isLoading={status === "USER_EDIT_REQUEST"}
-            // onClick={}
           />
         </div>
       </form>

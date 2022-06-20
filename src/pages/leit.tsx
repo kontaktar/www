@@ -1,27 +1,24 @@
 import React from "react";
 import { NextPage } from "next";
-import { useDispatch, useSelector } from "react-redux";
-import wrapper from "store/configureStore";
+import { useAppDispatch, useAppSelector } from "store";
+import { wrapper } from "store";
+import { fetchSearchResult, updateLatestSearch } from "store/search";
 import { GetSearchResult } from "lib/endpoints";
-import withSession from "lib/sessions";
-import useUser from "lib/useUser";
-import { randomize } from "helpers/arrays";
+import { withSession } from "lib/sessions";
 import { debugError } from "helpers/debug";
+import useAuth from "hooks/useAuth";
 import { MainLayout, SearchContainer, UserLayout } from "layouts";
-import {
-  fetchSearchResult,
-  fetchSearchResultSuccess,
-  updateLatestSearch
-} from "../store/actions";
 
 type Props = {
   // From getServerSideProps
   searchInput?: string;
 };
 const Search: NextPage<Props> = ({ searchInput }) => {
-  const { user } = useUser();
-  const storeSearches = useSelector((state) => (state as any).searches);
-  const dispatch = useDispatch();
+  const { user } = useAuth();
+
+  const storeSearches = useAppSelector((state) => (state as any).searches);
+  console.log("storeSearch", storeSearches);
+  const dispatch = useAppDispatch();
 
   const onSearch = async (params) => {
     if (params && storeSearches.inputs && storeSearches.inputs[params]) {
@@ -37,7 +34,7 @@ const Search: NextPage<Props> = ({ searchInput }) => {
 
   return (
     <div>
-      {!user.isLoggedIn ? (
+      {!user?.isLoggedIn ? (
         <div>
           <MainLayout>
             <SearchContainer
@@ -68,20 +65,11 @@ const Search: NextPage<Props> = ({ searchInput }) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  withSession(async ({ store, query: { searchInput = "" } }) => {
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  withSession(async ({ query: { searchInput = "" } }) => {
     const searchDecoded = decodeURIComponent(searchInput);
     try {
-      const searchResult = Object.values(await GetSearchResult(searchDecoded));
-
-      store.dispatch(updateLatestSearch(searchDecoded));
-
-      store.dispatch(
-        fetchSearchResultSuccess(
-          searchDecoded,
-          searchInput === "" ? randomize(searchResult) : searchResult
-        )
-      );
+      await store.dispatch(fetchSearchResult(searchDecoded));
     } catch (error) {
       debugError(`Error fetching search results: ${error}`);
     }

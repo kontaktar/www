@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { IronSession, Routes } from "types";
-import wrapper from "store/configureStore";
-import withSession from "lib/sessions";
+import { wrapper } from "store";
+import { withSession } from "lib/sessions";
 import { debug, debugWarn } from "helpers/debug";
 import { MainLayout, RegisterContainer } from "layouts";
 
@@ -26,7 +26,7 @@ const Register: NextPage<Props> = ({ href, reroute }) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
   withSession(async ({ req }) => {
     const user = req.session.get(IronSession.UserSession);
     debug("user from session", user);

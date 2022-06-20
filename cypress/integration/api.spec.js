@@ -14,17 +14,17 @@ describe("Access", () => {
     });
   });
 
-  it("GET: /api/users/all-usernames", () => {
-    cy.request("GET", `${baseUrl}/users/all-usernames`).should((response) => {
+  it("GET: /api/users", () => {
+    cy.request("GET", `${baseUrl}/users`).should((response) => {
       expect(response.status).to.eq(200);
       expect(response).property("body").to.be.a("array");
     });
   });
 
-  it("POST: /api/users should fail, needs Authorization", () => {
+  it("POST: /api/user should fail, needs Authorization", () => {
     cy.request({
       method: "POST",
-      url: `${baseUrl}/users`,
+      url: `${baseUrl}/user`,
       failOnStatusCode: false,
       body: { abc: "123" }
     }).should((response) => {
@@ -32,7 +32,7 @@ describe("Access", () => {
       expect(response)
         .property("body")
         .to.have.property("message")
-        .to.equal("Missing Authorization header");
+        .to.equal("Forbidden");
     });
   });
   it("POST: /api/user/session should fail, needs Authorization", () => {
@@ -46,10 +46,10 @@ describe("Access", () => {
       expect(response).property("body").to.have.property("message");
     });
   });
-  it("PUT: /api/users/0 should fail, needs Authorization", () => {
+  it("PUT: /api/user/0 should fail, needs Authorization", () => {
     cy.request({
       method: "PUT",
-      url: `${baseUrl}/users/0`,
+      url: `${baseUrl}/user/0`,
       failOnStatusCode: false,
       body: { userName: "Test" }
     }).should((response) => {
@@ -57,10 +57,10 @@ describe("Access", () => {
       expect(response).property("body").to.have.property("message");
     });
   });
-  it("PUT: /api/users/0/experiences/0 should fail, needs Authorization", () => {
+  it("PUT: /api/user/0/experiences/0 should fail, needs Authorization", () => {
     cy.request({
       method: "PUT",
-      url: `${baseUrl}/users/0/experiences/0`,
+      url: `${baseUrl}/user/0/experiences/0`,
       failOnStatusCode: false,
       body: { stuff: "Test" }
     }).should((response) => {
@@ -71,10 +71,10 @@ describe("Access", () => {
         .to.equal("Forbidden");
     });
   });
-  it("POST: /api/users/0/experiences should fail, needs Authorization", () => {
+  it("POST: /api/user/0/experiences should fail, needs Authorization", () => {
     cy.request({
       method: "POST",
-      url: `${baseUrl}/users/0/experiences`,
+      url: `${baseUrl}/user/0/experiences`,
       failOnStatusCode: false,
       body: { stuff: "Test" }
     }).should((response) => {
@@ -85,24 +85,25 @@ describe("Access", () => {
         .to.equal("Forbidden");
     });
   });
-  it("DELETE: /api/users/0 should fail, needs Authorization", () => {
+  it("DELETE: /api/user/0 should fail, needs Authorization", () => {
     cy.request({
       method: "DELETE",
-      url: `${baseUrl}/users/0`,
+      url: `${baseUrl}/user/0`,
       failOnStatusCode: false,
       body: { stuff: "Test" }
     }).should((response) => {
       expect(response.status).to.eq(401);
+      cy.log("DELETE response", response);
       expect(response)
         .property("body")
         .to.have.property("message")
         .to.equal("Forbidden");
     });
   });
-  it("DELETE: /api/users/0/experiences/0 should fail, needs Authorization", () => {
+  it("DELETE: /api/user/0/experiences/0 should fail, needs Authorization", () => {
     cy.request({
       method: "DELETE",
-      url: `${baseUrl}/users/0/experiences/0`,
+      url: `${baseUrl}/user/0/experiences/0`,
       failOnStatusCode: false,
       body: { stuff: "Test" }
     }).should((response) => {

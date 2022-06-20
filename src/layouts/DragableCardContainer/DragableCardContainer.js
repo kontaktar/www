@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import arrayMove from "array-move";
 import isEqual from "lodash.isequal";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
-import { editUserExperiences } from "store/actions";
+import { useAppDispatch, useAppSelector } from "store";
+import { editUserExperiences } from "store/experiences";
+import useAuth from "hooks/useAuth";
 import { Card } from "components";
 import { CardsContainer } from "layouts";
 import styles from "./DragableCardContainer.module.scss";
@@ -44,8 +45,9 @@ const SortableContainer = sortableContainer(({ children }) => {
 // eslint-disable-next-line react/prop-types
 const DragableCardContainer = ({ userId, items, handleEdit }) => {
   // eslint-disable-next-line no-param-reassign
-  const dispatch = useDispatch();
-  const store = useSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const store = useAppSelector((state) => state);
+  const { user } = useAuth();
 
   const [arrangement, setArrangement] = useState(items);
   async function updateOrder(rearrangeItems) {
@@ -60,7 +62,7 @@ const DragableCardContainer = ({ userId, items, handleEdit }) => {
         order: index + 1
       };
     });
-    dispatch(editUserExperiences(userId, itemsInNewOrder));
+    dispatch(editUserExperiences(userId, itemsInNewOrder, user.firebase.token));
   }
   const onChange = ({ oldIndex, newIndex }) => {
     // eslint-disable-next-line no-unused-expressions

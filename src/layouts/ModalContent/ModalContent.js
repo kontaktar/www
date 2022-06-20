@@ -2,10 +2,9 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import cx from "classnames";
-import { createUserExperience, editUserExperience } from "store/actions";
-import useUser from "lib/useUser";
+import { useAppDispatch, useAppSelector } from "store";
+import { createUserExperience, editUserExperience } from "store/experiences";
 import { debug } from "helpers/debug";
 import useAuth from "hooks/useAuth";
 import {
@@ -21,11 +20,11 @@ import { MUIInput } from "components/Input";
 import styles from "./ModalContent.module.scss";
 
 const Experience = ({ data }) => {
-  const dispatch = useDispatch();
-  const { user } = useUser();
+  const dispatch = useAppDispatch();
+  const { user } = useAuth();
   const [isLoading, setLoading] = React.useState(false);
 
-  const experiences = useSelector((state) => state.experiences);
+  const experiences = useAppSelector((state) => state.experiences);
 
   React.useEffect(() => {
     setLoading(experiences.isFetching);
@@ -56,9 +55,9 @@ const Experience = ({ data }) => {
   const saveExperience = () => {
     if (validateExperience()) {
       if (isNew) {
-        dispatch(createUserExperience(user.details.id, experience));
+        dispatch(createUserExperience(user, experience));
       } else {
-        dispatch(editUserExperience(user.details.id, experience));
+        dispatch(editUserExperience(user, experience));
       }
       setTimestamp(new Date());
     }
@@ -138,12 +137,31 @@ const Experience = ({ data }) => {
 };
 
 const UserInformation = () => {
-  const { user } = useUser();
+  const { user } = useAuth();
+  const currentUser = useAppSelector((state) => state.users.currentUser);
+
+  const userToEdit = {
+    id: currentUser.id,
+    ssn: currentUser.ssn,
+    userName: currentUser.userName,
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
+    email: currentUser.userMetaData?.email,
+    website: currentUser.userMetaData?.website,
+    phoneNumber: currentUser.userPhoneNumber.phoneNumber,
+    firebaseId: user.firebase.id,
+    createdAt: currentUser.userStatistics?.createdAt,
+    lastLogin: currentUser.userStatistics?.lastLogin,
+    country: currentUser.userAddress?.country,
+    postalCode: currentUser.userAddress?.postalCode,
+    streetName: currentUser.userAddress?.streetName,
+    city: currentUser.userAddress?.city
+  };
 
   return (
     <>
       <div className={styles.header}>Breyta upplýsingum</div>
-      <EditUser userData={user.details} />
+      <EditUser userData={userToEdit} />
     </>
   );
 };

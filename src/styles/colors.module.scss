@@ -12,18 +12,20 @@ $color-grey-dark: #333333;
 
 $color-paper-white: #f3f3f3;
 
+$color-black: #000000;
+$color-black-20: rgba(0, 0, 0, 0.2);
+$color-black-60: rgba(0, 0, 0, 0.3);
+
 $secondary-black-color: rgba(0, 0, 0, 0.8);
 $paragraph-color: rgba(0, 0, 0, 0.9);
 $paragraph-inverted-color: $color-white;
+$paragraph-color-placeholder: $color-black-60;
+
 $primary-color: $color-red;
 $secondary-color: $color-brown;
 
 $background-color: $color-white;
 $color-background: $color-white; // use this
-
-$color-black: #000000;
-$color-black-20: rgba(0, 0, 0, 0.2);
-$color-black-60: rgba(0, 0, 0, 0.3);
 
 // use as:
 // import colors from "styles/colors.scss";

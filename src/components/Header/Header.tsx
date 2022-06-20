@@ -4,7 +4,6 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import cx from "classnames";
 import { Routes } from "types";
-import useUser from "lib/useUser";
 import useAuth from "hooks/useAuth";
 import useMaxWidth from "hooks/useMaxWidth";
 import { Button, Logo } from "components";
@@ -22,7 +21,7 @@ const Header = ({
   noDistraction = false
 }: Props): React.ReactElement => {
   const { width } = useWindowDimensions();
-  const { user } = useUser();
+  const { user } = useAuth();
   const { logout } = useAuth();
   const [openBurger, setOpenBurger] = useState(false);
   const router = useRouter();
@@ -76,6 +75,9 @@ const Header = ({
                           <NextLink href="/">Kontaktar</NextLink>
                         </span>
                         <span>
+                          <NextLink href={Routes.Profile}>Prófill</NextLink>
+                        </span>
+                        <span>
                           <NextLink href={Routes.Search}>Leita</NextLink>
                         </span>
                         <span>
@@ -103,6 +105,17 @@ const Header = ({
                     </Button>
                   </Link>
                 )}
+                {user?.isLoggedIn && (
+                  <Link href={Routes.Subcription}>
+                    <Button
+                      name="profileNavigation"
+                      className={cx(styles.tab, styles.ripple)}
+                      modifier={["borderless"]}
+                    >
+                      Prófíll
+                    </Button>
+                  </Link>
+                )}
                 <Link href={Routes.Search}>
                   <Button
                     name="searchNavigation"
@@ -125,13 +138,13 @@ const Header = ({
                   name="logoutNavigation"
                   className={styles.login}
                   onClick={
-                    !user.isLoggedIn
+                    !user?.isLoggedIn
                       ? () => router.push(Routes.Login)
                       : () => logout()
                   }
-                  modifier={!user.isLoggedIn ? ["inverted"] : []}
+                  modifier={!user?.isLoggedIn ? ["inverted"] : []}
                 >
-                  {!user.isLoggedIn ? "Innskráning" : "Útskrá"}
+                  {!user?.isLoggedIn ? "Innskráning" : "Útskrá"}
                 </Button>
               </div>
             )}

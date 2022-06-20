@@ -1,46 +1,13 @@
 // ./pages/api/login
-import * as admin from "firebase-admin";
-import { IronSession, UserSessionStorage } from "types";
-import { firebaseAdminInitConfig } from "lib/firebaseConfig";
-import withSession from "lib/sessions";
-import { withMiddleware } from "utils/apiMiddleware";
-import { debug, debugError } from "helpers/debug";
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    ...firebaseAdminInitConfig,
-    credential: admin.credential.cert({
-      ...firebaseAdminInitConfig.credential
-    })
-  });
-}
+import { UserSessionStorage } from "types";
+import { checkAuthHeader } from "lib/auth";
+import { withSession } from "lib/sessions";
+import { saveUserToSession } from "lib/sessions";
+import { debugError } from "helpers/debug";
 
 const Login = withSession(async (request, response) => {
-  await withMiddleware(request, response);
   const { body } = request;
   try {
-    if (!request?.headers?.authorization) {
-      response
-        .status(401)
-        .json({ messsage: "Missing Authorization header" })
-        .end();
-      return;
-    }
-
-    admin
-      .auth()
-      .verifyIdToken(request?.headers?.authorization)
-      .then((decodedToken) => {
-        const { uid } = decodedToken;
-        // do something here?
-        // TODO: this is the firebase?.id, maybe compare
-        debug("uid returned from IdToken verification on login", uid);
-        // ...
-      })
-      .catch((error) => {
-        debugError(error);
-      });
-
     const user: UserSessionStorage = {
       details: body,
       isLoggedIn: true,
@@ -48,19 +15,15 @@ const Login = withSession(async (request, response) => {
         token: request.headers.authorization
       }
     };
+    await saveUserToSession(request, response, user);
 
-    try {
-      request.session.set(IronSession.UserSession, user);
-      await request.session.save();
-    } catch (error) {
-      response.status(500).json(error);
-      debugError(`setting to iron: ${error.message}`);
-      throw new Error(`Failed to save to session storage`);
-    }
+    response.status(200).json(body);
+    
   } catch (error) {
-    response.status(500).json({ error: error.message });
+    debugError(error);
+    // response.status(400).json(body);
+    return;
   }
-  response.status(200).json(body);
 });
 
 export default Login;

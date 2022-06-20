@@ -6,10 +6,9 @@ import CircleIcon from "@material-ui/icons/RadioButtonUnchecked";
 import listOfReservedUserNames from "data/reservedUserNames";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 import { Routes, UserEnum } from "types";
+import { useAppSelector } from "store";
 import { GetAllUserNames } from "lib/endpoints";
-import useUser from "lib/useUser";
 import { debug, debugError } from "helpers/debug";
 import { registerErrors } from "helpers/errorMessages";
 import { registerFormSchema } from "helpers/formValidationSchemas";
@@ -27,9 +26,9 @@ const RegisterContainer = (): ReactElement => {
   const [isUserNameTaken, setUserNameIsTaken] = useState(false);
   const [isUserNameCheckEmpty, setUserNameCheckEmpty] = useState(true);
   const [allUserNames, setAllUserNames] = useState([]);
-  const users = useSelector((state) => (state as any).users);
+  const users = useAppSelector((state) => (state as any).users);
   const { register } = useAuth();
-  const { user } = useUser();
+  const { user } = useAuth();
   const router = useRouter();
 
   const formik = useFormik({
