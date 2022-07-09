@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import ResponsiveCarousel from "react-multi-carousel";
 import cx from "classnames";
 import { Button, Card } from "components";
@@ -6,6 +6,7 @@ import "react-multi-carousel/lib/styles.css";
 import styles from "./Carousel.module.scss";
 
 const Carousel = ({ cards }: { cards: any }): ReactElement => {
+  const [autoPlay, setAutoPlay] = useState(true);
   const responsive = {
     largeDesktop: {
       breakpoint: { max: 9999, min: 1328 },
@@ -24,6 +25,12 @@ const Carousel = ({ cards }: { cards: any }): ReactElement => {
       items: 1
     }
   };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAutoPlay(false);
+    }, 60000);
+    return () => clearTimeout(timer);
+  }, []);
 
   type ArrowProps = {
     onClick?: (e: any) => void;
@@ -73,7 +80,7 @@ const Carousel = ({ cards }: { cards: any }): ReactElement => {
         renderButtonGroupOutside
         // partialVisible
         // centerMode
-        autoPlay
+        autoPlay={autoPlay}
         autoPlaySpeed={6000}
         customRightArrow={<CustomRightArrow />}
         customLeftArrow={<CustomLeftArrow />}
