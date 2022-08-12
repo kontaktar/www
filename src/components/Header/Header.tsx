@@ -106,7 +106,7 @@ const Header = ({
                   </Link>
                 )}
                 {user?.isLoggedIn && (
-                  <Link href={Routes.Subcription}>
+                  <Link href={Routes.Profile}>
                     <Button
                       name="profileNavigation"
                       className={cx(styles.tab, styles.ripple)}
