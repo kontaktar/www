@@ -30,7 +30,10 @@ const validate = {
     // TOOD: actually validate kennitala
     .min(10, messages.INCORRECT_SSN_SHORT)
     .required(messages.REQUIRED),
-  phoneNumber: Yup.string().required(messages.REQUIRED), // TODO:
+  phoneNumber: Yup.string()
+    .min(11, "Símanúmer þarf að vera á eftirfarandi formi: +3545812345")
+    .max(11, "Símanúmer þarf að vera á eftirfarandi formi: +3545812345")
+    .required(messages.REQUIRED), // TODO:
   verificationCode: Yup.string()
     .required(messages.REQUIRED)
     .min(6, messages.INCORRECT_VERIFICATION_CODE_LENGTH)

@@ -1,15 +1,13 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { useAuth as useFirebaseAuth} from 'providers/FirebaseAuthUser';
+import { useAuth as useFirebaseAuth } from "providers/FirebaseAuthUser";
 import { useLoginForm } from "providers/LoginForm";
 import { useRouter } from "next/router";
 import { Routes } from "types";
-import { AddToSession, GetUserByPhoneNumber } from "lib/endpoints";
+import { GetUserByPhoneNumber } from "lib/endpoints";
 import { debug, debugError } from "helpers/debug";
 import { verificationErrors } from "helpers/errorMessages";
-import {
-  isBypassingFirebase,
-} from "helpers/firebase";
+import { isBypassingFirebase } from "helpers/firebase";
 import { getEmulatorVerificationCode } from "helpers/firebase";
 import { verificationCodeSchema } from "helpers/formValidationSchemas";
 import useAuth from "hooks/useAuth";
@@ -28,13 +26,14 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
     useLoginForm();
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  const { firebaseIdToken, verificationCodeSent, emulatorCode } = useFirebaseAuth();
+  const { firebaseIdToken, verificationCodeSent, emulatorCode } =
+    useFirebaseAuth();
   const { login, logout, mutateUser, preregister } = useAuth();
 
   const formatAuthUser = (user) => ({
     uid: user.uid,
     email: user.email,
-    phoneNumber: user.phoneNumber,
+    phoneNumber: user.phoneNumber
   });
 
   const formik = useFormik({
@@ -56,7 +55,7 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
           .then(async (response) => {
             const { user: firebaseUser, additionalUserInfo } = response;
             debug(`confirmationResult: response`, response);
-            
+
             // try getting user by phone number
             let userData;
             try {
@@ -82,8 +81,8 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
                 firebaseUser.getIdToken().then(async (idToken) => {
                   await preregister(formatAuthUser(firebaseUser), idToken);
                 });
-            
-                setLoading(true)
+
+                setLoading(true);
               }
             }
             if (userData && userData?.phoneNumber && userData?.userName) {
@@ -92,7 +91,6 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
               try {
                 setLoading(true);
                 await login(userData);
-
               } catch (error) {
                 setLoading(false);
                 setErrorMessage(error.message);
@@ -124,10 +122,7 @@ const VerificationCodeForm = ({ userPhoneNumber }: Props): ReactElement => {
       formik.setFieldTouched("verificationCode", true, true);
     }
 
-    if (
-      isBypassingFirebase && 
-      !emulatorCode
-    ) {
+    if (isBypassingFirebase && !emulatorCode) {
       fetchEmulatorCode();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

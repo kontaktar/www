@@ -33,7 +33,7 @@ const Card = (props) => {
 
   // TODO: This, onEditCard, onPublishToggleCard, onDeleteCard doesn't belong in the component.
   // Should be in a provider, this is breaking Storybook.
-  const { user } = useAuth();
+  const { user, firebaseIdToken } = useAuth();
 
   const onEditCard = () => {
     onEdit(experienceId, title, description, years, months, published);

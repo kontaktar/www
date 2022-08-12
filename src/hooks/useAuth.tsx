@@ -13,7 +13,12 @@ import router from "next/router";
 import useSWR from "swr";
 import { Routes } from "types";
 import { Endpoint, User, UserAddress, UserSessionStorage } from "types";
-import { CreateUser, EditUser, UpdateUserLastLogin } from "lib/endpoints";
+import {
+  AddToSession,
+  CreateUser,
+  EditUser,
+  UpdateUserLastLogin
+} from "lib/endpoints";
 import { debugError, time, timeEnd } from "helpers/debug";
 import { post } from "helpers/methods";
 
@@ -76,7 +81,21 @@ export const AuthProvider = ({
 
   useEffect(() => {
     setAuthUser(firebaseAuthUser);
+    console.log("firebaseAuthUser", firebaseAuthUser);
   }, [firebaseAuthUser]);
+
+  useEffect(() => {
+    if (!user?.firebase?.token && firebaseAuthUser?.uid) {
+      const updatedUser = {
+        ...user,
+        firebase: {
+          token: firebaseIdToken,
+          id: firebaseAuthUser?.uid
+        }
+      };
+      async () => await AddToSession(updatedUser);
+    }
+  }, [user, firebaseIdToken]);
 
   const logout = useCallback(async () => {
     await post(Endpoint.Logout).then(() => {
@@ -88,7 +107,7 @@ export const AuthProvider = ({
 
   const login = useCallback(
     async (userData) => {
-      console.log("firebaseIdToken", firebaseIdToken);
+      console.log("login:firebaseIdToken", firebaseIdToken);
       await post(Endpoint.Login, userData, { Authorization: firebaseIdToken });
       try {
         if (userData?.id) {
@@ -99,7 +118,9 @@ export const AuthProvider = ({
           });
         }
       } catch (error) {
-        debugError(`useAuth:login: ${error} ${error.message}, ${error.code}`);
+        debugError(
+          `useAuth:login_error: ${error} ${error.message}, ${error.code}`
+        );
         router.push(Routes.Login);
       } finally {
         console.log("logging in user", userData);
@@ -116,6 +137,7 @@ export const AuthProvider = ({
 
   const preregister = useCallback(
     async (authUser, firebaseIdToken): Promise<void> => {
+      console.log("preregister:firebaseIdToken", firebaseIdToken);
       const body = await post(Endpoint.Register, authUser, {
         Authorization: firebaseIdToken
       });
@@ -159,7 +181,7 @@ export const AuthProvider = ({
 
       dispatch(setStatus("USER_EDIT_SUCCESS"));
     },
-    [user, mutateUser]
+    [user, mutateUser, firebaseIdToken]
   );
 
   const contextValues = useMemo(
