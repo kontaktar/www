@@ -17,10 +17,18 @@ const rootReducer = (state, action) => {
     // https://github.com/kirill-konshin/next-redux-wrapper#server-and-client-state-separation
     case HYDRATE: {
       console.log("HYDRATE", state, action.payload);
-      return {
-        ...state,
-        ...action.payload
-      };
+      if (
+        !Object.keys(action.payload.users).length &&
+        !Object.keys(action.payload.experiences).length &&
+        !Object.keys(action.payload.searched).length
+      ) {
+        return state;
+      } else {
+        return {
+          ...state,
+          ...action.payload
+        };
+      }
     }
     default: {
       return otherReducers(state, action);
