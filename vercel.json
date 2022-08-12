@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    {
+      "destination": "/storybook",
+      "source": "public/storybook/"
+    }
+  ]
+}
