@@ -18,6 +18,10 @@ const rootReducer = (state, action) => {
     case HYDRATE: {
       console.log("HYDRATE", state, action.payload);
       if (
+        action.payload &&
+        action.payload?.users &&
+        action.payload?.experiences &&
+        action.payload?.searched &&
         !Object.keys(action.payload.users).length &&
         !Object.keys(action.payload.experiences).length &&
         !Object.keys(action.payload.searched).length
