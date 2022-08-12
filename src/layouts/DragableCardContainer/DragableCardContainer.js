@@ -6,7 +6,7 @@ import isEqual from "lodash.isequal";
 import PropTypes from "prop-types";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import { useAppDispatch, useAppSelector } from "store";
-import { editUserExperiences } from "store/experiences";
+// import { editUserExperiences } from "store/experiences";
 import useAuth from "hooks/useAuth";
 import { Card } from "components";
 import { CardsContainer } from "layouts";

@@ -3,6 +3,7 @@ require("dotenv").config({ path: ".env" });
 module.exports = {
   webpack5: true,
   // publicRuntimeConfig: false,
+  serverless: false,
   ssr: true,
   env: {
     BASE_URL: process.env.VERCEL_URL || process.env.LOCALHOST,
